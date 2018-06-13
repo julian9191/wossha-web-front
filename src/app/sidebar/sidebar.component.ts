@@ -21,9 +21,38 @@ export interface ChildrenItems {
 //Menu Items
 export const ROUTES: RouteInfo[] = [{
         path: '/dashboard',
-        title: 'Dashboard',
+        title: 'Inicio',
         type: 'link',
         icontype: 'pe-7s-graph'
+    },{
+        path: '/calendar',
+        title: 'Calendario',
+        type: 'link',
+        icontype: 'pe-7s-date'
+    },{
+        path: '/prendas',
+        title: 'Prendas',
+        type: 'sub',
+        icontype: 'pe-7s-news-paper',
+        children: [
+            {path: 'listar-prendas', title: 'Listar Prendas', ab:'LP'},
+            {path: 'crear-prendas', title: 'Crear Prenda', ab:'CP'},
+        ]
+    },{
+        path: '/charts',
+        title: 'Estadísticas',
+        type: 'link',
+        icontype: 'pe-7s-graph1'
+    },{
+        path: '/combinaciones',
+        title: 'Combinaciones',
+        type: 'link',
+        icontype: 'pe-7s-shuffle'
+    },{
+        path: '/tiendas',
+        title: 'Tiendas',
+        type: 'link',
+        icontype: 'pe-7s-cart'
     },{
         path: '/components',
         title: 'Components',
@@ -75,11 +104,6 @@ export const ROUTES: RouteInfo[] = [{
         type: 'link',
         icontype: 'pe-7s-graph1'
 
-    },{
-        path: '/calendar',
-        title: 'Calendar',
-        type: 'link',
-        icontype: 'pe-7s-date'
     },{
         path: '/pages',
         title: 'Pages',

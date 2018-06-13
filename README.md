@@ -1,6 +1,6 @@
 # wossha web front
 
-[plantilla usada para wossha: Light Bootstrap Dashboard PRO React](https://www.creative-tim.com/product/light-bootstrap-dashboard-pro-angular2)
+[Light Bootstrap Dashboard Pro Angular2](https://www.creative-tim.com/product/light-bootstrap-dashboard-pro-angular2)
 
 Instalar angular cli: 
 ```
@@ -16,3 +16,5 @@ Desplegar modo develop:
 ```
 # ng serve
 ```
+
+Entrar a: [http://localhost:4200/](http://localhost:4200/)

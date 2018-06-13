@@ -14,6 +14,12 @@ export const AppRoutes: Routes = [{
             path: '',
             loadChildren: './dashboard/dashboard.module#DashboardModule'
         },{
+            path: 'calendar',
+            loadChildren: './calendar/calendar.module#CalendarModule'
+        },{
+            path: 'prendas',
+            loadChildren: './prendas/prendas.module#PrendasModule'
+        },{
             path: 'components',
             loadChildren: './components/components.module#ComponentsModule'
         },{
@@ -28,9 +34,6 @@ export const AppRoutes: Routes = [{
         },{
             path: 'charts',
             loadChildren: './charts/charts.module#ChartsModule'
-        },{
-            path: 'calendar',
-            loadChildren: './calendar/calendar.module#CalendarModule'
         },{
             path: '',
             loadChildren: './userpage/user.module#UserModule'

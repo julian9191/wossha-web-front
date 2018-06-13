@@ -125,17 +125,17 @@ export class CalendarComponent implements OnInit{
                     className: 'event-azure'
 				},
 				{
-					title: 'Click for Creative Tim',
+					title: 'Click for Wossha',
 					start: new Date(y, m, 21),
 					end: new Date(y, m, 22),
-					url: 'https://www.creative-tim.com/',
+					url: 'https://www.wossha.com/',
 					className: 'event-orange'
 				},
 				{
 					title: 'Click for Google',
 					start: new Date(y, m, 21),
 					end: new Date(y, m, 22),
-					url: 'https://www.creative-tim.com/',
+					url: 'https://www.wossha.com/',
 					className: 'event-orange'
 				}
 			]
