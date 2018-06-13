@@ -5,7 +5,7 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
 export const AppRoutes: Routes = [{
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'pages/login',
         pathMatch: 'full',
     },{
         path: '',
@@ -19,6 +19,12 @@ export const AppRoutes: Routes = [{
         },{
             path: 'prendas',
             loadChildren: './prendas/prendas.module#PrendasModule'
+        },{
+            path: 'combinaciones',
+            loadChildren: './combinaciones/combinaciones.module#CombinacionesModule'
+        },{
+            path: 'inicio',
+            loadChildren: './inicio/inicio.module#InicioModule'
         },{
             path: 'components',
             loadChildren: './components/components.module#ComponentsModule'

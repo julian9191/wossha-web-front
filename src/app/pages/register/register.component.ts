@@ -27,6 +27,21 @@ export class RegisterComponent implements OnInit{
         setTimeout(function(){
             // after 1000 ms we add the class animated to the login/register card
             $('.card').removeClass('card-hidden');
-        }, 700)
+        }, 700);
+
+        $('.datepicker').datetimepicker({
+            format: 'MM/DD/YYYY',    //use this format if you want the 12hours timpiecker with AM/PM toggle
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+         });
     }
 }
