@@ -65,8 +65,10 @@
                                     <div class="col-md-6">
                                         <ng-color-box [(ngModel)]="color" name="color"></ng-color-box>
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <div class="picker-square" [style.background-color]="color.hexString"></div>
+                                        
+                                        <span>{{getApproximateColor()}}</span>
                                     </div>
                                     <div class="clear"></div>
                                 </div>

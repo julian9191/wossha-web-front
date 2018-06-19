@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgColorModule } from 'ng-color';
 
+
 import { ListarPrendasComponent } from './listar_prendas/listarPrendas.component';
 import { CrearPrendasComponent } from './crear_prendas/crearPrendas.component';
 import { PrendasRoutes } from './prendas.routing';

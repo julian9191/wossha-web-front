@@ -48,6 +48,7 @@
     "ng2-nouislider": "1.6.1",
     "ngx-chips": "1.4.5",
     "nouislider": "9.2.0",
+    "ntcjs": "^1.1.2",
     "rxjs": "5.1.0",
     "twitter-bootstrap-wizard": "1.2.0",
     "web-animations-js": "2.2.2",
