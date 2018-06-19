@@ -15,6 +15,7 @@ export class CrearPrendasComponent implements OnInit{
   state_default: boolean = true;
   state_plain: boolean = true;
   state_with_icons: boolean = true;
+  color = "";
 
   ngOnInit() {
       //  Activate the tooltips
@@ -43,6 +44,10 @@ export class CrearPrendasComponent implements OnInit{
           }
        });
 
+   }
+
+   onClickMe(){
+       console.log(this.color);
    }
 }
 

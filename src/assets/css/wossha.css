@@ -20,3 +20,11 @@
  .clear{
     clear: both;
  }
+
+ .picker-square{
+     width: 100px;
+     height: 100px;
+     background-color: #ffffff;
+     border-style: solid;
+     border-width: 1px;
+ }
