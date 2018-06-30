@@ -4,8 +4,9 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent }   from './app.component';
+import { StorageServiceModule} from 'angular-webstorage-service';
 
 import { SidebarModule } from './sidebar/sidebar.module';
 import { FixedPluginModule } from './shared/fixedplugin/fixedplugin.module';
@@ -19,7 +20,9 @@ import { AppRoutes } from './app.routing';
 @NgModule({
     imports:      [
         BrowserAnimationsModule,
+        HttpClientModule,
         FormsModule,
+        StorageServiceModule,
         RouterModule.forRoot(AppRoutes),
         HttpModule,
         SidebarModule,

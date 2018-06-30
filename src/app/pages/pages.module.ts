@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {LoginService} from "./login/service/login.service";
 
 import { PagesRoutes } from './pages.routing';
 
@@ -20,7 +21,8 @@ import { LoginComponent } from './login/login.component';
         LoginComponent,
         RegisterComponent,
         LockComponent
-    ]
+    ],
+    providers: [LoginService]
 })
 
 export class PagesModule {}
