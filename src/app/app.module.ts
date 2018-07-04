@@ -16,6 +16,7 @@ import { PagesnavbarModule} from './shared/pagesnavbar/pagesnavbar.module';
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { AppRoutes } from './app.routing';
+import { NotificationsService } from './components/notifications/notifications.service';
 
 @NgModule({
     imports:      [
@@ -36,6 +37,7 @@ import { AppRoutes } from './app.routing';
         AdminLayoutComponent,
         AuthLayoutComponent
     ],
+    providers: [NotificationsService],
     bootstrap:    [ AppComponent ]
 })
 

@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import {LoginService} from "./service/login.service";
+import { NotificationsService } from '../../components/notifications/notifications.service';
 import {LoginParams} from "./model/loginParams";
 import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Inject } from '@angular/core';  
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit{
     loginParams: LoginParams = new LoginParams();
 
     constructor(private loginService: LoginService, 
+        private notificationsService: NotificationsService, 
         @Inject(SESSION_STORAGE) private storage: WebStorageService,
         private router: Router){}
     
@@ -48,7 +50,7 @@ export class LoginComponent implements OnInit{
                 this.storage.set("loginInfo", loginAnswer);
                 this.router.navigate(['inicio']);
             }, (error: any) => {
-                alert("El usuario o la contraseña son incorrectos");
+                this.notificationsService.showNotification("El usuario o la contraseña son incorrectos", this.notificationsService.WARNING);
             }
         );
     }
