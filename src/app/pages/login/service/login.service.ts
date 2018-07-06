@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class LoginService {
-  private urlEndPoint: string = 'http://localhost:8080/login';
+  private urlEndPoint: string = 'http://localhost:8081/login';
 
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
