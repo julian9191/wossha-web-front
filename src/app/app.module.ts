@@ -17,6 +17,7 @@ import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { AppRoutes } from './app.routing';
 import { NotificationsService } from './components/notifications/notifications.service';
+import ActivateGuard from './activate-guard';
 
 @NgModule({
     imports:      [
@@ -37,7 +38,7 @@ import { NotificationsService } from './components/notifications/notifications.s
         AdminLayoutComponent,
         AuthLayoutComponent
     ],
-    providers: [NotificationsService],
+    providers: [NotificationsService, ActivateGuard],
     bootstrap:    [ AppComponent ]
 })
 
