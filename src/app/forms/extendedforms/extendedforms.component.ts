@@ -16,6 +16,11 @@ export class ExtendedFormsComponent implements OnInit{
     state_default: boolean = true;
     state_plain: boolean = true;
     state_with_icons: boolean = true;
+    fecha = "mama";
+
+    verFecha(valor){
+        console.log("Fecha: "+this.fecha+", "+valor);
+    }
 
     ngOnInit() {
         //  Activate the tooltips

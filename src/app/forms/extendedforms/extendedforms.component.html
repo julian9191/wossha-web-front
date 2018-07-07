@@ -8,7 +8,7 @@
                 <div class="col-md-4">
                     <h4 class="title">Datetime Picker</h4>
                     <div class="form-group">
-                        <input type="text" class="form-control datetimepicker" placeholder="Datetime Picker Here"/>
+                        <input type="text" ref-textarea (change)="verFecha(textarea.value)" class="form-control datetimepicker" placeholder="Datetime Picker Here"  id='' [(ngModel)]="fecha"/>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -24,6 +24,7 @@
                     </div>
                 </div>
             </div>
+            <button type="button" class="btn btn-fill btn-danger btn-wd" (click)="verFecha(textarea.value)">verFecha</button>
 
             <br /><br />
 

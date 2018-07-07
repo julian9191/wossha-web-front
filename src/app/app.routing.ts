@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
-import ActivateGuard from './activate-guard';
+import { ActivateGuard } from './activate-guard';
 
 export const AppRoutes: Routes = [{
         path: '',
