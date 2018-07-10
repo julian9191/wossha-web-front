@@ -2,5 +2,7 @@
         class="form-control" [style.color]="datepickerColor"
         placeholder="{{datePickerPlaceHolder}}" 
         name="date"
+        [min]="minDate"
+        [max]="maxDate"
         [value]="date" 
         (change)="onChange($event)"/>

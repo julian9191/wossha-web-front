@@ -1,56 +1,8 @@
-/*import { Component, OnInit, ElementRef } from '@angular/core';
-
-@Component({
-    moduleId:module.id,
-    selector: 'datepicker-cmp',
-    templateUrl: './wossha.datepicker.component.html'
-})
-
-export class WosshaDatepickerComponent implements OnInit{
-    public date: string;
-    public datePickerPlaceHolder:string ;
-    public datepickerColor:string;
-    public minDate:string;
-    public maxDate:string;
-    public dateSelected:boolean;
-
-
-    ngOnInit(){
-        this.date = "";
-        this.datePickerPlaceHolder = "Fecha de nacimiento";
-        this.datepickerColor = "#aaa";
-        this.minDate = "1900-01-01";
-        this.maxDate = "2003-01-01";
-        this.dateSelected = false;
-    }
-
-
-    datepickerEmpty(){
-        if (!this.dateSelected) {
-            this.datePickerPlaceHolder="";
-            this.datepickerColor="#565656";
-            this.dateSelected=true;
-        }else{
-            this.datePickerPlaceHolder="Fecha de nacimiento";
-            this.datepickerColor="#aaa";
-            this.dateSelected=false;
-            this.date = null;
-        }
-    }
-}
-*/
-
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl, Validator } from '@angular/forms';
 
 @Component({
     selector: 'datepicker-cmp',
-    /*template:
-        `
-        <input type="date"
-          [value]="date" 
-          (change)="onChange($event)"/>
-        `,*/
     templateUrl: './wossha.datepicker.component.html',
     providers: [
     {
@@ -70,8 +22,8 @@ export class WosshaDatepickerComponent implements ControlValueAccessor, Validato
     public date: string;
     public datePickerPlaceHolder:string ;
     public datepickerColor:string;
-    public minDate:string;
-    public maxDate:string;
+    @Input() minDate:string;
+    @Input() maxDate:string;
     public dateSelected:boolean;
 
 
@@ -79,8 +31,6 @@ export class WosshaDatepickerComponent implements ControlValueAccessor, Validato
         this.date = "";
         this.datePickerPlaceHolder = "Fecha de nacimiento";
         this.datepickerColor = "#aaa";
-        this.minDate = "1900-01-01";
-        this.maxDate = "2003-01-01";
         this.dateSelected = false;
     }
 
@@ -104,10 +54,6 @@ export class WosshaDatepickerComponent implements ControlValueAccessor, Validato
                 valid: false,
             },
         } : null;
-    }
-
-    public mama(){
-        return "orale!!";
     }
 
     // not used, used for touch input
@@ -141,8 +87,4 @@ export class WosshaDatepickerComponent implements ControlValueAccessor, Validato
 
     // the method set in registerOnChange to emit changes back to the form
     private propagateChange = (_: any) => { };
-
-
-
-
 }

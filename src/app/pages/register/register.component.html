@@ -99,7 +99,7 @@
                                         </small>
                                     </div>
                                     <div class="form-group">
-                                        <datepicker-cmp [(ngModel)]="register.birthday" name="birthday" #birthday="ngModel"></datepicker-cmp>
+                                        <datepicker-cmp [(ngModel)]="register.birthday" [minDate]="minDate" [maxDate]="maxDate" name="birthday" #birthday="ngModel"></datepicker-cmp>
                                         <small [hidden]="birthday.valid || (birthday.pristine && !f.submitted)" class="white-text">
                                             La fecha de nacimiento es requerida.
                                         </small>
