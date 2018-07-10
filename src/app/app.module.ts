@@ -33,7 +33,7 @@ import { BrowserModule } from '@angular/platform-browser';
         FooterModule,
         FixedPluginModule,
         PagesnavbarModule,
-        BrowserModule
+        BrowserModule,
     ],
     declarations: [
         AppComponent,

@@ -9,6 +9,7 @@ import { PagesRoutes } from './pages.routing';
 import { RegisterComponent } from './register/register.component';
 import { LockComponent } from './lock/lock.component';
 import { LoginComponent } from './login/login.component';
+import { WosshaDatepickerComponent } from '../components/wossha_datepicker/wossha.datepicker.component';
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { LoginComponent } from './login/login.component';
     declarations: [
         LoginComponent,
         RegisterComponent,
-        LockComponent
+        LockComponent,
+        WosshaDatepickerComponent
     ],
     providers: [LoginService]
 })
