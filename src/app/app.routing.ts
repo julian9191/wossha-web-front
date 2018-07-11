@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
-import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
-import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
-import { ActivateGuard } from './activate-guard';
+import { AdminLayoutComponent } from './components/layouts/admin/admin-layout.component';
+import { AuthLayoutComponent } from './components/layouts/auth/auth-layout.component';
+import { ActivateGuard } from './providers/auth/activate-guard';
 
 export const AppRoutes: Routes = [{
         path: '',
@@ -14,44 +14,44 @@ export const AppRoutes: Routes = [{
         canActivate: [ActivateGuard],
         children: [{
             path: '',
-            loadChildren: './dashboard/dashboard.module#DashboardModule'
+            loadChildren: './components/dashboard/dashboard.module#DashboardModule'
         },{
             path: 'calendar',
-            loadChildren: './calendar/calendar.module#CalendarModule'
+            loadChildren: './components/calendar/calendar.module#CalendarModule'
         },{
             path: 'prendas',
-            loadChildren: './prendas/prendas.module#PrendasModule'
+            loadChildren: './components/prendas/prendas.module#PrendasModule'
         },{
             path: 'combinaciones',
-            loadChildren: './combinaciones/combinaciones.module#CombinacionesModule'
+            loadChildren: './components/combinaciones/combinaciones.module#CombinacionesModule'
         },{
             path: 'inicio',
-            loadChildren: './inicio/inicio.module#InicioModule'
+            loadChildren: './components/inicio/inicio.module#InicioModule'
         },{
             path: 'components',
-            loadChildren: './components/components.module#ComponentsModule'
+            loadChildren: './components/components/components.module#ComponentsModule'
         },{
             path: 'forms',
-            loadChildren: './forms/forms.module#Forms'
+            loadChildren: './components/forms/forms.module#Forms'
         },{
             path: 'tables',
-            loadChildren: './tables/tables.module#TablesModule'
+            loadChildren: './components/tables/tables.module#TablesModule'
         },{
             path: 'maps',
-            loadChildren: './maps/maps.module#MapsModule'
+            loadChildren: './components/maps/maps.module#MapsModule'
         },{
             path: 'charts',
-            loadChildren: './charts/charts.module#ChartsModule'
+            loadChildren: './components/charts/charts.module#ChartsModule'
         },{
             path: '',
-            loadChildren: './userpage/user.module#UserModule'
+            loadChildren: './components/userpage/user.module#UserModule'
         }]
     },{
         path: '',
         component: AuthLayoutComponent,
         children: [{
             path: 'pages',
-            loadChildren: './pages/pages.module#PagesModule'
+            loadChildren: './components/pages/pages.module#PagesModule'
         }]
     }
 ];

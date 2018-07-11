@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import {LoginService} from "./service/login.service";
+import {UserService} from "../../../providers/user/user.service";
 import { NotificationsService } from '../../components/notifications/notifications.service';
 import {LoginParams} from "./model/loginParams";
 import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit{
     test : Date = new Date();
     loginParams: LoginParams = new LoginParams();
 
-    constructor(private loginService: LoginService, 
+    constructor(private userService: UserService, 
         private notificationsService: NotificationsService, 
         @Inject(SESSION_STORAGE) private storage: WebStorageService,
         private router: Router){}
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit{
     }
 
     login(){
-        this.loginService.login(this.loginParams).subscribe( 
+        this.userService.login(this.loginParams).subscribe( 
             (loginAnswer) => {
                 this.storage.set("loginInfo", loginAnswer);
                 this.router.navigate(['inicio']);

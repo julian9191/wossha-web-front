@@ -1,16 +1,10 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-
+import { User } from './model/user';
+import {UserService} from "../../../providers/user/user.service";
+import { NotificationsService } from '../../components/notifications/notifications.service';
 
 declare var $:any;
-declare interface User {
-    username?: string;
-    firstname?: string;
-    lastname?: string;
-    email?: string; //  must be valid email format
-    password?: string; // required, value must be equal to confirm password.
-    confirmPassword?: string; // required, value must be equal to password.
-    birthday?: string;
-}
+
 
 @Component({
     moduleId:module.id,
@@ -22,6 +16,9 @@ export class RegisterComponent implements OnInit{
     public register: User;
     public maxDate:string;
     public minDate:string;
+
+    constructor(private userService: UserService, 
+        private notificationsService: NotificationsService){}
 
     checkFullPageBackgroundImage(){
         var $page = $('.full-page');
@@ -35,19 +32,10 @@ export class RegisterComponent implements OnInit{
     
 
     ngOnInit(){
-        this.register = {
-            username: '',
-            firstname: '',
-            lastname: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            birthday: ''
-        }
-
         this.minDate = "1900-01-01";
         this.maxDate = "2003-01-01";
 
+        this.refreshUser();
         this.checkFullPageBackgroundImage();
 
         setTimeout(function(){
@@ -57,11 +45,27 @@ export class RegisterComponent implements OnInit{
     }
 
     save(model: User, isValid: boolean) {
-        // call API to save customer
-        console.log(model, isValid);
-        console.log(this.register);
         if(isValid){
-            console.log(model, isValid);
+            this.userService.registerUser(model).subscribe( 
+                (messaje) => {
+                    this.refreshUser();
+                    this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
+                }, (error: any) => {
+                    this.notificationsService.showNotification(error.error.msj, this.notificationsService.WARNING);
+                }
+            );
+        }
+    }
+
+    refreshUser(){
+        this.register = {
+            username: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            birthday: ''
         }
     }
 }

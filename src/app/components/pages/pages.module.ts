@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {LoginService} from "./login/service/login.service";
+import {UserService} from "../../providers/user/user.service";
 
 import { PagesRoutes } from './pages.routing';
 
@@ -24,7 +24,7 @@ import { WosshaDatepickerComponent } from '../components/wossha_datepicker/wossh
         LockComponent,
         WosshaDatepickerComponent
     ],
-    providers: [LoginService]
+    providers: [UserService]
 })
 
 export class PagesModule {}

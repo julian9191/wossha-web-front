@@ -8,16 +8,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent }   from './app.component';
 import { StorageServiceModule} from 'angular-webstorage-service';
 
-import { SidebarModule } from './sidebar/sidebar.module';
-import { FixedPluginModule } from './shared/fixedplugin/fixedplugin.module';
-import { FooterModule } from './shared/footer/footer.module';
-import { NavbarModule} from './shared/navbar/navbar.module';
-import { PagesnavbarModule} from './shared/pagesnavbar/pagesnavbar.module';
-import { AdminLayoutComponent } from './layouts/admin/admin-layout.component';
-import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
+import { SidebarModule } from './components/sidebar/sidebar.module'
+import { FixedPluginModule } from './components/shared/fixedplugin/fixedplugin.module';
+import { FooterModule } from './components/shared/footer/footer.module';
+import { NavbarModule} from './components/shared/navbar/navbar.module';
+import { PagesnavbarModule} from './components/shared/pagesnavbar/pagesnavbar.module';
+import { AdminLayoutComponent } from './components/layouts/admin/admin-layout.component';
+import { AuthLayoutComponent } from './components/layouts/auth/auth-layout.component';
 import { AppRoutes } from './app.routing';
-import { NotificationsService } from './components/notifications/notifications.service';
-import { ActivateGuard } from './activate-guard';
+import { NotificationsService } from './components/components/notifications/notifications.service';
+import { ActivateGuard } from './providers/auth/activate-guard';
 import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
