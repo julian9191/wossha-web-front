@@ -19,19 +19,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl, Va
 export class WosshaDatepickerComponent implements ControlValueAccessor, Validator {
     private parseError: boolean;
     private data: any;
-    public date: string;
+    @Input() date: string;
+    private dateAux: string;
     public datePickerPlaceHolder:string ;
     public datepickerColor:string;
     @Input() minDate:string;
     @Input() maxDate:string;
+    @Input() placeholder:string;
     public dateSelected:boolean;
 
 
     ngOnInit(){
-        this.date = "";
-        this.datePickerPlaceHolder = "Fecha de nacimiento";
-        this.datepickerColor = "#aaa";
-        this.dateSelected = false;
+        this.dateAux=this.date;
+        this.resetDatepicker();
     }
 
     // this is the initial value set to the component
@@ -39,6 +39,13 @@ export class WosshaDatepickerComponent implements ControlValueAccessor, Validato
         if (obj) {
             this.data = obj;
         }
+    }
+
+    resetDatepicker(){
+        this.date = this.dateSelected?"":this.dateAux;
+        this.datePickerPlaceHolder = this.placeholder;
+        this.datepickerColor = "#aaa";
+        this.dateSelected = false;
     }
 
     // registers 'fn' that will be fired wheb changes are made
@@ -74,11 +81,8 @@ export class WosshaDatepickerComponent implements ControlValueAccessor, Validato
             this.datePickerPlaceHolder="";
             this.datepickerColor="#565656";
             this.dateSelected=true;
-        }else{
-            this.datePickerPlaceHolder="Fecha de nacimiento";
-            this.datepickerColor="#aaa";
-            this.dateSelected=false;
-            this.date = null;
+        }else if(!newValue){
+            this.resetDatepicker();
         }
 
         // update the form

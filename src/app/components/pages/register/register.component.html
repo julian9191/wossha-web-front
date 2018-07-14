@@ -41,7 +41,7 @@
                         <div class="media">
                             <div class="media-left">
                                 <div class="icon">
-                                    <i class="pe-7s-headphones"></i>
+                                    <i class="pe-7s-keypad"></i>
                                 </div>
                             </div>
                             <div class="media-body">
@@ -99,7 +99,8 @@
                                         </small>
                                     </div>
                                     <div class="form-group">
-                                        <datepicker-cmp [(ngModel)]="register.birthday" [minDate]="minDate" [maxDate]="maxDate" name="birthday" #birthday="ngModel"></datepicker-cmp>
+                                        <datepicker-cmp [(ngModel)]="register.birthday" [minDate]="minDate" [placeholder]="'Fecha de nacimiento'" [maxDate]="maxDate" name="birthday" 
+                                        #birthday="ngModel"></datepicker-cmp>
                                         <small [hidden]="birthday.valid || (birthday.pristine && !f.submitted)" class="white-text">
                                             La fecha de nacimiento es requerida.
                                         </small>
