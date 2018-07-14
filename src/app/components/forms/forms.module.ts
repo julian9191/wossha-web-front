@@ -6,7 +6,7 @@ import { EqualValidator } from './equal-validator.directive';
 import { LbdModule } from '../lbd/lbd.module';
 import { FormsRoutes } from './forms.routing';
 import { TagInputModule } from 'ngx-chips';
-import { NouisliderModule } from 'ng2-nouislider/src/nouislider';
+import { NouisliderModule } from 'ng2-nouislider';
 import { JWBootstrapSwitchModule } from 'jw-bootstrap-switch-ng2';
 
 import { ExtendedFormsComponent } from './extendedforms/extendedforms.component';

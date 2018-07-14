@@ -17,8 +17,9 @@ import { AdminLayoutComponent } from './components/layouts/admin/admin-layout.co
 import { AuthLayoutComponent } from './components/layouts/auth/auth-layout.component';
 import { AppRoutes } from './app.routing';
 import { NotificationsService } from './components/components/notifications/notifications.service';
-import { ActivateGuard } from './providers/auth/activate-guard';
+import { ActivateGuard } from './providers/auth/activateGuard.service';
 import { BrowserModule } from '@angular/platform-browser';
+
 
 @NgModule({
     imports:      [

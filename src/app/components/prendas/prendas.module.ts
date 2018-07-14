@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgColorModule } from 'ng-color';
-
+import { ComponentsModule } from '../components/components.module';
 
 import { ListarPrendasComponent } from './listar_prendas/listarPrendas.component';
 import { CrearPrendasComponent } from './crear_prendas/crearPrendas.component';
@@ -14,7 +14,8 @@ import { PrendasRoutes } from './prendas.routing';
         CommonModule,
         RouterModule.forChild(PrendasRoutes),
         FormsModule,
-        NgColorModule
+        NgColorModule,
+        ComponentsModule
     ],
     declarations: [
         ListarPrendasComponent,

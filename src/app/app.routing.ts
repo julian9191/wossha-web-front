@@ -2,13 +2,15 @@ import { Routes } from '@angular/router';
 
 import { AdminLayoutComponent } from './components/layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './components/layouts/auth/auth-layout.component';
-import { ActivateGuard } from './providers/auth/activate-guard';
+import { ActivateGuard } from './providers/auth/activateGuard.service';
 
 export const AppRoutes: Routes = [{
         path: '',
-        redirectTo: 'pages/login',
+        redirectTo: 'inicio',
         pathMatch: 'full',
-    },{
+    },
+    { path: '**', pathMatch: 'full', redirectTo: 'login' },
+    {
         path: '',
         component: AdminLayoutComponent,
         canActivate: [ActivateGuard],

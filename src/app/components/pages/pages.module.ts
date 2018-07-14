@@ -9,20 +9,20 @@ import { PagesRoutes } from './pages.routing';
 import { RegisterComponent } from './register/register.component';
 import { LockComponent } from './lock/lock.component';
 import { LoginComponent } from './login/login.component';
-import { WosshaDatepickerComponent } from '../components/wossha_datepicker/wossha.datepicker.component';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule.forChild(PagesRoutes),
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ComponentsModule
     ],
     declarations: [
         LoginComponent,
         RegisterComponent,
-        LockComponent,
-        WosshaDatepickerComponent
+        LockComponent
     ],
     providers: [UserService]
 })

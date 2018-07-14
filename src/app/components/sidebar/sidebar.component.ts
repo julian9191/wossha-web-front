@@ -53,7 +53,7 @@ export const ROUTES: RouteInfo[] = [{
         title: 'Tiendas',
         type: 'link',
         icontype: 'pe-7s-cart'
-    },{
+    }/*,{
         path: '/components',
         title: 'Components',
         type: 'sub',
@@ -115,7 +115,7 @@ export const ROUTES: RouteInfo[] = [{
             {path: 'register', title: 'Register Page', ab:'RP'},
             {path: 'lock', title: 'Lock Screen Page', ab:'LSP'}
         ]
-    }
+    }*/
 ];
 
 @Component({

@@ -10,6 +10,7 @@ import { IconsComponent } from './icons/icons.component';
 import { PanelsComponent } from './panels/panels.component';
 import { SweetAlertComponent } from './sweetalert/sweetalert.component';
 import { TypographyComponent } from './typography/typography.component';
+import { WosshaDatepickerComponent } from "./wossha_datepicker/wossha.datepicker.component"
 
 @NgModule({
     imports: [
@@ -17,13 +18,17 @@ import { TypographyComponent } from './typography/typography.component';
         RouterModule.forChild(ComponentsRoutes),
         FormsModule
     ],
+    exports: [
+        WosshaDatepickerComponent
+    ],
     declarations: [
         ButtonsComponent,
         GridSystemComponent,
         IconsComponent,
         PanelsComponent,
         SweetAlertComponent,
-        TypographyComponent
+        TypographyComponent,
+        WosshaDatepickerComponent
     ]
 })
 
