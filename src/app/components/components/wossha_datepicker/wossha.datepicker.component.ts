@@ -32,6 +32,7 @@ export class WosshaDatepickerComponent implements ControlValueAccessor, Validato
     ngOnInit(){
         this.dateAux=this.date;
         this.resetDatepicker();
+        this.datepickerColor=!this.date?"#aaa":"#565656";
     }
 
     // this is the initial value set to the component
@@ -66,9 +67,9 @@ export class WosshaDatepickerComponent implements ControlValueAccessor, Validato
     // not used, used for touch input
     public registerOnTouched() { }
 
-    // change events from the textarea
+    // change events from the datepicker
     private onChange(event) {
-        // get value from text area
+        // get value from datepicker
         let newValue = event.target.value;
 
         if(newValue != ""){
@@ -77,12 +78,12 @@ export class WosshaDatepickerComponent implements ControlValueAccessor, Validato
             this.parseError = true;
         }
 
-        if (!this.dateSelected) {
+        if(!newValue){
+            this.resetDatepicker();
+        }else if (!this.dateSelected) {
             this.datePickerPlaceHolder="";
             this.datepickerColor="#565656";
             this.dateSelected=true;
-        }else if(!newValue){
-            this.resetDatepicker();
         }
 
         // update the form
