@@ -4,7 +4,7 @@ import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Inject } from '@angular/core'; 
 import { NotificationsService } from '../../components/components/notifications/notifications.service';
-import { LoginAnswer } from '../../components/pages/login/model/loginAnswer';
+import { LoginAnswer } from '../../models/user/login/loginAnswer';
 
 @Injectable()
 export class ActivateGuard  implements CanActivate{

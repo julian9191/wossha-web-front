@@ -1,7 +1,9 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { User } from './model/user';
+import { User } from '../../../models/user/user';
 import {UserService} from "../../../providers/user/user.service";
 import { NotificationsService } from '../../components/notifications/notifications.service';
+import { Country } from "../../../models/country/country";
+import {Router} from '@angular/router';
 
 declare var $:any;
 
@@ -16,9 +18,18 @@ export class RegisterComponent implements OnInit{
     public register: User;
     public maxDate:string;
     public minDate:string;
+    public countries:Country[] = [
+        {
+            "id": 159,
+            "name": "Nigeria",
+            "code": "NG"
+        }];
 
     constructor(private userService: UserService, 
-        private notificationsService: NotificationsService){}
+        private notificationsService: NotificationsService,
+        private router: Router){
+            this.getCountries();
+        }
 
     checkFullPageBackgroundImage(){
         var $page = $('.full-page');
@@ -38,6 +49,15 @@ export class RegisterComponent implements OnInit{
         this.refreshUser();
         this.checkFullPageBackgroundImage();
 
+        //  Init Bootstrap Select Picker
+        if($(".selectpicker").length != 0){
+            $(".selectpicker").selectpicker({
+                iconBase: "fa",
+                tickIcon: "fa-check",
+                style: 'selectpicker-background',
+            });
+        }
+
         setTimeout(function(){
             // after 1000 ms we add the class animated to the login/register card
             $('.card').removeClass('card-hidden');
@@ -46,9 +66,11 @@ export class RegisterComponent implements OnInit{
 
     save(model: User, isValid: boolean) {
         if(isValid){
+            console.log(this.register);
+            console.log(model);
             this.userService.registerUser(model).subscribe( 
                 (messaje) => {
-                    this.refreshUser();
+                    this.router.navigate(['pages','login']);
                     this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
                 }, (error: any) => {
                     this.notificationsService.showNotification(error.error.msj, this.notificationsService.WARNING);
@@ -57,12 +79,30 @@ export class RegisterComponent implements OnInit{
         }
     }
 
+    getCountries(){
+        this.userService.getCountires().subscribe( 
+            (data:any) => {
+                this.countries = data;
+                
+            }, (error: any) => {
+                this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener los paises", this.notificationsService.WARNING);
+            },
+            () => {
+                setTimeout(() => {
+                    $('.selectpicker').selectpicker('refresh');
+                }, 150);
+            }
+        );
+    }
+
     refreshUser(){
+        alert("refrescar");
         this.register = {
             username: '',
             firstName: '',
             lastName: '',
             email: '',
+            country: null,
             password: '',
             confirmPassword: '',
             birthday: ''

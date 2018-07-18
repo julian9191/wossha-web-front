@@ -1,7 +1,11 @@
 import { Component, OnInit, Renderer, ViewChild, ElementRef, Directive } from '@angular/core';
 import { ROUTES } from '../../sidebar/sidebar.component';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Router} from '@angular/router';
+import { Location } from '@angular/common';
+import {UserService} from "../../../providers/user/user.service";
+import { NotificationsService } from '../../components/notifications/notifications.service';
+import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
+import { Inject } from '@angular/core'; 
 
 var misc:any ={
     navbar_menu_visible: 0,
@@ -25,11 +29,17 @@ export class NavbarComponent implements OnInit{
 
     @ViewChild("navbar-cmp") button;
 
-    constructor(location:Location, private renderer : Renderer, private element : ElementRef) {
+    constructor(location:Location, private renderer : Renderer, 
+        private element : ElementRef,
+        private userService: UserService, 
+        private notificationsService: NotificationsService, 
+        @Inject(SESSION_STORAGE) private storage: WebStorageService,
+        private router: Router) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
     }
+
 
     ngOnInit(){
         this.listTitles = ROUTES.filter(listTitle => listTitle);
@@ -122,5 +132,9 @@ export class NavbarComponent implements OnInit{
     getPath(){
         // console.log(this.location);
         return this.location.prepareExternalUrl(this.location.path());
+    }
+
+    logout(){
+        this.userService.logout();
     }
 }

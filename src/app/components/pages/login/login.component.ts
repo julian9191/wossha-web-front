@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import {UserService} from "../../../providers/user/user.service";
 import { NotificationsService } from '../../components/notifications/notifications.service';
-import {LoginParams} from "./model/loginParams";
+import {LoginParams} from "../../../models/user/login/loginParams";
 import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Inject } from '@angular/core';  
 import {Router} from '@angular/router';
