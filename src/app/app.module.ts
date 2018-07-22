@@ -15,7 +15,7 @@ import { PagesnavbarModule} from './components/shared/pagesnavbar/pagesnavbar.mo
 import { AdminLayoutComponent } from './components/layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './components/layouts/auth/auth-layout.component';
 import { AppRoutes } from './app.routing';
-import { NotificationsService } from './components/components/notifications/notifications.service';
+import { NotificationsService } from './providers/notifications/notifications.service';
 import { ActivateGuard } from './providers/auth/activateGuard.service';
 import { BrowserModule } from '@angular/platform-browser';
 

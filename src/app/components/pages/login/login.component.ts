@@ -1,9 +1,8 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import {UserService} from "../../../providers/user/user.service";
-import { NotificationsService } from '../../components/notifications/notifications.service';
+import { NotificationsService } from '../../../providers/notifications/notifications.service';
 import {LoginParams} from "../../../models/user/login/loginParams";
-import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
-import { Inject } from '@angular/core';  
+import {UserSessionInfo} from "../../../models/user/login/userSessionInfo"; 
 import {Router} from '@angular/router';
 
 declare var $:any;
@@ -19,8 +18,7 @@ export class LoginComponent implements OnInit{
     loginParams: LoginParams = new LoginParams();
 
     constructor(private userService: UserService, 
-        private notificationsService: NotificationsService, 
-        @Inject(SESSION_STORAGE) private storage: WebStorageService,
+        private notificationsService: NotificationsService,
         private router: Router){}
     
 
@@ -46,8 +44,8 @@ export class LoginComponent implements OnInit{
 
     login(){
         this.userService.login(this.loginParams).subscribe( 
-            (loginAnswer) => {
-                this.storage.set("loginInfo", loginAnswer);
+            (userSessionInfo:UserSessionInfo) => {
+                this.userService.storageLoginUserSessionInfo(userSessionInfo);
                 this.router.navigate(['inicio']);
             }, (error: any) => {
                 this.notificationsService.showNotification("El usuario o la contraseña son incorrectos", this.notificationsService.WARNING);

@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
-import { Inject } from '@angular/core'; 
-import { NotificationsService } from '../../components/components/notifications/notifications.service';
-import { LoginAnswer } from '../../models/user/login/loginAnswer';
+import {UserService} from "../user/user.service";
+import { NotificationsService } from '../notifications/notifications.service';
+import { UserSessionInfo } from '../../models/user/login/userSessionInfo';
 
 @Injectable()
 export class ActivateGuard  implements CanActivate{
   
-    private session:LoginAnswer = null;
+    private session:UserSessionInfo = null;
 
-    constructor(private notificationsService: NotificationsService, 
-    @Inject(SESSION_STORAGE) private storage: WebStorageService,
-    private router: Router){}
+    constructor(private notificationsService: NotificationsService,
+        private userService: UserService,  
+        private router: Router){}
 
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -28,7 +27,7 @@ export class ActivateGuard  implements CanActivate{
 
     isLoggedIn(){
         if(this.session == null){
-            this.session = this.storage.get('loginInfo');
+            this.session = this.userService.getLoggedUserSessionInfo();
             if(this.session!=null){
                 return true;
             }

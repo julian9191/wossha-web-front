@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { User } from '../../../models/user/user';
 import {UserService} from "../../../providers/user/user.service";
-import { NotificationsService } from '../../components/notifications/notifications.service';
+import { NotificationsService } from '../../../providers/notifications/notifications.service';
 import { Country } from "../../../models/country/country";
 import {Router} from '@angular/router';
 
@@ -18,12 +18,7 @@ export class RegisterComponent implements OnInit{
     public register: User;
     public maxDate:string;
     public minDate:string;
-    public countries:Country[] = [
-        {
-            "id": 159,
-            "name": "Nigeria",
-            "code": "NG"
-        }];
+    public countries:Country[] = [];
 
     constructor(private userService: UserService, 
         private notificationsService: NotificationsService,
@@ -96,7 +91,6 @@ export class RegisterComponent implements OnInit{
     }
 
     refreshUser(){
-        alert("refrescar");
         this.register = {
             username: '',
             firstName: '',
@@ -105,7 +99,7 @@ export class RegisterComponent implements OnInit{
             country: null,
             password: '',
             confirmPassword: '',
-            birthday: ''
+            birthday: null
         }
     }
 }

@@ -3,7 +3,7 @@ import { ROUTES } from '../../sidebar/sidebar.component';
 import { Router} from '@angular/router';
 import { Location } from '@angular/common';
 import {UserService} from "../../../providers/user/user.service";
-import { NotificationsService } from '../../components/notifications/notifications.service';
+import { NotificationsService } from '../../../providers/notifications/notifications.service';
 import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Inject } from '@angular/core'; 
 

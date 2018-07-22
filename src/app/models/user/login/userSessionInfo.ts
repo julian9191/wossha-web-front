@@ -1,6 +1,6 @@
 import {LoginUser} from "./loginUser";
 
-export class LoginAnswer {
+export class UserSessionInfo {
   message: string;
   user:LoginUser;
   token:string;

@@ -7,18 +7,16 @@
                         <h4 class="title">Editar perfil</h4>
                     </div>
                     <div class="content">
-                        <form>
+                        <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Nombre de usuario</label>
-                                        <input type="text" class="form-control" placeholder="Username" value="julian123">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Email</label>
-                                        <input type="email" class="form-control" placeholder="Email">
+                                        <input type="email" placeholder="Email" class="form-control" name="email" [(ngModel)]="user.email"
+                                        required  #email="ngModel" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$">
+                                        <small [hidden]="email.valid || (email.pristine && !f.submitted)" class="white-text">
+                                            El email es requerido, y su formato debe ser: <i>john@doe.com</i>.
+                                        </small>
                                     </div>
                                 </div>
                             </div>
@@ -27,13 +25,21 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Nombre</label>
-                                        <input type="text" class="form-control" placeholder="Company" value="Julian">
+                                        <input type="text" placeholder="Nombre" class="form-control" name="firstName" [(ngModel)]="user.firstName"
+                                        required  #firstName="ngModel">
+                                        <small [hidden]="firstName.valid || (firstName.pristine && !f.submitted)" class="white-text">
+                                            El nombre es requerido.
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Apellido</label>
-                                        <input type="text" class="form-control" placeholder="Last Name" value="Giraldo">
+                                        <input type="text" class="form-control" placeholder="Apellido" name="lastName" [(ngModel)]="user.lastName"
+                                        required  #lastName="ngModel">
+                                        <small [hidden]="lastName.valid || (lastName.pristine && !f.submitted)" class="white-text">
+                                            El apellido requerido.
+                                        </small>
                                     </div>
                                 </div>
                             </div>
@@ -42,13 +48,22 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Fecha de cumpleaños</label>
-                                        <datepicker-cmp [date]="'1991-09-08'" name="birthday"></datepicker-cmp>
+                                        <input type="date" class="form-control" [(ngModel)]="user.birthday" min="{{minDate | date: 'yyyy-MM-dd'}}" max="{{maxDate | date: 'yyyy-MM-dd'}}" name="birthday" 
+                                        #birthday="ngModel" />
+                                        <small [hidden]="birthday.valid || (birthday.pristine && !f.submitted)" class="white-text">
+                                            La fecha de nacimiento es requerida.
+                                        </small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Pais</label>
-                                        <input type="text" class="form-control" placeholder="Country" value="Giraldo">
+                                        <label>País</label>
+                                        <select name="countries" required class="form-control" name="country" #country="ngModel" [(ngModel)]="user.country">
+                                            <option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</option>
+                                        </select>
+                                        <small [hidden]="country.valid || (country.pristine && !f.submitted)" class="white-text">
+                                            El país requerido.
+                                        </small>
                                     </div>
                                 </div>
                             </div>
@@ -57,12 +72,39 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Acerca de mi</label>
-                                        <textarea rows="5" class="form-control" placeholder="Here can be your description" value="Julian">Una breve descripcion sobre mi.</textarea>
+                                        <textarea rows="4" maxlength="500" class="form-control" placeholder="Una breve descripción sobre mí" 
+                                        name="about" [(ngModel)]="user.about" #about="ngModel"></textarea>
+                                        <small [hidden]="about.valid || (about.pristine && !f.submitted)" class="white-text">
+                                            Este campo no debe contener mas de 500 caracteres
+                                        </small>
                                     </div>
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-warning btn-fill pull-right">Actualizar perfil</button>
+                            <div class="form-group row">
+                                <div class="radio col-md-2">
+                                    <input type="radio" name="radio10" id="radio5" value="M" name="gender" [(ngModel)]="user.gender"
+                                    required  #gender="ngModel">
+                                    <label for="radio5">
+                                        Hombre
+                                    </label>
+                                </div>
+                                <div class="radio col-md-2" style="margin-top: 10px">
+                                    <input type="radio" name="radio10" id="radio6" value="F" name="gender" [(ngModel)]="user.gender"
+                                    required  #gender="ngModel">
+                                    <label for="radio6">
+                                        Mujer
+                                    </label>
+                                </div>
+                                <div class='clear'></div>
+                                <div class='col-md-8'>
+                                    <small [hidden]="gender.valid || (gender.pristine && !f.submitted)">
+                                        El género es requerido.
+                                    </small>
+                                </div>
+                            </div>
+
+                            <button type="submit" [disabled]="!somthingChanged()" class="btn btn-warning btn-fill pull-right">Actualizar perfil</button>
                             <div class="clearfix"></div>
                         </form>
                     </div>
@@ -78,14 +120,12 @@
                              <a href="#">
                             <img class="avatar border-gray" src="../../assets/img/default-avatar.png" alt="..."/>
 
-                              <h4 class="title">Julian Giraldo<br />
-                                 <small>julian123</small>
+                              <h4 class="title">{{user.firstName}} {{user.lastName}}<br />
+                                 <small>{{user.username}}</small>
                               </h4>
                             </a>
                         </div>
-                        <p class="description text-center"> "Una breve <br>
-                                            descripcion sobre mi"
-                        </p>
+                        <p class="description text-center">{{user.about}}</p>
                     </div>
                     <hr>
                     <div class="text-center">

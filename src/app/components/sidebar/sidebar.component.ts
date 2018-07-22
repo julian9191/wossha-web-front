@@ -110,10 +110,10 @@ export const ROUTES: RouteInfo[] = [{
         type: 'sub',
         icontype: 'pe-7s-gift',
         children: [
-            {path: 'user', title: 'User Page', ab:'UP'},
-            {path: 'login', title: 'Login Page', ab:'LP'},
-            {path: 'register', title: 'Register Page', ab:'RP'},
-            {path: 'lock', title: 'Lock Screen Page', ab:'LSP'}
+            {path: 'user', title: 'Perfil de usuario', ab:'UP'},
+            {path: 'login', title: 'Login', ab:'LP'},
+            {path: 'register', title: 'Registro', ab:'RP'},
+            {path: 'lock', title: 'Página de bloqueo', ab:'LSP'}
         ]
     }
 ];
