@@ -61,8 +61,6 @@ export class RegisterComponent implements OnInit{
 
     save(model: User, isValid: boolean) {
         if(isValid){
-            console.log(this.register);
-            console.log(model);
             this.userService.registerUser(model).subscribe( 
                 (messaje) => {
                     this.router.navigate(['pages','login']);

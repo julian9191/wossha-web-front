@@ -1,4 +1,6 @@
 import { Component, OnInit, AfterViewInit, AfterViewChecked, AfterContentInit } from '@angular/core';
+import {UserService} from "../../providers/user/user.service";
+import {UserSessionInfo} from "../../models/user/login/userSessionInfo";
 
 declare var $:any;
 //Metadata
@@ -126,6 +128,10 @@ export const ROUTES: RouteInfo[] = [{
 
 export class SidebarComponent {
     public menuItems: any[];
+    public userSessionInfo:UserSessionInfo;
+    
+    constructor(private userService: UserService){}
+
     isNotMobileMenu(){
         if($(window).width() > 991){
             return false;
@@ -134,6 +140,8 @@ export class SidebarComponent {
     }
 
     ngOnInit() {
+        this.userSessionInfo = this.userService.getLoggedUserSessionInfo();
+
         var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
         this.menuItems = ROUTES.filter(menuItem => menuItem);
 

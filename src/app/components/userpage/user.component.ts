@@ -44,12 +44,11 @@ export class UserComponent implements OnInit{
                     _this.userService.updateUser(model).subscribe( 
                         (messaje) => {
                             _this.notificationsService.showNotification(messaje["msj"], _this.notificationsService.SUCCESS);
+                            _this.userAux = Object.assign({}, _this.user);
                         }, (error: any) => {
                             _this.notificationsService.showNotification(error.error.msj, _this.notificationsService.WARNING);
                         }
                     );
-                }else{
-                    _this.user = Object.assign({}, _this.userAux);
                 }
 	        });
         }

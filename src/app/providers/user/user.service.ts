@@ -29,15 +29,17 @@ export class UserService {
     private http: HttpClient) {} 
 
   getLoggedUserSessionInfo():UserSessionInfo{
-    return this.storage.get(this.STORAGE_KEY);
+    let userInfo:UserSessionInfo = this.storage.get(this.STORAGE_KEY);
+    if(userInfo){
+      userInfo.user.firstName=decodeURI(userInfo.user.firstName);
+      userInfo.user.lastName=decodeURI(userInfo.user.lastName);
+      return userInfo;
+    }
+    return null;
   }
 
   storageLoginUserSessionInfo(loginAnswer:UserSessionInfo){
     this.storage.set(this.STORAGE_KEY, loginAnswer);
-  }
-
-  getLoggedUserInfo():UserSessionInfo{
-    return this.storage.get(this.STORAGE_KEY);
   }
 
   login(loginParams: LoginParams) : Observable<UserSessionInfo> {

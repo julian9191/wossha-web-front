@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../../providers/user/user.service";
+import {UserSessionInfo} from "../../models/user/login/userSessionInfo";
 
 declare var $:any;
 
@@ -9,16 +11,12 @@ declare var $:any;
 })
 
 export class InicioComponent implements OnInit{
-	filledItems = ['Boxer', 'Camiseta', 'Medias'];
-    ngOnInit(){
+    filledItems = ['Boxer', 'Camiseta', 'Medias'];
+    public userSessionInfo:UserSessionInfo;
+    
+    constructor(private userService: UserService){}
 
-		//  Init Bootstrap Select Picker
-        if($(".selectpicker").length != 0){
-            $(".selectpicker").selectpicker({
-                iconBase: "fa",
-                tickIcon: "fa-check"
-            });
-        }
-        
+    ngOnInit(){
+        this.userSessionInfo = this.userService.getLoggedUserSessionInfo();
     }
 }

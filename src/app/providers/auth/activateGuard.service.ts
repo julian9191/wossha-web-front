@@ -16,7 +16,6 @@ export class ActivateGuard  implements CanActivate{
 
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        console.log(state)
         if (!this.isLoggedIn()) {
             this.router.navigate(['pages', 'login']);
           return false;
