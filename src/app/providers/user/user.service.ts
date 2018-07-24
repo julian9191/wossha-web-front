@@ -15,27 +15,39 @@ import 'rxjs';
 export class UserService {
 
   private STORAGE_KEY:string = "loginInfo";
+  private TOKEN_PREFIX:string = "Bearer ";
 
   private loginUrl:string = PATH+'login';
   private countriesUrl:string = PATH+'countries';
   private userUrl:string = PATH+'users/';
   private registerUserUrl:string = this.userUrl+"register-user";
+  private static userInfo:UserSessionInfo
   
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
-
+  private httpLogguedOutHeaders:HttpHeaders;
+  private httpLogguedInHeaders:HttpHeaders;
 
   constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService,
     private router: Router,
-    private http: HttpClient) {} 
+    private http: HttpClient) {
+      this.httpLogguedOutHeaders = new HttpHeaders({'Content-Type': 'application/json'})
+      this.httpLogguedInHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.TOKEN_PREFIX+this.getToken()})
+    } 
 
   getLoggedUserSessionInfo():UserSessionInfo{
-    let userInfo:UserSessionInfo = this.storage.get(this.STORAGE_KEY);
-    if(userInfo){
-      userInfo.user.firstName=decodeURI(userInfo.user.firstName);
-      userInfo.user.lastName=decodeURI(userInfo.user.lastName);
-      return userInfo;
+    if(UserService.userInfo){
+      return UserService.userInfo;
+    }
+    UserService.userInfo = this.storage.get(this.STORAGE_KEY);
+    if(UserService.userInfo){
+      UserService.userInfo.user.firstName=decodeURI(UserService.userInfo.user.firstName);
+      UserService.userInfo.user.lastName=decodeURI(UserService.userInfo.user.lastName);
+      return UserService.userInfo;
     }
     return null;
+  }
+
+  getToken():string{
+    return this.getLoggedUserSessionInfo().token;
   }
 
   storageLoginUserSessionInfo(loginAnswer:UserSessionInfo){
@@ -43,7 +55,7 @@ export class UserService {
   }
 
   login(loginParams: LoginParams) : Observable<UserSessionInfo> {
-    return this.http.post<UserSessionInfo>(this.loginUrl, loginParams, {headers: this.httpHeaders})
+    return this.http.post<UserSessionInfo>(this.loginUrl, loginParams, {headers: this.httpLogguedOutHeaders})
   }
 
   logout() {
@@ -52,19 +64,19 @@ export class UserService {
   }
 
   registerUser(user:User) : Observable<String>{
-    return this.http.post<String>(this.registerUserUrl, user, {headers: this.httpHeaders})
+    return this.http.post<String>(this.registerUserUrl, user, {headers: this.httpLogguedOutHeaders})
   }
 
   getUserByUsername(userName:string) : Observable<User>{
-    return this.http.get<User>(this.userUrl+userName, {headers: this.httpHeaders});
+    return this.http.get<User>(this.userUrl+userName, {headers: this.httpLogguedInHeaders});
   }
 
   getCountires() : Observable<Country>{
-    return this.http.get<Country>(this.countriesUrl, {headers: this.httpHeaders});
+    return this.http.get<Country>(this.countriesUrl, {headers: this.httpLogguedInHeaders});
   }
 
   updateUser(user:User) : Observable<String>{
-    return this.http.put<String>(this.userUrl, user, {headers: this.httpHeaders})
+    return this.http.put<String>(this.userUrl, user, {headers: this.httpLogguedOutHeaders})
   }
 
 }
