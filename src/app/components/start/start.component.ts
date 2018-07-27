@@ -6,11 +6,11 @@ declare var $:any;
 
 @Component({
     moduleId: module.id,
-    selector: 'inicio-cmp',
-    templateUrl: 'inicio.component.html'
+    selector: 'start-cmp',
+    templateUrl: 'start.component.html'
 })
 
-export class InicioComponent implements OnInit{
+export class StartComponent implements OnInit{
     filledItems = ['Boxer', 'Camiseta', 'Medias'];
     public userSessionInfo:UserSessionInfo;
     

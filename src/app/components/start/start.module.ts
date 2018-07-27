@@ -4,17 +4,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TagInputModule } from 'ngx-chips';
 
-import { InicioComponent } from './inicio.component';
-import { InicioRoutes } from './inicio.routing';
+import { StartComponent } from './start.component';
+import { StartRoutes } from './start.routing';
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(InicioRoutes),
+        RouterModule.forChild(StartRoutes),
         FormsModule,
         TagInputModule,
     ],
-    declarations: [InicioComponent]
+    declarations: [StartComponent]
 })
 
-export class InicioModule {}
+export class StartModule {}

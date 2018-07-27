@@ -1,11 +1,11 @@
 
 <div class="logo">
-	<a href="#" ng-reflect-router-link="/inicio" class="simple-text logo-mini">
+	<a href="#" ng-reflect-router-link="/start" class="simple-text logo-mini">
 		<div class="logo-img">
 			<img src="../../assets/img/angular2-logo-white.png"/>
 		</div>
 	</a>
-	<a href="#" ng-reflect-router-link="/inicio" class="simple-text logo-normal">
+	<a href="#" ng-reflect-router-link="/start" class="simple-text logo-normal">
 		Wossha
 	</a>
 </div>
@@ -26,13 +26,13 @@
 			<div class="collapse" id="collapseExample">
 				<ul class="nav">
 					<li>
-						<a href="#">
+						<a [routerLink]="['/pages/user']">
 							<span class="sidebar-mini">MP</span>
 							<span class="sidebar-normal">Mi Perfil</span>
 						</a>
 					</li>
 					<li>
-						<a [routerLink]="['/pages/user']">
+						<a [routerLink]="['/pages/user/edit']">
 							<span class="sidebar-mini">EP</span>
 							<span class="sidebar-normal">Editar Perfil</span>
 						</a>

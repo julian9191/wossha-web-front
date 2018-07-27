@@ -1,28 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../models/user/user';
-import { Country } from "../../models/country/country";
-import {UserService} from "../../providers/user/user.service";
-import { NotificationsService } from '../../providers/notifications/notifications.service';
-import {UserSessionInfo} from "../../models/user/login/userSessionInfo";
+import { User } from '../../../models/user/user';
+import { Country } from "../../../models/country/country";
+import {UserService} from "../../../providers/user/user.service";
+import { NotificationsService } from '../../../providers/notifications/notifications.service';
+import {UserSessionInfo} from "../../../models/user/login/userSessionInfo";
+import {HttpErrorHandlerService} from "../../../providers/auth/httpErrorHandler.service";
+import { ModifyUserCommand } from '../../../models/user/modifyUserCommand';
 
 declare var $:any;
 
 @Component({
     moduleId: module.id,
     selector: 'user-cmp',
-    templateUrl: 'user.component.html'
+    templateUrl: 'editUser.component.html'
 })
 
-export class UserComponent implements OnInit{ 
+export class EditUserComponent implements OnInit{ 
 
     public user: User;
     public userAux: User;
     public countries:Country[] = [];
     public minDate:Date;
     public maxDate:Date;
+    public modifyUserCommand:ModifyUserCommand = new ModifyUserCommand();
     
     constructor(private userService: UserService, 
-        private notificationsService: NotificationsService){
+        private notificationsService: NotificationsService,
+        private httpErrorHandlerService: HttpErrorHandlerService){
             this.getCountries();
     }
 
@@ -41,12 +45,14 @@ export class UserComponent implements OnInit{
             this.notificationsService.showConfirmationAlert("¿Está seguro?", "¿Está seguro de guardar los cambios?", this.notificationsService.WARNING).then(function (response) {
                 if(response){
                     model.username=_this.user.username;
-                    _this.userService.updateUser(model).subscribe( 
+                    _this.modifyUserCommand.username=_this.userService.getLoggedUserSessionInfo().user.username;
+                    _this.modifyUserCommand.user=model;
+                    _this.userService.executeCommand(_this.modifyUserCommand).subscribe( 
                         (messaje) => {
                             _this.notificationsService.showNotification(messaje["msj"], _this.notificationsService.SUCCESS);
                             _this.userAux = Object.assign({}, _this.user);
                         }, (error: any) => {
-                            _this.notificationsService.showNotification(error.error.msj, _this.notificationsService.WARNING);
+                            _this.httpErrorHandlerService.handleHttpError(error, error.error.msj);
                         }
                     );
                 }
@@ -72,7 +78,7 @@ export class UserComponent implements OnInit{
                 this.user = data;
                 this.userAux = Object.assign({}, this.user);
             }, (error: any) => {
-                this.notificationsService.showNotification("Ha ocurrido un error al intentar la información del usuario", this.notificationsService.DANGER);
+                this.httpErrorHandlerService.handleHttpError(error, "Ha ocurrido un error al intentar la información del usuario");
             }
         );
     }

@@ -22,7 +22,7 @@ export interface ChildrenItems {
 
 //Menu Items
 export const ROUTES: RouteInfo[] = [{
-        path: '/inicio',
+        path: '/start',
         title: 'Inicio',
         type: 'link',
         icontype: 'pe-7s-graph'

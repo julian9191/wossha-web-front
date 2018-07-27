@@ -18,6 +18,7 @@ import { AppRoutes } from './app.routing';
 import { NotificationsService } from './providers/notifications/notifications.service';
 import { ActivateGuard } from './providers/auth/activateGuard.service';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpErrorHandlerService } from './providers/auth/httpErrorHandler.service';
 
 
 @NgModule({
@@ -40,7 +41,7 @@ import { BrowserModule } from '@angular/platform-browser';
         AdminLayoutComponent,
         AuthLayoutComponent
     ],
-    providers: [NotificationsService, ActivateGuard],
+    providers: [NotificationsService, ActivateGuard, HttpErrorHandlerService],
     bootstrap:    [ AppComponent ]
 })
 

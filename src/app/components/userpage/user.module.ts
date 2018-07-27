@@ -4,8 +4,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '../components/components.module';
 
-import { UserComponent } from './user.component';
+import { EditUserComponent } from './editUser/editUser.component';
 import { UserRoutes } from './user.routing';
+
+import { UserComponent } from './user/user.component';
 
 @NgModule({
     imports: [
@@ -14,7 +16,7 @@ import { UserRoutes } from './user.routing';
         FormsModule,
         ComponentsModule
     ],
-    declarations: [UserComponent]
+    declarations: [EditUserComponent, UserComponent]
 })
 
 export class UserModule {}

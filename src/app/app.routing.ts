@@ -6,7 +6,7 @@ import { ActivateGuard } from './providers/auth/activateGuard.service';
 
 export const AppRoutes: Routes = [{
         path: '',
-        redirectTo: 'inicio',
+        redirectTo: 'start',
         pathMatch: 'full',
     },
     { path: '**', pathMatch: 'full', redirectTo: 'login' },
@@ -27,8 +27,8 @@ export const AppRoutes: Routes = [{
             path: 'combinaciones',
             loadChildren: './components/combinaciones/combinaciones.module#CombinacionesModule'
         },{
-            path: 'inicio',
-            loadChildren: './components/inicio/inicio.module#InicioModule'
+            path: 'start',
+            loadChildren: './components/start/start.module#StartModule'
         },{
             path: 'components',
             loadChildren: './components/components/components.module#ComponentsModule'

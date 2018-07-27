@@ -17,20 +17,19 @@ export class UserService {
   private STORAGE_KEY:string = "loginInfo";
   private TOKEN_PREFIX:string = "Bearer ";
 
+  private commandsUrl:string = PATH+'commands';
   private loginUrl:string = PATH+'login';
   private countriesUrl:string = PATH+'countries';
   private userUrl:string = PATH+'users/';
   private registerUserUrl:string = this.userUrl+"register-user";
   private static userInfo:UserSessionInfo
   
-  private httpLogguedOutHeaders:HttpHeaders;
-  private httpLogguedInHeaders:HttpHeaders;
+  httpHeaders:HttpHeaders;
 
   constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService,
     private router: Router,
     private http: HttpClient) {
-      this.httpLogguedOutHeaders = new HttpHeaders({'Content-Type': 'application/json'})
-      this.httpLogguedInHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.TOKEN_PREFIX+this.getToken()})
+      this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
     } 
 
   getLoggedUserSessionInfo():UserSessionInfo{
@@ -50,12 +49,22 @@ export class UserService {
     return this.getLoggedUserSessionInfo().token;
   }
 
+  setHeaderToken(){
+    if(!this.httpHeaders.get("Authorization")){
+      this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.TOKEN_PREFIX+this.getToken()})
+    }
+  }
+
   storageLoginUserSessionInfo(loginAnswer:UserSessionInfo){
     this.storage.set(this.STORAGE_KEY, loginAnswer);
   }
 
+  destroyLoginUserSessionInfo(){
+    this.storage.remove(this.STORAGE_KEY);
+  }
+
   login(loginParams: LoginParams) : Observable<UserSessionInfo> {
-    return this.http.post<UserSessionInfo>(this.loginUrl, loginParams, {headers: this.httpLogguedOutHeaders})
+    return this.http.post<UserSessionInfo>(this.loginUrl, loginParams, {headers: this.httpHeaders})
   }
 
   logout() {
@@ -64,19 +73,21 @@ export class UserService {
   }
 
   registerUser(user:User) : Observable<String>{
-    return this.http.post<String>(this.registerUserUrl, user, {headers: this.httpLogguedOutHeaders})
+    return this.http.post<String>(this.registerUserUrl, user, {headers: this.httpHeaders})
   }
 
   getUserByUsername(userName:string) : Observable<User>{
-    return this.http.get<User>(this.userUrl+userName, {headers: this.httpLogguedInHeaders});
+    this.setHeaderToken();
+    return this.http.get<User>(this.userUrl+userName, {headers: this.httpHeaders});
   }
 
   getCountires() : Observable<Country>{
-    return this.http.get<Country>(this.countriesUrl, {headers: this.httpLogguedInHeaders});
+    return this.http.get<Country>(this.countriesUrl, {headers: this.httpHeaders});
   }
 
-  updateUser(user:User) : Observable<String>{
-    return this.http.put<String>(this.userUrl, user, {headers: this.httpLogguedOutHeaders})
+  executeCommand(data) : Observable<String>{
+    this.setHeaderToken();
+    return this.http.post<String>(this.commandsUrl, data, {headers: this.httpHeaders})
   }
 
 }

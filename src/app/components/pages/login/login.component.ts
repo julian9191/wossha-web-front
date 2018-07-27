@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit{
         this.userService.login(this.loginParams).subscribe( 
             (userSessionInfo:UserSessionInfo) => {
                 this.userService.storageLoginUserSessionInfo(userSessionInfo);
-                this.router.navigate(['inicio']);
+                this.router.navigate(['start']);
             }, (error: any) => {
                 this.notificationsService.showNotification("El usuario o la contraseña son incorrectos", this.notificationsService.WARNING);
             }
