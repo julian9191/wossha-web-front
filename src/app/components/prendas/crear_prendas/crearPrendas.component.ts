@@ -18,6 +18,7 @@ export class CrearPrendasComponent implements OnInit{
   state_plain: boolean = true;
   state_with_icons: boolean = true;
   color:any = {hexString:""};
+  clothe:any = {"state":1}
 
 
 
