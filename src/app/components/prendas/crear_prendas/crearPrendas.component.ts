@@ -19,8 +19,7 @@ export class CrearPrendasComponent implements OnInit{
   state_with_icons: boolean = true;
   color:any = {hexString:""};
   clothe:any = {"state":1}
-
-
+  selectedColorName:string = "";
 
   ngOnInit() {
       //  Activate the tooltips
@@ -51,13 +50,20 @@ export class CrearPrendasComponent implements OnInit{
 
    }
 
+   colorChanged($event){
+    this.getApproximateColor();
+   }
+
    getApproximateColor(){
+    if(!this.color){
+        return "";
+    }
     const n_match = ntc.name(this.color.hexString);
     var n_rgb = n_match[0]; // RGB value of closest match
     var n_name = n_match[1]; // Text string: Color name
     var n_exactmatch = n_match[2]; // True if exact color match
 
-    return Colores[n_rgb]; // [ '#6495ED', 'Cornflower Blue', false ]
+    return this.selectedColorName = Colores[n_rgb]; // [ '#6495ED', 'Cornflower Blue', false ]
    }
 }
 

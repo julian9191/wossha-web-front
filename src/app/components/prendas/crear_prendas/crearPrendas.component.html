@@ -81,14 +81,12 @@
                                             <label>Elija el color dominante de la prenda <span class="star">*</span></label>
                                             <div class="clear"></div>
                                             <div class="col-md-8">
-                                                <ng-color-box [(ngModel)]="color" style="height: 150px;" name="color"></ng-color-box>
+                                                <ng-color-box (ngModelChange)="colorChanged($event)" [(ngModel)]="color" style="height: 150px;" name="color"></ng-color-box>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="picker-square" [style.background-color]="color.hexString"></div>
                                                 
-                                                <span>{{getApproximateColor()}}</span>
-                                                <select name="colors" class="selectpicker" data-title="Single Select" 
-                                                data-style="btn-default btn-block" data-menu-style="dropdown-blue">
+                                                <select name="colors" class="form-control" [(ngModel)]="selectedColorName">
                                                         <option value=""></option>
                                                         <option value="Amarillo">Amarillo</option>
                                                         <option value="Azul">Azul</option>
