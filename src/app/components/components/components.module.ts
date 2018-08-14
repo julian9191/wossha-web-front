@@ -10,16 +10,20 @@ import { IconsComponent } from './icons/icons.component';
 import { PanelsComponent } from './panels/panels.component';
 import { SweetAlertComponent } from './sweetalert/sweetalert.component';
 import { TypographyComponent } from './typography/typography.component';
+import { NgColorModule } from 'ng-color';
 import { WosshaDatepickerComponent } from "./wossha_datepicker/wossha.datepicker.component"
+import { WosshaColorpickerComponent } from "./wossha_colorpicker/wossha.colorpicker.component"
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule.forChild(ComponentsRoutes),
-        FormsModule
+        FormsModule,
+        NgColorModule
     ],
     exports: [
-        WosshaDatepickerComponent
+        WosshaDatepickerComponent,
+        WosshaColorpickerComponent
     ],
     declarations: [
         ButtonsComponent,
@@ -28,7 +32,8 @@ import { WosshaDatepickerComponent } from "./wossha_datepicker/wossha.datepicker
         PanelsComponent,
         SweetAlertComponent,
         TypographyComponent,
-        WosshaDatepickerComponent
+        WosshaDatepickerComponent,
+        WosshaColorpickerComponent
     ]
 })
 

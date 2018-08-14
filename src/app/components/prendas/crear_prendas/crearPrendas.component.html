@@ -20,9 +20,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Tipo de prenda <span class="star">*</span></label>
-                                            <select name="cities" class="selectpicker" data-title="Single Select" data-style="btn-default btn-block" data-menu-style="dropdown-blue">
-                                                <option value="id">Bahasa Indonesia</option>
-                                                <option value="ms">Bahasa Melayu</option>
+                                            <select name="cities" class="form-control">
+                                                <option value=""></option>
+                                                <option *ngFor="let clothingType of clothingTypes" [value]="clothingType.id">{{ clothingType.name }}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -77,36 +77,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Elija el color dominante de la prenda <span class="star">*</span></label>
-                                            <div class="clear"></div>
-                                            <div class="col-md-8">
-                                                <ng-color-box (ngModelChange)="colorChanged($event)" [(ngModel)]="color" style="height: 150px;" name="color"></ng-color-box>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="picker-square" [style.background-color]="color.hexString"></div>
-                                                
-                                                <select name="colors" class="form-control" [(ngModel)]="selectedColorName">
-                                                        <option value=""></option>
-                                                        <option value="Amarillo">Amarillo</option>
-                                                        <option value="Azul">Azul</option>
-                                                        <option value="Beige">Beige</option>
-                                                        <option value="Marrón">Marrón</option>
-                                                        <option value="Dorado">Dorado</option>
-                                                        <option value="Fucsia">Fucsia</option>
-                                                        <option value="Gris">Gris</option>
-                                                        <option value="Morado">Morado</option>
-                                                        <option value="Naranjado">Naranjado</option>
-                                                        <option value="Negro">Negro</option>
-                                                        <option value="Rojo">Rojo</option>
-                                                        <option value="Rosado">Rosado</option>
-                                                        <option value="Verde">Verde</option>
-                                                        <option value="Vino Tinto">Vino Tinto</option>
-                                                        <option value="Violeta">Violeta</option>
-                                                </select>
-                                            </div>
-                                            <div class="clear"></div>
-                                        </div>
+                                        <colorpicker-cmp></colorpicker-cmp>
                                     </div>
                                 </div>
 

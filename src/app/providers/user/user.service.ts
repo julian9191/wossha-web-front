@@ -3,7 +3,7 @@ import { UserSessionInfo } from '../../models/user/login/userSessionInfo';
 import { LoginParams } from '../../models/user/login/loginParams';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PATH } from "../../globals";
+import { USERS_PATH } from "../../globals";
 import { User } from '../../models/user/user';
 import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Inject } from '@angular/core'; 
@@ -17,10 +17,10 @@ export class UserService {
   private STORAGE_KEY:string = "loginInfo";
   private TOKEN_PREFIX:string = "Bearer ";
 
-  private commandsUrl:string = PATH+'commands';
-  private loginUrl:string = PATH+'login';
-  private countriesUrl:string = PATH+'countries';
-  private userUrl:string = PATH+'users/';
+  private commandsUrl:string = USERS_PATH+'commands';
+  private loginUrl:string = USERS_PATH+'login';
+  private countriesUrl:string = USERS_PATH+'countries';
+  private userUrl:string = USERS_PATH+'users/';
   private registerUserUrl:string = this.userUrl+"register-user";
   private static userInfo:UserSessionInfo
   

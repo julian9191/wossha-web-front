@@ -1,0 +1,31 @@
+<div class="form-group">
+        <label>Elija el color dominante de la prenda <span class="star">*</span></label>
+        <div class="clear"></div>
+        <div class="col-md-8">
+            <ng-color-box (ngModelChange)="colorChanged($event)" [(ngModel)]="color" style="height: 150px;" name="color"></ng-color-box>
+        </div>
+        <div class="col-md-4">
+            <div class="picker-square" [style.background-color]="color.hexString"></div>
+            
+            <select name="colors" class="form-control" [(ngModel)]="selectedColorName">
+                    <option value=""></option>
+                    <option value="Blanco">Blanco</option>
+                    <option value="Amarillo">Amarillo</option>
+                    <option value="Azul">Azul</option>
+                    <option value="Beige">Beige</option>
+                    <option value="Marrón">Marrón</option>
+                    <option value="Dorado">Dorado</option>
+                    <option value="Fucsia">Fucsia</option>
+                    <option value="Gris">Gris</option>
+                    <option value="Morado">Morado</option>
+                    <option value="Naranjado">Naranjado</option>
+                    <option value="Negro">Negro</option>
+                    <option value="Rojo">Rojo</option>
+                    <option value="Rosado">Rosado</option>
+                    <option value="Verde">Verde</option>
+                    <option value="Vino Tinto">Vino Tinto</option>
+                    <option value="Violeta">Violeta</option>
+            </select>
+        </div>
+        <div class="clear"></div>
+</div>
