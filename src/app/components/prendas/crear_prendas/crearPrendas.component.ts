@@ -3,6 +3,7 @@ import {ClothingService} from "../../../providers/clothing/clothing.service";
 import { ClothingType } from '../../../models/clothing/clothingType';
 import {UserService} from "../../../providers/user/user.service";
 import { NotificationsService } from '../../../providers/notifications/notifications.service';
+import { ClothingCategory } from '../../../models/clothing/clothingCategory';
 
 declare var $:any;
 
@@ -24,6 +25,7 @@ export class CrearPrendasComponent implements OnInit{
   selectedColorName:string = "";
 
   clothingTypes:ClothingType[];
+  clothingCategories:ClothingCategory[];
 
   constructor(private clothingService: ClothingService,
     private userService: UserService,
@@ -33,11 +35,12 @@ export class CrearPrendasComponent implements OnInit{
 
   ngOnInit() {
       this.getClothingTypes();
+      this.getClothingCategories();
 
    }
 
    getClothingTypes(){
-        this.clothingService.getAllClothingType().subscribe( 
+        this.clothingService.getAllClothingTypes().subscribe( 
             (data:any) => {
                 this.clothingTypes = data;
             }, (error: any) => {
@@ -45,5 +48,15 @@ export class CrearPrendasComponent implements OnInit{
             }
         );
    }
+
+   getClothingCategories(){
+    this.clothingService.getAllClothingCategories().subscribe( 
+        (data:any) => {
+            this.clothingCategories = data;
+        }, (error: any) => {
+            this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener las categorias de prenda", this.notificationsService.WARNING);
+        }
+    );
+}
 }
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ClothingType } from '../../models/clothing/clothingType';
+import { ClothingCategory } from '../../models/clothing/clothingCategory';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CLOTHING_PATH } from "../../globals";
@@ -15,6 +16,7 @@ export class ClothingService {
   private commandsUrl:string = CLOTHING_PATH+'commands';
   private clothingUrl:string = CLOTHING_PATH+'clouthing/';
   private clothingTypeUrl:string = this.clothingUrl+'clothing-types'
+  private clothingCategoryUrl:string = this.clothingUrl+'clothing-categories'
   
   httpHeaders:HttpHeaders;
 
@@ -34,8 +36,12 @@ export class ClothingService {
     }
   }
 
-  getAllClothingType() : Observable<ClothingType>{
+  getAllClothingTypes() : Observable<ClothingType>{
     return this.http.get<ClothingType>(this.clothingTypeUrl, {headers: this.httpHeaders});
+  }
+
+  getAllClothingCategories() : Observable<ClothingCategory>{
+    return this.http.get<ClothingCategory>(this.clothingCategoryUrl, {headers: this.httpHeaders});
   }
 
   executeCommand(data) : Observable<String>{
