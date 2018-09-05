@@ -9,6 +9,8 @@ import { ListarPrendasComponent } from './listar_prendas/listarPrendas.component
 import { CrearPrendasComponent } from './crear_prendas/crearPrendas.component';
 import { PrendasRoutes } from './prendas.routing';
 
+
+
 @NgModule({
     imports: [
         CommonModule,

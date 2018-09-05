@@ -1,0 +1,11 @@
+<input #word type="text" (keyup)="search(word.value)" [(ngModel)]="currentValue.name" class="form-control" [placeholder]="placeHolder">
+
+<div class="list-group search-list" id="list-tab" role="tablist" *ngIf="matches.length > 0">
+        <a *ngFor="let match of matches" 
+        class="list-group-item list-group-item-action" 
+        data-toggle="list" 
+        href="javascript: void(0)" 
+        role="tab" 
+        aria-controls="home"
+        (click)="selectItem(match.id)">{{match.name}}</a>
+</div>

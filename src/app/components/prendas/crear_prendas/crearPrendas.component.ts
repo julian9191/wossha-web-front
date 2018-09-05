@@ -23,6 +23,7 @@ export class CrearPrendasComponent implements OnInit{
   color:any = {hexString:""};
   clothe:any = {"state":1}
   selectedColorName:string = "";
+  searchResult:any;
 
   clothingTypes:ClothingType[];
   clothingCategories:ClothingCategory[];

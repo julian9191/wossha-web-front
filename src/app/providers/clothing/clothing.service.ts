@@ -17,6 +17,7 @@ export class ClothingService {
   private clothingUrl:string = CLOTHING_PATH+'clouthing/';
   private clothingTypeUrl:string = this.clothingUrl+'clothing-types'
   private clothingCategoryUrl:string = this.clothingUrl+'clothing-categories'
+  private clothingTypeSearchUrl:string = this.clothingUrl+'search-clouthing-type'
   
   httpHeaders:HttpHeaders;
 
@@ -42,6 +43,10 @@ export class ClothingService {
 
   getAllClothingCategories() : Observable<ClothingCategory>{
     return this.http.get<ClothingCategory>(this.clothingCategoryUrl, {headers: this.httpHeaders});
+  }
+
+  searchClothingType(word:string) : Observable<ClothingCategory>{
+    return this.http.get<ClothingCategory>(this.clothingTypeSearchUrl+"/"+word, {headers: this.httpHeaders});
   }
 
   executeCommand(data) : Observable<String>{

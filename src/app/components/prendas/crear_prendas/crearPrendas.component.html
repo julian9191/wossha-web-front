@@ -20,10 +20,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Tipo de prenda <span class="star">*</span></label>
-                                            <select name="cities" class="form-control">
-                                                <option value=""></option>
-                                                <option *ngFor="let clothingType of clothingTypes" [value]="clothingType.id">{{ clothingType.name }}</option>
-                                            </select>
+                                            <app-search [searchKey]="'clothing-type'" [placeHolder]="'Tipo de prenda'"></app-search>
                                         </div>
                                     </div>
                                 </div>

@@ -34,7 +34,7 @@ import { HttpErrorHandlerService } from './providers/auth/httpErrorHandler.servi
         FooterModule,
         FixedPluginModule,
         PagesnavbarModule,
-        BrowserModule,
+        BrowserModule
     ],
     declarations: [
         AppComponent,

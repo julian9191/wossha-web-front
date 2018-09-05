@@ -13,6 +13,8 @@ import { TypographyComponent } from './typography/typography.component';
 import { NgColorModule } from 'ng-color';
 import { WosshaDatepickerComponent } from "./wossha_datepicker/wossha.datepicker.component"
 import { WosshaColorpickerComponent } from "./wossha_colorpicker/wossha.colorpicker.component"
+import { SearchComponent } from './search/search.component';
+
 
 @NgModule({
     imports: [
@@ -23,7 +25,8 @@ import { WosshaColorpickerComponent } from "./wossha_colorpicker/wossha.colorpic
     ],
     exports: [
         WosshaDatepickerComponent,
-        WosshaColorpickerComponent
+        WosshaColorpickerComponent,
+        SearchComponent
     ],
     declarations: [
         ButtonsComponent,
@@ -33,8 +36,10 @@ import { WosshaColorpickerComponent } from "./wossha_colorpicker/wossha.colorpic
         SweetAlertComponent,
         TypographyComponent,
         WosshaDatepickerComponent,
-        WosshaColorpickerComponent
-    ]
+        WosshaColorpickerComponent,
+        SearchComponent
+    ],
+    providers: []
 })
 
 export class ComponentsModule {}
