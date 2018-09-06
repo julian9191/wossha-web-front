@@ -13,10 +13,18 @@ export class SearchComponent {
   matches: any[] = [];
   loading: boolean;
   currentValue :any = {"id":-1,"name":""};
+  focusIndexElement: number = 0;
+  focusIdElement: number = 0;
 
   constructor(private clothingService: ClothingService) {}
 
-  search(word: string) {
+  search(word: string, event) {
+    if(event.key=="Enter" || event.key == "ArrowDown" || 
+    event.key == "ArrowUp" || event.key == "ArrowLeft" || 
+    event.key == "ArrowRight"){
+      return;
+    }
+
     if(word == ""){
       this.reset();
       return;
@@ -26,6 +34,9 @@ export class SearchComponent {
           .subscribe( (data: any) => {
             this.matches = data;
             this.loading = false;
+            if(this.matches.length>0){
+              this.focusIdElement = this.matches[this.focusIndexElement].id;
+            }
           });
   }
 
@@ -45,8 +56,30 @@ export class SearchComponent {
     }
   }
 
+  onArrowUp() {
+    if(this.matches.length==0){
+      return;
+    }
+    if (this.focusIndexElement > 0) {
+      this.focusIndexElement--;
+      this.focusIdElement = this.matches[this.focusIndexElement].id
+    }
+  }
+
+  onArrowDown() {
+    if(this.matches.length==0){
+      return;
+    }
+    if (this.focusIndexElement <= this.matches.length - 2) {
+      this.focusIndexElement++;
+      this.focusIdElement = this.matches[this.focusIndexElement].id
+    }
+  }
+
   reset(){
     this.matches = [];
+    this.focusIndexElement = 0;
+    this.focusIdElement = 0;
   }
 
 }
