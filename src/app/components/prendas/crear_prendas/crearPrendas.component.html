@@ -29,10 +29,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Categoría <span class="star">*</span></label>
-                                            <select name="cities" class="form-control">
-                                                <option value=""></option>
-                                                <option *ngFor="let clothingCategory of clothingCategories" [value]="clothingCategory.id">{{ clothingCategory.name }}</option>
-                                            </select>
+                                            <app-search [searchKey]="'clothing-category'" [placeHolder]="'Categoría de prenda'"></app-search>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -49,19 +46,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Nivel de gusto</label>
-                                            <select name="cities" class="selectpicker" data-title="Single Select" data-style="btn-default btn-block" data-menu-style="dropdown-blue">
-                                                <option value="id">Bahasa Indonesia</option>
-                                                <option value="ms">Bahasa Melayu</option>
-                                            </select>
+                                            <nouislider [connect]="false" [min]="0" [max]="10" [step]="1" [(ngModel)]="simpleSlider" [tooltips]="true"></nouislider>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Marca</label>
-                                            <select name="cities" class="selectpicker" data-title="Single Select" data-style="btn-default btn-block" data-menu-style="dropdown-blue">
-                                                <option value="id">Bahasa Indonesia</option>
-                                                <option value="ms">Bahasa Melayu</option>
-                                            </select>
+                                            <app-search [searchKey]="'brand'" [placeHolder]="'Marca'"></app-search>
                                         </div>
                                     </div>
                                 </div>

@@ -13,10 +13,7 @@ declare var $:any;
 })
 
 export class CrearPrendasComponent implements OnInit{
-  regularItems = ['Pizza', 'Pasta', 'Parmesan'];
-  filledItems = ['Pizza', 'Pasta', 'Parmesan'];
   simpleSlider = 40;
-  doubleSlider = [20, 60];
   state_default: boolean = true;
   state_plain: boolean = true;
   state_with_icons: boolean = true;

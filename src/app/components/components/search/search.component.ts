@@ -44,6 +44,10 @@ export class SearchComponent {
     switch(searchKey) {
       case "clothing-type":
         return this.clothingService.searchClothingType(word);
+      case "clothing-category":
+        return this.clothingService.searchClothingCategory(word);
+      case "brand":
+        return this.clothingService.searchBrand(word);
       default:
     }
   }

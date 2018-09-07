@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CLOTHING_PATH } from "../../globals";
 import { Router} from '@angular/router';
+import { Brand } from '../../models/clothing/brand';
 import 'rxjs';
 
 @Injectable()
@@ -18,6 +19,8 @@ export class ClothingService {
   private clothingTypeUrl:string = this.clothingUrl+'clothing-types'
   private clothingCategoryUrl:string = this.clothingUrl+'clothing-categories'
   private clothingTypeSearchUrl:string = this.clothingUrl+'search-clouthing-type'
+  private clothingCategorySearchUrl:string = this.clothingUrl+'search-clouthing-category'
+  private clothingBrandSearchUrl:string = this.clothingUrl+'search-brand'
   
   httpHeaders:HttpHeaders;
 
@@ -45,8 +48,16 @@ export class ClothingService {
     return this.http.get<ClothingCategory>(this.clothingCategoryUrl, {headers: this.httpHeaders});
   }
 
-  searchClothingType(word:string) : Observable<ClothingCategory>{
-    return this.http.get<ClothingCategory>(this.clothingTypeSearchUrl+"/"+word, {headers: this.httpHeaders});
+  searchClothingType(word:string) : Observable<ClothingType>{
+    return this.http.get<ClothingType>(this.clothingTypeSearchUrl+"/"+word, {headers: this.httpHeaders});
+  }
+
+  searchClothingCategory(word:string) : Observable<ClothingCategory>{
+    return this.http.get<ClothingCategory>(this.clothingCategorySearchUrl+"/"+word, {headers: this.httpHeaders});
+  }
+
+  searchBrand(word:string) : Observable<Brand>{
+    return this.http.get<Brand>(this.clothingBrandSearchUrl+"/"+word, {headers: this.httpHeaders});
   }
 
   executeCommand(data) : Observable<String>{
