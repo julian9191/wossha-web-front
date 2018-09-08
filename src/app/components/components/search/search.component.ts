@@ -15,6 +15,7 @@ export class SearchComponent {
   currentValue :any = {"id":-1,"name":""};
   focusIndexElement: number = 0;
   focusIdElement: number = 0;
+  showListTab:boolean = false;
 
   constructor(private clothingService: ClothingService) {}
 
@@ -77,6 +78,21 @@ export class SearchComponent {
     if (this.focusIndexElement <= this.matches.length - 2) {
       this.focusIndexElement++;
       this.focusIdElement = this.matches[this.focusIndexElement].id
+    }
+  }
+
+  onFocusMethod(){
+    this.showListTab = true;
+  }
+
+  onBlurMethod(e){
+    try {
+      if(!e.relatedTarget.className.includes("item-search-list")){
+        this.showListTab = false;
+      }
+    }
+    catch(err) {
+      this.showListTab = false;
     }
   }
 

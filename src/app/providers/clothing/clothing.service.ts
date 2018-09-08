@@ -7,6 +7,7 @@ import { CLOTHING_PATH } from "../../globals";
 import { Router} from '@angular/router';
 import { Brand } from '../../models/clothing/brand';
 import 'rxjs';
+import { BaseColor } from '../../models/clothing/baseColor';
 
 @Injectable()
 export class ClothingService {
@@ -21,6 +22,7 @@ export class ClothingService {
   private clothingTypeSearchUrl:string = this.clothingUrl+'search-clouthing-type'
   private clothingCategorySearchUrl:string = this.clothingUrl+'search-clouthing-category'
   private clothingBrandSearchUrl:string = this.clothingUrl+'search-brand'
+  private BaseColorUrl:string = this.clothingUrl+'base-colors'
   
   httpHeaders:HttpHeaders;
 
@@ -46,6 +48,10 @@ export class ClothingService {
 
   getAllClothingCategories() : Observable<ClothingCategory>{
     return this.http.get<ClothingCategory>(this.clothingCategoryUrl, {headers: this.httpHeaders});
+  }
+
+  getAllBaseColors() : Observable<BaseColor>{
+    return this.http.get<BaseColor>(this.BaseColorUrl, {headers: this.httpHeaders});
   }
 
   searchClothingType(word:string) : Observable<ClothingType>{

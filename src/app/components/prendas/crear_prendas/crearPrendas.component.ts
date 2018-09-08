@@ -13,7 +13,7 @@ declare var $:any;
 })
 
 export class CrearPrendasComponent implements OnInit{
-  simpleSlider = 40;
+  simpleSlider = 5;
   state_default: boolean = true;
   state_plain: boolean = true;
   state_with_icons: boolean = true;

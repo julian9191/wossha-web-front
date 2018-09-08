@@ -3,15 +3,18 @@
 (keydown.ArrowUp)="onArrowUp()"
 (keydown.ArrowDown)="onArrowDown()"
 (keydown.enter)="selectItem(focusIdElement)"
+(focus)="onFocusMethod()"
+(blur)="onBlurMethod($event)"
 [(ngModel)]="currentValue.name" 
 class="form-control" 
+style="text-transform:uppercase"
 [placeholder]="placeHolder">
 
-<div class="list-group search-list" id="list-tab" role="tablist" *ngIf="matches.length > 0">
+<div class="list-group search-list" id="list-tab" role="tablist" *ngIf="(matches.length > 0) && showListTab">
         <a #item
         *ngFor="let match of matches;let i=index"
         [ngClass]="{'active': match.id == focusIdElement}"
-        class="list-group-item list-group-item-action" 
+        class="list-group-item list-group-item-action item-search-list" 
         data-toggle="list" 
         href="javascript: void(0)" 
         role="tab" 

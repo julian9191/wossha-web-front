@@ -20,7 +20,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Tipo de prenda <span class="star">*</span></label>
-                                            <app-search [searchKey]="'clothing-type'" [placeHolder]="'Tipo de prenda'"></app-search>
+                                            <app-search [searchKey]="'clothing-type'" [placeHolder]="'Ej: (PANTALON, CAMISA, ZAPATOS)'"></app-search>
                                         </div>
                                     </div>
                                 </div>
@@ -29,7 +29,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Categoría <span class="star">*</span></label>
-                                            <app-search [searchKey]="'clothing-category'" [placeHolder]="'Categoría de prenda'"></app-search>
+                                            <app-search [searchKey]="'clothing-category'" [placeHolder]="'Ej: (DEPORTIVA, FORMAL, INFORMAL)'"></app-search>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -46,13 +46,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Nivel de gusto</label>
-                                            <nouislider [connect]="false" [min]="0" [max]="10" [step]="1" [(ngModel)]="simpleSlider" [tooltips]="true"></nouislider>
+                                            <nouislider name="n" [connect]="false" [min]="0" [max]="10" [step]="1" [(ngModel)]="simpleSlider" [tooltips]="true"></nouislider>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Marca</label>
-                                            <app-search [searchKey]="'brand'" [placeHolder]="'Marca'"></app-search>
+                                            <app-search [searchKey]="'brand'" [placeHolder]="'Escriba la marca de la prenda...'"></app-search>
                                         </div>
                                     </div>
                                 </div>
