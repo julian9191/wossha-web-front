@@ -4,6 +4,7 @@ import { ClothingType } from '../../../models/clothing/clothingType';
 import {UserService} from "../../../providers/user/user.service";
 import { NotificationsService } from '../../../providers/notifications/notifications.service';
 import { ClothingCategory } from '../../../models/clothing/clothingCategory';
+import { Clothe } from '../../../models/clothing/clothe';
 
 declare var $:any;
 
@@ -17,10 +18,13 @@ export class CrearPrendasComponent implements OnInit{
   state_default: boolean = true;
   state_plain: boolean = true;
   state_with_icons: boolean = true;
+  public maxDate:Date;
+
   color:any = {hexString:""};
   clothe:any = {"state":1}
   selectedColorName:string = "";
   searchResult:any;
+  register:Clothe;
 
   clothingTypes:ClothingType[];
   clothingCategories:ClothingCategory[];
@@ -32,9 +36,12 @@ export class CrearPrendasComponent implements OnInit{
     }
 
   ngOnInit() {
+      this.maxDate = new Date();
+
       this.getClothingTypes();
       this.getClothingCategories();
 
+      this.refreshClothe();
    }
 
    getClothingTypes(){
@@ -48,13 +55,46 @@ export class CrearPrendasComponent implements OnInit{
    }
 
    getClothingCategories(){
-    this.clothingService.getAllClothingCategories().subscribe( 
-        (data:any) => {
-            this.clothingCategories = data;
-        }, (error: any) => {
-            this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener las categorias de prenda", this.notificationsService.WARNING);
+        this.clothingService.getAllClothingCategories().subscribe( 
+            (data:any) => {
+                this.clothingCategories = data;
+            }, (error: any) => {
+                this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener las categorias de prenda", this.notificationsService.WARNING);
+            }
+        );
+    }
+
+    save(model: Clothe, isValid: boolean) {
+        alert("Entra");
+        console.log(model);
+        if(isValid){
+            /*this.userService.registerUser(model).subscribe( 
+                (messaje) => {
+                    this.router.navigate(['pages','login']);
+                    this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
+                }, (error: any) => {
+                    this.notificationsService.showNotification(error.error.msj, this.notificationsService.WARNING);
+                }
+            );*/
         }
-    );
-}
+    }
+
+    refreshClothe(){
+        this.register = {
+            id: null,
+            uuid:'',
+            username:'',
+            name:'',
+            description:'',
+            type:'',
+            category:'',
+            purchaseDate:null,
+            howLike:5,
+            brand:'',
+            state:null,
+            colorCode:'',
+            baseColor:null
+        }
+    }
 }
 

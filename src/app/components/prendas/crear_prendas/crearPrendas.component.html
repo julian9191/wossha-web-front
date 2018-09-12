@@ -9,18 +9,26 @@
                             <p class="category"></p>
                         </div>
                         <div class="content">
-                            <form method="#" action="#">
+                            <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)" (keydown.enter)="$event.preventDefault()">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Nombre <span class="star">*</span></label>
-                                            <input type="text" placeholder="Escriba un nombre para la prenda" class="form-control">
+                                            <input type="text" placeholder="Escriba un nombre para la prenda" class="form-control" name="name" [(ngModel)]="register.name"
+                                            required  #name="ngModel">
+                                            <small [hidden]="name.valid || (name.pristine && !f.submitted)" class="red-text">
+                                                El nombre de la prenda es requerido.
+                                            </small>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Tipo de prenda <span class="star">*</span></label>
-                                            <app-search [searchKey]="'clothing-type'" [placeHolder]="'Ej: (PANTALON, CAMISA, ZAPATOS)'"></app-search>
+                                            <app-search [searchKey]="'clothing-type'" [placeHolder]="'Ej: (PANTALON, CAMISA, ZAPATOS)'" name="type" [(ngModel)]="register.type"
+                                            required  #type="ngModel"></app-search>
+                                            <small [hidden]="type.valid || (type.pristine && !f.submitted)" class="red-text">
+                                                El tipo de prenda es requerido.
+                                            </small>
                                         </div>
                                     </div>
                                 </div>
@@ -29,15 +37,21 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Categoría <span class="star">*</span></label>
-                                            <app-search [searchKey]="'clothing-category'" [placeHolder]="'Ej: (DEPORTIVA, FORMAL, INFORMAL)'"></app-search>
+                                            <app-search [searchKey]="'clothing-category'" [placeHolder]="'Ej: (DEPORTIVA, FORMAL, INFORMAL)'" name="category" [(ngModel)]="register.category"
+                                            required  #category="ngModel"></app-search>
+                                            <small [hidden]="category.valid || (category.pristine && !f.submitted)" class="red-text">
+                                                La categoría de prenda es requerida.
+                                            </small>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Fecha de compra</label>
-                                            <div class="form-group">
-                                                <datepicker-cmp></datepicker-cmp>
-                                            </div>
+                                            <input type="date" class="form-control" [(ngModel)]="register.purchaseDate" max="{{maxDate | date: 'yyyy-MM-dd'}}" name="purchaseDate" 
+                                            #purchaseDate="ngModel" />
+                                            <small [hidden]="purchaseDate.valid || (purchaseDate.pristine && !f.submitted)" class="red-text">
+                                                La fecha de compra no debe superar la fecha de hoy.
+                                            </small>
                                         </div>
                                     </div>
                                 </div>
@@ -46,13 +60,13 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Nivel de gusto</label>
-                                            <nouislider name="n" [connect]="false" [min]="0" [max]="10" [step]="1" [(ngModel)]="simpleSlider" [tooltips]="true"></nouislider>
+                                            <nouislider name="howLike" [connect]="false" [min]="0" [max]="10" [step]="1" [(ngModel)]="register.howLike" [tooltips]="true"></nouislider>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Marca</label>
-                                            <app-search [searchKey]="'brand'" [placeHolder]="'Escriba la marca de la prenda...'"></app-search>
+                                            <app-search [searchKey]="'brand'" [placeHolder]="'Escriba la marca de la prenda...'" [(ngModel)]="register.brand" name="brand"></app-search>
                                         </div>
                                     </div>
                                 </div>
@@ -61,25 +75,29 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Descripción</label>
-                                            <textarea rows="5" maxlength="250" placeholder="Escriba una descripción de la prenda" class="form-control"></textarea>
+                                            <textarea rows="5" maxlength="250" placeholder="Escriba una descripción de la prenda" class="form-control" [(ngModel)]="register.description" name="description"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <colorpicker-cmp></colorpicker-cmp>
+                                        <colorpicker-cmp name="category" name="colorCode" [(ngModel)]="register.colorCode"
+                                        required  #colorCode="ngModel"></colorpicker-cmp>
+                                        <small [hidden]="colorCode.valid || (colorCode.pristine && !f.submitted)" class="red-text">
+                                            La categoría de prenda es requerida.
+                                        </small>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <div class="radio col-md-2">
-                                        <input type="radio" name="radio10" id="radio5" value="1" name="gender" [(ngModel)]="clothe.state"
-                                        required  #gender="ngModel">
+                                        <input type="radio" name="radio10" id="radio5" value="1" name="state" [(ngModel)]="register.state"
+                                        #state="ngModel">
                                         <label for="radio5">
                                             La uso
                                         </label>
                                     </div>
                                     <div class="radio col-md-2" style="margin-top: 10px">
-                                        <input type="radio" name="radio10" id="radio6" value="0" name="gender" [(ngModel)]="clothe.state"
-                                        required  #gender="ngModel">
+                                        <input type="radio" name="radio10" id="radio6" value="0" name="state" [(ngModel)]="register.state"
+                                        #state="ngModel">
                                         <label for="radio6">
                                             No la uso
                                         </label>

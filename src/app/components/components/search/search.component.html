@@ -5,6 +5,7 @@
 (keydown.enter)="selectItem(focusIdElement)"
 (focus)="onFocusMethod()"
 (blur)="onBlurMethod($event)"
+(change)="onChange($event)"
 [(ngModel)]="currentValue.name" 
 class="form-control" 
 style="text-transform:uppercase"

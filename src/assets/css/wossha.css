@@ -34,6 +34,10 @@
      color: #ffffff !important;
  }
 
+ .red-text{
+        color: #FB404B !important;
+    }
+
  .radio input[type="radio"]:checked:not(:disabled):hover + label::after, .radio input[type="radio"]:checked + label::after {
     color: #FFA534 !important;
 }
