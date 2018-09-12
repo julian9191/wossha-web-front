@@ -79,11 +79,14 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <colorpicker-cmp name="category" name="colorCode" [(ngModel)]="register.colorCode"
-                                        required  #colorCode="ngModel"></colorpicker-cmp>
-                                        <small [hidden]="colorCode.valid || (colorCode.pristine && !f.submitted)" class="red-text">
-                                            La categoría de prenda es requerida.
-                                        </small>
+                                        <div class="form-group">
+                                            <label>Elija el color dominante de la prenda <span class="star">*</span></label>
+                                            <colorpicker-cmp name="category" name="colorCode" [(ngModel)]="register.colorCode"
+                                            required  #colorCode="ngModel"></colorpicker-cmp>
+                                            <small [hidden]="colorCode.valid || (colorCode.pristine && !f.submitted)" class="red-text">
+                                                El color es requerido.
+                                            </small>
+                                        </div>
                                     </div>
                                 </div>
 

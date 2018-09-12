@@ -1,16 +1,16 @@
-<div class="form-group">
-        <label>Elija el color dominante de la prenda <span class="star">*</span></label>
-        <div class="clear"></div>
-        <div class="col-md-8">
-            <ng-color-box (ngModelChange)="colorChanged($event)" [(ngModel)]="color" style="height: 150px;" name="color"></ng-color-box>
-        </div>
-        <div class="col-md-4">
-            <div class="picker-square" [style.background-color]="color.hexString"></div>
-            
-            <select name="colors" class="form-control" [(ngModel)]="selectedColorName">
-                    <option value=""></option>
-                    <option *ngFor="let basecolor of baseColors" [value]="basecolor.name">{{ basecolor.name }}</option>
-            </select>
-        </div>
-        <div class="clear"></div>
+
+<div>
+    <div class="clear"></div>
+    <div class="col-md-8">
+        <ng-color-box (ngModelChange)="colorChanged($event)" [(ngModel)]="color" style="height: 150px;" name="color"></ng-color-box>
+    </div>
+    <div class="col-md-4">
+        <div class="picker-square" [style.background-color]="color.hexString"></div>
+        
+        <select name="colors" class="form-control" [(ngModel)]="selectedColorName">
+                <option value=""></option>
+                <option *ngFor="let basecolor of baseColors" [value]="basecolor.name">{{ basecolor.name }}</option>
+        </select>
+    </div>
+    <div class="clear"></div>
 </div>
