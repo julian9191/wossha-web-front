@@ -1,0 +1,191 @@
+[33mcommit cae776fabc149f58d971ee32ed21b58f5c223e2d[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Wed Sep 12 18:47:30 2018 -0500
+
+    añgunas correcciones
+
+[33mcommit 70b53e9172a7c9ea3589dc2ed47b83effdae770c[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Wed Sep 12 18:35:07 2018 -0500
+
+    se deja el formulario de creacion de prendas con las validaciones
+
+[33mcommit 5fc95481caeb896f0808c310459a3ab8134e3097[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Sat Sep 8 12:10:19 2018 -0500
+
+    correcciones widgets
+
+[33mcommit 0dce5ecaa318459f92cf51ea655e2708633220b7[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Fri Sep 7 18:46:56 2018 -0500
+
+    Se crean todos los widgets de ventana de creación de prendas
+
+[33mcommit 9cde822ebd1d179c017cc62ecd083ba0628f1866[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Wed Sep 5 19:00:28 2018 -0500
+
+    Autocompletador con control desde el teclado
+
+[33mcommit 379219dae6ce135b29f7f7c293f2446878175e5c[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Wed Sep 5 18:06:14 2018 -0500
+
+    input de search sin manejo con el teclado
+
+[33mcommit e7abef820d499ed59baa72531dcc3cda9b3b8a9d[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Tue Aug 14 09:33:21 2018 -0500
+
+    Se gargan categorias de prenda en combobox
+
+[33mcommit 0fb65d1e71201807a9a12fd4bc7d1cf6f5b4b666[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Mon Aug 13 21:17:54 2018 -0500
+
+    se hace request de tipo de prenda a servidor en crear prendas
+
+[33mcommit 8842e491722fb8fee3d1ffbabbdb0dc3a73e0c4c[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Mon Aug 13 19:32:57 2018 -0500
+
+    artefacto de seleccion de color terminado en su forma base
+
+[33mcommit 99a5d3a8a73cea60bcf2eec7f64111b6ea2623d4[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Sat Jul 28 17:54:13 2018 -0500
+
+    Se organiza pagina de crear prendas
+
+[33mcommit 4316d43ad9b7efc966f8f687a1ddbcea47845804[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Fri Jul 27 16:51:11 2018 -0500
+
+    cqrs
+
+[33mcommit c9c7a604ceeebb03fcb4ca54659a46addfa3bfb1[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Tue Jul 24 17:31:51 2018 -0500
+
+    Se implementa validación de token
+
+[33mcommit 8506ac98282a0699735ee12c36ecbb461ef21798[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Tue Jul 24 11:13:39 2018 -0500
+
+    se agrega decodeURI a login
+
+[33mcommit b0ffbfba5e114f20ddc17b643696de9097e4ae0b[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Sat Jul 21 20:32:40 2018 -0500
+
+    Se agrega modificación de perfil
+
+[33mcommit 663042316e158669d066cc0c620e8abf52930978[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Wed Jul 18 17:50:03 2018 -0500
+
+    Se agrega pais al usuario
+
+[33mcommit 0cd6ed5cd8021981dc803a2b518c18ba4f090df2[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Sat Jul 14 19:17:40 2018 -0500
+
+    Si datepicker tiene un valor desde el principio, no ser color gris ni mostrar
+
+[33mcommit 169a159d00ef5cb31f28b31804e142009ced510f[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Sat Jul 14 18:47:15 2018 -0500
+
+    Haciendo que datepicker se pueda usar en todos los modulos
+
+[33mcommit e6446b600152d3289f53b00d202a7a64e82ee5bb[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Sat Jul 14 16:35:41 2018 -0500
+
+    Se termina registro de usuario y se arregla datepicker
+
+[33mcommit 17f5032307205f51f205d7036a9020bdff9322a2[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Wed Jul 11 17:52:32 2018 -0500
+
+    cambios en la estructura de carpetas y login
+
+[33mcommit d0e2053311d95fb0e0c6e71d0894597bc96736e4[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Tue Jul 10 13:41:29 2018 -0500
+
+    datepicker
+
+[33mcommit b5424d6c489558e02d772a4067ed81ad4f3dc8bc[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Mon Jul 9 22:07:38 2018 -0500
+
+    Antes de validaciones de maxima y minima fecha de datepicker
+
+[33mcommit 28db18948976de0a2cd373bb079c683243b31bfb[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Sat Jul 7 17:18:56 2018 -0500
+
+    datepicker de registro antes de ser una directiva
+
+[33mcommit 6aefec02d28d1458a98ecaa2d529d7db2db4e537[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Fri Jul 6 17:03:32 2018 -0500
+
+    Se agrega validación de páginas que requieren inicio de sesión
+
+[33mcommit 5173d1b08da553e8717392855029b7e008bae912[m
+Author: julian <juliancho9191@gmail.com>
+Date:   Fri Jul 6 11:07:32 2018 -0500
+
+    Login con jdbi
+
+[33mcommit a026b05bbcea635c5fe8fe071c5ef10c9716e9cb[m
+Author: Julian Andres Giraldo Henao <julian.giraldo@globant.com>
+Date:   Wed Jul 4 16:45:49 2018 -0500
+
+    Se agrega notification para login incorrecto
+
+[33mcommit 87f42a67ae8a50dfc010816a5ac079a7ccb930c8[m
+Author: Julian Andres Giraldo Henao <julian.giraldo@globant.com>
+Date:   Sat Jun 30 16:40:11 2018 -0500
+
+    Se agrega login básico
+
+[33mcommit 8a4fe46dc0686eacbb525404a2b9e56bfe0d7f3c[m
+Author: Julian Andres Giraldo Henao <julian.giraldo@globant.com>
+Date:   Tue Jun 19 10:46:00 2018 -0500
+
+    Se completa lo minimo de colores
+
+[33mcommit b7d7339ec7df7732caa687ada9d7d4576364e4fc[m
+Author: Julian Andres Giraldo Henao <julian.giraldo@globant.com>
+Date:   Mon Jun 18 19:07:46 2018 -0500
+
+    Se agrega color picker
+
+[33mcommit f887b534df610528f13f1043acb439a752c1deaa[m
+Author: Julian Andres Giraldo Henao <julian.giraldo@globant.com>
+Date:   Mon Jun 18 17:45:24 2018 -0500
+
+    Nuevas fotos de fondo
+
+[33mcommit 4e6a192988057628d3a226747d58516d362422fc[m
+Author: Julian Andres Giraldo Henao <julian.giraldo@globant.com>
+Date:   Wed Jun 13 18:48:41 2018 -0500
+
+    Se maqueta combinaciones
+
+[33mcommit 4a391875ba5270d9adaf5a8a8de9182a1692468a[m
+Author: Julian Andres Giraldo Henao <julian.giraldo@globant.com>
+Date:   Wed Jun 13 10:57:23 2018 -0500
+
+    Con maquetación de prendas
+
+[33mcommit 53f898fed534e31f0de482cdf08426d2339baedb[m
+Author: Julian Andres Giraldo Henao <julian.giraldo@globant.com>
+Date:   Tue Jun 12 18:35:09 2018 -0500
+
+    firts commit
