@@ -23,6 +23,7 @@ export class ClothingService {
   private clothingCategorySearchUrl:string = this.clothingUrl+'search-clouthing-category'
   private clothingBrandSearchUrl:string = this.clothingUrl+'search-brand'
   private BaseColorUrl:string = this.clothingUrl+'base-colors'
+  private colorsMapUrl:string = this.clothingUrl+'colors-map'
   
   httpHeaders:HttpHeaders;
 
@@ -52,6 +53,10 @@ export class ClothingService {
 
   getAllBaseColors() : Observable<BaseColor>{
     return this.http.get<BaseColor>(this.BaseColorUrl, {headers: this.httpHeaders});
+  }
+
+  getColorsMap() : Observable<any>{
+    return this.http.get<any>(this.colorsMapUrl, {headers: this.httpHeaders});
   }
 
   searchClothingType(word:string) : Observable<ClothingType>{

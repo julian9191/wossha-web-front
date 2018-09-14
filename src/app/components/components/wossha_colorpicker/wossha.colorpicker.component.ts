@@ -1,6 +1,5 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl, Validator } from '@angular/forms';
-import {Colores} from './colores';
 import ntc from 'ntcjs';
 import { BaseColor } from '../../../models/clothing/baseColor';
 import { ClothingService } from '../../../providers/clothing/clothing.service';
@@ -26,9 +25,10 @@ export class WosshaColorpickerComponent implements ControlValueAccessor, Validat
     private parseError: boolean;
     private data: any;
     
-    selectedColorName:string = "";
+    selectedColor:any;
     color:any = {hexString:""};
     baseColors:BaseColor[];
+    colores:any[];
 
     constructor(private clothingService: ClothingService){}
 
@@ -54,6 +54,18 @@ export class WosshaColorpickerComponent implements ControlValueAccessor, Validat
         } : null;
     }
 
+    validateValue(){
+        if(this.selectedColor.baseColorId != ""){
+            this.parseError = false;
+        }else{
+            this.reset();
+            this.parseError = true;
+        }
+
+        // update the form
+        this.propagateChange(this.selectedColor);
+    }
+
     // not used, used for touch input
     public registerOnTouched() { }
 
@@ -62,6 +74,13 @@ export class WosshaColorpickerComponent implements ControlValueAccessor, Validat
     
 
     ngOnInit(){
+        this.reset();
+        this.clothingService.getColorsMap().subscribe( 
+            (data:any) => {
+                this.colores = data;
+            }, (error: any) => {}
+        );
+
         this.clothingService.getAllBaseColors().subscribe( 
             (data:any) => {
                 this.baseColors = data;
@@ -71,27 +90,27 @@ export class WosshaColorpickerComponent implements ControlValueAccessor, Validat
 
     colorChanged($event){
         this.getApproximateColor();
-
-        if(this.selectedColorName != ""){
-            this.parseError = false;
-        }else{
-            this.parseError = true;
-        }
-
-        // update the form
-        this.propagateChange(this.selectedColorName);
+        this.validateValue();
     }
     
     getApproximateColor(){
         if(!this.color){
             return "";
         }
-        const n_match = ntc.name(this.color.hexString);
+        let hexString = (' ' + this.color.hexString).slice(1);
+
+        if(!hexString){
+            return "";
+        }
+        const n_match = ntc.name(hexString);
         var n_rgb = n_match[0]; // RGB value of closest match
         var n_name = n_match[1]; // Text string: Color name
         var n_exactmatch = n_match[2]; // True if exact color match
+        return this.selectedColor = {"baseColorId": this.colores[n_rgb], "realColorHexa": hexString};
+    }
 
-        return this.selectedColorName = Colores[n_rgb]; // [ '#6495ED', 'Cornflower Blue', false ]
+    reset(){
+        this.selectedColor = {"baseColorId": "", "realColorHexa": ""}
     }
     
 }

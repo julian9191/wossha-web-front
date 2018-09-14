@@ -5,13 +5,16 @@
         <ng-color-box (ngModelChange)="colorChanged($event)" [(ngModel)]="color" style="height: 150px;" name="color"></ng-color-box>
     </div>
     <div class="col-md-4">
-        <div class="picker-square" [style.background-color]="color.hexString">
-            <span *ngIf="selectedColorName==''" id="x">X</span>
+        <div class="picker-square" [style.background-color]="selectedColor.realColorHexa">
+            <span *ngIf="selectedColor.baseColorId==''" id="x">X</span>
         </div>
         
-        <select name="colors" class="form-control" [(ngModel)]="selectedColorName">
+        <select name="colors" class="form-control" 
+        [disabled]="selectedColor.baseColorId==''" 
+        [(ngModel)]="selectedColor.baseColorId"
+        (change)="validateValue()">
                 <option value=""></option>
-                <option *ngFor="let basecolor of baseColors" [value]="basecolor.name">{{ basecolor.name }}</option>
+                <option *ngFor="let basecolor of baseColors" [value]="basecolor.id">{{ basecolor.name }}</option>
         </select>
     </div>
     <div class="clear"></div>

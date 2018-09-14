@@ -66,7 +66,13 @@ export class CrearPrendasComponent implements OnInit{
 
     save(model: Clothe, isValid: boolean) {
         alert("Entra");
+        let color:any=model.colorCode;
+        model.baseColor=color.baseColorId;
+        model.colorCode=color.realColorHexa;
+
         console.log(model);
+
+
         if(isValid){
             /*this.userService.registerUser(model).subscribe( 
                 (messaje) => {
