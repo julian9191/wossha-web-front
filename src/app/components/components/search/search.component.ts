@@ -26,9 +26,10 @@ export class SearchComponent implements ControlValueAccessor, Validator{
 
   @Input() searchKey: string;
   @Input() placeHolder: string;
+  @Input() searchValue: string;
   matches: any[] = [];
   loading: boolean;
-  currentValue :any = {"id":-1,"name":""};
+  currentValue :any = {"id":-1,"name":this.searchValue};
   focusIndexElement: number = 0;
   focusIdElement: number = 0;
   showListTab:boolean = false;

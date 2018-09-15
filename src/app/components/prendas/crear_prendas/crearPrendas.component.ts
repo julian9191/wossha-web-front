@@ -5,6 +5,8 @@ import {UserService} from "../../../providers/user/user.service";
 import { NotificationsService } from '../../../providers/notifications/notifications.service';
 import { ClothingCategory } from '../../../models/clothing/clothingCategory';
 import { Clothe } from '../../../models/clothing/clothe';
+import { CreateClotheCommand } from '../../../models/clothing/commands/createClotheCommand';
+import { User } from '../../../models/user/user';
 
 declare var $:any;
 
@@ -28,6 +30,8 @@ export class CrearPrendasComponent implements OnInit{
 
   clothingTypes:ClothingType[];
   clothingCategories:ClothingCategory[];
+  createClotheCommand:CreateClotheCommand;
+  user:User;
 
   constructor(private clothingService: ClothingService,
     private userService: UserService,
@@ -37,6 +41,9 @@ export class CrearPrendasComponent implements OnInit{
 
   ngOnInit() {
       this.maxDate = new Date();
+      this.user = this.userService.getLoggedUserSessionInfo().user;
+      this.createClotheCommand = new CreateClotheCommand();
+      this.createClotheCommand.username = this.user.username;
 
       this.getClothingTypes();
       this.getClothingCategories();
@@ -65,23 +72,21 @@ export class CrearPrendasComponent implements OnInit{
     }
 
     save(model: Clothe, isValid: boolean) {
-        alert("Entra");
-        let color:any=model.colorCode;
-        model.baseColor=color.baseColorId;
-        model.colorCode=color.realColorHexa;
-
-        console.log(model);
-
-
         if(isValid){
-            /*this.userService.registerUser(model).subscribe( 
+            let color:any=model.colorCode;
+            model.baseColor=color.baseColorId;
+            model.colorCode=color.realColorHexa;
+            model.username = this.user.username;
+            this.createClotheCommand.clothe = model;
+
+            this.clothingService.executeCommand(this.createClotheCommand).subscribe( 
                 (messaje) => {
-                    this.router.navigate(['pages','login']);
                     this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
+                    this.refreshClothe();
                 }, (error: any) => {
                     this.notificationsService.showNotification(error.error.msj, this.notificationsService.WARNING);
                 }
-            );*/
+            );
         }
     }
 

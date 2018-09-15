@@ -55,7 +55,8 @@ export class WosshaColorpickerComponent implements ControlValueAccessor, Validat
     }
 
     validateValue(){
-        if(this.selectedColor.baseColorId != ""){
+        if(this.selectedColor.baseColorId != "" && this.selectedColor.baseColorId !== undefined && this.selectedColor.baseColorId != null &&
+        this.selectedColor.realColorHexa != "" && this.selectedColor.realColorHexa !== undefined && this.selectedColor.realColorHexa != null){
             this.parseError = false;
         }else{
             this.reset();
