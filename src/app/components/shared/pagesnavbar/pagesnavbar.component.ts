@@ -27,7 +27,7 @@ export class PagesnavbarComponent implements OnInit{
     ngOnInit(){
         var navbar : HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
-        console.log(this.location.prepareExternalUrl(this.location.path()));
+        //console.log(this.location.prepareExternalUrl(this.location.path()));
     }
 
     sidebarOpen(){

@@ -10,6 +10,6 @@ export class Clothe {
     howLike:number;
     brand:string;
     state:number;
-    colorCode:string;
+    colorCode:any;
     baseColor:number;
 }

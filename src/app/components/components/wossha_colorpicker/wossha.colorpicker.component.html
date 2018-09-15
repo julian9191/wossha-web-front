@@ -6,11 +6,11 @@
     </div>
     <div class="col-md-4">
         <div class="picker-square" [style.background-color]="selectedColor.realColorHexa">
-            <span *ngIf="selectedColor.baseColorId==''" id="x">X</span>
+            <span *ngIf="selectedColor.realColorHexa==''" id="x">X</span>
         </div>
         
         <select name="colors" class="form-control" 
-        [disabled]="selectedColor.baseColorId==''" 
+        [disabled]="selectedColor.realColorHexa==''" 
         [(ngModel)]="selectedColor.baseColorId"
         (change)="validateValue()">
                 <option value=""></option>

@@ -27,6 +27,7 @@ export class SearchComponent implements ControlValueAccessor, Validator{
   @Input() searchKey: string;
   @Input() placeHolder: string;
   @Input() searchValue: string;
+  @Input() required: boolean;
   matches: any[] = [];
   loading: boolean;
   currentValue :any = {"id":-1,"name":this.searchValue};
@@ -51,11 +52,14 @@ export class SearchComponent implements ControlValueAccessor, Validator{
 
   // validates the form, returns null when valid else the validation object
   public validate(c: FormControl) {
+      if(!this.required){
+        this.parseError=false;
+      }
       return (this.parseError===undefined || this.parseError) ? {
-          error: {
-              valid: false,
-          },
-      } : null;
+            error: {
+                valid: false,
+            },
+        } : null;
   }
 
   // not used, used for touch input

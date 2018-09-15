@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {ClothingService} from "../../../providers/clothing/clothing.service";
 import { ClothingType } from '../../../models/clothing/clothingType';
 import {UserService} from "../../../providers/user/user.service";
@@ -7,6 +7,7 @@ import { ClothingCategory } from '../../../models/clothing/clothingCategory';
 import { Clothe } from '../../../models/clothing/clothe';
 import { CreateClotheCommand } from '../../../models/clothing/commands/createClotheCommand';
 import { User } from '../../../models/user/user';
+import { NgForm } from '@angular/forms';
 
 declare var $:any;
 
@@ -71,7 +72,7 @@ export class CrearPrendasComponent implements OnInit{
         );
     }
 
-    save(model: Clothe, isValid: boolean) {
+    save(model: Clothe, isValid: boolean, f:NgForm) {
         if(isValid){
             let color:any=model.colorCode;
             model.baseColor=color.baseColorId;
@@ -82,6 +83,7 @@ export class CrearPrendasComponent implements OnInit{
             this.clothingService.executeCommand(this.createClotheCommand).subscribe( 
                 (messaje) => {
                     this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
+                    f.resetForm();
                     this.refreshClothe();
                 }, (error: any) => {
                     this.notificationsService.showNotification(error.error.msj, this.notificationsService.WARNING);
@@ -103,7 +105,7 @@ export class CrearPrendasComponent implements OnInit{
             howLike:5,
             brand:'',
             state:null,
-            colorCode:'',
+            colorCode:{"baseColorId": "", "realColorHexa": ""},
             baseColor:null
         }
     }

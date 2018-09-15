@@ -25,7 +25,7 @@ export class WosshaColorpickerComponent implements ControlValueAccessor, Validat
     private parseError: boolean;
     private data: any;
     
-    selectedColor:any;
+    @Input() selectedColor:any;
     color:any = {hexString:""};
     baseColors:BaseColor[];
     colores:any[];
@@ -47,6 +47,11 @@ export class WosshaColorpickerComponent implements ControlValueAccessor, Validat
 
     // validates the form, returns null when valid else the validation object
     public validate(c: FormControl) {
+        if(this.isValueValid()){
+            this.parseError = false;
+        }else{
+            this.parseError = true;
+        }
         return (this.parseError===undefined || this.parseError) ? {
             error: {
                 valid: false,
@@ -54,17 +59,22 @@ export class WosshaColorpickerComponent implements ControlValueAccessor, Validat
         } : null;
     }
 
-    validateValue(){
-        if(this.selectedColor.baseColorId != "" && this.selectedColor.baseColorId !== undefined && this.selectedColor.baseColorId != null &&
-        this.selectedColor.realColorHexa != "" && this.selectedColor.realColorHexa !== undefined && this.selectedColor.realColorHexa != null){
+    validateError(){
+        if(this.isValueValid()){
             this.parseError = false;
         }else{
             this.reset();
             this.parseError = true;
         }
-
         // update the form
         this.propagateChange(this.selectedColor);
+    }
+
+    isValueValid():boolean{
+        if(this.selectedColor.baseColorId != "" && this.selectedColor.baseColorId !== undefined && this.selectedColor.baseColorId != null &&
+        this.selectedColor.realColorHexa != "" && this.selectedColor.realColorHexa !== undefined && this.selectedColor.realColorHexa != null){
+            return true;
+        }return false;
     }
 
     // not used, used for touch input
@@ -91,7 +101,7 @@ export class WosshaColorpickerComponent implements ControlValueAccessor, Validat
 
     colorChanged($event){
         this.getApproximateColor();
-        this.validateValue();
+        this.validateError();
     }
     
     getApproximateColor(){
