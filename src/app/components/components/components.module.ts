@@ -14,6 +14,7 @@ import { NgColorModule } from 'ng-color';
 import { WosshaDatepickerComponent } from "./wossha_datepicker/wossha.datepicker.component"
 import { WosshaColorpickerComponent } from "./wossha_colorpicker/wossha.colorpicker.component"
 import { SearchComponent } from './search/search.component';
+import { wosshaImgUploaderComponent } from './wossha_img_uploader/wossha.imguploader.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { SearchComponent } from './search/search.component';
     exports: [
         WosshaDatepickerComponent,
         WosshaColorpickerComponent,
-        SearchComponent
+        SearchComponent,
+        wosshaImgUploaderComponent
     ],
     declarations: [
         ButtonsComponent,
@@ -37,7 +39,8 @@ import { SearchComponent } from './search/search.component';
         TypographyComponent,
         WosshaDatepickerComponent,
         WosshaColorpickerComponent,
-        SearchComponent
+        SearchComponent,
+        wosshaImgUploaderComponent
     ],
     providers: []
 })

@@ -73,7 +73,11 @@ export class CrearPrendasComponent implements OnInit{
     }
 
     save(model: Clothe, isValid: boolean, f:NgForm) {
-        if(isValid){
+
+        console.log(this.register);
+        console.log(model);
+
+        /*if(isValid){
             let color:any=model.colorCode;
             model.baseColor=color.baseColorId;
             model.colorCode=color.realColorHexa;
@@ -89,7 +93,7 @@ export class CrearPrendasComponent implements OnInit{
                     this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
                 }
             );
-        }
+        }*/
     }
 
     refreshClothe(){
@@ -106,7 +110,8 @@ export class CrearPrendasComponent implements OnInit{
             brand:'',
             state:null,
             colorCode:{"baseColorId": "", "realColorHexa": ""},
-            baseColor:null
+            baseColor:null,
+            picture: ''
         }
     }
 }

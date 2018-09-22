@@ -1,0 +1,17 @@
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.panel{
+    padding: 10px;
+}
+
+.image-cmp{
+    max-width: 100%;
+    height: 125px;
+}

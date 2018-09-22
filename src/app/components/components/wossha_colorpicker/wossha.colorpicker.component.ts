@@ -9,6 +9,7 @@ declare var $:any;
 @Component({
     selector: 'colorpicker-cmp',
     templateUrl: './wossha.colorpicker.component.html',
+    styleUrls: [ './wossha.colorpicker.component.css' ],
     providers: [
     {
       provide: NG_VALUE_ACCESSOR,

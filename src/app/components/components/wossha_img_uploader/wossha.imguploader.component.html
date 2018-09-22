@@ -1,0 +1,10 @@
+<input type='file' #file class="inputfile" (ngModel)="selectedImage" (change)="onSelectFile($event, file)">
+
+<div class="card">
+    <div class="text-center panel">
+        <button type="button" class="btn btn-fill btn-block btn-warning" (click)="openInputFile(file)" >{{fileName}}</button><br>
+        <img [src]="url" class="image-cmp">
+        <div class='clear'></div>
+    </div>
+</div>
+

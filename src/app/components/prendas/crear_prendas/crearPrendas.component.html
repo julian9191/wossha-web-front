@@ -10,6 +10,30 @@
                         </div>
                         <div class="content">
                             <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid, f)" (keydown.enter)="$event.preventDefault()">
+                                <div class="category">
+                                    Los campos requeridos están marcados con (<span class="star">*</span> )
+                                </div>
+                                <hr>
+                                <br>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Foto de la prenda</label>
+                                            <wossha-img-uploader name="picture" [(ngModel)]="register.picture"></wossha-img-uploader>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Elija el color dominante de la prenda <span class="star">*</span></label>
+                                            <colorpicker-cmp name="category" name="colorCode" [selectedColor]="register.colorCode" [(ngModel)]="register.colorCode"
+                                                #colorCode="ngModel"></colorpicker-cmp>
+                                            <small [hidden]="colorCode.valid || (colorCode.pristine && !f.submitted)" class="red-text">
+                                                El color es requerido.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -72,20 +96,10 @@
                                 </div>
                                 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Descripción</label>
                                             <textarea rows="5" maxlength="250" placeholder="Escriba una descripción de la prenda" class="form-control" [(ngModel)]="register.description" name="description"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Elija el color dominante de la prenda <span class="star">*</span></label>
-                                            <colorpicker-cmp name="category" name="colorCode" [selectedColor]="register.colorCode" [(ngModel)]="register.colorCode"
-                                             #colorCode="ngModel"></colorpicker-cmp>
-                                            <small [hidden]="colorCode.valid || (colorCode.pristine && !f.submitted)" class="red-text">
-                                                El color es requerido.
-                                            </small>
                                         </div>
                                     </div>
                                 </div>
@@ -107,12 +121,8 @@
                                     </div>
                                     <div class='clear'></div>
                                 </div>
-
-                                <div class="category">
-                                    <span class="star">*</span>Campos requeridos
-                                </div><br>
-
-                                <button type="submit" class="btn btn-fill btn-warning">Crear</button>
+                                <br>
+                                <button type="submit" class="btn btn-fill btn-warning">Crear Prenda</button>
                             </form>
                         </div>
                         <div class="footer">
