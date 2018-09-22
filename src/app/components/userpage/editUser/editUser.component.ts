@@ -66,7 +66,7 @@ export class EditUserComponent implements OnInit{
                 this.countries = data;
                 this.getUser();
             }, (error: any) => {
-                this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener los paises", this.notificationsService.WARNING);
+                this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener los paises", this.notificationsService.DANGER);
             }
         );
     }

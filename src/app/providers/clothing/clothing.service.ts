@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { ClothingType } from '../../models/clothing/clothingType';
 import { ClothingCategory } from '../../models/clothing/clothingCategory';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { CLOTHING_PATH } from "../../globals";
 import { Router} from '@angular/router';
 import { Brand } from '../../models/clothing/brand';
 import 'rxjs';
 import { BaseColor } from '../../models/clothing/baseColor';
+import { Clothe } from '../../models/clothing/clothe';
 
 @Injectable()
 export class ClothingService {
@@ -24,6 +25,7 @@ export class ClothingService {
   private clothingBrandSearchUrl:string = this.clothingUrl+'search-brand'
   private BaseColorUrl:string = this.clothingUrl+'base-colors'
   private colorsMapUrl:string = this.clothingUrl+'colors-map'
+  private userClothesUrl:string = this.clothingUrl+'clothes'
   
   httpHeaders:HttpHeaders;
 
@@ -57,6 +59,10 @@ export class ClothingService {
 
   getColorsMap() : Observable<any>{
     return this.http.get<any>(this.colorsMapUrl, {headers: this.httpHeaders});
+  }
+
+  getClothes(orderedBy: string, params: HttpParams) : Observable<Clothe>{
+    return this.http.get<Clothe>(this.userClothesUrl+"/"+orderedBy, {params: params, headers: this.httpHeaders});
   }
 
   searchClothingType(word:string) : Observable<ClothingType>{

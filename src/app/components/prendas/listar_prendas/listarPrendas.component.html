@@ -3,84 +3,117 @@
         <div class="card card-plain">
             <div class="places-sweet-alerts">
                 <div class="row">
-                    
                     <div class="col-md-4">
+                        <label>Vista:</label>
+                        <select name="colors" class="form-control" [(ngModel)]="view">
+                            <option value="cards" selected>TARJETAS</option>
+                            <option value="list">LISTA</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Ordenar por:</label>
+                        <select name="colors" class="form-control" [(ngModel)]="orderedBy" (change)="getMoreClothes(false)">
+                            <option value="NAME">NOMBRE</option>
+                            <option value="TYPE">TIPO</option>
+                            <option value="CATEGORY">CATEGORÍA</option>
+                            <option value="BASE_COLOR">COLOR</option>
+                        </select>
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-md-12">
+                        Mostrando {{clothes.length}} resultados de un total de {{totalItems}}
+                    </div>
+                </div><br>
+                <div class="row" *ngIf="view=='cards'"> 
+                    <div class="col-md-4" *ngFor="let clothe of clothes">
                         <div class="card">
                             <div class="content text-center">
                                 <div class="img-prenda">
                                     <img class="img-prenda" alt="..." src="../assets/img/blog-1.jpg" />
                                 </div>
-                                <h5>Camisa verde de cuadros Big jhon </h5>
-                                <a href="https://datatables.net/" target="_blank" rel="noopener noreferrer">Camisetas</a><br/><br/>
-                                <button class="btn btn-warning btn-fill btn-wd" (click)="showSwal('basic')">
+                                <h5>{{clothe.name}}</h5>
+                                <a href="javascript:void(0)">{{clothe.type}}</a><br/>
+                                <a href="javascript:void(0)">{{clothe.category}}</a><br/><br/>
+                                <button class="btn btn-info btn-fill" (click)="showSwal('basic')" title="Ver">
+                                    <span class="btn-label">
+                                        <i class="fa fa-eye"></i>
+                                    </span>
+                                </button>
+                                <button class="btn btn-warning btn-fill" (click)="showSwal('basic')" title="Editar">
                                     <span class="btn-label">
                                         <i class="fa fa-pencil"></i>
                                     </span>
-                                    Editar
                                 </button>
-                                <button class="btn btn-danger btn-fill btn-wd" (click)="showSwal('basic')">
+                                <button class="btn btn-danger btn-fill" (click)="showSwal('basic')" title="Eliminar">
                                     <span class="btn-label">
                                         <i class="fa fa-times"></i>
                                     </span>
-                                    Eliminar
                                 </button>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="content text-center">
-                                <div class="img-prenda">
-                                    <img class="img-prenda" alt="..." src="../assets/img/blog-1.jpg" />
-                                </div>
-                                <h5>Camisa verde de cuadros Big jhon </h5>
-                                <a href="https://datatables.net/" target="_blank" rel="noopener noreferrer">Camisetas</a><br/><br/>
-                                <button class="btn btn-warning btn-fill btn-wd" (click)="showSwal('basic')">
-                                    <span class="btn-label">
-                                        <i class="fa fa-pencil"></i>
-                                    </span>
-                                    Editar
-                                </button>
-                                <button class="btn btn-danger btn-fill btn-wd" (click)="showSwal('basic')">
-                                    <span class="btn-label">
-                                        <i class="fa fa-times"></i>
-                                    </span>
-                                    Eliminar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="content text-center">
-                                <div class="img-prenda">
-                                    <img class="img-prenda" alt="..." src="../assets/img/blog-1.jpg" />
-                                </div>
-                                <h5>Camisa verde de cuadros Big jhon </h5>
-                                <a href="https://datatables.net/" target="_blank" rel="noopener noreferrer">Camisetas</a><br/><br/>
-                                <button class="btn btn-warning btn-fill btn-wd" (click)="showSwal('basic')">
-                                    <span class="btn-label">
-                                        <i class="fa fa-pencil"></i>
-                                    </span>
-                                    Editar
-                                </button>
-                                <button class="btn btn-danger btn-fill btn-wd" (click)="showSwal('basic')">
-                                    <span class="btn-label">
-                                        <i class="fa fa-times"></i>
-                                    </span>
-                                    Eliminar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-    
                 </div>
+
+                <div class="row" *ngIf="view=='list'">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-bigboy">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center"></th>
+                                                <th class="text-left">Nombre</th>
+                                                <th class="text-left">Tipo</th>
+                                                <th class="text-left">Categoría</th>
+                                                <th class="text-right"></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let clothe of clothes">
+                                                <td>
+                                                    <div class="img-container">
+                                                        <img src="../assets/img/blog-1.jpg" alt="...">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {{clothe.name}}
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:void(0)">{{clothe.type}}</a>
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:void(0)">{{clothe.category}}</a>
+                                                </td>
+                                                <td class="td-actions">
+                                                    <button type="button" rel="tooltip" data-placement="left" title="Ver" class="btn btn-info btn-simple btn-icon">
+                                                        <i class="fa fa-eye"></i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" data-placement="left" title="Editar" class="btn btn-success btn-simple btn-icon">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" data-placement="left" title="Eliminar" class="btn btn-danger btn-simple btn-icon ">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-    
+
+            <div class="col-md-12" *ngIf="clothes.length < totalItems">
+                <button type="button" rel="tooltip" (click)="getClothes(true)" data-placement="left" title="Eliminar" class="btn btn-danger btn-block btn-icon ">
+                    <i class="fa fa-arrow-down"></i> Cargar mas...
+                </button>
+            </div>
+
         </div>
     </div>
-    </div>
+</div>
     

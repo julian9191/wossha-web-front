@@ -57,7 +57,7 @@ export class CrearPrendasComponent implements OnInit{
             (data:any) => {
                 this.clothingTypes = data;
             }, (error: any) => {
-                this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener los tipos de prenda", this.notificationsService.WARNING);
+                this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener los tipos de prenda", this.notificationsService.DANGER);
             }
         );
    }
@@ -67,7 +67,7 @@ export class CrearPrendasComponent implements OnInit{
             (data:any) => {
                 this.clothingCategories = data;
             }, (error: any) => {
-                this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener las categorias de prenda", this.notificationsService.WARNING);
+                this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener las categorias de prenda", this.notificationsService.DANGER);
             }
         );
     }
@@ -86,7 +86,7 @@ export class CrearPrendasComponent implements OnInit{
                     f.resetForm();
                     this.refreshClothe();
                 }, (error: any) => {
-                    this.notificationsService.showNotification(error.error.msj, this.notificationsService.WARNING);
+                    this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
                 }
             );
         }
