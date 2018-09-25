@@ -8,6 +8,7 @@ import { Clothe } from '../../../models/clothing/clothe';
 import { CreateClotheCommand } from '../../../models/clothing/commands/createClotheCommand';
 import { User } from '../../../models/user/user';
 import { NgForm } from '@angular/forms';
+import { PictureFile } from '../../../models/global/pictureFile';
 
 declare var $:any;
 
@@ -33,6 +34,7 @@ export class CrearPrendasComponent implements OnInit{
   clothingCategories:ClothingCategory[];
   createClotheCommand:CreateClotheCommand;
   user:User;
+  name: string;
 
   constructor(private clothingService: ClothingService,
     private userService: UserService,
@@ -72,16 +74,27 @@ export class CrearPrendasComponent implements OnInit{
         );
     }
 
+    onFileChange(event){ 
+        let reader = new FileReader();
+        if(event.target.files && event.target.files.length > 0) {
+            let file = event.target.files[0];
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                this.register.picture.filename = file.name;
+                this.register.picture.filetype = file.type;
+                this.register.picture.size = file.size;
+                this.register.picture.value = reader.result.toString();
+            };
+        }
+    } 
+
     save(model: Clothe, isValid: boolean, f:NgForm) {
-
-        console.log(this.register);
-        console.log(model);
-
-        /*if(isValid){
+        if(isValid){
             let color:any=model.colorCode;
             model.baseColor=color.baseColorId;
             model.colorCode=color.realColorHexa;
             model.username = this.user.username;
+            model.picture = this.register.picture;
             this.createClotheCommand.clothe = model;
 
             this.clothingService.executeCommand(this.createClotheCommand).subscribe( 
@@ -93,7 +106,7 @@ export class CrearPrendasComponent implements OnInit{
                     this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
                 }
             );
-        }*/
+        }
     }
 
     refreshClothe(){
@@ -111,7 +124,7 @@ export class CrearPrendasComponent implements OnInit{
             state:null,
             colorCode:{"baseColorId": "", "realColorHexa": ""},
             baseColor:null,
-            picture: ''
+            picture: new PictureFile()
         }
     }
 }

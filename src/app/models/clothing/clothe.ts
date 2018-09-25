@@ -1,3 +1,5 @@
+import { PictureFile } from "../global/pictureFile";
+
 export class Clothe {
     id:number;
     uuid:string;
@@ -12,5 +14,5 @@ export class Clothe {
     state:number;
     colorCode:any;
     baseColor:number;
-    picture:string;
+    picture:PictureFile;
 }
