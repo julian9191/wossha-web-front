@@ -1,5 +1,6 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { PictureFile } from '../../../models/global/pictureFile';
 
 @Component({
   selector: 'wossha-img-uploader',
@@ -12,14 +13,20 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     multi: true,
   }] 
 })
-export class wosshaImgUploaderComponent implements ControlValueAccessor{
+export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
   url:string = '../assets/img/shirt.png';
   fileName:string = 'Seleccione una foto';
   private data: any;
+  file:PictureFile;
+  mouseOver:boolean = false;
+
+
+  ngOnInit(){
+    this.file = new PictureFile();
+  }
 
   // this is the initial value set to the component
   public writeValue(obj: any) {
-        console.log(obj);
         if (obj) {
             this.data = obj;
         }
@@ -31,7 +38,6 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor{
   // registers 'fn' that will be fired wheb changes are made
   // this is how we emit the changes back to the form
   public registerOnChange(fn: any) {
-    console.log(fn);
     this.propagateChange = fn;
   }
 
@@ -42,23 +48,79 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor{
       file.click();
   }
 
+  private prevent( event ) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  private getTransfer( event: any ) {
+    return event.dataTransfer ? event.dataTransfer : event.originalEvent.dataTransfer;
+  }
+
+  private extractFiles( fileList: FileList ) {
+    if(fileList[0]){
+      let file = fileList[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(file); // read file as data url
+      reader.onload = (event:any) => { // called once readAsDataURL is completed
+        this.fileName = file.name;
+        this.propagateFile(file, reader);
+      }
+    }
+  }
+
+  private isImage( type: string ): boolean {
+    return ( type === '' || type === undefined ) ? false : type.startsWith('image');
+  }
+
+
   onSelectFile(event, file) {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
-
       reader.readAsDataURL(event.target.files[0]); // read file as data url
-
       reader.onload = (event:any) => { // called once readAsDataURL is completed
         if(file.value){
             let val:string[] = file.value.split("\\");
             if(val.length>0){
                 this.fileName = val[val.length-1];
             }
+            this.propagateFile(file, reader);
         }
-        this.url = event.target.result;
-
-        this.propagateChange(file.value);
+        
       }
     }
   }
+
+  propagateFile(file, reader:FileReader){
+    this.file.filename = file.name;
+    this.file.filetype = file.type;
+    this.file.size = file.size;
+    this.file.value = reader.result.toString();
+
+    this.url = this.file.value;
+    this.propagateChange(this.file);
+  }
+
+  onDragover(event){
+    this.mouseOver = true;
+    this.prevent( event );
+  }
+
+  onDragleave(event){
+    this.mouseOver = false;
+  }
+
+  onDrop(event){
+    const transfer = this.getTransfer( event );
+
+    if ( !transfer ) {
+      return;
+    }
+
+    this.extractFiles( transfer.files );
+
+    this.prevent( event );
+    this.mouseOver = false;
+  }
+
 }

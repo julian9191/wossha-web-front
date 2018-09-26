@@ -74,7 +74,7 @@ export class CrearPrendasComponent implements OnInit{
         );
     }
 
-    onFileChange(event){ 
+    /*onFileChange(event){ 
         let reader = new FileReader();
         if(event.target.files && event.target.files.length > 0) {
             let file = event.target.files[0];
@@ -86,10 +86,14 @@ export class CrearPrendasComponent implements OnInit{
                 this.register.picture.value = reader.result.toString();
             };
         }
-    } 
+    } */
 
     save(model: Clothe, isValid: boolean, f:NgForm) {
-        if(isValid){
+
+        console.log(this.register);
+        console.log(model);
+
+        /*if(isValid){
             let color:any=model.colorCode;
             model.baseColor=color.baseColorId;
             model.colorCode=color.realColorHexa;
@@ -106,7 +110,7 @@ export class CrearPrendasComponent implements OnInit{
                     this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
                 }
             );
-        }
+        }*/
     }
 
     refreshClothe(){

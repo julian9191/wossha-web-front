@@ -2,8 +2,19 @@
 
 <div class="card">
     <div class="text-center panel">
-        <button type="button" class="btn btn-fill btn-block btn-warning" (click)="openInputFile(file)" >{{fileName}}</button><br>
-        <img [src]="url" class="image-cmp">
+        <div 
+        (click)="openInputFile(file)"
+        (dragover)="onDragover($event)" 
+        (dragleave)="onDragleave($event)"
+        (drop)="onDrop($event)"
+        [ngClass]="{ 'file-over': mouseOver }" 
+        class='drop-zone'>
+            <div>
+                <span>{{fileName}}</span>
+            </div>
+            <img [src]="url" class="image-cmp">
+        </div>
+
         <div class='clear'></div>
     </div>
 </div>
