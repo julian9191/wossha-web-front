@@ -13,13 +13,33 @@
 
 .image-cmp{
     max-width: 100%;
-    height: 125px;
+	height: 125px;
 }
 
 .file-over { 
-	border: dotted 3px dodgerblue; 
+	border: dotted 3px #23CCEF; 
 }
 
 .drop-zone{
 	width: 100%; 
+	user-select: none;
+}
+
+.img-uploader-container{
+	cursor: pointer;
+}
+
+.parent-container{
+	display: table;
+	height: 126px;
+	width: 100%
+}
+
+.child-container{
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	width: 100%;
+	color: #e0e0e0;
+	font-size: 2em;
 }

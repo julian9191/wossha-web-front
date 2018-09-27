@@ -14,15 +14,15 @@ import { PictureFile } from '../../../models/global/pictureFile';
   }] 
 })
 export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
-  url:string = '../assets/img/shirt.png';
-  fileName:string = 'Seleccione una foto';
+  url:string;
+  fileName:string;
   private data: any;
   file:PictureFile;
-  mouseOver:boolean = false;
+  mouseOver:boolean;
 
 
   ngOnInit(){
-    this.file = new PictureFile();
+    this.reset();
   }
 
   // this is the initial value set to the component
@@ -76,6 +76,9 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
 
   onSelectFile(event, file) {
     if (event.target.files && event.target.files[0]) {
+
+      this.imageChangedEvent = event;
+
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
       reader.onload = (event:any) => { // called once readAsDataURL is completed
@@ -89,6 +92,10 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
         
       }
     }
+  }
+
+  openPopup(){
+    
   }
 
   propagateFile(file, reader:FileReader){
@@ -121,6 +128,48 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
 
     this.prevent( event );
     this.mouseOver = false;
+  }
+
+  cancelImage(event){
+    this.prevent( event );
+    this.reset();
+  }
+
+  reset(){
+    this.url = '';
+    this.fileName = '';
+    this.file = new PictureFile();
+    this.mouseOver = false;
+    this.propagateChange(this.file);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  cropperReady = false;
+
+  fileChangeEvent(event: any): void {
+      this.imageChangedEvent = event;
+  }
+  imageCroppedBase64(image: string) {
+      this.croppedImage = image;
+  }
+  imageLoaded() {
+    this.cropperReady = true;
+  }
+  imageLoadFailed () {
+    console.log('Load failed');
   }
 
 }

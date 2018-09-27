@@ -1,21 +1,46 @@
 <input type='file' #file class="inputfile" (ngModel)="selectedImage" (change)="onSelectFile($event, file)">
 
-<div class="card">
+<div (click)="openInputFile(file)" class="card">
     <div class="text-center panel">
         <div 
-        (click)="openInputFile(file)"
         (dragover)="onDragover($event)" 
         (dragleave)="onDragleave($event)"
         (drop)="onDrop($event)"
-        [ngClass]="{ 'file-over': mouseOver }" 
+        [ngClass]="{ 'file-over': mouseOver,  'img-uploader-container': fileName==''}" 
         class='drop-zone'>
             <div>
-                <span>{{fileName}}</span>
+                <span>
+                    {{fileName}} 
+                    <a *ngIf="fileName!=''" href="javascript:void(0)" class="fa fa-times" (click)="cancelImage($event)"></a>
+                </span>
             </div>
-            <img [src]="url" class="image-cmp">
+            <br>
+            <div class="parent-container" *ngIf="fileName==''">
+                <div class="child-container">
+                    Arrastre aqui una imagen
+                </div>
+            </div>
+            <img [src]="croppedImage" class="image-cmp">
         </div>
 
         <div class='clear'></div>
     </div>
 </div>
 
+
+<div>
+  <image-cropper
+    
+      [imageChangedEvent]="imageChangedEvent"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="4 / 3"
+      [resizeToWidth]="128"
+      [roundCropper]="false"
+      format="jpeg"
+      (imageCroppedBase64)="imageCroppedBase64($event)"
+      (imageLoaded)="imageLoaded()"
+      (loadImageFailed)="loadImageFailed()"
+      style="max-height: 33vh"
+      [style.display]="cropperReady ? null : 'none'"
+  ></image-cropper>
+</div>

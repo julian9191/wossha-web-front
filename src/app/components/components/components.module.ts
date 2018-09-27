@@ -15,20 +15,24 @@ import { WosshaDatepickerComponent } from "./wossha_datepicker/wossha.datepicker
 import { WosshaColorpickerComponent } from "./wossha_colorpicker/wossha.colorpicker.component"
 import { SearchComponent } from './search/search.component';
 import { wosshaImgUploaderComponent } from './wossha_img_uploader/wossha.imguploader.component';
-
+import { ImageCropperComponent } from './image-cropper/image-cropper.component';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule.forChild(ComponentsRoutes),
         FormsModule,
-        NgColorModule
+        NgColorModule,
     ],
     exports: [
         WosshaDatepickerComponent,
         WosshaColorpickerComponent,
         SearchComponent,
-        wosshaImgUploaderComponent
+        wosshaImgUploaderComponent,
+        ImageCropperComponent
+    ],
+    entryComponents: [
+
     ],
     declarations: [
         ButtonsComponent,
@@ -40,7 +44,9 @@ import { wosshaImgUploaderComponent } from './wossha_img_uploader/wossha.imguplo
         WosshaDatepickerComponent,
         WosshaColorpickerComponent,
         SearchComponent,
-        wosshaImgUploaderComponent
+        wosshaImgUploaderComponent,
+        ImageCropperComponent,
+
     ],
     providers: []
 })
