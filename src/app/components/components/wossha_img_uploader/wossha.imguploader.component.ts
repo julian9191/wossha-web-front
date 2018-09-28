@@ -2,6 +2,10 @@ import { Component, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { PictureFile } from '../../../models/global/pictureFile';
 
+
+import { MapaEditarComponent } from './mapa-editar.component';
+import { DialogService } from "ng2-bootstrap-modal";
+
 @Component({
   selector: 'wossha-img-uploader',
   templateUrl: './wossha.imguploader.component.html',
@@ -146,9 +150,27 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
 
 
 
+  constructor(private dialogService:DialogService) {}
 
-
-
+  showConfirm() {
+    let disposable = this.dialogService.addDialog(MapaEditarComponent, {
+        title:'Confirm title', 
+        message:'Confirm message'})
+        .subscribe((isConfirmed)=>{
+            //We get dialog result
+            if(isConfirmed) {
+                alert('accepted');
+            }
+            else {
+                alert('declined');
+            }
+        });
+    //We can close dialog calling disposable.unsubscribe();
+    //If dialog was not closed manually close it by timeout
+    setTimeout(()=>{
+        disposable.unsubscribe();
+    },10000);
+}
 
 
 

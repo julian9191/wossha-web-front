@@ -1,3 +1,38 @@
-<div>
-    esto es un div
-</div>
+<div class="modal-dialog">
+    <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" (click)="close()" >&times;</button>
+         <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+       </div>
+       <div class="modal-body">
+         
+
+        <input type="file" (change)="fileChangeEvent($event)" />
+
+        <div>
+        <image-cropper
+            
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 3"
+            [resizeToWidth]="128"
+            [roundCropper]="false"
+            format="jpeg"
+            (imageCroppedBase64)="imageCroppedBase64($event)"
+            (imageLoaded)="imageLoaded()"
+            (loadImageFailed)="loadImageFailed()"
+            style="max-height: 33vh"
+            [style.display]="cropperReady ? null : 'none'"
+        ></image-cropper>
+        </div>
+        <img [src]="croppedImage" />
+
+
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-primary" (click)="confirm()">OK</button>
+         <button type="button" class="btn btn-default" (click)="close()" >Cancel</button>
+       </div>
+     </div>
+  </div>
+

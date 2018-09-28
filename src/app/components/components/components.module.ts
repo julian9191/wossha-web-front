@@ -16,6 +16,8 @@ import { WosshaColorpickerComponent } from "./wossha_colorpicker/wossha.colorpic
 import { SearchComponent } from './search/search.component';
 import { wosshaImgUploaderComponent } from './wossha_img_uploader/wossha.imguploader.component';
 import { ImageCropperComponent } from './image-cropper/image-cropper.component';
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
+import { MapaEditarComponent } from './wossha_img_uploader/mapa-editar.component'
 
 @NgModule({
     imports: [
@@ -23,6 +25,7 @@ import { ImageCropperComponent } from './image-cropper/image-cropper.component';
         RouterModule.forChild(ComponentsRoutes),
         FormsModule,
         NgColorModule,
+        BootstrapModalModule
     ],
     exports: [
         WosshaDatepickerComponent,
@@ -32,7 +35,7 @@ import { ImageCropperComponent } from './image-cropper/image-cropper.component';
         ImageCropperComponent
     ],
     entryComponents: [
-
+        MapaEditarComponent
     ],
     declarations: [
         ButtonsComponent,
@@ -46,7 +49,7 @@ import { ImageCropperComponent } from './image-cropper/image-cropper.component';
         SearchComponent,
         wosshaImgUploaderComponent,
         ImageCropperComponent,
-
+        MapaEditarComponent
     ],
     providers: []
 })
