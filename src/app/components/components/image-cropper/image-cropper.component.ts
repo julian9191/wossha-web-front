@@ -1,5 +1,3 @@
-//https://github.com/Mawi137/ngx-image-cropper
-
 import {
     Component,
     ElementRef,

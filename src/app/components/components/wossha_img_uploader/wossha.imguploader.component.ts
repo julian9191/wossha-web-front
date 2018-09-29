@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { PictureFile } from '../../../models/global/pictureFile';
 
 
-import { MapaEditarComponent } from './mapa-editar.component';
+import { Popup } from './popup.component';
 import { DialogService } from "ng2-bootstrap-modal";
 
 @Component({
@@ -23,7 +23,11 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
   private data: any;
   file:PictureFile;
   mouseOver:boolean;
+  imageChangedEvent: any = '';
+  croppedImage: string = '';
+  cropperReady = false;
 
+  constructor(private dialogService:DialogService) {}
 
   ngOnInit(){
     this.reset();
@@ -68,7 +72,7 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
       reader.readAsDataURL(file); // read file as data url
       reader.onload = (event:any) => { // called once readAsDataURL is completed
         this.fileName = file.name;
-        this.propagateFile(file, reader);
+        //this.propagateFile(file, reader);
       }
     }
   }
@@ -80,36 +84,26 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
 
   onSelectFile(event, file) {
     if (event.target.files && event.target.files[0]) {
-
       this.imageChangedEvent = event;
-
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (event:any) => { // called once readAsDataURL is completed
-        if(file.value){
-            let val:string[] = file.value.split("\\");
-            if(val.length>0){
-                this.fileName = val[val.length-1];
-            }
-            this.propagateFile(file, reader);
-        }
-        
-      }
+      this.showConfirm();
     }
   }
 
-  openPopup(){
-    
-  }
-
-  propagateFile(file, reader:FileReader){
+  propagateFile(file){
     this.file.filename = file.name;
     this.file.filetype = file.type;
-    this.file.size = file.size;
-    this.file.value = reader.result.toString();
+    this.file.value = this.croppedImage;
+    this.file.size = this.getNewImageSize(this.file.value);
 
     this.url = this.file.value;
     this.propagateChange(this.file);
+  }
+
+  getNewImageSize(base64String: string):number{
+    let stringLength = base64String.length - 'data:image/jpeg;base64,'.length;
+
+    let sizeInBytes = 4 * Math.ceil((stringLength / 3))*0.5624896334383812;
+    return sizeInBytes/1000;
   }
 
   onDragover(event){
@@ -123,11 +117,9 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
 
   onDrop(event){
     const transfer = this.getTransfer( event );
-
     if ( !transfer ) {
       return;
     }
-
     this.extractFiles( transfer.files );
 
     this.prevent( event );
@@ -139,47 +131,26 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
     this.reset();
   }
 
-  reset(){
-    this.url = '';
-    this.fileName = '';
-    this.file = new PictureFile();
-    this.mouseOver = false;
-    this.propagateChange(this.file);
+  showConfirm() {
+    let disposable = this.dialogService.addDialog(Popup, {
+      title:'Por favor seleccione el area de la imagen', 
+      image: this.imageChangedEvent
+    })
+    .subscribe((result:any)=>{
+        if(result !== undefined){
+          this.croppedImage = result;
+          if(this.imageChangedEvent.target.files[0]){
+              this.fileName = this.imageChangedEvent.target.files[0].name;
+              this.propagateFile(this.imageChangedEvent.target.files[0]);
+          }
+
+        }else if(this.croppedImage == ""){
+          this.reset();
+        }
+        
+    });
   }
 
-
-
-
-  constructor(private dialogService:DialogService) {}
-
-  showConfirm() {
-    let disposable = this.dialogService.addDialog(MapaEditarComponent, {
-        title:'Confirm title', 
-        message:'Confirm message'})
-        .subscribe((isConfirmed)=>{
-            //We get dialog result
-            if(isConfirmed) {
-                alert('accepted');
-            }
-            else {
-                alert('declined');
-            }
-        });
-    //We can close dialog calling disposable.unsubscribe();
-    //If dialog was not closed manually close it by timeout
-    setTimeout(()=>{
-        disposable.unsubscribe();
-    },10000);
-}
-
-
-
-
-
-
-  imageChangedEvent: any = '';
-  croppedImage: any = '';
-  cropperReady = false;
 
   fileChangeEvent(event: any): void {
       this.imageChangedEvent = event;
@@ -192,6 +163,15 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
   }
   imageLoadFailed () {
     console.log('Load failed');
+  }
+
+  reset(){
+    this.url = '';
+    this.fileName = '';
+    this.file = new PictureFile();
+    this.mouseOver = false;
+    this.propagateChange(this.file);
+    this.croppedImage = '';
   }
 
 }

@@ -23,6 +23,7 @@
 .drop-zone{
 	width: 100%; 
 	user-select: none;
+	min-height: 165px;
 }
 
 .img-uploader-container{

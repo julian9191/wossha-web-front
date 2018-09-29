@@ -3,22 +3,26 @@ import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
 export interface ConfirmModel {
   title:string;
   message:string;
+  image:any;
 }
 @Component({  
     selector: 'confirm',
-    templateUrl: './mapa-editar.component.html',
-    styleUrls: [ './mapa-editar.component.css' ]
+    templateUrl: './popup.component.html',
+    styleUrls: [ './popup.component.css' ]
 })
-export class MapaEditarComponent extends DialogComponent<ConfirmModel, boolean> implements ConfirmModel {
+export class Popup extends DialogComponent<ConfirmModel, boolean> implements ConfirmModel {
   title: string;
   message: string;
+  image: any;
+  
+
   constructor(dialogService: DialogService) {
     super(dialogService);
   }
   confirm() {
     // we set dialog result as true on click on confirm button, 
     // then we can get dialog result from caller code 
-    this.result = true;
+    this.result = this.croppedImage;
     this.close();
   }
 
@@ -27,13 +31,10 @@ export class MapaEditarComponent extends DialogComponent<ConfirmModel, boolean> 
 
 
 
-  imageChangedEvent: any = '';
+
   croppedImage: any = '';
   cropperReady = false;
 
-  fileChangeEvent(event: any): void {
-      this.imageChangedEvent = event;
-  }
   imageCroppedBase64(image: string) {
       this.croppedImage = image;
   }

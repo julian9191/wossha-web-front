@@ -1,21 +1,21 @@
-<input type='file' #file class="inputfile" (ngModel)="selectedImage" (change)="onSelectFile($event, file)">
+<input type='file' #fileTag class="inputfile" (ngModel)="selectedImage" (change)="onSelectFile($event, fileTag)">
 
-<div (click)="openInputFile(file)" class="card">
+<div (click)="openInputFile(fileTag)" class="card">
     <div class="text-center panel">
         <div 
         (dragover)="onDragover($event)" 
         (dragleave)="onDragleave($event)"
         (drop)="onDrop($event)"
-        [ngClass]="{ 'file-over': mouseOver,  'img-uploader-container': fileName==''}" 
+        [ngClass]="{ 'file-over': mouseOver,  'img-uploader-container': croppedImage==''}" 
         class='drop-zone'>
             <div>
                 <span>
                     {{fileName}} 
-                    <a *ngIf="fileName!=''" href="javascript:void(0)" class="fa fa-times" (click)="cancelImage($event)"></a>
+                    <a *ngIf="croppedImage!=''" href="javascript:void(0)" class="fa fa-times" (click)="cancelImage($event)"></a>
                 </span>
             </div>
             <br>
-            <div class="parent-container" *ngIf="fileName==''">
+            <div class="parent-container" *ngIf="croppedImage==''">
                 <div class="child-container">
                     Arrastre aqui una imagen
                 </div>
@@ -26,55 +26,3 @@
         <div class='clear'></div>
     </div>
 </div>
-
-
-
-
-<div class="container">
-    <button class="btn btn-default" (click)=showConfirm()>Show confirm</button>
-  </div>
-
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-  </button>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          
-            
-            <div>
-                <image-cropper
-                  
-                    [imageChangedEvent]="imageChangedEvent"
-                    [maintainAspectRatio]="true"
-                    [aspectRatio]="4 / 3"
-                    [resizeToWidth]="128"
-                    [roundCropper]="false"
-                    format="jpeg"
-                    (imageCroppedBase64)="imageCroppedBase64($event)"
-                    (imageLoaded)="imageLoaded()"
-                    (loadImageFailed)="loadImageFailed()"
-                    style="max-height: 33vh"
-                    [style.display]="cropperReady ? null : 'none'"
-                ></image-cropper>
-              </div>
-
-
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>

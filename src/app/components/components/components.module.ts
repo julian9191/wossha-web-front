@@ -17,7 +17,7 @@ import { SearchComponent } from './search/search.component';
 import { wosshaImgUploaderComponent } from './wossha_img_uploader/wossha.imguploader.component';
 import { ImageCropperComponent } from './image-cropper/image-cropper.component';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
-import { MapaEditarComponent } from './wossha_img_uploader/mapa-editar.component'
+import { Popup } from './wossha_img_uploader/popup.component'
 
 @NgModule({
     imports: [
@@ -35,7 +35,7 @@ import { MapaEditarComponent } from './wossha_img_uploader/mapa-editar.component
         ImageCropperComponent
     ],
     entryComponents: [
-        MapaEditarComponent
+        Popup
     ],
     declarations: [
         ButtonsComponent,
@@ -49,7 +49,7 @@ import { MapaEditarComponent } from './wossha_img_uploader/mapa-editar.component
         SearchComponent,
         wosshaImgUploaderComponent,
         ImageCropperComponent,
-        MapaEditarComponent
+        Popup
     ],
     providers: []
 })

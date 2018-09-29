@@ -7,12 +7,10 @@
        <div class="modal-body">
          
 
-        <input type="file" (change)="fileChangeEvent($event)" />
-
         <div>
         <image-cropper
             
-            [imageChangedEvent]="imageChangedEvent"
+            [imageChangedEvent]="image"
             [maintainAspectRatio]="true"
             [aspectRatio]="4 / 3"
             [resizeToWidth]="128"
