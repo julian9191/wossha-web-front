@@ -71,21 +71,29 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
       var reader = new FileReader();
       reader.readAsDataURL(file); // read file as data url
       reader.onload = (event:any) => { // called once readAsDataURL is completed
-        this.fileName = file.name;
-        //this.propagateFile(file, reader);
+        if(this.isImage(reader.result.toString())){
+            this.showConfirm(reader.result.toString());
+        }
       }
     }
   }
 
   private isImage( type: string ): boolean {
-    return ( type === '' || type === undefined ) ? false : type.startsWith('image');
+    return ( type === '' || type === undefined ) ? false : type.startsWith('data:image');
   }
 
 
   onSelectFile(event, file) {
     if (event.target.files && event.target.files[0]) {
       this.imageChangedEvent = event;
-      this.showConfirm();
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.onload = (event:any) => { // called once readAsDataURL is completed
+        if(this.isImage(reader.result.toString())){
+            this.showConfirm(reader.result.toString());
+        }
+        
+      }
     }
   }
 
@@ -131,10 +139,10 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
     this.reset();
   }
 
-  showConfirm() {
+  showConfirm(file: string) {
     let disposable = this.dialogService.addDialog(Popup, {
       title:'Por favor seleccione el area de la imagen', 
-      image: this.imageChangedEvent
+      image: file
     })
     .subscribe((result:any)=>{
         if(result !== undefined){

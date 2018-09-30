@@ -53,21 +53,13 @@ export class ImageCropperComponent implements OnChanges {
     marginLeft: SafeStyle | string = '0px';
     imageVisible = false;
 
-    @Input()
-    set imageFileChanged(file: File) {
-        this.initCropper();
-        if (file) {
-            this.loadImageFile(file);
-        }
-    }
-
-    @Input()
+   /* @Input()
     set imageChangedEvent(event: any) {
         this.initCropper();
         if (event && event.target && event.target.files && event.target.files.length > 0) {
             this.loadImageFile(event.target.files[0]);
         }
-    }
+    }*/
 
     @Input()
     set imageBase64(imageBase64: string) {
@@ -140,27 +132,8 @@ export class ImageCropperComponent implements OnChanges {
         this.cropper.y2 = 10000;
     }
 
-    private loadImageFile(file: File) {
-        const fileReader = new FileReader();
-        fileReader.onload = (event: any) => {
-            const imageType = file.type;
-            if (this.isValidImageType(imageType)) {
-                this.checkExifRotationAndLoadImage(event.target.result);
-            } else {
-                this.loadImageFailed.emit();
-            }
-        };
-        fileReader.readAsDataURL(file);
-    }
-
-    private isValidImageType(type: string) {
-        return type === 'image/jpeg'
-            || type === 'image/jpg'
-            || type === 'image/png'
-            || type === 'image/gif'
-    }
-
-    private checkExifRotationAndLoadImage(imageBase64: string) {
+    @Input()
+    set imageChangedEvent(imageBase64: string) {
         const exifRotation = ImageUtils.getOrientation(imageBase64);
         if (exifRotation > 1) {
             ImageUtils.resetOrientation(
