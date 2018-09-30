@@ -14,5 +14,6 @@ export class Clothe {
     state:number;
     colorCode:any;
     baseColor:number;
-    picture:PictureFile;
+    picture:any;
+    pictureValue:any;
 }

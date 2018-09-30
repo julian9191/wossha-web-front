@@ -5,6 +5,7 @@ import { NotificationsService } from '../../../providers/notifications/notificat
 import { UserService } from '../../../providers/user/user.service';
 import { HttpParams } from '@angular/common/http';
 import { Pagination } from '../../../models/global/pagination';
+import { PicturesService } from '../../../providers/pictures/pictures.service';
 
 @Component({
   selector: 'app-listarPrendas',
@@ -33,6 +34,14 @@ export class ListarPrendasComponent implements OnInit{
   getMoreClothes(append:boolean){
     this.currentPage = 1;
     this.getClothes(append);
+  }
+
+  getImage(uuid:string):string{
+    if(uuid){
+      return "http://localhost:8083/pictures/static-picture/"+uuid;
+    }else{
+      return "../assets/img/blog-1.jpg";
+    }
   }
 
   getClothes(append:boolean){
