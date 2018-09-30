@@ -19,11 +19,10 @@ import { DialogService } from "ng2-bootstrap-modal";
 })
 export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
   url:string;
-  fileName:string;
   private data: any;
   file:PictureFile;
   mouseOver:boolean;
-  imageChangedEvent: any = '';
+  imageChanged: File;
   croppedImage: string = '';
   cropperReady = false;
 
@@ -67,9 +66,9 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
 
   private extractFiles( fileList: FileList ) {
     if(fileList[0]){
-      let file = fileList[0];
+      this.imageChanged = fileList[0];
       var reader = new FileReader();
-      reader.readAsDataURL(file); // read file as data url
+      reader.readAsDataURL(this.imageChanged); // read file as data url
       reader.onload = (event:any) => { // called once readAsDataURL is completed
         if(this.isImage(reader.result.toString())){
             this.showConfirm(reader.result.toString());
@@ -84,22 +83,14 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
 
 
   onSelectFile(event, file) {
-    if (event.target.files && event.target.files[0]) {
-      this.imageChangedEvent = event;
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (event:any) => { // called once readAsDataURL is completed
-        if(this.isImage(reader.result.toString())){
-            this.showConfirm(reader.result.toString());
-        }
-        
-      }
+    if (event.target.files) {
+      this.extractFiles(event.target.files);
     }
   }
 
-  propagateFile(file){
-    this.file.filename = file.name;
-    this.file.filetype = file.type;
+  propagateFile(){
+    this.file.filename = this.imageChanged.name;
+    this.file.filetype = this.imageChanged.type;
     this.file.value = this.croppedImage;
     this.file.size = this.getNewImageSize(this.file.value);
 
@@ -147,10 +138,8 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
     .subscribe((result:any)=>{
         if(result !== undefined){
           this.croppedImage = result;
-          if(this.imageChangedEvent.target.files[0]){
-              this.fileName = this.imageChangedEvent.target.files[0].name;
-              this.propagateFile(this.imageChangedEvent.target.files[0]);
-          }
+          this.propagateFile();
+
 
         }else if(this.croppedImage == ""){
           this.reset();
@@ -161,7 +150,7 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
 
 
   fileChangeEvent(event: any): void {
-      this.imageChangedEvent = event;
+    this.imageChanged = event.target.files[0];
   }
   imageCroppedBase64(image: string) {
       this.croppedImage = image;
@@ -175,8 +164,8 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
 
   reset(){
     this.url = '';
-    this.fileName = '';
     this.file = new PictureFile();
+    this.imageChanged = null;
     this.mouseOver = false;
     this.propagateChange(this.file);
     this.croppedImage = '';

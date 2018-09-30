@@ -1,0 +1,12 @@
+.cropped-image{
+    width: 100%;
+}
+
+.cropper-zone{
+    border:2px dashed #ffa534;
+    padding: 8px;
+}
+
+.cropper-container{
+   padding: 15px;
+}

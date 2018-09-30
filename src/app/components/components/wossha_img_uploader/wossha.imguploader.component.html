@@ -1,4 +1,4 @@
-<input type='file' #fileTag class="inputfile" (ngModel)="selectedImage" (change)="onSelectFile($event, fileTag)">
+<input type='file' #fileTag class="inputfile" (ngModel)="selectedImage" (change)="onSelectFile($event)">
 
 <div (click)="openInputFile(fileTag)" class="card">
     <div class="text-center panel">
@@ -10,7 +10,7 @@
         class='drop-zone'>
             <div>
                 <span>
-                    {{fileName}} 
+                    {{file.filename}} 
                     <a *ngIf="croppedImage!=''" href="javascript:void(0)" class="fa fa-times" (click)="cancelImage($event)"></a>
                 </span>
             </div>
