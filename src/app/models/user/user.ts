@@ -1,3 +1,5 @@
+import { PictureFile } from "../global/pictureFile";
+
 export interface User {
     username?: string;
     firstName?: string;
@@ -9,4 +11,6 @@ export interface User {
     confirmPassword?: string; // required, value must be equal to password.
     birthday?: Date;
     gender?: string;
+    profilePicture: PictureFile;
+    coverPicture: PictureFile;
 }

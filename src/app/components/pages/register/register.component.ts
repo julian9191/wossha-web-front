@@ -4,6 +4,7 @@ import {UserService} from "../../../providers/user/user.service";
 import { NotificationsService } from '../../../providers/notifications/notifications.service';
 import { Country } from "../../../models/country/country";
 import {Router} from '@angular/router';
+import { PictureFile } from '../../../models/global/pictureFile';
 
 declare var $:any;
 
@@ -97,7 +98,9 @@ export class RegisterComponent implements OnInit{
             country: null,
             password: '',
             confirmPassword: '',
-            birthday: null
+            birthday: null,
+            profilePicture: new PictureFile(),
+            coverPicture: new PictureFile()
         }
     }
 }

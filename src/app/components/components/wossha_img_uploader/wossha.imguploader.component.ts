@@ -1,4 +1,4 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef, OnInit, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { PictureFile } from '../../../models/global/pictureFile';
 
@@ -25,6 +25,13 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
   imageChanged: File;
   croppedImage: string = '';
   cropperReady = false;
+
+  @Input()
+  aspectRatio: string;
+  @Input()
+  resizeToWidth: number;
+  @Input()
+  roundCropper: boolean;
 
   constructor(private dialogService:DialogService) {}
 
@@ -133,7 +140,11 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
   showConfirm(file: string) {
     let disposable = this.dialogService.addDialog(Popup, {
       title:'Por favor seleccione el area de la imagen', 
-      image: file
+      image: file,
+      message: "",
+      aspectRatio: this.aspectRatio,
+      resizeToWidth: this.resizeToWidth,
+      roundCropper: this.roundCropper
     })
     .subscribe((result:any)=>{
         if(result !== undefined){

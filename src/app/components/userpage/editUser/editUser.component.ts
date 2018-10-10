@@ -6,6 +6,7 @@ import { NotificationsService } from '../../../providers/notifications/notificat
 import {UserSessionInfo} from "../../../models/user/login/userSessionInfo";
 import {HttpErrorHandlerService} from "../../../providers/auth/httpErrorHandler.service";
 import { ModifyUserCommand } from '../../../models/user/modifyUserCommand';
+import { PictureFile } from '../../../models/global/pictureFile';
 
 declare var $:any;
 
@@ -22,11 +23,14 @@ export class EditUserComponent implements OnInit{
     public countries:Country[] = [];
     public minDate:Date;
     public maxDate:Date;
+    public defaultCoverPicture = "../../assets/img/full-screen-image-3.jpg";
+    public defaultProfilePicture = "../../assets/img/blog-1.jpg";
     public modifyUserCommand:ModifyUserCommand = new ModifyUserCommand();
     
     constructor(private userService: UserService, 
         private notificationsService: NotificationsService,
         private httpErrorHandlerService: HttpErrorHandlerService){
+            this.refreshUser();
             this.getCountries();
     }
 
@@ -35,8 +39,6 @@ export class EditUserComponent implements OnInit{
         this.minDate.setMonth(this.minDate.getMonth() - (12*90));
         this.maxDate = new Date();
         this.minDate.setMonth(this.minDate.getMonth() - (12*15));
-
-        this.refreshUser();
     }
 
     save(model: User, isValid: boolean) {
@@ -76,6 +78,8 @@ export class EditUserComponent implements OnInit{
         this.userService.getUserByUsername(loginInfo.user.username).subscribe( 
             (data:any) => {
                 this.user = data;
+                this.user.profilePicture = new PictureFile(),
+                this.user.coverPicture = new PictureFile()
                 this.userAux = Object.assign({}, this.user);
             }, (error: any) => {
                 this.httpErrorHandlerService.handleHttpError(error, "Ha ocurrido un error al intentar la información del usuario");
@@ -111,6 +115,10 @@ export class EditUserComponent implements OnInit{
         return result;
     }
 
+    edit(){
+        this.refreshUser();
+    }
+
     refreshUser(){
         this.user = {
             username: '',
@@ -122,7 +130,9 @@ export class EditUserComponent implements OnInit{
             password: '',
             confirmPassword: '',
             birthday: null,
-            gender: null
+            gender: null,
+            profilePicture: new PictureFile(),
+            coverPicture: new PictureFile()
         }
     }
 

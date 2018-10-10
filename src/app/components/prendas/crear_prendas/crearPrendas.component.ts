@@ -9,6 +9,7 @@ import { CreateClotheCommand } from '../../../models/clothing/commands/createClo
 import { User } from '../../../models/user/user';
 import { NgForm } from '@angular/forms';
 import { PictureFile } from '../../../models/global/pictureFile';
+import { LoginUser } from '../../../models/user/login/loginUser';
 
 declare var $:any;
 
@@ -33,7 +34,7 @@ export class CrearPrendasComponent implements OnInit{
   clothingTypes:ClothingType[];
   clothingCategories:ClothingCategory[];
   createClotheCommand:CreateClotheCommand;
-  user:User;
+  user:LoginUser;
   name: string;
 
   constructor(private clothingService: ClothingService,
@@ -75,9 +76,7 @@ export class CrearPrendasComponent implements OnInit{
     }
 
     save(model: Clothe, isValid: boolean, f:NgForm) {
-        alert("antes");
         if(isValid){
-            alert("despues");
             let color:any=model.colorCode;
             model.baseColor=color.baseColorId;
             model.colorCode=color.realColorHexa;

@@ -3,6 +3,7 @@ import { User } from '../../../models/user/user';
 import {UserService} from "../../../providers/user/user.service";
 import {UserSessionInfo} from "../../../models/user/login/userSessionInfo";
 import {HttpErrorHandlerService} from "../../../providers/auth/httpErrorHandler.service";
+import { PictureFile } from '../../../models/global/pictureFile';
 
 declare var $:any;
 
@@ -48,7 +49,9 @@ export class UserComponent implements OnInit{
             password: '',
             confirmPassword: '',
             birthday: null,
-            gender: null
+            gender: null,
+            profilePicture: new PictureFile(),
+            coverPicture: new PictureFile()
         }
     }
     

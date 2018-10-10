@@ -8,6 +8,22 @@
                     </div>
                     <div class="content">
                         <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Foto de perfil</label>
+                                        <wossha-img-uploader name="profilePicture" [aspectRatio]="1 / 1" [resizeToWidth]="800" [roundCropper]="true" [(ngModel)]="user.profilePicture"></wossha-img-uploader>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Foto de portada</label>
+                                        <wossha-img-uploader name="coverPicture" [aspectRatio]="3 / 1" [resizeToWidth]="800" [roundCropper]="false" [(ngModel)]="user.coverPicture"></wossha-img-uploader>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -104,7 +120,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" [disabled]="!somthingChanged()" class="btn btn-warning btn-fill pull-right">Actualizar perfil</button>
+                            <button type="submit" [disabled]="!somthingChanged()" (click)="edit()" class="btn btn-warning btn-fill pull-right">Actualizar perfil</button>
                             <div class="clearfix"></div>
                         </form>
                     </div>
@@ -113,12 +129,12 @@
             <div class="col-md-4">
                 <div class="card card-user">
                     <div class="image">
-                        <img src="../../assets/img/full-screen-image-3.jpg" alt="..."/>
+                        <img [src]="user.coverPicture.value ? user.coverPicture.value : defaultCoverPicture"/>
                     </div>
                     <div class="content">
                         <div class="author">
                              <a href="#">
-                            <img class="avatar border-gray" src="../../assets/img/default-avatar.png" alt="..."/>
+                            <img class="avatar border-gray" [src]="user.profilePicture.value ? user.profilePicture.value : defaultProfilePicture"/>
 
                               <h4 class="title">{{user.firstName}} {{user.lastName}}<br />
                                  <small>{{user.username}}</small>
