@@ -7,6 +7,7 @@ import {UserSessionInfo} from "../../../models/user/login/userSessionInfo";
 import {HttpErrorHandlerService} from "../../../providers/auth/httpErrorHandler.service";
 import { ModifyUserCommand } from '../../../models/user/modifyUserCommand';
 import { PictureFile } from '../../../models/global/pictureFile';
+import { NgForm } from '@angular/forms';
 
 declare var $:any;
 
@@ -93,30 +94,32 @@ export class EditUserComponent implements OnInit{
             if(this.user.firstName!=this.userAux.firstName){
                 result = true;
             }
-            if(this.user.lastName!=this.userAux.lastName){
+            else if(this.user.lastName!=this.userAux.lastName){
                 result = true;
             }
-            if(this.user.email!=this.userAux.email){
+            else if(this.user.email!=this.userAux.email){
                 result = true;
             }
-            if(this.user.country!=this.userAux.country){
+            else if(this.user.country!=this.userAux.country){
                 result = true;
             }
-            if(this.user.about!=this.userAux.about){
+            else if(this.user.about!=this.userAux.about){
                 result = true;
             }
-            if(this.user.birthday!=this.userAux.birthday){
+            else if(this.user.birthday!=this.userAux.birthday){
                 result = true;
             }
-            if(this.user.gender!=this.userAux.gender){
+            else if(this.user.gender!=this.userAux.gender){
+                result = true;
+            }
+            else if(this.user.profilePicture!=this.userAux.profilePicture){
+                result = true;
+            }
+            else if(this.user.coverPicture!=this.userAux.coverPicture){
                 result = true;
             }
         }catch(e){}
         return result;
-    }
-
-    edit(){
-        this.refreshUser();
     }
 
     refreshUser(){
