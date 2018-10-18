@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewInit, AfterViewChecked, AfterContentInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterViewChecked, AfterContentInit, Input } from '@angular/core';
 import {UserService} from "../../providers/user/user.service";
-import {UserSessionInfo} from "../../models/user/login/userSessionInfo";
+import {SessionInfo} from "../../models/user/login/sessionInfo";
 
 declare var $:any;
 //Metadata
@@ -128,7 +128,9 @@ export const ROUTES: RouteInfo[] = [{
 
 export class SidebarComponent {
     public menuItems: any[];
-    public userSessionInfo:UserSessionInfo;
+    public userSessionInfo:SessionInfo;
+    @Input()
+    public profilePicture:any;
     
     constructor(private userService: UserService){}
 
@@ -162,4 +164,5 @@ export class SidebarComponent {
 
         $(collapseId).collapse("show");
     }
+
 }

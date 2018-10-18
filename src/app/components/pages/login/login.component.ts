@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import {UserService} from "../../../providers/user/user.service";
 import { NotificationsService } from '../../../providers/notifications/notifications.service';
 import {LoginParams} from "../../../models/user/login/loginParams";
-import {UserSessionInfo} from "../../../models/user/login/userSessionInfo"; 
+import {SessionInfo} from "../../../models/user/login/sessionInfo"; 
 import {Router} from '@angular/router';
 
 declare var $:any;
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit{
 
     login(){
         this.userService.login(this.loginParams).subscribe( 
-            (userSessionInfo:UserSessionInfo) => {
+            (userSessionInfo:SessionInfo) => {
                 this.userService.storageLoginUserSessionInfo(userSessionInfo);
                 this.router.navigate(['start']);
             }, (error: any) => {

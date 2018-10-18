@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import {UserService} from "../user/user.service";
 import { NotificationsService } from '../notifications/notifications.service';
-import { UserSessionInfo } from '../../models/user/login/userSessionInfo';
+import { SessionInfo } from '../../models/user/login/sessionInfo';
 
 @Injectable()
 export class ActivateGuard  implements CanActivate{
   
-    private session:UserSessionInfo = null;
+    private session:SessionInfo = null;
 
     constructor(private notificationsService: NotificationsService,
         private userService: UserService,  

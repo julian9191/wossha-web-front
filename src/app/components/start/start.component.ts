@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../providers/user/user.service";
-import {UserSessionInfo} from "../../models/user/login/userSessionInfo";
+import {SessionInfo} from "../../models/user/login/sessionInfo";
 
 declare var $:any;
 
@@ -12,7 +12,7 @@ declare var $:any;
 
 export class StartComponent implements OnInit{
     filledItems = ['Boxer', 'Camiseta', 'Medias'];
-    public userSessionInfo:UserSessionInfo;
+    public userSessionInfo:SessionInfo;
     
     constructor(private userService: UserService){}
 

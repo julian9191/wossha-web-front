@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../../models/user/user';
 import {UserService} from "../../../providers/user/user.service";
-import {UserSessionInfo} from "../../../models/user/login/userSessionInfo";
+import {SessionInfo} from "../../../models/user/login/sessionInfo";
 import {HttpErrorHandlerService} from "../../../providers/auth/httpErrorHandler.service";
 import { PictureFile } from '../../../models/global/pictureFile';
 
@@ -28,7 +28,7 @@ export class UserComponent implements OnInit{
     }
 
     getUser(){
-        let loginInfo:UserSessionInfo = this.userService.getLoggedUserSessionInfo();
+        let loginInfo:SessionInfo = this.userService.getLoggedUserSessionInfo();
         this.userService.getUserByUsername(loginInfo.user.username).subscribe( 
             (data:any) => {
                 this.user = data;

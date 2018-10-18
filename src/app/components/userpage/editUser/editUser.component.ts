@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { User } from '../../../models/user/user';
 import { Country } from "../../../models/country/country";
 import {UserService} from "../../../providers/user/user.service";
 import { NotificationsService } from '../../../providers/notifications/notifications.service';
-import {UserSessionInfo} from "../../../models/user/login/userSessionInfo";
+import {SessionInfo} from "../../../models/user/login/sessionInfo";
 import {HttpErrorHandlerService} from "../../../providers/auth/httpErrorHandler.service";
 import { ModifyUserCommand } from '../../../models/user/modifyUserCommand';
 import { PictureFile } from '../../../models/global/pictureFile';
 import { NgForm } from '@angular/forms';
+import { UserReference } from 'app/models/user/userReference';
+import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
 
 declare var $:any;
 
@@ -20,17 +22,23 @@ declare var $:any;
 export class EditUserComponent implements OnInit{ 
 
     public user: User;
+    public data: UserReference;
     public userAux: User;
     public countries:Country[] = [];
     public minDate:Date;
     public maxDate:Date;
-    public defaultCoverPicture = "../../assets/img/full-screen-image-3.jpg";
-    public defaultProfilePicture = "../../assets/img/blog-1.jpg";
+    public defaultCoverPicture = "../../assets/img/default_cover.jpg";
+    public defaultProfilePicture = "../../assets/img/default-avatar.png";
+
+    @Output('activate')
+    activateEvents: EventEmitter<any>
+    
     public modifyUserCommand:ModifyUserCommand = new ModifyUserCommand();
     
     constructor(private userService: UserService, 
         private notificationsService: NotificationsService,
         private httpErrorHandlerService: HttpErrorHandlerService){
+            this.data = new UserReference();
             this.refreshUser();
             this.getCountries();
     }
@@ -44,23 +52,48 @@ export class EditUserComponent implements OnInit{
 
     save(model: User, isValid: boolean) {
         if(isValid){
-            let _this = this;
+            let nthis = this;
             this.notificationsService.showConfirmationAlert("¿Está seguro?", "¿Está seguro de guardar los cambios?", this.notificationsService.WARNING).then(function (response) {
                 if(response){
-                    model.username=_this.user.username;
-                    _this.modifyUserCommand.username=_this.userService.getLoggedUserSessionInfo().user.username;
-                    _this.modifyUserCommand.user=model;
-                    _this.userService.executeCommand(_this.modifyUserCommand).subscribe( 
+                    model.username=nthis.user.username;
+                    nthis.modifyUserCommand.username=nthis.userService.getLoggedUserSessionInfo().user.username;
+                    nthis.modifyUserCommand.user=model;
+                    nthis.userService.executeCommand(nthis.modifyUserCommand).subscribe( 
                         (messaje) => {
-                            _this.notificationsService.showNotification(messaje["msj"], _this.notificationsService.SUCCESS);
-                            _this.userAux = Object.assign({}, _this.user);
+                            nthis.notificationsService.showNotification(messaje["msj"], nthis.notificationsService.SUCCESS);
+                            nthis.userAux = Object.assign({}, nthis.user);
+
+                            nthis.updateLoggedUserSessionInfo();
+
                         }, (error: any) => {
-                            _this.httpErrorHandlerService.handleHttpError(error, error.error.msj);
+                            nthis.httpErrorHandlerService.handleHttpError(error, error.error.msj);
                         }
                     );
                 }
 	        });
         }
+    }
+
+    updateLoggedUserSessionInfo(){
+        this.userService.updateLoggedUserSessionInfo().subscribe( 
+            (messaje) => {
+                let userSessionInfo:UserSessionInfo = messaje;
+                let loginInfo:SessionInfo = this.userService.getLoggedUserSessionInfo();
+                loginInfo.user.userSessionInfo = userSessionInfo;
+                this.userService.storageLoginUserSessionInfo(loginInfo);
+
+                this.updateSlide(userSessionInfo);
+                this.activateEvents.emit();
+
+            }, (error: any) => {
+                this.httpErrorHandlerService.handleHttpError(error, error.error.msj);
+            }
+        );
+    }
+
+    updateSlide(userSessionInfo:UserSessionInfo){
+        $("#slide-profile-picture").attr("src","http://localhost:8083/pictures/static-picture/"+userSessionInfo.picture);
+        $("#slide-user-name").attr("http",userSessionInfo.firstName+" "+userSessionInfo.lastName);
     }
 
     getCountries(){
@@ -75,9 +108,10 @@ export class EditUserComponent implements OnInit{
     }
 
     getUser(){
-        let loginInfo:UserSessionInfo = this.userService.getLoggedUserSessionInfo();
+        let loginInfo:SessionInfo = this.userService.getLoggedUserSessionInfo();
         this.userService.getUserByUsername(loginInfo.user.username).subscribe( 
             (data:any) => {
+                this.data = Object.assign({}, data);
                 this.user = data;
                 this.user.profilePicture = new PictureFile(),
                 this.user.coverPicture = new PictureFile()
@@ -120,6 +154,30 @@ export class EditUserComponent implements OnInit{
             }
         }catch(e){}
         return result;
+    }
+
+    getProfileImage(uuid:string):string{
+        if(uuid && !this.user.profilePicture.value){
+            return "http://localhost:8083/pictures/static-picture/"+uuid;
+        }
+        else if(this.user.profilePicture.value){
+            return this.user.profilePicture.value;
+        }
+        else{
+            return this.defaultProfilePicture;
+        }
+    }
+
+    getCoverImage(uuid:string):string{
+        if(uuid && !this.user.coverPicture.value){
+          return "http://localhost:8083/pictures/static-picture/"+uuid;
+        }
+        else if(this.user.coverPicture.value){
+            return this.user.coverPicture.value;
+        }
+        else{
+          return this.defaultCoverPicture;
+        }
     }
 
     refreshUser(){

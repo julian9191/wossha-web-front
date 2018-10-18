@@ -141,12 +141,12 @@
             <div class="col-md-4">
                 <div class="card card-user">
                     <div class="image">
-                        <img [src]="user.coverPicture.value ? user.coverPicture.value : defaultCoverPicture"/>
+                        <img [src]="getCoverImage(data.coverPicture)"/>
                     </div>
                     <div class="content">
                         <div class="author">
                              <a href="#">
-                            <img class="avatar border-gray" [src]="user.profilePicture.value ? user.profilePicture.value : defaultProfilePicture"/>
+                            <img class="avatar border-gray" [src]="getProfileImage(data.profilePicture)"/>
 
                               <h4 class="title">{{user.firstName}} {{user.lastName}}<br />
                                  <small>{{user.username}}</small>

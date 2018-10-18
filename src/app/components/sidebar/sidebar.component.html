@@ -15,11 +15,11 @@
 	<div class="user">
 		<div class="info">
 			<div class="photo">
-				<img src="../assets/img/default-avatar.png" />
+				<img id="slide-profile-picture" [src]="profilePicture" />
 			</div>
 			<a data-toggle="collapse" href="#collapseExample" class="collapsed">
 				<span>
-					{{userSessionInfo.user.firstName}} {{userSessionInfo.user.lastName}}
+					<span id="slide-user-name">{{userSessionInfo.user.userSessionInfo.firstName}} {{userSessionInfo.user.userSessionInfo.lastName}}</span>
 					<b class="caret"></b>
 				</span>
 			</a>

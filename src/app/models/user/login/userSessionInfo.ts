@@ -1,7 +1,6 @@
-import {LoginUser} from "./loginUser";
-
 export class UserSessionInfo {
-  message: string;
-  user:LoginUser;
-  token:string;
-}
+    firstName: string;
+	lastName: string;
+	picture: string;
+  }
+  

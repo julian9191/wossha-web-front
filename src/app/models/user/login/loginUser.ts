@@ -1,10 +1,10 @@
 import {Authority} from "./authority";
+import { UserSessionInfo } from "./userSessionInfo";
 
 export class LoginUser {
   password: string;
   username:string;
-  firstName:string;
-  lastName:string;
+  userSessionInfo: UserSessionInfo;
   authorities:Authority[];
   accountNonExpired: boolean;
   accountNonLocked: boolean;

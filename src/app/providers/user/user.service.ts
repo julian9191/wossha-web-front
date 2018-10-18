@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserSessionInfo } from '../../models/user/login/userSessionInfo';
+import { SessionInfo } from '../../models/user/login/sessionInfo';
 import { LoginParams } from '../../models/user/login/loginParams';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -10,6 +10,7 @@ import { Inject } from '@angular/core';
 import { Router} from '@angular/router';
 import { Country } from "../../models/country/country";
 import 'rxjs';
+import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
 
 @Injectable()
 export class UserService {
@@ -22,7 +23,8 @@ export class UserService {
   private countriesUrl:string = USERS_PATH+'countries';
   private userUrl:string = USERS_PATH+'users/';
   private registerUserUrl:string = this.userUrl+"register-user";
-  private static userInfo:UserSessionInfo
+  private updateLoggedUserSessionInfoUrl:string = this.userUrl+"logged-user-info";
+  private static userInfo:SessionInfo
   
   httpHeaders:HttpHeaders;
 
@@ -32,14 +34,19 @@ export class UserService {
       this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
     } 
 
-  getLoggedUserSessionInfo():UserSessionInfo{
+  updateLoggedUserSessionInfo(): Observable<UserSessionInfo>{
+    UserService.userInfo = null;
+    return this.http.get<UserSessionInfo>(this.updateLoggedUserSessionInfoUrl, {headers: this.httpHeaders});
+  }
+
+  getLoggedUserSessionInfo():SessionInfo{
     if(UserService.userInfo){
       return UserService.userInfo;
     }
     UserService.userInfo = this.storage.get(this.STORAGE_KEY);
     if(UserService.userInfo){
-      UserService.userInfo.user.firstName=decodeURI(UserService.userInfo.user.firstName);
-      UserService.userInfo.user.lastName=decodeURI(UserService.userInfo.user.lastName);
+      UserService.userInfo.user.userSessionInfo.firstName=decodeURI(UserService.userInfo.user.userSessionInfo.firstName);
+      UserService.userInfo.user.userSessionInfo.lastName=decodeURI(UserService.userInfo.user.userSessionInfo.lastName);
       return UserService.userInfo;
     }
     return null;
@@ -55,7 +62,7 @@ export class UserService {
     }
   }
 
-  storageLoginUserSessionInfo(loginAnswer:UserSessionInfo){
+  storageLoginUserSessionInfo(loginAnswer:SessionInfo){
     this.storage.set(this.STORAGE_KEY, loginAnswer);
   }
 
@@ -63,8 +70,8 @@ export class UserService {
     this.storage.remove(this.STORAGE_KEY);
   }
 
-  login(loginParams: LoginParams) : Observable<UserSessionInfo> {
-    return this.http.post<UserSessionInfo>(this.loginUrl, loginParams, {headers: this.httpHeaders})
+  login(loginParams: LoginParams) : Observable<SessionInfo> {
+    return this.http.post<SessionInfo>(this.loginUrl, loginParams, {headers: this.httpHeaders})
   }
 
   logout() {
