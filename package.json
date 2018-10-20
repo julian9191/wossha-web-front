@@ -53,6 +53,7 @@
     "ngx-chips": "1.4.5",
     "nouislider": "9.2.0",
     "ntcjs": "^1.1.2",
+    "photoswipe": "^4.1.2",
     "rxjs": "5.1.0",
     "sweetalert": "^2.1.0",
     "twitter-bootstrap-wizard": "1.2.0",

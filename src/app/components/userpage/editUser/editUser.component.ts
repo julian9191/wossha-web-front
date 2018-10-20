@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { User } from '../../../models/user/user';
 import { Country } from "../../../models/country/country";
 import {UserService} from "../../../providers/user/user.service";
@@ -10,6 +10,9 @@ import { PictureFile } from '../../../models/global/pictureFile';
 import { NgForm } from '@angular/forms';
 import { UserReference } from 'app/models/user/userReference';
 import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
+
+import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
+import { PhotoSwipeComponent } from '../../components/photo-swipe/photo-swipe.component';
 
 declare var $:any;
 
@@ -30,6 +33,8 @@ export class EditUserComponent implements OnInit{
     public maxDate:Date;
     public defaultCoverPicture = "../../assets/img/default_cover.jpg";
     public defaultProfilePicture = "../../assets/img/default-avatar.png";
+    @ViewChild('photoSwipe') photoSwipe: PhotoSwipeComponent;
+    public slideImages: PhotoSwipeImage[];
     
     public modifyUserCommand:ModifyUserCommand = new ModifyUserCommand();
     
@@ -116,10 +121,26 @@ export class EditUserComponent implements OnInit{
                 this.user.profilePicture = new PictureFile(),
                 this.user.coverPicture = new PictureFile()
                 this.userAux = Object.assign({}, this.user);
+                this.initSlideImages();
             }, (error: any) => {
                 this.httpErrorHandlerService.handleHttpError(error, "Ha ocurrido un error al intentar la información del usuario");
             }
         );
+    }
+
+    initSlideImages(){
+        this.slideImages = [
+            {
+                src: this.getProfileImage(this.data.profilePicture),
+                w: 800,
+                h: 800
+            },
+            {
+                src: this.getCoverImage(this.data.coverPicture),
+                w: 1000,
+                h: 333
+            }
+        ];
     }
 
     somthingChanged(){
@@ -178,6 +199,10 @@ export class EditUserComponent implements OnInit{
         else{
           return this.defaultCoverPicture;
         }
+    }
+
+    openSlideshow(index:number){
+        this.photoSwipe.openGallery(this.slideImages, index);
     }
 
     refreshUser(){

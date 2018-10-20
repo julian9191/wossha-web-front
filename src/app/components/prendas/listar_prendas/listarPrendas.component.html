@@ -1,3 +1,4 @@
+<app-photo-swipe #photoSwipe></app-photo-swipe>
 <div class="main-content">
     <div class="container-fluid">
         <div class="card card-plain">
@@ -26,11 +27,11 @@
                     </div>
                 </div><br>
                 <div class="row" *ngIf="view=='cards'"> 
-                    <div class="col-md-4" *ngFor="let clothe of clothes">
+                    <div class="col-md-4" *ngFor="let clothe of clothes; let i=index">
                         <div class="card">
                             <div class="content text-center">
                                 <div class="img-prenda">
-                                    <img class="img-prenda" alt="..." [src]="getImage(clothe.picture)" />
+                                    <img class="img-prenda cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
                                 </div>
                                 <h5>{{clothe.name}}</h5>
                                 <a href="javascript:void(0)">{{clothe.type}}</a><br/>
@@ -71,10 +72,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let clothe of clothes">
+                                            <tr *ngFor="let clothe of clothes; let i=index">
                                                 <td>
                                                     <div class="img-container">
-                                                        <img src="../assets/img/blog-1.jpg" alt="...">
+                                                        <img class="img-prenda cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -87,9 +88,9 @@
                                                     <a href="javascript:void(0)">{{clothe.category}}</a>
                                                 </td>
                                                 <td class="td-actions">
-                                                    <button type="button" rel="tooltip" data-placement="left" title="Ver" class="btn btn-info btn-simple btn-icon">
+                                                    <a class="btn btn-info btn-simple btn-icon" [routerLink]="['/prendas/view-clothe', clothe.uuid]" title="Ver">
                                                         <i class="fa fa-eye"></i>
-                                                    </button>
+                                                    </a>
                                                     <button type="button" rel="tooltip" data-placement="left" title="Editar" class="btn btn-success btn-simple btn-icon">
                                                         <i class="fa fa-pencil"></i>
                                                     </button>

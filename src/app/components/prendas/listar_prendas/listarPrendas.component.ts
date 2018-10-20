@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Clothe } from '../../../models/clothing/clothe';
 import { ClothingService } from '../../../providers/clothing/clothing.service';
 import { NotificationsService } from '../../../providers/notifications/notifications.service';
@@ -6,6 +6,8 @@ import { UserService } from '../../../providers/user/user.service';
 import { HttpParams } from '@angular/common/http';
 import { Pagination } from '../../../models/global/pagination';
 import { PicturesService } from '../../../providers/pictures/pictures.service';
+import { PhotoSwipeComponent } from 'app/components/components/photo-swipe/photo-swipe.component';
+import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
 
 @Component({
   selector: 'app-listarPrendas',
@@ -14,12 +16,15 @@ import { PicturesService } from '../../../providers/pictures/pictures.service';
 
 export class ListarPrendasComponent implements OnInit{
 
-  clothes: Clothe[] = [];
-  orderedBy: string = "NAME";
-  view: string = "cards";
-  totalItems = 0;
-	currentPage = 1;
-	itemsPerPage = 5;
+  public clothes: Clothe[] = [];
+  public orderedBy: string = "NAME";
+  public view: string = "cards";
+  public totalItems = 0;
+	public currentPage = 1;
+  public itemsPerPage = 5;
+  @ViewChild('photoSwipe') 
+  public photoSwipe: PhotoSwipeComponent;
+  public slideImages: PhotoSwipeImage[];
 
   constructor(private clothingService: ClothingService, 
     private notificationsService: NotificationsService,
@@ -57,10 +62,27 @@ export class ListarPrendasComponent implements OnInit{
         }
         this.totalItems = data.pagination.size;
         this.currentPage++;
+        this.initSlideImages();
       }, (error: any) => {
         this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de prendas", this.notificationsService.DANGER);
       }
     );
+  }
+
+  initSlideImages(){  
+    this.slideImages = [];
+    for (let clothe of this.clothes) {
+      let item:PhotoSwipeImage = {
+          src: this.getImage(clothe.picture),
+          w: 800,
+          h: 600
+      }
+      this.slideImages.push(item);
+    }
+  }
+
+  openSlideshow(index:number){
+    this.photoSwipe.openGallery(this.slideImages, index);
   }
 
 }

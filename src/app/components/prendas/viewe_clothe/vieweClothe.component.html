@@ -1,3 +1,4 @@
+<app-photo-swipe #photoSwipe></app-photo-swipe>
 <div class="main-content">
         <div class="container-fluid">
             <div class="row">
@@ -11,7 +12,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="image">
-                                        <img [src]="getImage(clothe.picture)"/>
+                                        <img class="cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow()" />
                                     </div>
                                     <br><br>
                                     <p>{{clothe.description}}</p>

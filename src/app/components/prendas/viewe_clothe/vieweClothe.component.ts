@@ -6,6 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { PictureFile } from 'app/models/global/pictureFile';
 
+import { PhotoSwipeComponent } from '../../components/photo-swipe/photo-swipe.component';
+import { PhotoSwipeImage} from '../../../models/global/PhotoSwipeImage';
+
 declare var $:any;
 
 @Component({
@@ -16,7 +19,10 @@ declare var $:any;
 
 export class VieweClotheComponent implements OnInit{
   
-    clothe:Clothe;
+    public clothe:Clothe;
+    @ViewChild('photoSwipe') 
+    public photoSwipe: PhotoSwipeComponent;
+    public slideImages : PhotoSwipeImage[];
 
     constructor(private clothingService: ClothingService,
                 private userService: UserService,
@@ -35,10 +41,21 @@ export class VieweClotheComponent implements OnInit{
         this.clothingService.getClotheByUuid(uuid).subscribe( 
             (data:any) => {
                 this.clothe = data;
+                this.initSlideImages();
             }, (error: any) => {
                 this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener la prenda", this.notificationsService.DANGER);
             }
         );
+    }
+
+    initSlideImages(){
+        this.slideImages = [
+            {
+                src: this.getImage(this.clothe.picture),
+                w: 800,
+                h: 600
+            }
+        ];
     }
 
     getImage(uuid:string):string{
@@ -49,6 +66,12 @@ export class VieweClotheComponent implements OnInit{
           return "../assets/img/blog-1.jpg";
         }
     }
+
+
+    openSlideshow(){
+        this.photoSwipe.openGallery(this.slideImages);
+    }
+
 
     refreshClothe(){
         this.clothe = {

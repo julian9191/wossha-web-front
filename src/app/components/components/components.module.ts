@@ -18,6 +18,7 @@ import { wosshaImgUploaderComponent } from './wossha_img_uploader/wossha.imguplo
 import { ImageCropperComponent } from './image-cropper/image-cropper.component';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { Popup } from './wossha_img_uploader/popup.component'
+import { PhotoSwipeComponent } from './photo-swipe/photo-swipe.component';
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import { Popup } from './wossha_img_uploader/popup.component'
         WosshaColorpickerComponent,
         SearchComponent,
         wosshaImgUploaderComponent,
-        ImageCropperComponent
+        ImageCropperComponent,
+        PhotoSwipeComponent
     ],
     entryComponents: [
         Popup
@@ -49,7 +51,8 @@ import { Popup } from './wossha_img_uploader/popup.component'
         SearchComponent,
         wosshaImgUploaderComponent,
         ImageCropperComponent,
-        Popup
+        Popup,
+        PhotoSwipeComponent
     ],
     providers: []
 })
