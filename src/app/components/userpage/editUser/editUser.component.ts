@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { User } from '../../../models/user/user';
 import { Country } from "../../../models/country/country";
 import {UserService} from "../../../providers/user/user.service";
@@ -16,7 +16,8 @@ declare var $:any;
 @Component({
     moduleId: module.id,
     selector: 'user-cmp',
-    templateUrl: 'editUser.component.html'
+    templateUrl: 'editUser.component.html',
+    styleUrls: [ './editUser.component.css' ]
 })
 
 export class EditUserComponent implements OnInit{ 
@@ -29,9 +30,6 @@ export class EditUserComponent implements OnInit{
     public maxDate:Date;
     public defaultCoverPicture = "../../assets/img/default_cover.jpg";
     public defaultProfilePicture = "../../assets/img/default-avatar.png";
-
-    @Output('activate')
-    activateEvents: EventEmitter<any>
     
     public modifyUserCommand:ModifyUserCommand = new ModifyUserCommand();
     
@@ -50,7 +48,8 @@ export class EditUserComponent implements OnInit{
         this.minDate.setMonth(this.minDate.getMonth() - (12*15));
     }
 
-    save(model: User, isValid: boolean) {
+    save(model: User, isValid: boolean, pp:NgForm, cp:NgForm) {
+        cp.reset();
         if(isValid){
             let nthis = this;
             this.notificationsService.showConfirmationAlert("¿Está seguro?", "¿Está seguro de guardar los cambios?", this.notificationsService.WARNING).then(function (response) {
@@ -64,7 +63,10 @@ export class EditUserComponent implements OnInit{
                             nthis.userAux = Object.assign({}, nthis.user);
 
                             nthis.updateLoggedUserSessionInfo();
-
+                            cp.reset();
+                            pp.reset();
+                            nthis.refreshUser();
+                            nthis.getUser(); 
                         }, (error: any) => {
                             nthis.httpErrorHandlerService.handleHttpError(error, error.error.msj);
                         }
@@ -83,8 +85,6 @@ export class EditUserComponent implements OnInit{
                 this.userService.storageLoginUserSessionInfo(loginInfo);
 
                 this.updateSlide(userSessionInfo);
-                this.activateEvents.emit();
-
             }, (error: any) => {
                 this.httpErrorHandlerService.handleHttpError(error, error.error.msj);
             }
@@ -195,6 +195,8 @@ export class EditUserComponent implements OnInit{
             profilePicture: new PictureFile(),
             coverPicture: new PictureFile()
         }
+        this.user.profilePicture = new PictureFile();
+        this.user.coverPicture = new PictureFile();
     }
 
     

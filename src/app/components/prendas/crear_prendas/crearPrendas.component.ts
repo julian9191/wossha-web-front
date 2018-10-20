@@ -75,7 +75,7 @@ export class CrearPrendasComponent implements OnInit{
         );
     }
 
-    save(model: Clothe, isValid: boolean, f:NgForm) {
+    save(model: Clothe, isValid: boolean, f:NgForm, p:NgForm) {
         if(isValid){
             let color:any=model.colorCode;
             model.baseColor=color.baseColorId;
@@ -86,6 +86,7 @@ export class CrearPrendasComponent implements OnInit{
             this.clothingService.executeCommand(this.createClotheCommand).subscribe( 
                 (messaje) => {
                     this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
+                    p.reset();
                     f.resetForm();
                     this.refreshClothe();
                 }, (error: any) => {

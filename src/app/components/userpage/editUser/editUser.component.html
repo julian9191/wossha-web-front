@@ -7,7 +7,7 @@
                         <h4 class="title">Editar perfil</h4>
                     </div>
                     <div class="content">
-                        <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid, f)">
+                        <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid, pp, cp)">
                             <div class="category">
                                 Los campos requeridos están marcados con: <span class="star">*</span>
                             </div>
@@ -17,14 +17,54 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Foto de perfil</label>
-                                        <wossha-img-uploader name="profilePicture" [aspectRatio]="1 / 1" [resizeToWidth]="800" [roundCropper]="true" [(ngModel)]="user.profilePicture"></wossha-img-uploader>
+                                        
+                                        <div class="panel-group" id="accordion">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a class="panel-title-a" data-target="#collapseOne" data-toggle="collapse">
+                                                            <div class="form-group">
+                                                                <label class="panel-title-label">
+                                                                    Modifique su foto de perfil
+                                                                </label>
+                                                                <b class="caret"></b>
+                                                            </div>
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseOne" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        <wossha-img-uploader #pp name="profilePicture" [aspectRatio]="1 / 1" [resizeToWidth]="800" [roundCropper]="true" [(ngModel)]="user.profilePicture"></wossha-img-uploader>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Foto de portada</label>
-                                        <wossha-img-uploader name="coverPicture" [aspectRatio]="3 / 1" [resizeToWidth]="800" [roundCropper]="false" [(ngModel)]="user.coverPicture"></wossha-img-uploader>
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a class="panel-title-a" data-target="#collapseTwo" data-toggle="collapse">
+                                                        <div class="form-group">
+                                                            <label class="panel-title-label">
+                                                                Modifique si foto de portada
+                                                            </label>
+                                                            <b class="caret"></b>
+                                                        </div>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseTwo" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                        <wossha-img-uploader #cp name="coverPicture" [aspectRatio]="3 / 1" [resizeToWidth]="800" [roundCropper]="false" [(ngModel)]="user.coverPicture"></wossha-img-uploader>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
                                     </div>
                                 </div>
                             </div>

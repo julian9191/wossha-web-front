@@ -9,7 +9,7 @@
                             <p class="category"></p>
                         </div>
                         <div class="content">
-                            <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid, f)" (keydown.enter)="$event.preventDefault()">
+                            <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid, f, p)" (keydown.enter)="$event.preventDefault()">
                                 <div class="category">
                                     Los campos requeridos están marcados con: <span class="star">*</span>
                                 </div>
@@ -20,7 +20,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Foto de la prenda</label>
-                                            <wossha-img-uploader name="picture" [aspectRatio]="4 / 3" [resizeToWidth]="800" [roundCropper]="false" [(ngModel)]="register.picture"></wossha-img-uploader>
+                                            <wossha-img-uploader #p name="picture" [aspectRatio]="4 / 3" [resizeToWidth]="800" [roundCropper]="false" [(ngModel)]="register.picture"></wossha-img-uploader>
                                             <!--<input type='file' name="picture" (change)="onFileChange($event)"> -->
                                         </div>
                                     </div>
