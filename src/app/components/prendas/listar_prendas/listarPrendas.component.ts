@@ -11,7 +11,8 @@ import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
 
 @Component({
   selector: 'app-listarPrendas',
-  templateUrl: './listarPrendas.component.html'
+  templateUrl: './listarPrendas.component.html',
+  styleUrls: [ './listarPrendas.component.css' ],
 })
 
 export class ListarPrendasComponent implements OnInit{

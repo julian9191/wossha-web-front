@@ -6,10 +6,10 @@ import { NotificationsService } from '../../../providers/notifications/notificat
 import { ClothingCategory } from '../../../models/clothing/clothingCategory';
 import { Clothe } from '../../../models/clothing/clothe';
 import { CreateClotheCommand } from '../../../models/clothing/commands/createClotheCommand';
-import { User } from '../../../models/user/user';
 import { NgForm } from '@angular/forms';
 import { PictureFile } from '../../../models/global/pictureFile';
 import { LoginUser } from '../../../models/user/login/loginUser';
+import {Location} from '@angular/common';
 
 declare var $:any;
 
@@ -39,7 +39,8 @@ export class CrearPrendasComponent implements OnInit{
 
   constructor(private clothingService: ClothingService,
     private userService: UserService,
-    private notificationsService: NotificationsService){
+    private notificationsService: NotificationsService,
+    private _location: Location){
         clothingService.setToken(userService.getToken());
     }
 
@@ -94,6 +95,10 @@ export class CrearPrendasComponent implements OnInit{
                 }
             );
         }
+    }
+
+    goBack(){
+        this._location.back();
     }
 
     refreshClothe(){

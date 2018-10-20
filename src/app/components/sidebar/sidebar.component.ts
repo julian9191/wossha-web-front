@@ -32,14 +32,10 @@ export const ROUTES: RouteInfo[] = [{
         type: 'link',
         icontype: 'pe-7s-date'
     },{
-        path: '/prendas',
+        path: '/prendas/listar-prendas',
         title: 'Prendas',
-        type: 'sub',
-        icontype: 'pe-7s-news-paper',
-        children: [
-            {path: 'listar-prendas', title: 'Lista De Prendas', ab:'LP'},
-            {path: 'crear-prendas', title: 'Crear Prenda', ab:'CP'},
-        ]
+        type: 'link',
+        icontype: 'pe-7s-news-paper'
     },{
         path: '/charts',
         title: 'Estadísticas',

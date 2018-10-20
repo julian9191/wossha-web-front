@@ -5,6 +5,7 @@ import { Clothe } from '../../../models/clothing/clothe';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { PictureFile } from 'app/models/global/pictureFile';
+import {Location} from '@angular/common';
 
 import { PhotoSwipeComponent } from '../../components/photo-swipe/photo-swipe.component';
 import { PhotoSwipeImage} from '../../../models/global/PhotoSwipeImage';
@@ -27,7 +28,8 @@ export class VieweClotheComponent implements OnInit{
     constructor(private clothingService: ClothingService,
                 private userService: UserService,
                 private notificationsService: NotificationsService,
-                private route: ActivatedRoute){
+                private route: ActivatedRoute,
+                private _location: Location){
         clothingService.setToken(userService.getToken());
     }
 
@@ -72,6 +74,9 @@ export class VieweClotheComponent implements OnInit{
         this.photoSwipe.openGallery(this.slideImages);
     }
 
+    goBack(){
+        this._location.back();
+    }
 
     refreshClothe(){
         this.clothe = {
