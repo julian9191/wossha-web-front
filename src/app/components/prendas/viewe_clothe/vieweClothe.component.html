@@ -1,0 +1,93 @@
+<div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">{{clothe.name}}</h4>
+                            <p class="category"></p>
+                        </div>
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="image">
+                                        <img [src]="getImage(clothe.picture)"/>
+                                    </div>
+                                    <br><br>
+                                    <p>{{clothe.description}}</p>
+                                    <br>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <th>
+                                                    <h5 class="title">Marca:</h5>
+                                                </th>
+                                                <td>
+                                                    {{clothe.brand}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <h5 class="title">Tipo:</h5>
+                                                </th>
+                                                <td>
+                                                    {{clothe.type}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <h5 class="title">Categoría:</h5>
+                                                </th>
+                                                <td>
+                                                    {{clothe.category}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <h5 class="title">Color:</h5>
+                                                </th>
+                                                <td>
+                                                    <div class="color-box" [style.background-color]="clothe.colorCode"></div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <h5 class="title">Fecha de compra:</h5>
+                                                </th>
+                                                <td>
+                                                    {{clothe.purchaseDate | date : 'yyyy/MM/dd'}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <h5 class="title">Nivel de gusto:</h5>
+                                                </th>
+                                                <td>
+                                                    {{clothe.howLike}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <h5 class="title">Estado:</h5>
+                                                </th>
+                                                <td>
+                                                    {{clothe.state==1?'En uso':'En desuso'}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <div class="legend">
+                            <div>&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

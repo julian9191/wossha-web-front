@@ -18,14 +18,15 @@ export class ClothingService {
 
   private commandsUrl:string = CLOTHING_PATH+'commands';
   private clothingUrl:string = CLOTHING_PATH+'clouthing/';
-  private clothingTypeUrl:string = this.clothingUrl+'clothing-types'
-  private clothingCategoryUrl:string = this.clothingUrl+'clothing-categories'
-  private clothingTypeSearchUrl:string = this.clothingUrl+'search-clouthing-type'
-  private clothingCategorySearchUrl:string = this.clothingUrl+'search-clouthing-category'
-  private clothingBrandSearchUrl:string = this.clothingUrl+'search-brand'
-  private BaseColorUrl:string = this.clothingUrl+'base-colors'
-  private colorsMapUrl:string = this.clothingUrl+'colors-map'
-  private userClothesUrl:string = this.clothingUrl+'clothes'
+  private clothingTypeUrl:string = this.clothingUrl+'clothing-types';
+  private clothingCategoryUrl:string = this.clothingUrl+'clothing-categories';
+  private clothingTypeSearchUrl:string = this.clothingUrl+'search-clouthing-type';
+  private clothingCategorySearchUrl:string = this.clothingUrl+'search-clouthing-category';
+  private clothingBrandSearchUrl:string = this.clothingUrl+'search-brand';
+  private BaseColorUrl:string = this.clothingUrl+'base-colors';
+  private colorsMapUrl:string = this.clothingUrl+'colors-map';
+  private userClothesUrl:string = this.clothingUrl+'clothes';
+  private clotheUrl:string = this.clothingUrl+'clothe';
   
   httpHeaders:HttpHeaders;
 
@@ -63,6 +64,10 @@ export class ClothingService {
 
   getClothes(orderedBy: string, params: HttpParams) : Observable<Clothe>{
     return this.http.get<Clothe>(this.userClothesUrl+"/"+orderedBy, {params: params, headers: this.httpHeaders});
+  }
+
+  getClotheByUuid(uuid: string) : Observable<Clothe>{
+    return this.http.get<Clothe>(this.clotheUrl+"/"+uuid, {headers: this.httpHeaders});
   }
 
   searchClothingType(word:string) : Observable<ClothingType>{
