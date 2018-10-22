@@ -48,11 +48,11 @@
                                         <i class="fa fa-eye"></i>
                                     </span>
                                 </a>
-                                <button class="btn btn-warning btn-fill" (click)="showSwal('basic')" title="Editar">
+                                <a class="btn btn-warning btn-fill" [routerLink]="['/prendas/edit-clothe', clothe.uuid]" title="Editar">
                                     <span class="btn-label">
                                         <i class="fa fa-pencil"></i>
                                     </span>
-                                </button>
+                                </a>
                                 <button class="btn btn-danger btn-fill" (click)="showSwal('basic')" title="Eliminar">
                                     <span class="btn-label">
                                         <i class="fa fa-times"></i>
@@ -98,9 +98,9 @@
                                                     <a class="btn btn-info btn-simple btn-icon" [routerLink]="['/prendas/view-clothe', clothe.uuid]" title="Ver">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
-                                                    <button type="button" rel="tooltip" data-placement="left" title="Editar" class="btn btn-success btn-simple btn-icon">
+                                                    <a class="btn btn-success btn-simple btn-icon" [routerLink]="['/prendas/edit-clothe', clothe.uuid]" title="Editar">
                                                         <i class="fa fa-pencil"></i>
-                                                    </button>
+                                                    </a>
                                                     <button type="button" rel="tooltip" data-placement="left" title="Eliminar" class="btn btn-danger btn-simple btn-icon ">
                                                         <i class="fa fa-times"></i>
                                                     </button>

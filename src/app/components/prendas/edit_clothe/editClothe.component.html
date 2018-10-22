@@ -1,0 +1,149 @@
+<app-photo-swipe #photoSwipe></app-photo-swipe>
+<div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="card">
+                        <div class="header">
+                            <a class="btn btn-warning btn-icon" (click)="goBack()" href="javascript:void(0)" title="Volver">
+                                <span class="btn-label">
+                                    <i class="fa fa-arrow-left"></i> Volver
+                                </span>
+                            </a><br><br>
+                            <h4 class="title">Registra una nueva prenda</h4>
+                            <p class="category"></p>
+                        </div>
+                        <div class="content">
+                            <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid, f, p)" (keydown.enter)="$event.preventDefault()">
+                                <div class="category">
+                                    Los campos requeridos están marcados con: <span class="star">*</span>
+                                </div>
+                                <hr>
+                                <br>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">                                          
+                                        <div class="image" style="height: 215px;">
+                                            <img class="cursor-pointer" [src]="getImage(clothePicture)" (click)="openSlideshow()" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Cambiar foto de la prenda</label>
+                                            <wossha-img-uploader #p name="picture" [aspectRatio]="4 / 3" [resizeToWidth]="800" [roundCropper]="false" [(ngModel)]="register.picture"></wossha-img-uploader>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Nombre <span class="star">*</span></label>
+                                            <input type="text" placeholder="Escriba un nombre para la prenda" class="form-control" name="name" [(ngModel)]="register.name"
+                                            required  #name="ngModel">
+                                            <small [hidden]="name.valid || (name.pristine && !f.submitted)" class="red-text">
+                                                El nombre de la prenda es requerido.
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Tipo de prenda <span class="star">*</span></label>
+                                            <app-search [searchKey]="'clothing-type'" [placeHolder]="'Ej: (PANTALON, CAMISA, ZAPATOS)'" name="type" [searchValue]="register.type" [(ngModel)]="register.type" [required]="true" 
+                                            #type="ngModel"></app-search>
+                                            <small [hidden]="type.valid || (type.pristine && !f.submitted)" class="red-text">
+                                                El tipo de prenda es requerido.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Categoría <span class="star">*</span></label>
+                                            <app-search [searchKey]="'clothing-category'" [placeHolder]="'Ej: (DEPORTIVA, FORMAL, INFORMAL)'" name="category" [searchValue]="register.category" [(ngModel)]="register.category" [required]="true" 
+                                            #category="ngModel"></app-search>
+                                            <small [hidden]="category.valid || (category.pristine && !f.submitted)" class="red-text">
+                                                La categoría de prenda es requerida.
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Fecha de compra</label>
+                                            <input type="date" class="form-control" [(ngModel)]="register.purchaseDate" max="{{maxDate | date: 'yyyy-MM-dd'}}" name="purchaseDate" 
+                                            #purchaseDate="ngModel" />
+                                            <small [hidden]="purchaseDate.valid || (purchaseDate.pristine && !f.submitted)" class="red-text">
+                                                La fecha de compra no debe superar la fecha de hoy.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Nivel de gusto</label>
+                                            <nouislider name="howLike" [connect]="false" [min]="0" [max]="10" [step]="1" [(ngModel)]="register.howLike" [tooltips]="true"></nouislider>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Marca</label>
+                                            <app-search [searchKey]="'brand'" [placeHolder]="'Escriba la marca de la prenda...'" [searchValue]="register.brand" [(ngModel)]="register.brand" name="brand" [required]="false"></app-search>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Elija el color dominante de la prenda <span class="star">*</span></label>
+                                            <colorpicker-cmp name="category" name="colorCode" [selectedColor]="register.colorCode" [(ngModel)]="register.colorCode"
+                                                #colorCode="ngModel"></colorpicker-cmp>
+                                            <small [hidden]="colorCode.valid || (colorCode.pristine && !f.submitted)" class="red-text">
+                                                El color es requerido.
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Descripción</label>
+                                            <textarea rows="5" style="height: 190px;" maxlength="250" placeholder="Escriba una descripción de la prenda" class="form-control" [(ngModel)]="register.description" name="description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="radio col-md-2">
+                                        <input type="radio" name="radio10" id="radio5" value="1" name="state" [(ngModel)]="register.state"
+                                        #state="ngModel">
+                                        <label for="radio5">
+                                            La uso
+                                        </label>
+                                    </div>
+                                    <div class="radio col-md-2" style="margin-top: 10px">
+                                        <input type="radio" name="radio10" id="radio6" value="0" name="state" [(ngModel)]="register.state"
+                                        #state="ngModel">
+                                        <label for="radio6">
+                                            No la uso
+                                        </label>
+                                    </div>
+                                    <div class='clear'></div>
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-fill btn-warning">Crear Prenda</button>
+                            </form>
+                        </div>
+                        <div class="footer">
+                            <div class="legend">
+                                <div>&nbsp;</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>

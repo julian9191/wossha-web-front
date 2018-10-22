@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { ListarPrendasComponent } from './listar_prendas/listarPrendas.component';
 import { CrearPrendasComponent } from './crear_prendas/crearPrendas.component';
 import { VieweClotheComponent } from './viewe_clothe/vieweClothe.component';
+import { EditClotheComponent } from './edit_clothe/editClothe.component';
 
 
 export const PrendasRoutes: Routes = [{
@@ -18,6 +19,10 @@ export const PrendasRoutes: Routes = [{
         {
             path: 'view-clothe/:uuid',
             component: VieweClotheComponent
+        },
+        {
+            path: 'edit-clothe/:uuid',
+            component: EditClotheComponent
         }]
     }
 ];

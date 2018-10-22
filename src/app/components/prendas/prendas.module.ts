@@ -9,6 +9,7 @@ import { NouisliderModule } from 'ng2-nouislider';
 import { ListarPrendasComponent } from './listar_prendas/listarPrendas.component';
 import { CrearPrendasComponent } from './crear_prendas/crearPrendas.component';
 import { VieweClotheComponent } from './viewe_clothe/vieweClothe.component';
+import { EditClotheComponent } from './edit_clothe/editClothe.component';
 import { PrendasRoutes } from './prendas.routing';
 
 
@@ -24,7 +25,8 @@ import { PrendasRoutes } from './prendas.routing';
     declarations: [
         ListarPrendasComponent,
         CrearPrendasComponent,
-        VieweClotheComponent
+        VieweClotheComponent,
+        EditClotheComponent
     ],
     providers: [ClothingService, PicturesService]
 })

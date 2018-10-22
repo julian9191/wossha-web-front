@@ -32,7 +32,7 @@ import { HttpErrorHandlerService } from './providers/auth/httpErrorHandler.servi
         SidebarModule,
         NavbarModule,
         FooterModule,
-        FixedPluginModule,
+        //FixedPluginModule,
         PagesnavbarModule,
         BrowserModule
     ],
