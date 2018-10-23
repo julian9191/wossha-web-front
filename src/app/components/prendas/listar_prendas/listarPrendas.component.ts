@@ -8,6 +8,8 @@ import { Pagination } from '../../../models/global/pagination';
 import { PicturesService } from '../../../providers/pictures/pictures.service';
 import { PhotoSwipeComponent } from 'app/components/components/photo-swipe/photo-swipe.component';
 import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
+import { RemoveClotheCommand } from 'app/models/clothing/commands/removeClotheCommand';
+import { LoginUser } from 'app/models/user/login/loginUser';
 
 @Component({
   selector: 'app-listarPrendas',
@@ -26,6 +28,8 @@ export class ListarPrendasComponent implements OnInit{
   @ViewChild('photoSwipe') 
   public photoSwipe: PhotoSwipeComponent;
   public slideImages: PhotoSwipeImage[];
+  user:LoginUser;
+  removeClotheCommand:RemoveClotheCommand;
 
   constructor(private clothingService: ClothingService, 
     private notificationsService: NotificationsService,
@@ -34,6 +38,9 @@ export class ListarPrendasComponent implements OnInit{
   }
 
   ngOnInit(){
+    this.user = this.userService.getLoggedUserSessionInfo().user;
+    this.removeClotheCommand = new RemoveClotheCommand();
+    this.removeClotheCommand.username = this.user.username;
     this.getClothes(false);
   }
 
@@ -85,5 +92,29 @@ export class ListarPrendasComponent implements OnInit{
   openSlideshow(index:number){
     this.photoSwipe.openGallery(this.slideImages, index);
   }
+
+  removeClothe(uuid:string){
+
+    let nthis = this;
+    this.notificationsService.showConfirmationAlert("¿Está seguro?", "¿Está seguro de eliminar la prenda?", this.notificationsService.WARNING).then(function (response) {
+        if(response){
+          nthis.removeClotheCommand.uuid = uuid;
+
+          nthis.clothingService.executeCommand(nthis.removeClotheCommand).subscribe( 
+              (messaje) => {
+                nthis.notificationsService.showNotification(messaje["msj"], nthis.notificationsService.SUCCESS);
+                nthis.removeLocalClothe(uuid);
+              }, (error: any) => {
+                nthis.notificationsService.showNotification(error.error.msj, nthis.notificationsService.DANGER);
+              }
+          );
+        }
+  });    
+}
+
+removeLocalClothe(uuid:string){
+  this.clothes = this.clothes.filter(c => c.uuid!=uuid);
+  this.totalItems--;
+}
 
 }
