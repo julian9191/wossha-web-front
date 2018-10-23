@@ -27,15 +27,15 @@ export const ROUTES: RouteInfo[] = [{
         type: 'link',
         icontype: 'pe-7s-graph'
     },{
+        path: '/prendas/listar-prendas',
+        title: 'Prendas',
+        type: 'link',
+        icontype: 'fa fa-tshirt'
+    },{
         path: '/calendar',
         title: 'Calendario',
         type: 'link',
         icontype: 'pe-7s-date'
-    },{
-        path: '/prendas/listar-prendas',
-        title: 'Prendas',
-        type: 'link',
-        icontype: 'pe-7s-news-paper'
     },{
         path: '/charts',
         title: 'Estadísticas',

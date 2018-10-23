@@ -11,7 +11,7 @@ export class Clothe {
     purchaseDate:string;
     howLike:number;
     brand:string;
-    state:number;
+    state:string;
     colorCode:any;
     baseColor:number;
     picture:any;

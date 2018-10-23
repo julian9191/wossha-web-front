@@ -82,6 +82,9 @@ export class CrearPrendasComponent implements OnInit{
             model.baseColor=color.baseColorId;
             model.colorCode=color.realColorHexa;
             model.username = this.user.username;
+            if(!model.picture.value){
+                model.picture = null;
+            }
             this.createClotheCommand.clothe = model;
 
             this.clothingService.executeCommand(this.createClotheCommand).subscribe( 

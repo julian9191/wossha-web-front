@@ -56,6 +56,11 @@ input[type="date"]:valid:before {
     height: 154px !important;
 }
 
+/*[_nghost-c8]{
+    height: 40px !important;
+    z-index: -1 !important;
+}*/
+
 .cursor-pointer{
     cursor: pointer;
 }

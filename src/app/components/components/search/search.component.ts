@@ -51,8 +51,8 @@ export class SearchComponent implements ControlValueAccessor, Validator{
   }
 
   // validates the form, returns null when valid else the validation object
-  public validate(c: FormControl) {
-      if(!this.required){
+  public validate(c: FormControl) {;
+      if(!this.required || this.searchValue){
         this.parseError=false;
       }
       return (this.parseError===undefined || this.parseError) ? {

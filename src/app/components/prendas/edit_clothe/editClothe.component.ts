@@ -90,9 +90,11 @@ export class EditClotheComponent implements OnInit{
         this.clothingService.getClotheByUuid(uuid).subscribe( 
             (data:any) => {
                 this.register = data;
+                this.register.state=this.register.state+"";
                 this.clothePicture = (' ' + this.register.picture).slice(1);
                 this.clothePicture = this.clothePicture == 'null' ? null : this.clothePicture; 
-                
+                this.register.colorCode = {"baseColorId": this.register.baseColor, "realColorHexa": this.register.colorCode},
+
                 this.initSlideImages();
             }, (error: any) => {
                 this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener la prenda", this.notificationsService.DANGER);
@@ -111,12 +113,18 @@ export class EditClotheComponent implements OnInit{
     }
 
     save(model: Clothe, isValid: boolean, f:NgForm, p:NgForm) {
+        console.log(model);
+        console.log(this.register);
         if(isValid){
             model.uuid = this.route.snapshot.paramMap.get("uuid");
             let color:any=model.colorCode;
             model.baseColor=color.baseColorId;
             model.colorCode=color.realColorHexa;
             model.username = this.user.username;
+            if(!(model.picture instanceof PictureFile)){
+                model.picture = null;
+            }
+
             this.editClotheCommand.clothe = model;
 
             this.clothingService.executeCommand(this.editClotheCommand).subscribe( 
@@ -125,6 +133,7 @@ export class EditClotheComponent implements OnInit{
                     p.reset();
                     f.resetForm();
                     this.refreshClothe();
+                    this.getClothe(); 
                 }, (error: any) => {
                     this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
                 }
@@ -169,7 +178,7 @@ export class EditClotheComponent implements OnInit{
             purchaseDate:null,
             howLike:5,
             brand:'',
-            state:null,
+            state:'',
             colorCode:{"baseColorId": "", "realColorHexa": ""},
             baseColor:null,
             picture: new PictureFile(),
