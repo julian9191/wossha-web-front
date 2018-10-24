@@ -14,11 +14,11 @@ import {Location} from '@angular/common';
 declare var $:any;
 
 @Component({
-  selector: 'app-crearPrendas',
-  templateUrl: './crearPrendas.component.html'
+  selector: 'app-createClothe',
+  templateUrl: './createClothe.component.html'
 })
 
-export class CrearPrendasComponent implements OnInit{
+export class CreateClotheComponent implements OnInit{
   simpleSlider = 5;
   state_default: boolean = true;
   state_plain: boolean = true;

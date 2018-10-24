@@ -6,29 +6,29 @@ import { ComponentsModule } from '../components/components.module';
 import {ClothingService} from "../../providers/clothing/clothing.service";
 import { PicturesService } from "../../providers/pictures/pictures.service";
 import { NouisliderModule } from 'ng2-nouislider';
-import { ListarPrendasComponent } from './listar_prendas/listarPrendas.component';
-import { CrearPrendasComponent } from './crear_prendas/crearPrendas.component';
+import { ListClothingComponent } from './list_clothing/listClothing.component';
+import { CreateClotheComponent } from './create_clothe/createClothe.component';
 import { VieweClotheComponent } from './viewe_clothe/vieweClothe.component';
 import { EditClotheComponent } from './edit_clothe/editClothe.component';
-import { PrendasRoutes } from './prendas.routing';
+import { ClothingRoutes } from './clothing.routing';
 
 
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(PrendasRoutes),
+        RouterModule.forChild(ClothingRoutes),
         FormsModule,
         NouisliderModule,
         ComponentsModule
     ],
     declarations: [
-        ListarPrendasComponent,
-        CrearPrendasComponent,
+        ListClothingComponent,
+        CreateClotheComponent,
         VieweClotheComponent,
         EditClotheComponent
     ],
     providers: [ClothingService, PicturesService]
 })
 
-export class PrendasModule {}
+export class ClothingModule {}

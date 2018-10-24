@@ -5,7 +5,7 @@
             <div class="places-sweet-alerts">
 
                 <div>
-                    <a [routerLink]="['/prendas/crear-prendas']"  title="Agregar prenda" class="btn btn-warning btn-fill btn-round btn-icon btn-plus">
+                    <a [routerLink]="['/clothing/create-clothe']"  title="Agregar prenda" class="btn btn-warning btn-fill btn-round btn-icon btn-plus">
                         <i class="fa fa-plus"></i>
                     </a>
                 </div>
@@ -37,18 +37,18 @@
                     <div class="col-md-4" *ngFor="let clothe of clothes; let i=index">
                         <div class="card">
                             <div class="content text-center">
-                                <div class="img-prenda">
-                                    <img class="img-prenda cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
+                                <div class="img-clothe">
+                                    <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
                                 </div>
                                 <h5>{{clothe.name}}</h5>
                                 <a href="javascript:void(0)">{{clothe.type}}</a><br/>
                                 <a href="javascript:void(0)">{{clothe.category}}</a><br/><br/>
-                                <a class="btn btn-info btn-fill" [routerLink]="['/prendas/view-clothe', clothe.uuid]" title="Ver">
+                                <a class="btn btn-info btn-fill" [routerLink]="['/clothing/view-clothe', clothe.uuid]" title="Ver">
                                     <span class="btn-label">
                                         <i class="fa fa-eye"></i>
                                     </span>
                                 </a>
-                                <a class="btn btn-warning btn-fill" [routerLink]="['/prendas/edit-clothe', clothe.uuid]" title="Editar">
+                                <a class="btn btn-warning btn-fill" [routerLink]="['/clothing/edit-clothe', clothe.uuid]" title="Editar">
                                     <span class="btn-label">
                                         <i class="fa fa-pencil-alt"></i>
                                     </span>
@@ -82,7 +82,7 @@
                                             <tr *ngFor="let clothe of clothes; let i=index">
                                                 <td>
                                                     <div class="img-container">
-                                                        <img class="img-prenda cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
+                                                        <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -95,10 +95,10 @@
                                                     <a href="javascript:void(0)">{{clothe.category}}</a>
                                                 </td>
                                                 <td class="td-actions">
-                                                    <a class="btn btn-info btn-simple btn-icon" [routerLink]="['/prendas/view-clothe', clothe.uuid]" title="Ver">
+                                                    <a class="btn btn-info btn-simple btn-icon" [routerLink]="['/clothing/view-clothe', clothe.uuid]" title="Ver">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
-                                                    <a class="btn btn-success btn-simple btn-icon" [routerLink]="['/prendas/edit-clothe', clothe.uuid]" title="Editar">
+                                                    <a class="btn btn-success btn-simple btn-icon" [routerLink]="['/clothing/edit-clothe', clothe.uuid]" title="Editar">
                                                         <i class="fa fa-pencil-alt"></i>
                                                     </a>
                                                     <button type="button" rel="tooltip" data-placement="left" title="Eliminar" class="btn btn-danger btn-simple btn-icon ">

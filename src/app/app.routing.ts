@@ -21,8 +21,8 @@ export const AppRoutes: Routes = [{
             path: 'calendar',
             loadChildren: './components/calendar/calendar.module#CalendarModule'
         },{
-            path: 'prendas', 
-            loadChildren: './components/prendas/prendas.module#PrendasModule'
+            path: 'clothing', 
+            loadChildren: './components/clothing/clothing.module#ClothingModule'
         },{
             path: 'combinaciones',
             loadChildren: './components/combinaciones/combinaciones.module#CombinacionesModule'

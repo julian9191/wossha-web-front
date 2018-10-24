@@ -1,20 +1,20 @@
 import { Routes } from '@angular/router';
 
-import { ListarPrendasComponent } from './listar_prendas/listarPrendas.component';
-import { CrearPrendasComponent } from './crear_prendas/crearPrendas.component';
+import { ListClothingComponent } from './list_clothing/listClothing.component';
+import { CreateClotheComponent } from './create_clothe/createClothe.component';
 import { VieweClotheComponent } from './viewe_clothe/vieweClothe.component';
 import { EditClotheComponent } from './edit_clothe/editClothe.component';
 
 
-export const PrendasRoutes: Routes = [{
+export const ClothingRoutes: Routes = [{
         path: '',
         children: [{
-            path: 'listar-prendas',
-            component: ListarPrendasComponent
+            path: 'list-clothing',
+            component: ListClothingComponent
         },
         {
-            path: 'crear-prendas',
-            component: CrearPrendasComponent
+            path: 'create-clothe',
+            component: CreateClotheComponent
         },
         {
             path: 'view-clothe/:uuid',

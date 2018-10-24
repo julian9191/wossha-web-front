@@ -27,7 +27,7 @@ export const ROUTES: RouteInfo[] = [{
         type: 'link',
         icontype: 'pe-7s-graph'
     },{
-        path: '/prendas/listar-prendas',
+        path: '/clothing/list-clothing',
         title: 'Prendas',
         type: 'link',
         icontype: 'fa fa-tshirt'

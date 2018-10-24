@@ -12,12 +12,12 @@ import { RemoveClotheCommand } from 'app/models/clothing/commands/removeClotheCo
 import { LoginUser } from 'app/models/user/login/loginUser';
 
 @Component({
-  selector: 'app-listarPrendas',
-  templateUrl: './listarPrendas.component.html',
-  styleUrls: [ './listarPrendas.component.css' ],
+  selector: 'app-listClothing',
+  templateUrl: './listClothing.component.html',
+  styleUrls: [ './listClothing.component.css' ],
 })
 
-export class ListarPrendasComponent implements OnInit{
+export class ListClothingComponent implements OnInit{
 
   public clothes: Clothe[] = [];
   public orderedBy: string = "NAME";
