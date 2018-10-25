@@ -7650,7 +7650,7 @@ form label.radio, form label.checkbox {
 
 .login-page > .content,
 .lock-page > .content {
-  padding-top: 22vh; }
+  padding-top: 15vh !important; }
 
 .login-page .card {
   box-shadow: 0 25px 30px -13px rgba(40, 40, 40, 0.4);
