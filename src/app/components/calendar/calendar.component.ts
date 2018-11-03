@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { DayPopup } from './popup/dayPopup.component';
 
 declare var swal: any;
 declare var $: any;
@@ -11,6 +13,13 @@ declare var $: any;
 })
 
 export class CalendarComponent implements OnInit{
+
+	public showMoreLink:boolean = false;
+
+	constructor(private dialogService:DialogService){
+
+	}
+
     ngOnInit(){
         var $calendar = $('#fullCalendar');
 
@@ -18,6 +27,7 @@ export class CalendarComponent implements OnInit{
         var y = today.getFullYear();
         var m = today.getMonth();
 		var d = today.getDate();
+		let $this = this;
 		
 		var popTemplate = [
 			'<div class="popover" style="max-width:400px;" >',
@@ -55,35 +65,14 @@ export class CalendarComponent implements OnInit{
                     titleFormat: 'D MMM, YYYY'
                 }
             },
-
-			select: function(start, end) {
-
-                // on select we show the Sweet Alert modal with an input
-                swal({
-                    title: 'Create an Event',
-                    html: '<br><input class="form-control" placeholder="Event Title" id="input-field">',
-                    showCancelButton: true,
-                    closeOnConfirm: true
-                }, function() {
-
-                    var eventData;
-                    var event_title = $('#input-field').val();
-
-                    if (event_title) {
-                        eventData = {
-                            title: event_title,
-                            start: start,
-                            end: end
-                        };
-                        $calendar.fullCalendar('renderEvent', eventData, true); // stick? = true
-                    }
-
-                    $calendar.fullCalendar('unselect');
-
-                });
+			dayClick: function(date, jsEvent, view, resourceObj) {
+				//alert('Date: ' + date.format());
+				//alert('Resource ID: ' + resourceObj.id);
+				$this.openDialog(date, jsEvent, view, resourceObj);
 			},
+			
 			editable: true,
-			eventLimit: true, // allow "more" link when too many events
+			eventLimit: this.showMoreLink, // allow "more" link when too many events
 
 
             // color classes: [ event-blue | event-azure | event-green | event-orange | event-red ]
@@ -213,4 +202,25 @@ export class CalendarComponent implements OnInit{
 			return "../assets/img/blog-1.jpg";
 		}
 	}
+
+	openDialog(date, jsEvent, view, resourceObj){
+		let disposable = this.dialogService.addDialog(DayPopup, {
+			title: date, 
+			date: date,
+			message: ""
+		})
+		.subscribe((result:any)=>{
+			if(result !== undefined){
+			/*this.croppedImage = result;
+			this.propagateFile();
+	
+	
+			}else if(this.croppedImage == ""){
+			this.reset();*/
+			}
+			
+		});
+	}
+
+	
 }

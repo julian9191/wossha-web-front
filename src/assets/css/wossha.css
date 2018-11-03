@@ -82,3 +82,23 @@ input[type="date"]:valid:before {
     border-width: 1px !important;
     border-color: #ddd !important;
 }
+
+.fc-day:hover{
+    background:lightblue;
+}
+.fc-slats, 
+.fc-content-skeleton, 
+.fc-bgevent-skeleton{
+    pointer-events:none;
+}
+.fc-bgevent,
+.fc-event-container{
+    pointer-events:auto;
+}
+
+.tooltip{
+    position:absolute;
+    z-index:10000;
+    background:white;
+    pointer-events:none;
+}

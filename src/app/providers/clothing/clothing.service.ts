@@ -9,6 +9,7 @@ import { Brand } from '../../models/clothing/brand';
 import 'rxjs';
 import { BaseColor } from '../../models/clothing/baseColor';
 import { Clothe } from '../../models/clothing/clothe';
+import { SearchCriteriaParams } from 'app/models/clothing/searchCriteriaParams';
 
 @Injectable()
 export class ClothingService {
@@ -27,6 +28,7 @@ export class ClothingService {
   private colorsMapUrl:string = this.clothingUrl+'colors-map';
   private userClothesUrl:string = this.clothingUrl+'clothes';
   private clotheUrl:string = this.clothingUrl+'clothe';
+  private searchCriteriaParamsUrl:string = this.clothingUrl+'search-criteria-params';
   
   httpHeaders:HttpHeaders;
 
@@ -80,6 +82,10 @@ export class ClothingService {
 
   searchBrand(word:string) : Observable<Brand>{
     return this.http.get<Brand>(this.clothingBrandSearchUrl+"/"+word, {headers: this.httpHeaders});
+  }
+
+  getSearchCriteriaParams() : Observable<SearchCriteriaParams>{
+    return this.http.get<SearchCriteriaParams>(this.searchCriteriaParamsUrl, {headers: this.httpHeaders});
   }
 
   executeCommand(data) : Observable<String>{
