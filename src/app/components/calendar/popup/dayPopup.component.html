@@ -21,7 +21,7 @@
                 <div id="icon-info" class="tab-pane active">
 
                   <div class="row">
-                    <div class="clothing-view-container"[style.height.px]="winHeight-300">
+                    <div class="clothing-view-container"[style.height.px]="winHeight-260">
                       <div>
                         <p>Este día estuvimos en confama de guatapé</p>
                       </div>
@@ -59,115 +59,34 @@
                 <div id="icon-account" class="tab-pane">
                     
                     <div class="row">
-                      <div class="clothing-view-container"[style.height.px]="winHeight-300">
-                        <div class="col-md-3">
-                            <div class="actions">
-                                <div class="panel panel-default">
-                                    <div class="panel-cabecera">
-                                        <label><input type="checkbox" class="filtro" id="filtro_tipoPrenda" name="checkbox-filtro" alt="SI" value="pad_tipoPrenda" checked=""> Tipo de prenda</label>
-                                    </div>
-                                    <div class="panel-body filtro-expandido">
-                                        <angular2-multiselect [data]="searchCriteriaParams.types" 
-                                                            [(ngModel)]="selectedItems" 
-                                                            [settings]="settings" 
-                                                            (onSelect)="onItemSelect($event)"
-                                                            (onDeSelect)="OnItemDeSelect($event)" 
-                                                            (onSelectAll)="onSelectAll($event)" 
-                                                            (onDeSelectAll)="onDeSelectAll($event)">
-                                        </angular2-multiselect>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="actions">
-                                <div class="panel panel-default">
-                                    <div class="panel-cabecera">
-                                        <label><input type="checkbox" name="checkbox-filtro" class="filtro" id="filtro_categoria" alt="NO" value="pad_categoria"> Categoría</label>
-                                    </div>
-                                    <div class="panel-body filtro-contraido">
-                                        <ul id="cont-categoria" class="nav nav-pills nav-stacked">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-cabecera">
-                                    <label><input type="checkbox" name="checkbox-filtro" class="filtro" id="filtro_nivelGusto" alt="NO" value="pad_nivelGusto"> Nivel de gusto</label>
-                                </div>
-                                <div class="panel-body filtro-contraido">
-                                    <ul id="cont-nivelesGusto" class="nav nav-pills nav-stacked">
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-cabecera">
-                                    <label><input type="checkbox" name="checkbox-filtro" class="filtro" id="filtro_marca" alt="NO" value="pad_marca"> Marca</label>
-                                </div>
-                                <div class="panel-body filtro-contraido">
-                                    <ul id="cont-marcas" class="nav nav-pills nav-stacked">
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-cabecera">
-                                    <label><input type="checkbox" name="checkbox-filtro" class="filtro" id="filtro_color" alt="NO" value="pad_color"> Color</label>
-                                </div>
-                                <div class="panel-body filtro-contraido">
-                                    <ul id="cont-coloresPrenda" class="nav nav-pills nav-stacked">
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-cabecera">
-                                    <label><input type="checkbox" name="checkbox-filtro2" class="filtro" alt="NO" id="pad_tiempo"> Tiempo sin uso</label>
-                                </div>
-                                <div class="panel-body filtro-contraido">
-                                    <ul id="cont-coloresPrenda" class="nav nav-pills nav-stacked">
-                                        <div class="input text required">
-                                            <label for="PrendaNombre">Días</label>
-                                            <input class="form-control" placeholder="Días" maxlength="3" type="number" id="dias-filtro" value="5">
-                                        </div>
-                                        <br>
-                                        <div class="input select required">
-                                            <label for="PrendaUserId">Periodo</label>
-                                            <select name="data[Prenda][user_id]" class="form-control" placeholder="User Id" id="intervalo-dias-filtro" required="required">
-                                                <option value=">=">Mayor</option>
-                                                <option value="<=">Menor</option>
-                                                <option value="=">Igual</option>
-                                            </select>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
+                      <div >
+                        <div class="col-md-3 scrollable-container" [style.height.px]="winHeight-270">
+                            <searchcriteria-cmp></searchcriteria-cmp>
                         </div>
-                        <div class="col-md-9">
-                            
-                            <div >
-            
-                                    <div class="row">
-                                
-                                        <div class="col-md-4">
-                                            <div class="card">
-                                                <div class="content text-center">
-                                                    <div class="img-clothe">
-                                                        <img class="img-clothe" alt="..." src="../assets/img/blog-1.jpg" />
-                                                    </div>
-                                                    <h5>Camisa verde de cuadros Big jhon </h5>
-                                                    <a href="https://datatables.net/" target="_blank" rel="noopener noreferrer">Camisetas</a><br/><br/>
-                                                    <button class="btn btn-warning btn-fill btn-wd" (click)="showSwal('basic')">
-                                                        <span class="btn-label">
-                                                            <i class="pe-7s-plus"></i>
-                                                        </span>
-                                                        Agregar a calendatio
-                                                    </button>
-                                                </div>
+                        <div class="col-md-9 scrollable-container" [style.height.px]="winHeight-270">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="content text-center">
+                                            <div class="img-clothe">
+                                                <img class="img-clothe" alt="..." src="../assets/img/blog-1.jpg" />
                                             </div>
+                                            <h5>Camisa verde de cuadros Big jhon </h5>
+                                            <a href="https://datatables.net/" target="_blank" rel="noopener noreferrer">Camisetas</a><br/><br/>
+                                            <button class="btn btn-warning btn-fill btn-wd" (click)="showSwal('basic')">
+                                                <span class="btn-label">
+                                                    <i class="pe-7s-plus"></i>
+                                                </span>
+                                                Agregar a calendatio
+                                            </button>
                                         </div>
-                    
-
                                     </div>
+                                </div>
             
+
                             </div>
+            
+
                         </div>
           
                     </div>
@@ -179,10 +98,7 @@
         </div>
 
        </div>
-       <div class="modal-footer">
-         <button type="button" class="btn btn-warning" (click)="confirm()">Seleccionar</button>
-         <button type="button" class="btn btn-default" (click)="close()" >Cancelar</button>
-       </div>
+       
      </div>
   </div>
 

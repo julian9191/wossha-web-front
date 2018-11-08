@@ -1,0 +1,93 @@
+<div>
+    <div class="actions">
+        <div class="panel panel-default">
+            <div class="panel-cabecera">
+                <label><input type="checkbox" class="filtro" id="filtro_tipoPrenda" name="checkbox-filtro" alt="SI" value="pad_tipoPrenda" checked=""> Tipo de prenda</label>
+            </div>
+            <div class="panel-body filtro-expandido">
+                <angular2-multiselect [data]="searchCriteriaParams.types" 
+                                        [(ngModel)]="selectedItems" 
+                                        [settings]="settings" 
+                                        (onSelect)="onItemSelect($event)"
+                                        (onDeSelect)="OnItemDeSelect($event)" 
+                                        (onSelectAll)="onSelectAll($event)" 
+                                        (onDeSelectAll)="onDeSelectAll($event)">
+                </angular2-multiselect>
+
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="panel panel-default">
+            <div class="panel-cabecera">
+                <label><input type="checkbox" name="checkbox-filtro" class="filtro" id="filtro_categoria" alt="NO" value="pad_categoria"> Categoría</label>
+            </div>
+            <div class="panel-body filtro-contraido">
+                <angular2-multiselect [data]="searchCriteriaParams.categories" 
+                                        [(ngModel)]="selectedItems" 
+                                        [settings]="settings" 
+                                        (onSelect)="onItemSelect($event)"
+                                        (onDeSelect)="OnItemDeSelect($event)" 
+                                        (onSelectAll)="onSelectAll($event)" 
+                                        (onDeSelectAll)="onDeSelectAll($event)">
+                </angular2-multiselect>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-cabecera">
+            <label><input type="checkbox" name="checkbox-filtro" class="filtro" id="filtro_marca" alt="NO" value="pad_marca"> Marca</label>
+        </div>
+        <div class="panel-body filtro-contraido">
+            <angular2-multiselect [data]="searchCriteriaParams.brands" 
+                                    [(ngModel)]="selectedItems" 
+                                    [settings]="settings" 
+                                    (onSelect)="onItemSelect($event)"
+                                    (onDeSelect)="OnItemDeSelect($event)" 
+                                    (onSelectAll)="onSelectAll($event)" 
+                                    (onDeSelectAll)="onDeSelectAll($event)">
+            </angular2-multiselect>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-cabecera">
+            <label><input type="checkbox" name="checkbox-filtro" class="filtro" id="filtro_color" alt="NO" value="pad_color"> Color</label>
+        </div>
+        <div class="panel-body filtro-contraido">
+            <angular2-multiselect [data]="searchCriteriaParams.colors" 
+                                    [(ngModel)]="selectedItems" 
+                                    [settings]="settings" 
+                                    (onSelect)="onItemSelect($event)"
+                                    (onDeSelect)="OnItemDeSelect($event)" 
+                                    (onSelectAll)="onSelectAll($event)" 
+                                    (onDeSelectAll)="onDeSelectAll($event)">
+            </angular2-multiselect>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-cabecera">
+            <label><input type="checkbox" name="checkbox-filtro" class="filtro" id="filtro_nivelGusto" alt="NO" value="pad_nivelGusto"> Nivel de gusto</label>
+        </div>
+        <div class="panel-body filtro-contraido">
+            <nouislider name="howLike" [connect]="false" [min]="0" [max]="10" [step]="1" [(ngModel)]="howLike" [tooltips]="true"></nouislider>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-cabecera">
+            <label><input type="checkbox" name="checkbox-filtro2" class="filtro" alt="NO" id="pad_tiempo"> Días sin uso</label>
+        </div>
+        <div class="panel-body filtro-contraido">
+            <div style="float: left; width: 40%">
+                <select name="data[Prenda][user_id]" class="form-control" placeholder="User Id" id="intervalo-dias-filtro" required="required">
+                <option value=">=" selected>></option>
+                <option value="<=">&lt;</option>
+                <option value="=">=</option>
+            </select>
+            </div>
+            <div style="float: left; width: 60%">
+                <input class="form-control" placeholder="Días" maxlength="3" type="number" id="dias-filtro" value="5">
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

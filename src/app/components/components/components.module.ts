@@ -19,6 +19,8 @@ import { ImageCropperComponent } from './image-cropper/image-cropper.component';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { Popup } from './wossha_img_uploader/popup.component'
 import { PhotoSwipeComponent } from './photo-swipe/photo-swipe.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { NouisliderModule } from 'ng2-nouislider';
 
 @NgModule({
     imports: [
@@ -26,7 +28,9 @@ import { PhotoSwipeComponent } from './photo-swipe/photo-swipe.component';
         RouterModule.forChild(ComponentsRoutes),
         FormsModule,
         NgColorModule,
-        BootstrapModalModule
+        BootstrapModalModule,
+        AngularMultiSelectModule,
+        NouisliderModule
     ],
     exports: [
         WosshaDatepickerComponent,

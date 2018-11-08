@@ -15,7 +15,6 @@ declare var $: any;
 export class CalendarComponent implements OnInit{
 
 	public showMoreLink:boolean = false;
-
 	constructor(private dialogService:DialogService){
 
 	}

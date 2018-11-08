@@ -9,6 +9,8 @@ import { CalendarRoutes } from './calendar.routing';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { DayPopup } from './popup/dayPopup.component'
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { NouisliderModule } from 'ng2-nouislider';
+import { SearchCriteriaModule } from '../components/search_criteria/searchcriteria.module';
 
 @NgModule({
     imports: [
@@ -16,7 +18,9 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
         RouterModule.forChild(CalendarRoutes),
         FormsModule,
         BootstrapModalModule,
-        AngularMultiSelectModule
+        AngularMultiSelectModule,
+        NouisliderModule,
+        SearchCriteriaModule
         
     ],
     entryComponents: [
