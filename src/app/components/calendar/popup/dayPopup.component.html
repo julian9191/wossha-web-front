@@ -67,13 +67,15 @@
                                         <label><input type="checkbox" class="filtro" id="filtro_tipoPrenda" name="checkbox-filtro" alt="SI" value="pad_tipoPrenda" checked=""> Tipo de prenda</label>
                                     </div>
                                     <div class="panel-body filtro-expandido">
-                                        
-                                        <select multiple data-title="Multiple Select" name="currency" class="selectpicker" data-style="btn-warning btn-block" data-menu-style="dropdown-blue">
-                                            <option value="id">Boxer</option>
-                                            <option value="ms">Pantalon</option>
-                                            <option value="ca">Camisa</option>
-                                        </select>
-            
+                                        <angular2-multiselect [data]="searchCriteriaParams.types" 
+                                                            [(ngModel)]="selectedItems" 
+                                                            [settings]="settings" 
+                                                            (onSelect)="onItemSelect($event)"
+                                                            (onDeSelect)="OnItemDeSelect($event)" 
+                                                            (onSelectAll)="onSelectAll($event)" 
+                                                            (onDeSelectAll)="onDeSelectAll($event)">
+                                        </angular2-multiselect>
+
                                     </div>
                                 </div>
                             </div>

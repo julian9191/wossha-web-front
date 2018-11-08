@@ -1,8 +1,8 @@
-import { BaseColor } from "./baseColor";
+import { MultiselectItem } from "./multiselectItem";
 
 export class SearchCriteriaParams {
-    types:string[];
-    categories:string[];
-    brands:string[];
-    colors:BaseColor[];
+    types:MultiselectItem[];
+    categories:MultiselectItem[];
+    brands:MultiselectItem[];
+    colors:MultiselectItem[];
 }

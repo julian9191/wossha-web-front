@@ -65,6 +65,27 @@ input[type="date"]:valid:before {
     cursor: pointer;
 }
 
+.selected-list .c-list .c-token {
+    background: #FFA534 !important; 
+}
+
+.pure-checkbox input[type="checkbox"]:focus + label:before, .pure-checkbox input[type="checkbox"]:hover + label:before {
+    border-color: #FFA534 !important; 
+}
+
+.pure-checkbox input[type="checkbox"] + label:before {
+    color: #FFA534 !important;
+    border: 2px solid #FFA534 !important; 
+}
+
+.pure-checkbox input[type="checkbox"] + label:after {
+    background-color: #FFA534 !important; 
+}
+
+.pure-checkbox input[type="checkbox"]:checked + label:before {
+    background: #FFA534 !important; 
+}
+
 /*CALENDAR--------------*/
 .fc-event{
     /*width: 30% !important;*/

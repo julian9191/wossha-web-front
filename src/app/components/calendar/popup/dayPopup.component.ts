@@ -4,7 +4,8 @@ import { Clothe } from 'app/models/clothing/clothe';
 import { PictureFile } from 'app/models/global/pictureFile';
 import { ClothingService } from 'app/providers/clothing/clothing.service';
 import { UserService } from 'app/providers/user/user.service';
-import { LoginUser } from 'app/models/user/login/loginUser';
+import { NotificationsService } from 'app/providers/notifications/notifications.service';
+import { SearchCriteriaParams } from 'app/models/clothing/searchCriteriaParams';
 
 declare var $:any;
 
@@ -25,11 +26,13 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
   public clothes: Clothe[] = [];
   public winHeight: number;
   public winWidth: number;
-  public filledItems = ['Boxer', 'Camiseta', 'Medias'];
-  
+  public searchCriteriaParams:SearchCriteriaParams = new SearchCriteriaParams();
+  selectedItems = [];
+  settings = {};
 
   constructor(dialogService: DialogService,
               private clothingService: ClothingService,
+              private notificationsService: NotificationsService,
               private userService: UserService ) {
     super(dialogService);
     clothingService.setToken(userService.getToken());
@@ -44,21 +47,34 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
     this.clothes.push(this.createClothe());
     this.clothes.push(this.createClothe());
 
-    //  Init Bootstrap Select Picker
-    if($(".selectpicker").length != 0){
-        $(".selectpicker").selectpicker({
-            iconBase: "fa",
-            tickIcon: "fa-check"
-        });
-    }
+
+    this.selectedItems = [];
+    this.settings = {
+        text: "Tipos de prenda",
+        selectAllText: 'Seleccionar todo',
+        unSelectAllText: 'reestablecer',
+        classes: "btn-warning btn-block"
+    };        
+
   }
 
   getSearchCriteriaParams(){
     this.clothingService.getSearchCriteriaParams().subscribe(
       (data:any) => {
-        console.log(data);
+        this.searchCriteriaParams = data;
+
+        console.log(this.searchCriteriaParams);
+
+        //  Init Bootstrap Select Picker
+        if($(".selectpicker").length != 0){
+          $(".selectpicker").selectpicker({
+              iconBase: "fa",
+              tickIcon: "fa-check"
+          });
+        }
+
       }, (error: any) => {
-        //this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de prendas", this.notificationsService.DANGER);
+        this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de prendas", this.notificationsService.DANGER);
       }
     );
   }
@@ -95,6 +111,30 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
         picture: new PictureFile(),
         pictureValue: null
     }
+}
+
+
+
+
+
+
+
+
+
+
+onItemSelect(item: any) {
+  console.log(item);
+  console.log(this.selectedItems);
+}
+OnItemDeSelect(item: any) {
+  console.log(item);
+  console.log(this.selectedItems);
+}
+onSelectAll(items: any) {
+  console.log(items);
+}
+onDeSelectAll(items: any) {
+  console.log(items);
 }
 
 }
