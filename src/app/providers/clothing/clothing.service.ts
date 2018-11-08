@@ -9,7 +9,7 @@ import { Brand } from '../../models/clothing/brand';
 import 'rxjs';
 import { BaseColor } from '../../models/clothing/baseColor';
 import { Clothe } from '../../models/clothing/clothe';
-import { SearchCriteriaParams } from 'app/models/clothing/searchCriteriaParams';
+import { SearchCriteriaParams } from 'app/models/clothing/searchCriteria/searchCriteriaParams';
 
 @Injectable()
 export class ClothingService {

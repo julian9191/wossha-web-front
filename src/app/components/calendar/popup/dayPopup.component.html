@@ -61,9 +61,12 @@
                     <div class="row">
                       <div >
                         <div class="col-md-3 scrollable-container" [style.height.px]="winHeight-270">
-                            <searchcriteria-cmp></searchcriteria-cmp>
+                            <searchcriteria-cmp [(ngModel)]="searchCriteriaResult"></searchcriteria-cmp>
                         </div>
                         <div class="col-md-9 scrollable-container" [style.height.px]="winHeight-270">
+                            <button class="btn btn-wd btn-warning" (click)="probar()">
+                                <i _ngcontent-c2="" class="fa fa-search"></i> Buscar
+                            </button><br><br>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="card">

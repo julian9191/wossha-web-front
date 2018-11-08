@@ -5,6 +5,7 @@ import { PictureFile } from 'app/models/global/pictureFile';
 import { ClothingService } from 'app/providers/clothing/clothing.service';
 import { UserService } from 'app/providers/user/user.service';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
+import { SearchCriteriaResult } from 'app/models/clothing/searchCriteria/searchCriteriaResult';
 
 declare var $:any;
 
@@ -25,7 +26,7 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
   public clothes: Clothe[] = [];
   public winHeight: number;
   public winWidth: number;
-
+  public searchCriteriaResult:SearchCriteriaResult = new SearchCriteriaResult();
 
   constructor(dialogService: DialogService,
               private clothingService: ClothingService,
@@ -35,6 +36,10 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
     clothingService.setToken(userService.getToken());
     this.winHeight = (window.innerHeight);
     this.winWidth = (window.innerWidth);
+  }
+
+  probar(){
+    console.log(this.searchCriteriaResult);
   }
 
   ngOnInit(){

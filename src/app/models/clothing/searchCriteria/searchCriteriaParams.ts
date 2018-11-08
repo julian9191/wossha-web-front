@@ -1,4 +1,4 @@
-import { MultiselectItem } from "./multiselectItem";
+import { MultiselectItem } from "../multiselectItem";
 
 export class SearchCriteriaParams {
     types:MultiselectItem[];
