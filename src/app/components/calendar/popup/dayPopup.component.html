@@ -1,3 +1,4 @@
+<!--<app-photo-swipe #photoSwipe></app-photo-swipe>-->
 <div class="modal-dialog">
     <div class="modal-content">
        <div class="modal-header">
@@ -64,19 +65,20 @@
                             <searchcriteria-cmp [(ngModel)]="searchCriteriaResult"></searchcriteria-cmp>
                         </div>
                         <div class="col-md-9 scrollable-container" [style.height.px]="winHeight-270">
-                            <button class="btn btn-wd btn-warning" (click)="probar()">
+                            <button class="btn btn-wd btn-warning" (click)="getClothing(false)">
                                 <i _ngcontent-c2="" class="fa fa-search"></i> Buscar
                             </button><br><br>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-4" *ngFor="let clothe of clothes; let i=index">
                                     <div class="card">
                                         <div class="content text-center">
                                             <div class="img-clothe">
-                                                <img class="img-clothe" alt="..." src="../assets/img/blog-1.jpg" />
+                                                <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
                                             </div>
-                                            <h5>Camisa verde de cuadros Big jhon </h5>
-                                            <a href="https://datatables.net/" target="_blank" rel="noopener noreferrer">Camisetas</a><br/><br/>
-                                            <button class="btn btn-warning btn-fill btn-wd" (click)="showSwal('basic')">
+                                            <h5>{{clothe.name}}</h5>
+                                            <a href="javascript:void(0)">{{clothe.type}}</a><br/>
+                                            <a href="javascript:void(0)">{{clothe.category}}</a><br/><br/>
+                                            <button class="btn btn-warning btn-fill btn-wd">
                                                 <span class="btn-label">
                                                     <i class="pe-7s-plus"></i>
                                                 </span>
@@ -94,6 +96,12 @@
           
                     </div>
                   </div>
+
+                    <div class="col-md-12" *ngIf="clothes.length < totalItems">
+                        <button type="button" rel="tooltip" (click)="getClothing(true)" data-placement="left" title="Eliminar" class="btn btn-danger btn-block btn-icon ">
+                            <i class="fa fa-arrow-down"></i> Cargar mas...
+                        </button>
+                    </div>
 
                 </div>
           </div>
