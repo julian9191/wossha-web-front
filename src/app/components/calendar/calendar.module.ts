@@ -12,6 +12,7 @@ import { DayPopup } from './popup/dayPopup.component'
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { NouisliderModule } from 'ng2-nouislider';
 import { SearchCriteriaModule } from '../components/search_criteria/searchcriteria.module';
+import { AddCalendarComponent } from './popup/addcalendar/addCalendar.component';
 import { PhotoSwipeComponent } from '../components/photo-swipe/photo-swipe.component';
 
 @NgModule({
@@ -26,9 +27,10 @@ import { PhotoSwipeComponent } from '../components/photo-swipe/photo-swipe.compo
         //PhotoSwipeComponent
     ],
     entryComponents: [
-        DayPopup
+        DayPopup,
+        AddCalendarComponent
     ],
-    declarations: [CalendarComponent, DayPopup],
+    declarations: [CalendarComponent, DayPopup, AddCalendarComponent],
     providers: [ClothingService, NotificationsService, CalendarService]
 })
 
