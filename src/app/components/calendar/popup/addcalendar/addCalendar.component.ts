@@ -1,14 +1,11 @@
-import { Component, OnInit, forwardRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ClothingService } from 'app/providers/clothing/clothing.service';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { UserService } from 'app/providers/user/user.service';
 import { SearchCriteriaResult } from 'app/models/clothing/searchCriteria/searchCriteriaResult';
 import { Clothe } from 'app/models/clothing/clothe';
-import { PhotoSwipeComponent } from 'app/components/components/photo-swipe/photo-swipe.component';
-import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
 import { CalendarService } from 'app/providers/clothing/calendar.service';
 import { HttpParams } from '@angular/common/http';
-import { PictureFile } from 'app/models/global/pictureFile';
 
 declare var $:any;
 
@@ -26,9 +23,9 @@ export class AddCalendarComponent implements OnInit {
     public totalItems = 0;
     public currentPage = 1;
     public itemsPerPage = 5;
-    @ViewChild('photoSwipe') 
-    public photoSwipe: PhotoSwipeComponent;
-    public slideImages: PhotoSwipeImage[];
+     
+    @Output() initSlideImagesEvent = new EventEmitter<string[]>();
+    @Output() openSlideshowEvent = new EventEmitter<number>();
 
     constructor(private clothingService: ClothingService,
         private calendarService: CalendarService,
@@ -39,6 +36,10 @@ export class AddCalendarComponent implements OnInit {
         calendarService.setToken(userService.getToken());
         this.winHeight = (window.innerHeight);
         this.winWidth = (window.innerWidth);
+    }
+
+    ngOnInit(){
+        
     }
 
     getClothing(append:boolean){
@@ -61,9 +62,6 @@ export class AddCalendarComponent implements OnInit {
         );
     }
 
-    ngOnInit(){}
-
-
     getImage(uuid:string):string{
         if(uuid){
             return "http://localhost:8083/pictures/static-picture/"+uuid;
@@ -73,40 +71,12 @@ export class AddCalendarComponent implements OnInit {
     }
 
     initSlideImages(){  
-        /*this.slideImages = [];
-        for (let clothe of this.clothes) {
-        let item:PhotoSwipeImage = {
-            src: this.getImage(clothe.picture),
-            w: 800,
-            h: 600
-        }
-        this.slideImages.push(item);
-        }*/
+        let images:string[] = this.clothes.map((x) => {return x.picture});
+        this.initSlideImagesEvent.emit(images);
     }
 
     openSlideshow(index:number){
-        //this.photoSwipe.openGallery(this.slideImages, index);
-    }
-
-
-    createClothe(){
-        return {
-        id: null,
-        uuid:'',
-        username:'',
-        name:'',
-        description:'',
-        type:'',
-        category:'',
-        purchaseDate:null,
-        howLike:5,
-        brand:'',
-        state:null,
-        colorCode:{"baseColorId": "", "realColorHexa": ""},
-        baseColor:null,
-        picture: new PictureFile(),
-        pictureValue: null
-        }
+        this.openSlideshowEvent.emit(index);
     }
 
 }

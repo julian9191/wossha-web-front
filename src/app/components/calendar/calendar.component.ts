@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { DayPopup } from './popup/dayPopup.component';
+import { PhotoSwipeComponent } from '../components/photo-swipe/photo-swipe.component';
+import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
 
 declare var swal: any;
 declare var $: any;
@@ -15,9 +17,11 @@ declare var $: any;
 export class CalendarComponent implements OnInit{
 
 	public showMoreLink:boolean = false;
-	constructor(private dialogService:DialogService){
+	@ViewChild('photoSwipe')
+	public photoSwipe: PhotoSwipeComponent;
+    public slideImages: PhotoSwipeImage[];
 
-	}
+	constructor(private dialogService:DialogService){}
 
     ngOnInit(){
         var $calendar = $('#fullCalendar');
@@ -194,7 +198,6 @@ export class CalendarComponent implements OnInit{
 	}
 
 	getImage(uuid:string):string{
-		console.log(uuid);
 		if(uuid){
 			return "http://localhost:8083/pictures/static-picture/"+uuid;
 		}else{
@@ -210,16 +213,31 @@ export class CalendarComponent implements OnInit{
 		})
 		.subscribe((result:any)=>{
 			if(result !== undefined){
-			/*this.croppedImage = result;
-			this.propagateFile();
-	
-	
-			}else if(this.croppedImage == ""){
-			this.reset();*/
+				if(result instanceof Array){
+					this.initSlideImages(result);
+				}else if(typeof result == 'number'){
+					this.openSlideshow(result);
+				}
 			}
 			
 		});
 	}
+
+	initSlideImages(images:string[]){
+        this.slideImages = [];
+        for (let image of images) {
+            let item:PhotoSwipeImage = {
+                src: this.getImage(image),
+                w: 800,
+                h: 600
+            }
+            this.slideImages.push(item);
+        }
+    }
+
+    openSlideshow(index:number){
+        this.photoSwipe.openGallery(this.slideImages, index);
+    }
 
 	
 }

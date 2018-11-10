@@ -1,8 +1,7 @@
-<!--<app-photo-swipe #photoSwipe></app-photo-swipe>-->
 <div class="modal-dialog">
     <div class="modal-content">
        <div class="modal-header">
-         <button type="button" class="close" (click)="close()" >&times;</button>
+         <button type="button" class="close" (click)="closeDialog()" >&times;</button>
          <h4 class="modal-title">{{(title | date : 'yyyy/MM/dd') || 'Confirm'}}</h4>
        </div>
        <div class="modal-body">
@@ -58,7 +57,7 @@
 
                 <!--MODIFICAR-------------------------------------------------->
                 <div id="icon-account" class="tab-pane">
-                    <addcalendar-cmp></addcalendar-cmp>
+                    <addcalendar-cmp (initSlideImagesEvent)="initSlideImages($event)" (openSlideshowEvent)="openSlideshow($event)"></addcalendar-cmp>
                 </div>
           </div>
 

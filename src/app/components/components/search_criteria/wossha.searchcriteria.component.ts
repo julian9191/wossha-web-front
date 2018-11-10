@@ -66,8 +66,6 @@ export class SearchCriteriaComponent implements ControlValueAccessor, OnInit {
         this.clothingService.getSearchCriteriaParams().subscribe(
           (data:any) => {
             this.searchCriteriaParams = data;
-    
-            console.log(this.searchCriteriaParams);
           }, (error: any) => {
             this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de prendas", this.notificationsService.DANGER);
           }
@@ -110,19 +108,15 @@ export class SearchCriteriaComponent implements ControlValueAccessor, OnInit {
     private propagateChange = (_: any) => { };
 
     onItemSelect(item: any) {
-        //console.log(item);
         this.onChange();
     }
     OnItemDeSelect(item: any) {
-        //console.log(item);
         this.onChange();
     }
     onSelectAll(items: any) {
-        //console.log(items);
         this.onChange();
     }
     onDeSelectAll(items: any) {
-        //console.log(items);
         this.onChange();
     }
 

@@ -1,7 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
-import { Clothe } from 'app/models/clothing/clothe';
-import { PictureFile } from 'app/models/global/pictureFile';
 
 declare var $:any;
 
@@ -35,6 +33,10 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
     this.close();
   }
 
+  closeDialog(){
+    this.result = null;
+    this.close();
+  }
 
   getImage(uuid:string):string{
     if(uuid){
@@ -44,26 +46,14 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
     }
   }
 
-
-
-
-  createClothe(){
-    return {
-        id: null,
-        uuid:'',
-        username:'',
-        name:'',
-        description:'',
-        type:'',
-        category:'',
-        purchaseDate:null,
-        howLike:5,
-        brand:'',
-        state:null,
-        colorCode:{"baseColorId": "", "realColorHexa": ""},
-        baseColor:null,
-        picture: new PictureFile(),
-        pictureValue: null
-    }
+  initSlideImages(images: any) {
+      this.result = images;
+      this.ngOnDestroy();
   }
+
+  openSlideshow(index:any){
+    this.result = index;
+    this.ngOnDestroy();
+  }
+  
 }

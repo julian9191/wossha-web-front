@@ -11,7 +11,7 @@ import { CreateClotheComponent } from './create_clothe/createClothe.component';
 import { VieweClotheComponent } from './viewe_clothe/vieweClothe.component';
 import { EditClotheComponent } from './edit_clothe/editClothe.component';
 import { ClothingRoutes } from './clothing.routing';
-
+import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
 
 
 @NgModule({
@@ -20,7 +20,8 @@ import { ClothingRoutes } from './clothing.routing';
         RouterModule.forChild(ClothingRoutes),
         FormsModule,
         NouisliderModule,
-        ComponentsModule
+        ComponentsModule,
+        PhotoSwipeModule
     ],
     declarations: [
         ListClothingComponent,

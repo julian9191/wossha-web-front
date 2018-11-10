@@ -113,8 +113,6 @@ export class EditClotheComponent implements OnInit{
     }
 
     save(model: Clothe, isValid: boolean, f:NgForm, p:NgForm) {
-        console.log(model);
-        console.log(this.register);
         if(isValid){
             model.uuid = this.route.snapshot.paramMap.get("uuid");
             let color:any=model.colorCode;
