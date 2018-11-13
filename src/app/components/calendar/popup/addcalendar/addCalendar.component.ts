@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { ClothingService } from 'app/providers/clothing/clothing.service';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { UserService } from 'app/providers/user/user.service';
@@ -6,6 +6,8 @@ import { SearchCriteriaResult } from 'app/models/clothing/searchCriteria/searchC
 import { Clothe } from 'app/models/clothing/clothe';
 import { CalendarService } from 'app/providers/clothing/calendar.service';
 import { HttpParams } from '@angular/common/http';
+import { AddToCalendarCommand } from 'app/models/calendar/commands/addToCalendarCommand';
+import { LoginUser } from 'app/models/user/login/loginUser';
 
 declare var $:any;
 
@@ -23,9 +25,12 @@ export class AddCalendarComponent implements OnInit {
     public totalItems = 0;
     public currentPage = 1;
     public itemsPerPage = 5;
+    public addToCalendarCommand: AddToCalendarCommand;
+    private user:LoginUser;
      
     @Output() initSlideImagesEvent = new EventEmitter<string[]>();
     @Output() openSlideshowEvent = new EventEmitter<number>();
+    @Input() date: Date;
 
     constructor(private clothingService: ClothingService,
         private calendarService: CalendarService,
@@ -39,7 +44,11 @@ export class AddCalendarComponent implements OnInit {
     }
 
     ngOnInit(){
-        
+        this.user = this.userService.getLoggedUserSessionInfo().user;
+        this.addToCalendarCommand = new AddToCalendarCommand();
+        this.addToCalendarCommand.username = this.user.username;
+        this.addToCalendarCommand.day = this.date;
+        this.getClothing(false);
     }
 
     getClothing(append:boolean){
@@ -77,6 +86,19 @@ export class AddCalendarComponent implements OnInit {
 
     openSlideshow(index:number){
         this.openSlideshowEvent.emit(index);
+    }
+
+    addToCalendar(id, uuid){
+        this.addToCalendarCommand.idClothe = id;
+        this.addToCalendarCommand.uuidClothe = uuid;
+
+        this.calendarService.executeCommand(this.addToCalendarCommand).subscribe( 
+            (messaje) => {
+                this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
+            }, (error: any) => {
+                this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
+            }
+        );
     }
 
 }

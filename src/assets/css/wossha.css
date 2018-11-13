@@ -2,6 +2,10 @@
     width: 100%;
  }
 
+ .alert {
+    z-index: 2000 !important;
+  }
+
  .panel-cabecera{
     color: #333;
     background-color: #d8d8d8;

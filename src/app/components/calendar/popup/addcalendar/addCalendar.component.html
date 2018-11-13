@@ -18,9 +18,9 @@
                           <h5>{{clothe.name}}</h5>
                           <a href="javascript:void(0)">{{clothe.type}}</a><br/>
                           <a href="javascript:void(0)">{{clothe.category}}</a><br/><br/>
-                          <button class="btn btn-warning btn-fill btn-wd">
+                          <button class="btn btn-warning btn-fill btn-wd" (click)="addToCalendar(clothe.id, clothe.uuid)">
                               <span class="btn-label">
-                                  <i class="pe-7s-plus"></i>
+                                <i class="fa fa-plus"></i>
                               </span>
                               Agregar a calendatio
                           </button>
