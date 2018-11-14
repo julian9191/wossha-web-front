@@ -1,5 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
+import { CalendarService } from 'app/providers/clothing/calendar.service';
+import { NotificationsService } from 'app/providers/notifications/notifications.service';
+import { UserService } from 'app/providers/user/user.service';
+import { Clothe } from 'app/models/clothing/clothe';
+import { AddCalendarComponent } from './addcalendar/addCalendar.component';
 
 declare var $:any;
 
@@ -17,25 +22,40 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
   title: string;
   message: string;
   date: Date;
-
   public winHeight: number;
   public winWidth: number;
+  @ViewChild(AddCalendarComponent) child:AddCalendarComponent;
 
-  constructor(dialogService: DialogService) {
+  public clothes: Clothe[] = [];
+
+  constructor(dialogService: DialogService,
+              private calendarService: CalendarService,
+              private notificationsService: NotificationsService,
+              private userService: UserService) {
     super(dialogService);
     this.winHeight = (window.innerHeight);
     this.winWidth = (window.innerWidth);
   }
 
-  ngOnInit(){}
-
-  confirm() {
-    this.close();
+  ngOnInit(){
+    this.getDayClothing();
   }
 
-  closeDialog(){
-    this.result = null;
-    this.close();
+  openAddCalendarTab(){
+    this.child.isInitSlideImages = true;
+    this.child.initSlideImages();
+  }
+
+  getDayClothing(){
+    this.calendarService.getDayClothing(this.date).subscribe(
+        (data:any) => {
+            this.clothes = data;
+            let images:string[] = this.clothes.map((x) => {return x.picture});
+            this.initSlideImages(images);
+          }, (error: any) => {
+            this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener las prendas", this.notificationsService.DANGER);
+        }
+    );
   }
 
   getImage(uuid:string):string{
@@ -54,6 +74,15 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
   openSlideshow(index:any){
     this.result = index;
     this.ngOnDestroy();
+  }
+
+  confirm() {
+    this.close();
+  }
+
+  closeDialog(){
+    this.result = null;
+    this.close();
   }
   
 }

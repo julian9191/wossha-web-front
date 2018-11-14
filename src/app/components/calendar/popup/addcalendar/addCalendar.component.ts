@@ -27,6 +27,7 @@ export class AddCalendarComponent implements OnInit {
     public itemsPerPage = 5;
     public addToCalendarCommand: AddToCalendarCommand;
     private user:LoginUser;
+    public isInitSlideImages:boolean = false;
      
     @Output() initSlideImagesEvent = new EventEmitter<string[]>();
     @Output() openSlideshowEvent = new EventEmitter<number>();
@@ -79,9 +80,12 @@ export class AddCalendarComponent implements OnInit {
         }
     }
 
-    initSlideImages(){  
-        let images:string[] = this.clothes.map((x) => {return x.picture});
-        this.initSlideImagesEvent.emit(images);
+    initSlideImages(){ 
+        if(this.isInitSlideImages){
+            let images:string[] = this.clothes.map((x) => {return x.picture});
+            this.initSlideImagesEvent.emit(images);
+        } 
+        
     }
 
     openSlideshow(index:number){

@@ -16,7 +16,8 @@ export class CalendarService {
   private commandsUrl:string = CLOTHING_PATH+'commands';
   private calendarUrl:string = CLOTHING_PATH+'calendar/';
   private searchClothingCalendarUrl:string = this.calendarUrl+'search-clothing';
-  
+  private getDayClothingUrl:string = this.calendarUrl+'day-clothing';
+
   httpHeaders:HttpHeaders;
 
   constructor(private router: Router,
@@ -39,6 +40,9 @@ export class CalendarService {
     return this.http.post<Clothe>(this.searchClothingCalendarUrl, searchCriteriaResult, {params: params, headers: this.httpHeaders});
   }
 
+  getDayClothing(date:Date) : Observable<Clothe>{
+    return this.http.get<Clothe>(this.getDayClothingUrl+"/"+date, {headers: this.httpHeaders});
+  }
 
   executeCommand(data) : Observable<String>{
     return this.http.post<String>(this.commandsUrl, data, {headers: this.httpHeaders})
