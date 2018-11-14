@@ -7,6 +7,7 @@ import { Clothe } from 'app/models/clothing/clothe';
 import { AddCalendarComponent } from './addcalendar/addCalendar.component';
 import { AddDayDescriptionCommand } from 'app/models/calendar/commands/addDayDescriptionCommand';
 import { LoginUser } from 'app/models/user/login/loginUser';
+import { RemoveClotheFromDayCommand } from 'app/models/calendar/commands/removeClotheFromDayCommand';
 
 declare var $:any;
 
@@ -29,6 +30,7 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
   @ViewChild(AddCalendarComponent) child:AddCalendarComponent;
   public showDescriptionEdit:boolean;
   public addDayDescriptionCommand: AddDayDescriptionCommand;
+  removeClotheFromDayCommand:RemoveClotheFromDayCommand;
   private user:LoginUser;
 
   public clothes: Clothe[] = [];
@@ -48,6 +50,9 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
     this.addDayDescriptionCommand.username = this.user.username;
     this.addDayDescriptionCommand.day = this.date;
     this.showDescriptionEdit = true;
+    this.removeClotheFromDayCommand = new RemoveClotheFromDayCommand();
+    this.removeClotheFromDayCommand.username = this.user.username;
+    this.removeClotheFromDayCommand.day = this.date;
     this.getDayDescription();
     this.getDayClothing();
   }
@@ -91,6 +96,27 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
             this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
         }
     );
+  }
+
+  removeClothe(uuid:string){
+    let nthis = this;
+    this.notificationsService.showConfirmationAlert("¿Esta seguro?", "¿ Esta seguro de remover la prenda de esta fecha ?", this.notificationsService.WARNING).then(function (response) {
+      if(response){
+        nthis.removeClotheFromDayCommand.uuidClothe = uuid;
+        nthis.calendarService.executeCommand(nthis.removeClotheFromDayCommand).subscribe( 
+            (messaje) => {
+              nthis.notificationsService.showNotification(messaje["msj"], nthis.notificationsService.SUCCESS);
+              nthis.removeLocalClothe(uuid);
+            }, (error: any) => {
+              nthis.notificationsService.showNotification(error.error.msj, nthis.notificationsService.DANGER);
+            }
+        );
+      }
+    });    
+  }
+
+  removeLocalClothe(uuid:string){
+    this.clothes = this.clothes.filter(c => c.uuid!=uuid);
   }
 
   getImage(uuid:string):string{
