@@ -17,6 +17,7 @@ export class CalendarService {
   private calendarUrl:string = CLOTHING_PATH+'calendar/';
   private searchClothingCalendarUrl:string = this.calendarUrl+'search-clothing';
   private getDayClothingUrl:string = this.calendarUrl+'day-clothing';
+  private getDayDescriptionUrl:string = this.calendarUrl+'day-description';
 
   httpHeaders:HttpHeaders;
 
@@ -42,6 +43,10 @@ export class CalendarService {
 
   getDayClothing(date:Date) : Observable<Clothe>{
     return this.http.get<Clothe>(this.getDayClothingUrl+"/"+date, {headers: this.httpHeaders});
+  }
+
+  getDayDescription(date:Date) : Observable<string>{
+    return this.http.get<string>(this.getDayDescriptionUrl+"/"+date, {headers: this.httpHeaders});
   }
 
   executeCommand(data) : Observable<String>{

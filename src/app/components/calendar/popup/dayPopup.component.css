@@ -13,3 +13,16 @@
 .scrollable-container{
     overflow: auto;
 }
+
+.description-container{
+    background-color: #e9ecef;
+    padding: 10px 20px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.description-txt{
+    margin: 0 0 10px;
+}

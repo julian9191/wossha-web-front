@@ -5,6 +5,8 @@ import { NotificationsService } from 'app/providers/notifications/notifications.
 import { UserService } from 'app/providers/user/user.service';
 import { Clothe } from 'app/models/clothing/clothe';
 import { AddCalendarComponent } from './addcalendar/addCalendar.component';
+import { AddDayDescriptionCommand } from 'app/models/calendar/commands/addDayDescriptionCommand';
+import { LoginUser } from 'app/models/user/login/loginUser';
 
 declare var $:any;
 
@@ -25,6 +27,9 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
   public winHeight: number;
   public winWidth: number;
   @ViewChild(AddCalendarComponent) child:AddCalendarComponent;
+  public showDescriptionEdit:boolean;
+  public addDayDescriptionCommand: AddDayDescriptionCommand;
+  private user:LoginUser;
 
   public clothes: Clothe[] = [];
 
@@ -38,12 +43,31 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
   }
 
   ngOnInit(){
+    this.user = this.userService.getLoggedUserSessionInfo().user;
+    this.addDayDescriptionCommand = new AddDayDescriptionCommand();
+    this.addDayDescriptionCommand.username = this.user.username;
+    this.addDayDescriptionCommand.day = this.date;
+    this.showDescriptionEdit = true;
+    this.getDayDescription();
     this.getDayClothing();
   }
 
   openAddCalendarTab(){
     this.child.isInitSlideImages = true;
     this.child.initSlideImages();
+  }
+
+  getDayDescription(){
+    this.calendarService.getDayDescription(this.date).subscribe(
+      (data:any) => {
+        this.addDayDescriptionCommand.description = data.description;
+        if(this.addDayDescriptionCommand.description){
+          this.showDescriptionEdit = false;
+        }
+      }, (error: any) => {
+        this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener las prendas", this.notificationsService.DANGER);
+      }
+    );
   }
 
   getDayClothing(){
@@ -54,6 +78,17 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
             this.initSlideImages(images);
           }, (error: any) => {
             this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener las prendas", this.notificationsService.DANGER);
+        }
+    );
+  }
+
+  saveDescription(){
+    this.calendarService.executeCommand(this.addDayDescriptionCommand).subscribe( 
+        (messaje) => {
+            this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
+            this.showDescriptionEdit=false;
+          }, (error: any) => {
+            this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
         }
     );
   }

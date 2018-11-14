@@ -12,7 +12,7 @@
                     <a href="#icon-info" data-toggle="tab" (click)="getDayClothing()" ><i class="fa fa-eye"></i> Ver</a>
                 </li>
                 <li>
-                    <a href="#icon-account" data-toggle="tab" (click)="openAddCalendarTab()"><i class="fa fa-pencil-alt"></i> Modifiicar</a>
+                    <a href="#icon-account" data-toggle="tab" (click)="openAddCalendarTab()"><i class="fa fa-plus"></i> Agregar prendas</a>
                 </li>
             </ul>
 
@@ -21,9 +21,22 @@
                 <div id="icon-info" class="tab-pane active">
 
                   <div class="row">
-                    <div class="clothing-view-container"[style.height.px]="winHeight-260">
-                      <div>
-                        <p>Este día estuvimos en confama de guatapé</p>
+                    <div class="col-md-12 clothing-view-container"[style.height.px]="winHeight-260">
+                      <div class="description-container">
+                        <p *ngIf="!showDescriptionEdit">{{addDayDescriptionCommand.description}}</p>
+                        <textarea *ngIf="showDescriptionEdit" rows="5" maxlength="250" placeholder="¿ Que hiciste este día ?" class="form-control description-txt" [(ngModel)]="addDayDescriptionCommand.description" name="description"></textarea>
+                        <div class="text-right">
+                            <button *ngIf="!showDescriptionEdit" class="btn btn-warning btn-fill" (click)="showDescriptionEdit=true" title="Eliminar">
+                                <span class="btn-label">
+                                    <i class="fa fa-pencil-alt"></i> Modificar
+                                </span>
+                            </button>
+                            <button *ngIf="showDescriptionEdit" class="btn btn-success btn-fill" (click)="saveDescription()" title="Eliminar">
+                                <span class="btn-label">
+                                    <i class="fa fa-save"></i> Guardar
+                                </span>
+                            </button>
+                        </div>
                       </div>
                       <div >
                         <div class="col-md-4" *ngFor="let clothe of clothes; let i=index">
