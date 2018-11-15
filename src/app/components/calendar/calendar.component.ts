@@ -3,6 +3,10 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { DayPopup } from './popup/dayPopup.component';
 import { PhotoSwipeComponent } from '../components/photo-swipe/photo-swipe.component';
 import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
+import { CalendarService } from 'app/providers/clothing/calendar.service';
+import { NotificationsService } from 'app/providers/notifications/notifications.service';
+import { UserService } from 'app/providers/user/user.service';
+import { CalendarClothe } from 'app/models/calendar/calendarClothe';
 
 declare var swal: any;
 declare var $: any;
@@ -16,15 +20,24 @@ declare var $: any;
 
 export class CalendarComponent implements OnInit{
 
+	public calendar:any;
 	public showMoreLink:boolean = false;
 	@ViewChild('photoSwipe')
 	public photoSwipe: PhotoSwipeComponent;
-    public slideImages: PhotoSwipeImage[];
+	public slideImages: PhotoSwipeImage[];
+	public startViewDate:Date;
+	public endViewDate:Date;
+	public events:CalendarClothe[] = [];
 
-	constructor(private dialogService:DialogService){}
+	constructor(private dialogService:DialogService,
+				private calendarService: CalendarService,
+				private notificationsService: NotificationsService,
+				private userService: UserService){
+		calendarService.setToken(userService.getToken());
+	}
 
     ngOnInit(){
-        var $calendar = $('#fullCalendar');
+        this.calendar = $('#fullCalendar');
 
         var today = new Date();
         var y = today.getFullYear();
@@ -40,17 +53,15 @@ export class CalendarComponent implements OnInit{
 				'<div class="popover-content"></div><br>',
 			'</div>'].join('');
 
-        $calendar.fullCalendar({
+		this.calendar.fullCalendar({
             viewRender: function(view, element) {
-                // We make sure that we activate the perfect scrollbar when the view isn't on Month
-                if (view.name != 'month'){
-                    var $fc_scroller = $('.fc-scroller');
-                    $fc_scroller.perfectScrollbar();
-                }
+				$this.startViewDate = new Date(view.start.format("YYYY-MM-DD"));
+				$this.endViewDate = new Date(view.end.format("YYYY-MM-DD"));
+
+				$this.getEventsByView();
             },
             header: {
 				left: 'title',
-				//center: 'month,agendaWeek,agendaDay',
 				right: 'prev,next,today'
 			},
 			defaultDate: today,
@@ -59,117 +70,15 @@ export class CalendarComponent implements OnInit{
             views: {
                 month: { // name of view
                     titleFormat: 'MMMM YYYY'
-                    // other view-specific options here
-                },
-                week: {
-                    titleFormat: " MMMM D YYYY"
-                },
-                day: {
-                    titleFormat: 'D MMM, YYYY'
                 }
             },
 			dayClick: function(date, jsEvent, view, resourceObj) {
-				//alert('Date: ' + date.format());
-				//alert('Resource ID: ' + resourceObj.id);
 				$this.openDialog(date, jsEvent, view, resourceObj);
 			},
-			
 			editable: true,
-			eventLimit: this.showMoreLink, // allow "more" link when too many events
-
-
+			eventLimit: this.showMoreLink, 
             // color classes: [ event-blue | event-azure | event-green | event-orange | event-red ]
-            events: [
-				{
-					title: 'Camiseta verde Americanino',
-					start: new Date(y, m, 1),
-					backgroundColor: "#7aee25",
-					allDay: true,
-					imageurl: this.getImage('75bcf6d1-d700-11e8-bdff-55e7a7a77f37'),
-					description: "esto es una prendita"
-				},
-				{
-					title: 'Camiseta verde Americanino',
-					start: new Date(y, m, 1),
-					className: 'event-orange',
-					allDay: true,
-					imageurl:this.getImage('75bcf6d1-d700-11e8-bdff-55e7a7a77f37'),
-					description: "esto es una prendita"
-				},
-				{
-					title: 'Camiseta verde Americanino',
-					start: new Date(y, m, 1),
-					className: 'event-orange',
-					allDay: true,
-					imageurl:this.getImage('75bcf6d1-d700-11e8-bdff-55e7a7a77f37'),
-					description: "esto es una prendita"
-				},
-				{
-					id: 999,
-					start: new Date(y, m, 2),
-					title  : 'event',
-					className: 'event-orange',
-					allDay: true,
-        			imageurl:this.getImage('75bcf6d1-d700-11e8-bdff-55e7a7a77f37'),
-					description: "esto es una prendita"
-				},
-				{
-					id: 999,
-					start: new Date(y, m, 2),
-					title  : 'event',
-					className: 'event-orange',
-					allDay: true,
-        			imageurl:this.getImage('75bcf6d1-d700-11e8-bdff-55e7a7a77f37'),
-					description: "esto es una prendita"
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d+3, 6, 0),
-					allDay: true,
-					className: 'event-rose'
-				},
-				{
-					title: 'Meeting',
-					start: new Date(y, m, d-1, 10, 30),
-					allDay: true,
-					className: 'event-green'
-				},
-				{
-					title: 'Lunch',
-					start: new Date(y, m, d+7, 12, 0),
-					end: new Date(y, m, d+7, 14, 0),
-					allDay: true,
-					className: 'event-red'
-				},
-				{
-					title: 'Md-pro Launch',
-					start: new Date(y, m, d-2, 12, 0),
-					allDay: true,
-					className: 'event-azure'
-				},
-				{
-					title: 'Birthday Party',
-					start: new Date(y, m, d+1, 19, 0),
-					end: new Date(y, m, d+1, 22, 30),
-					allDay: true,
-                    className: 'event-azure'
-				},
-				{
-					title: 'Click for Wossha',
-					start: new Date(y, m, 21),
-					allDay: true,
-					url: 'https://www.wossha.com/',
-					className: 'event-orange'
-				},
-				{
-					title: 'Click for Google',
-					start: new Date(y, m, 21),
-					allDay: true,
-					url: 'https://www.wossha.com/',
-					className: 'event-orange'
-				}
-			],
+            events: this.events,
 			eventRender: function(event, eventElement) {
 				let pictureUrl = event.imageurl ? event.imageurl : "../assets/img/blog-1.jpg";
 				eventElement.find("div.fc-content").prepend(`<img src='${pictureUrl}' width='20%'>`);
@@ -237,7 +146,55 @@ export class CalendarComponent implements OnInit{
 
     openSlideshow(index:number){
         this.photoSwipe.openGallery(this.slideImages, index);
-    }
+	}
+
+	invertColor(hex) {
+		if (hex.indexOf('#') === 0) {
+			hex = hex.slice(1);
+		}
+		// convert 3-digit hex to 6-digits.
+		if (hex.length === 3) {
+			hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+		}
+		if (hex.length !== 6) {
+			throw new Error('Invalid HEX color.');
+		}
+		// invert color components
+		var r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
+			g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
+			b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
+		// pad each with zeros and return
+		return '#' + this.padZero(r) + this.padZero(g) + this.padZero(b);
+	}
+
+	padZero(str) {
+		let len =  2;
+		var zeros = new Array(len).join('0');
+		return (zeros + str).slice(-len);
+	}
+
+	getTextColor(hex) {
+		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+		if ((parseInt(result[1], 16)*0.299 + parseInt(result[2], 16)*0.587 + parseInt(result[3], 16)*0.114) > 186){
+			return "#000000";
+		}
+		return "#ffffff";
+	}
+	
+	getEventsByView(){
+		this.calendarService.getEventsByView(this.startViewDate.getTime(), this.endViewDate.getTime()).subscribe(
+			(data:any) => {
+				this.events = data
+				for (var i = 0; i < this.events.length; i++) {
+					this.events[i].imageurl = this.getImage(this.events[i].imageurl);
+					this.events[i].textColor = this.getTextColor(this.events[i].backgroundColor);
+					this.calendar.fullCalendar('renderEvent', this.events[i]);
+				} 
+			  }, (error: any) => {
+				this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener las prendas", this.notificationsService.DANGER);
+			}
+		);
+	}
 
 	
 }

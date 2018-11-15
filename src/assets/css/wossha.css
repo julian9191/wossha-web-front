@@ -127,3 +127,8 @@ input[type="date"]:valid:before {
     background:white;
     pointer-events:none;
 }
+
+.fc-event-container
+.fc-event {
+    border:1px solid #c3c3c3 !important;
+}
