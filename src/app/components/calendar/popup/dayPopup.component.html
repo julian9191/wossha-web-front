@@ -9,7 +9,7 @@
         <div class="content content-full-width">
             <ul role="tablist" class="nav nav-tabs">
                 <li role="presentation" class="active">
-                    <a href="#icon-info" data-toggle="tab" (click)="getDayClothing()" ><i class="fa fa-eye"></i> Ver</a>
+                    <a href="#icon-info" data-toggle="tab" ><i class="fa fa-eye"></i> Ver</a>
                 </li>
                 <li>
                     <a href="#icon-account" data-toggle="tab" (click)="openAddCalendarTab()"><i class="fa fa-plus"></i> Agregar prendas</a>
@@ -70,7 +70,7 @@
 
                 <!--MODIFICAR-------------------------------------------------->
                 <div id="icon-account" class="tab-pane">
-                    <addcalendar-cmp (initSlideImagesEvent)="initSlideImages($event)" (openSlideshowEvent)="openSlideshow($event)" [date]="date"></addcalendar-cmp>
+                    <addcalendar-cmp (initSlideImagesEvent)="initSlideImages($event)" (openSlideshowEvent)="openSlideshow($event)" (clotheAddedEvent)="clothingChange($event)" [date]="date"></addcalendar-cmp>
                 </div>
           </div>
 

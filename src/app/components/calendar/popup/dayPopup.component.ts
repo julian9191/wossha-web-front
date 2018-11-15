@@ -117,6 +117,7 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
 
   removeLocalClothe(uuid:string){
     this.clothes = this.clothes.filter(c => c.uuid!=uuid);
+    this.clothingChange(true);
   }
 
   getImage(uuid:string):string{
@@ -134,6 +135,12 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
 
   openSlideshow(index:any){
     this.result = index;
+    this.ngOnDestroy();
+  }
+
+  clothingChange(confirmation:any){
+    this.result = confirmation;
+    this.getDayClothing();
     this.ngOnDestroy();
   }
 

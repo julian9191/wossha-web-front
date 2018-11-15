@@ -28,6 +28,7 @@ export class CalendarComponent implements OnInit{
 	public startViewDate:Date;
 	public endViewDate:Date;
 	public events:CalendarClothe[] = [];
+	public currentDate:string;
 
 	constructor(private dialogService:DialogService,
 				private calendarService: CalendarService,
@@ -44,7 +45,7 @@ export class CalendarComponent implements OnInit{
         var m = today.getMonth();
 		var d = today.getDate();
 		let $this = this;
-		
+
 		var popTemplate = [
 			'<div class="popover" style="max-width:400px;" >',
 				'<div class="popover-header">',
@@ -57,7 +58,17 @@ export class CalendarComponent implements OnInit{
             viewRender: function(view, element) {
 				$this.startViewDate = new Date(view.start.format("YYYY-MM-DD"));
 				$this.endViewDate = new Date(view.end.format("YYYY-MM-DD"));
-
+				let monthDate = new Date(view.intervalEnd.format("YYYY-MM-DD"));
+				let currentDateAux:Date;
+				if(monthDate.getMonth()==m){
+					currentDateAux=new Date();
+					currentDateAux.setDate(d)
+				}else{
+					currentDateAux= monthDate;
+					currentDateAux.setDate(15);
+				}
+				$this.currentDate = currentDateAux.getFullYear()+"-"+((currentDateAux.getMonth()+"").length==1?"0"+currentDateAux.getMonth():currentDateAux.getMonth())+"-"+currentDateAux.getDate();
+				
 				$this.getEventsByView();
             },
             header: {
@@ -65,8 +76,10 @@ export class CalendarComponent implements OnInit{
 				right: 'prev,next,today'
 			},
 			defaultDate: today,
+			lang: 'es',
 			selectable: true,
 			selectHelper: true,
+			eventStartEditable: false,
             views: {
                 month: { // name of view
                     titleFormat: 'MMMM YYYY'
@@ -90,7 +103,7 @@ export class CalendarComponent implements OnInit{
 										<img style='width:100%' src='${event.imageurl}' />
 									</div>
 									<div class='col-md-6'>
-										<p style='font-size: 9pt'>${event.description}</p>
+										<p style='font-size: 9pt'>${event.description?event.description:""}</p>
 									</div>
 								</div>`;
 					},
@@ -126,6 +139,8 @@ export class CalendarComponent implements OnInit{
 					this.initSlideImages(result);
 				}else if(typeof result == 'number'){
 					this.openSlideshow(result);
+				}else if(typeof result == 'boolean'){
+					this.getEventsByView();
 				}
 			}
 			
@@ -148,40 +163,20 @@ export class CalendarComponent implements OnInit{
         this.photoSwipe.openGallery(this.slideImages, index);
 	}
 
-	invertColor(hex) {
-		if (hex.indexOf('#') === 0) {
-			hex = hex.slice(1);
-		}
-		// convert 3-digit hex to 6-digits.
-		if (hex.length === 3) {
-			hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-		}
-		if (hex.length !== 6) {
-			throw new Error('Invalid HEX color.');
-		}
-		// invert color components
-		var r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
-			g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
-			b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
-		// pad each with zeros and return
-		return '#' + this.padZero(r) + this.padZero(g) + this.padZero(b);
-	}
-
-	padZero(str) {
-		let len =  2;
-		var zeros = new Array(len).join('0');
-		return (zeros + str).slice(-len);
-	}
-
 	getTextColor(hex) {
 		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-		if ((parseInt(result[1], 16)*0.299 + parseInt(result[2], 16)*0.587 + parseInt(result[3], 16)*0.114) > 186){
+		if ((parseInt(result[1], 16)*0.299 + parseInt(result[2], 16)*0.587 + parseInt(result[3], 16)*0.114) > 150){
 			return "#000000";
 		}
 		return "#ffffff";
 	}
+
+	dateChanged(){
+		this.calendar.fullCalendar('gotoDate', this.currentDate);
+	}
 	
 	getEventsByView(){
+		this.calendar.fullCalendar( 'removeEvents', function(e){ return !e.isUserCreated});
 		this.calendarService.getEventsByView(this.startViewDate.getTime(), this.endViewDate.getTime()).subscribe(
 			(data:any) => {
 				this.events = data

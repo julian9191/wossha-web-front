@@ -31,6 +31,7 @@ export class AddCalendarComponent implements OnInit {
      
     @Output() initSlideImagesEvent = new EventEmitter<string[]>();
     @Output() openSlideshowEvent = new EventEmitter<number>();
+    @Output() clotheAddedEvent = new EventEmitter<boolean>();
     @Input() date: Date;
 
     constructor(private clothingService: ClothingService,
@@ -99,6 +100,7 @@ export class AddCalendarComponent implements OnInit {
         this.calendarService.executeCommand(this.addToCalendarCommand).subscribe( 
             (messaje) => {
                 this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
+                this.clotheAddedEvent.emit(true);
             }, (error: any) => {
                 this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
             }

@@ -110,6 +110,7 @@ input[type="date"]:valid:before {
 
 .fc-day:hover{
     background:lightblue;
+    cursor: pointer;
 }
 .fc-slats, 
 .fc-content-skeleton, 

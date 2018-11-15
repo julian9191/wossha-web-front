@@ -5,6 +5,14 @@
             <div class="col-md-12">
                 <div class="card card-calendar">
                     <div class="content">
+                        <br>
+                        <div class="col-md-4" style="padding-right: 0">
+                                <input type="date" class="form-control" [(ngModel)]="currentDate"/>
+                        </div>
+                        <div class="col-md-4" style="padding-left: 5px;">
+                             <button class="btn btn-warning btn-fill" (click)="dateChanged()">Ir</button>
+                        </div>
+                        <div class="clear"></div>
                         <div id="fullCalendar"></div>
                     </div>
                 </div>

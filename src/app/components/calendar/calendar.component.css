@@ -1,0 +1,5 @@
+.calendar-datepicker-container{
+    width: 30%; 
+    float: left;
+    border-top-right-radius: 0 !important;
+}
