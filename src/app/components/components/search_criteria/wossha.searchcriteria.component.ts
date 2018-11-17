@@ -40,7 +40,7 @@ export class SearchCriteriaComponent implements ControlValueAccessor, OnInit {
     constructor(private clothingService: ClothingService,
                 private notificationsService: NotificationsService,
                 private userService: UserService){
-        
+        clothingService.setToken(userService.getToken());
     }
 
     ngOnInit(){

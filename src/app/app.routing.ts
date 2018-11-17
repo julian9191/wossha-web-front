@@ -24,8 +24,8 @@ export const AppRoutes: Routes = [{
             path: 'clothing', 
             loadChildren: './components/clothing/clothing.module#ClothingModule'
         },{
-            path: 'combinaciones',
-            loadChildren: './components/combinaciones/combinaciones.module#CombinacionesModule'
+            path: 'outfits',
+            loadChildren: './components/outfits/outfits.module#OutfitsModule'
         },{
             path: 'start',
             loadChildren: './components/start/start.module#StartModule'

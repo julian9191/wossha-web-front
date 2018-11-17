@@ -10,6 +10,7 @@ import 'rxjs';
 import { BaseColor } from '../../models/clothing/baseColor';
 import { Clothe } from '../../models/clothing/clothe';
 import { SearchCriteriaParams } from 'app/models/clothing/searchCriteria/searchCriteriaParams';
+import { SearchCriteriaResult } from 'app/models/clothing/searchCriteria/searchCriteriaResult';
 
 @Injectable()
 export class ClothingService {
@@ -29,7 +30,8 @@ export class ClothingService {
   private userClothesUrl:string = this.clothingUrl+'clothes';
   private clotheUrl:string = this.clothingUrl+'clothe';
   private searchCriteriaParamsUrl:string = this.clothingUrl+'search-criteria-params';
-  
+  private getOutfitUrl:string = this.clothingUrl+'outfit';
+
   httpHeaders:HttpHeaders;
 
   constructor(private router: Router,
@@ -86,6 +88,10 @@ export class ClothingService {
 
   getSearchCriteriaParams() : Observable<SearchCriteriaParams>{
     return this.http.get<SearchCriteriaParams>(this.searchCriteriaParamsUrl, {headers: this.httpHeaders});
+  }
+
+  getOutfit(searchCriteriaResult:SearchCriteriaResult, params: HttpParams) : Observable<Clothe>{
+    return this.http.post<Clothe>(this.getOutfitUrl, searchCriteriaResult, {params: params, headers: this.httpHeaders});
   }
 
   executeCommand(data) : Observable<String>{

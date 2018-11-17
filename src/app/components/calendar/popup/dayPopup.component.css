@@ -10,10 +10,6 @@
     overflow: auto;
 }
 
-.scrollable-container{
-    overflow: auto;
-}
-
 .description-container{
     background-color: #e9ecef;
     padding: 10px 20px;

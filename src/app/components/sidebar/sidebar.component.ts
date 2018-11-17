@@ -37,15 +37,15 @@ export const ROUTES: RouteInfo[] = [{
         type: 'link',
         icontype: 'pe-7s-date'
     },{
+        path: '/outfits',
+        title: 'Combinaciones',
+        type: 'link',
+        icontype: 'pe-7s-shuffle'
+    },{
         path: '/charts',
         title: 'Estadísticas',
         type: 'link',
         icontype: 'pe-7s-graph1'
-    },{
-        path: '/combinaciones',
-        title: 'Combinaciones',
-        type: 'link',
-        icontype: 'pe-7s-shuffle'
     },{
         path: '/tiendas',
         title: 'Tiendas',
