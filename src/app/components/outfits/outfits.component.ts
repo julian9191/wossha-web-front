@@ -123,14 +123,20 @@ export class OutfitsComponent implements OnInit{
     }
 
     addClotheToCalendar(uuidClothe:string, idClothe: number){
-        this.openDialog(uuidClothe, idClothe);
+        let ids:any[] = [];
+        ids[0] = {"uuid": uuidClothe, "id": idClothe};
+        this.openDialog(ids);
     }
 
-    openDialog(uuidClothe:string, idClothe: number){
+    addOutfitToCalendar(){
+        let ids:any[] = this.clothes.map((x) => {return {"uuid": x.uuid, "id": x.id}});
+        this.openDialog(ids);
+    }
+
+    openDialog(ids:any[]){
         let disposable = this.dialogService.addDialog(DatePopup, {
             title: "Escoja una fecha para agregar la prenda al calendario", 
-            uuid: uuidClothe,
-            idClothe: idClothe,
+            ids: ids,
             message: ""
         })
         .subscribe((result:any)=>{});
