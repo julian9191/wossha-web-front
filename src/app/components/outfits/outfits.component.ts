@@ -7,6 +7,8 @@ import { ClothingService } from 'app/providers/clothing/clothing.service';
 import { PhotoSwipeComponent } from '../components/photo-swipe/photo-swipe.component';
 import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
 import { HttpParams } from '@angular/common/http';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { DatePopup } from './popup/datePopup.component';
 
 declare var $:any;
 
@@ -26,6 +28,7 @@ export class OutfitsComponent implements OnInit{
     public canFetch:boolean = true;
 
     constructor(private clothingService: ClothingService,
+                private dialogService:DialogService,
                 private notificationsService: NotificationsService,
                 private userService: UserService ){
         clothingService.setToken(userService.getToken());   
@@ -118,4 +121,18 @@ export class OutfitsComponent implements OnInit{
     openSlideshow(index:number){
         this.photoSwipe.openGallery(this.slideImages, index);
     }
+
+    addClotheToCalendar(uuidClothe:string, idClothe: number){
+        this.openDialog(uuidClothe, idClothe);
+    }
+
+    openDialog(uuidClothe:string, idClothe: number){
+        let disposable = this.dialogService.addDialog(DatePopup, {
+            title: "Escoja una fecha para agregar la prenda al calendario", 
+            uuid: uuidClothe,
+            idClothe: idClothe,
+            message: ""
+        })
+        .subscribe((result:any)=>{});
+	}
 }

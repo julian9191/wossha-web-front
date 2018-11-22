@@ -9,7 +9,7 @@
             </div>
             <div class="col-md-9">
                 <button type="button" id="btn-generar-conbinacion" class="btn btn-warning btn-fill btn-wd" [disabled]="!canFetch" (click)="getOutfit()">
-                    <span class="pe-7s-shuffle" aria-hidden="true"></span> Generar combinación
+                    <i class="fa fa-random"></i> Generar combinación
                 </button><br><br>
                 <div id="no-more-tables">
 
@@ -24,11 +24,15 @@
                                         <h5>{{clothe.name}}</h5>
                                         <a href="javascript:void(0)">{{clothe.type}}</a><br/>
                                         <a href="javascript:void(0)">{{clothe.category}}</a><br/><br/>
-                                        <button class="btn btn-warning btn-fill btn-wd" (click)="getOtherOutfitClothe(clothe.uuid, clothe.type)">
+                                        <button class="btn btn-warning btn-fill" (click)="getOtherOutfitClothe(clothe.uuid, clothe.type)" title="Otro">
                                             <span class="btn-label">
-                                                <i class="pe-7s-shuffle"></i>
+                                                <i class="fa fa-random"></i>
                                             </span>
-                                            Otro
+                                        </button>
+                                        <button class="btn btn-info btn-fill" (click)="addClotheToCalendar(clothe.uuid, clothe.id)" title="Agregar a calendario">
+                                            <span class="btn-label">
+                                                <i class="fa fa-calendar-alt"></i>
+                                            </span>
                                         </button>
                                     </div>
                                 </div>

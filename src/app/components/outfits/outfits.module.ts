@@ -8,6 +8,10 @@ import { OutfitsComponent } from './outfits.component';
 import { OutfitsRoutes } from './outfits.routing';
 import {ClothingService} from "../../providers/clothing/clothing.service";
 import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
+import { DatePopup } from './popup/datePopup.component'
+import { CalendarService } from "../../providers/clothing/calendar.service";
+import { NotificationsService } from "../../providers/notifications/notifications.service"
 
 @NgModule({
     imports: [
@@ -16,10 +20,14 @@ import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
         FormsModule,
         TagInputModule,
         SearchCriteriaModule,
-        PhotoSwipeModule
+        PhotoSwipeModule,
+        BootstrapModalModule
     ],
-    declarations: [OutfitsComponent],
-    providers: [ClothingService]
+    entryComponents: [
+        DatePopup
+    ],
+    declarations: [OutfitsComponent, DatePopup],
+    providers: [ClothingService, CalendarService, NotificationsService]
 })
 
 export class OutfitsModule {}
