@@ -17,8 +17,10 @@ export enum ChartType {
   templateUrl: './lbd-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LbdChartComponent implements OnInit, AfterViewInit {
+export class LbdChartComponent implements OnInit/*, AfterViewInit */{
   static currentId = 1;
+  @Input()
+  public initComponent:boolean = false;
 
   @Input()
   public title: string;
@@ -55,15 +57,16 @@ export class LbdChartComponent implements OnInit, AfterViewInit {
 
   public chartId: string;
 
+
   constructor() {
+    
   }
 
   public ngOnInit(): void {
     this.chartId = `lbd-chart-${LbdChartComponent.currentId++}`;
   }
 
-  public ngAfterViewInit(): void {
-
+  public /*ngAfterViewInit*/init(): void {
     switch (this.chartType) {
       case ChartType.Pie:
         new Chartist.Pie(`#${this.chartId}`, this.chartData, this.chartOptions, this.chartResponsive);
@@ -75,5 +78,13 @@ export class LbdChartComponent implements OnInit, AfterViewInit {
         new Chartist.Bar(`#${this.chartId}`, this.chartData, this.chartOptions, this.chartResponsive);
         break;
     }
+  }
+
+  checkInit(){
+    if(this.initComponent){
+      this.init();
+      this.initComponent=false;
+    }
+    return true;
   }
 }

@@ -42,7 +42,7 @@ export const ROUTES: RouteInfo[] = [{
         type: 'link',
         icontype: 'pe-7s-shuffle'
     },{
-        path: '/charts',
+        path: '/statistics',
         title: 'Estadísticas',
         type: 'link',
         icontype: 'pe-7s-graph1'

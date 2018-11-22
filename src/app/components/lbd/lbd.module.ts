@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
+import { FormsModule } from '@angular/forms';
 import { LbdChartComponent } from './lbd-chart/lbd-chart.component';
 import { LbdTaskListComponent } from './lbd-task-list/lbd-task-list.component';
 import { LbdTableComponent } from './lbd-table/lbd-table.component';
@@ -31,7 +31,8 @@ export interface NavItem {
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   declarations: [
     LbdTableComponent,

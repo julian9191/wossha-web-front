@@ -8,7 +8,6 @@ import { AppComponent }   from './app.component';
 import { StorageServiceModule} from 'angular-webstorage-service';
 
 import { SidebarModule } from './components/sidebar/sidebar.module'
-import { FixedPluginModule } from './components/shared/fixedplugin/fixedplugin.module';
 import { FooterModule } from './components/shared/footer/footer.module';
 import { NavbarModule} from './components/shared/navbar/navbar.module';
 import { PagesnavbarModule} from './components/shared/pagesnavbar/pagesnavbar.module';
@@ -32,7 +31,6 @@ import { HttpErrorHandlerService } from './providers/auth/httpErrorHandler.servi
         SidebarModule,
         NavbarModule,
         FooterModule,
-        //FixedPluginModule,
         PagesnavbarModule,
         BrowserModule
     ],
