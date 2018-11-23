@@ -3,24 +3,24 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
+                    <a class="btn btn-warning btn-icon" (click)="goBack()" href="javascript:void(0)" title="Volver">
+                        <span class="btn-label">
+                            <i class="fa fa-arrow-left"></i> Volver
+                        </span>
+                    </a><br><br>
                     <div class="card">
                         <div class="header">
-                            <a class="btn btn-warning btn-icon" (click)="goBack()" href="javascript:void(0)" title="Volver">
-                                <span class="btn-label">
-                                    <i class="fa fa-arrow-left"></i> Volver
-                                </span>
-                            </a><br><br>
-                            <h4 class="title">{{clothe.name}}</h4>
+                            <h4 class="title">{{clotheView.clothe.name}}</h4>
                             <p class="category"></p>
                         </div>
                         <div class="content">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="image">
-                                        <img class="cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow()" />
+                                        <img class="cursor-pointer" [src]="getImage(clotheView.clothe.picture)" (click)="openSlideshow()" />
                                     </div>
                                     <br><br>
-                                    <p>{{clothe.description}}</p>
+                                    <p>{{clotheView.clothe.description}}</p>
                                     <br>
                                 </div>
                                 <div class="col-md-6">
@@ -31,7 +31,7 @@
                                                     <h5 class="title">Marca:</h5>
                                                 </th>
                                                 <td>
-                                                    {{clothe.brand}}
+                                                    {{clotheView.clothe.brand}}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -39,7 +39,7 @@
                                                     <h5 class="title">Tipo:</h5>
                                                 </th>
                                                 <td>
-                                                    {{clothe.type}}
+                                                    {{clotheView.clothe.type}}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -47,7 +47,7 @@
                                                     <h5 class="title">Categoría:</h5>
                                                 </th>
                                                 <td>
-                                                    {{clothe.category}}
+                                                    {{clotheView.clothe.category}}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -55,7 +55,7 @@
                                                     <h5 class="title">Color:</h5>
                                                 </th>
                                                 <td>
-                                                    <div class="color-box" [style.background-color]="clothe.colorCode"></div>
+                                                    <div class="color-box" [style.background-color]="clotheView.clothe.colorCode"></div>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -63,7 +63,7 @@
                                                     <h5 class="title">Fecha de compra:</h5>
                                                 </th>
                                                 <td>
-                                                    {{clothe.purchaseDate | date : 'yyyy/MM/dd'}}
+                                                    {{clotheView.clothe.purchaseDate | date : 'yyyy/MM/dd'}}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -71,7 +71,7 @@
                                                     <h5 class="title">Nivel de gusto:</h5>
                                                 </th>
                                                 <td>
-                                                    {{clothe.howLike}}
+                                                    {{clotheView.clothe.howLike}}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -79,7 +79,15 @@
                                                     <h5 class="title">Estado:</h5>
                                                 </th>
                                                 <td>
-                                                    {{clothe.state==1?'En uso':'En desuso'}}
+                                                    {{clotheView.clothe.state==1?'En uso':'En desuso'}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <h5 class="title">Número de usos:</h5>
+                                                </th>
+                                                <td>
+                                                    {{clotheView.useTimes}}
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -88,6 +96,47 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <lbd-chart
+                                    [title]="'Usos por mes'"
+                                    [subtitle]="'Numero de veces que la prenda fue usada por mes del año en curso'"
+                                    [chartType]="viewsChartType"
+                                    [chartData]="viewsChartData"
+                                    [chartOptions]="viewsChartOptions"
+                                    [chartResponsive]="viewsChartResponsive"
+                                    [withHr]="false"
+                                    [initComponent]="initChar">
+                                </lbd-chart>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="header">
+                                    <h4 class="title">Ultimos 10 usos</h4>
+                                </div>
+                                <div class="content table-responsive table-full-width">
+                                    <table class="table table-bigboy">
+                                        <tbody>
+                                            <tr *ngFor="let item of clotheView.useDates; let i=index">
+                                                <td>
+                                                    {{item.key}}
+                                                </td>
+                                                <td>
+                                                    Hace {{item.value}} días
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="footer">
                         <div class="legend">
 

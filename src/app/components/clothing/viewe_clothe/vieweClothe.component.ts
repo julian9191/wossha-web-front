@@ -9,6 +9,8 @@ import {Location} from '@angular/common';
 
 import { PhotoSwipeComponent } from '../../components/photo-swipe/photo-swipe.component';
 import { PhotoSwipeImage} from '../../../models/global/PhotoSwipeImage';
+import { ClotheView } from 'app/models/clothing/clotheView';
+import { ChartType } from 'app/components/lbd/lbd-chart/lbd-chart.component';
 
 declare var $:any;
 
@@ -20,10 +22,15 @@ declare var $:any;
 
 export class VieweClotheComponent implements OnInit{
   
-    public clothe:Clothe;
+    public clotheView:ClotheView;
     @ViewChild('photoSwipe') 
     public photoSwipe: PhotoSwipeComponent;
     public slideImages : PhotoSwipeImage[];
+    public viewsChartType: ChartType;
+    public viewsChartData: any;
+    public viewsChartOptions: any;
+    public viewsChartResponsive: any[];
+    public initChar:boolean = false;
 
     constructor(private clothingService: ClothingService,
                 private userService: UserService,
@@ -31,29 +38,68 @@ export class VieweClotheComponent implements OnInit{
                 private route: ActivatedRoute,
                 private _location: Location){
         clothingService.setToken(userService.getToken());
+        this.clotheView = new ClotheView();
     }
 
     ngOnInit() {
+        this.viewsChartType = ChartType.Bar;
         this.refreshClothe();
         this.getClothe(); 
     }
 
     getClothe(){
         let uuid:string = this.route.snapshot.paramMap.get("uuid");
-        this.clothingService.getClotheByUuid(uuid).subscribe( 
+        this.clothingService.getClotheViewByUuid(uuid).subscribe( 
             (data:any) => {
-                this.clothe = data;
+                this.clotheView = data;
+                console.log(this.clotheView.useDates);
+                //alert(11);
                 this.initSlideImages();
+                this.initCharCpt(this.clotheView.useTimesByMonth);
             }, (error: any) => {
                 this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener la prenda", this.notificationsService.DANGER);
             }
         );
     }
 
+    initCharCpt(useTimesByMonth){
+
+        let series:number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        for(let i=0; i< useTimesByMonth.length; i++){
+            series[parseInt(useTimesByMonth[i].key)-1] = useTimesByMonth[i].value;
+        }
+
+        this.viewsChartData = {
+            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            series: [series]
+        };
+
+        this.viewsChartOptions = {
+            seriesBarDistance: 10,
+            classNames: {
+                bar: 'ct-bar ct-orange'
+            },
+            axisX: {
+                showGrid: false
+            }
+        };
+        this.viewsChartResponsive = [
+            ['screen and (max-width: 640px)', {
+                seriesBarDistance: 5,
+                axisX: {
+                    labelInterpolationFnc: function (value) {
+                        return value[0];
+                    }
+                }
+            }]
+        ];
+        this.initChar = true;
+    }
+
     initSlideImages(){
         this.slideImages = [
             {
-                src: this.getImage(this.clothe.picture),
+                src: this.getImage(this.clotheView.clothe.picture),
                 w: 800,
                 h: 600
             }
@@ -79,7 +125,7 @@ export class VieweClotheComponent implements OnInit{
     }
 
     refreshClothe(){
-        this.clothe = {
+        this.clotheView.clothe = {
             id: null,
             uuid:'',
             username:'',

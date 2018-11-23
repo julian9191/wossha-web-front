@@ -11,6 +11,7 @@ import { BaseColor } from '../../models/clothing/baseColor';
 import { Clothe } from '../../models/clothing/clothe';
 import { SearchCriteriaParams } from 'app/models/clothing/searchCriteria/searchCriteriaParams';
 import { SearchCriteriaResult } from 'app/models/clothing/searchCriteria/searchCriteriaResult';
+import { ClotheView } from 'app/models/clothing/clotheView';
 
 @Injectable()
 export class ClothingService {
@@ -29,6 +30,7 @@ export class ClothingService {
   private colorsMapUrl:string = this.clothingUrl+'colors-map';
   private userClothesUrl:string = this.clothingUrl+'clothes';
   private clotheUrl:string = this.clothingUrl+'clothe';
+  private clotheViewUrl:string = this.clothingUrl+'clothe-view';
   private searchCriteriaParamsUrl:string = this.clothingUrl+'search-criteria-params';
   private getOutfitUrl:string = this.clothingUrl+'outfit';
 
@@ -72,6 +74,10 @@ export class ClothingService {
 
   getClotheByUuid(uuid: string) : Observable<Clothe>{
     return this.http.get<Clothe>(this.clotheUrl+"/"+uuid, {headers: this.httpHeaders});
+  }
+
+  getClotheViewByUuid(uuid: string) : Observable<ClotheView>{
+    return this.http.get<ClotheView>(this.clotheViewUrl+"/"+uuid, {headers: this.httpHeaders});
   }
 
   searchClothingType(word:string) : Observable<ClothingType>{
