@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { UserService } from 'app/providers/user/user.service';
-import { ChartType, LegendItem } from '../lbd/lbd-chart/lbd-chart.component';
+import { ChartType, LegendItem } from '../../lbd/lbd-chart/lbd-chart.component';
 import { StatisticsService } from 'app/providers/clothing/statistics.service';
 import { ClothigTop } from 'app/models/clothing/clothigTop';
-import { PhotoSwipeComponent } from '../components/photo-swipe/photo-swipe.component';
+import { PhotoSwipeComponent } from '../../components/photo-swipe/photo-swipe.component';
 import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
+import {Location} from '@angular/common';
 
 declare var swal: any;
 declare var $: any;
@@ -54,7 +55,8 @@ export class StatisticsComponent implements OnInit{
 
 	constructor(private statisticsService: StatisticsService,
 				private notificationsService: NotificationsService,
-				private userService: UserService){
+				private userService: UserService,
+				private _location: Location){
 		statisticsService.setToken(userService.getToken());
 	}
 
@@ -68,6 +70,9 @@ export class StatisticsComponent implements OnInit{
 		this.getGeneralStatistics();
 	}
 
+	goBack(){
+        this._location.back();
+    }
 
 	getGeneralStatistics(){
 		this.statisticsService.getGeneralStatistics().subscribe(

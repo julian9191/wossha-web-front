@@ -12,7 +12,11 @@ import { VieweClotheComponent } from './viewe_clothe/vieweClothe.component';
 import { EditClotheComponent } from './edit_clothe/editClothe.component';
 import { ClothingRoutes } from './clothing.routing';
 import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
-
+import { SearchCriteriaModule } from '../components/search_criteria/searchcriteria.module';
+import { LbdModule } from '../lbd/lbd.module';
+import { CalendarService } from "../../providers/clothing/calendar.service";
+import { StatisticsService } from "../../providers/clothing/statistics.service";
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
     imports: [
@@ -21,15 +25,18 @@ import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
         FormsModule,
         NouisliderModule,
         ComponentsModule,
-        PhotoSwipeModule
+        PhotoSwipeModule,
+        SearchCriteriaModule,
+        LbdModule
     ],
     declarations: [
         ListClothingComponent,
         CreateClotheComponent,
         VieweClotheComponent,
-        EditClotheComponent
+        EditClotheComponent,
+        StatisticsComponent
     ],
-    providers: [ClothingService, PicturesService]
+    providers: [ClothingService, PicturesService, CalendarService, StatisticsService]
 })
 
 export class ClothingModule {}

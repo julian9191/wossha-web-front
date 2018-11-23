@@ -42,11 +42,6 @@ export const ROUTES: RouteInfo[] = [{
         type: 'link',
         icontype: 'pe-7s-shuffle'
     },{
-        path: '/statistics',
-        title: 'Estadísticas',
-        type: 'link',
-        icontype: 'pe-7s-graph1'
-    },{
         path: '/tiendas',
         title: 'Tiendas',
         type: 'link',

@@ -4,6 +4,7 @@ import { ListClothingComponent } from './list_clothing/listClothing.component';
 import { CreateClotheComponent } from './create_clothe/createClothe.component';
 import { VieweClotheComponent } from './viewe_clothe/vieweClothe.component';
 import { EditClotheComponent } from './edit_clothe/editClothe.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 
 export const ClothingRoutes: Routes = [{
@@ -11,6 +12,10 @@ export const ClothingRoutes: Routes = [{
         children: [{
             path: 'list-clothing',
             component: ListClothingComponent
+        },
+        {
+            path: 'statistics',
+            component: StatisticsComponent
         },
         {
             path: 'create-clothe',

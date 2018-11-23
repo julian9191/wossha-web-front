@@ -8,19 +8,22 @@
                     <a [routerLink]="['/clothing/create-clothe']"  title="Agregar prenda" class="btn btn-warning btn-fill btn-round btn-icon btn-plus">
                         <i class="fa fa-plus"></i>
                     </a>
+                    <a [routerLink]="['/clothing/statistics']"  title="Ver estadísticas" class="btn btn-danger btn-fill btn-round btn-icon btn-plus">
+                        <i class="fa fa-pie-chart"></i>
+                    </a>
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label>Vista:</label>
                         <select name="colors" class="form-control" [(ngModel)]="view">
                             <option value="cards" selected>TARJETAS</option>
                             <option value="list">LISTA</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label>Ordenar por:</label>
-                        <select name="colors" class="form-control" [(ngModel)]="orderedBy" (change)="getMoreClothes(false)">
+                        <select name="colors" class="form-control" [(ngModel)]="orderedBy">
                             <option value="NAME">NOMBRE</option>
                             <option value="TYPE">TIPO</option>
                             <option value="CATEGORY">CATEGORÍA</option>
@@ -29,90 +32,100 @@
                     </div>
                 </div><br>
                 <div class="row">
-                    <div class="col-md-12">
-                        Mostrando {{clothes.length}} resultados de un total de {{totalItems}}
+                    <div class="col-md-3">
+                        <searchcriteria-cmp [(ngModel)]="searchCriteriaResult"></searchcriteria-cmp>
                     </div>
-                </div><br>
-                <div class="row" *ngIf="view=='cards'"> 
-                    <div class="col-md-4" *ngFor="let clothe of clothes; let i=index">
-                        <div class="card">
-                            <div class="content text-center">
-                                <div class="img-clothe">
-                                    <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
-                                </div>
-                                <h5>{{clothe.name}}</h5>
-                                <a href="javascript:void(0)">{{clothe.type}}</a><br/>
-                                <a href="javascript:void(0)">{{clothe.category}}</a><br/><br/>
-                                <a class="btn btn-info btn-fill" [routerLink]="['/clothing/view-clothe', clothe.uuid]" title="Ver">
-                                    <span class="btn-label">
-                                        <i class="fa fa-eye"></i>
-                                    </span>
-                                </a>
-                                <a class="btn btn-warning btn-fill" [routerLink]="['/clothing/edit-clothe', clothe.uuid]" title="Editar">
-                                    <span class="btn-label">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </span>
-                                </a>
-                                <button class="btn btn-danger btn-fill" (click)="removeClothe(clothe.uuid)" title="Eliminar">
-                                    <span class="btn-label">
-                                        <i class="fa fa-times"></i>
-                                    </span>
+                    <div  class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-warning btn-fill btn-wd" [disabled]="!canFetch" (click)="getMoreClothes(false)">
+                                    <i class="fa fa-search"></i> Buscar
                                 </button>
                             </div>
+                            <div class="col-md-8 text-right">
+                                Mostrando {{clothes.length}} resultados de un total de {{totalItems}}
+                            </div>
+                        </div><br>
+                        <div *ngIf="view=='cards'">
+                            <div class="col-md-4" *ngFor="let clothe of clothes; let i=index">
+                                <div class="card">
+                                    <div class="content text-center">
+                                        <div class="img-clothe">
+                                            <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
+                                        </div>
+                                        <h5>{{clothe.name}}</h5>
+                                        <a href="javascript:void(0)">{{clothe.type}}</a><br/>
+                                        <a href="javascript:void(0)">{{clothe.category}}</a><br/><br/>
+                                        <a class="btn btn-info btn-fill" [routerLink]="['/clothing/view-clothe', clothe.uuid]" title="Ver">
+                                            <span class="btn-label">
+                                                <i class="fa fa-eye"></i>
+                                            </span>
+                                        </a>
+                                        <a class="btn btn-warning btn-fill" [routerLink]="['/clothing/edit-clothe', clothe.uuid]" title="Editar">
+                                            <span class="btn-label">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </span>
+                                        </a>
+                                        <button class="btn btn-danger btn-fill" (click)="removeClothe(clothe.uuid)" title="Eliminar">
+                                            <span class="btn-label">
+                                                <i class="fa fa-times"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+          
 
-                <div class="row" *ngIf="view=='list'">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-bigboy">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center"></th>
-                                                <th class="text-left">Nombre</th>
-                                                <th class="text-left">Tipo</th>
-                                                <th class="text-left">Categoría</th>
-                                                <th class="text-right"></th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let clothe of clothes; let i=index">
-                                                <td>
-                                                    <div class="img-container">
-                                                        <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    {{clothe.name}}
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)">{{clothe.type}}</a>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)">{{clothe.category}}</a>
-                                                </td>
-                                                <td class="td-actions">
-                                                    <a class="btn btn-info btn-simple btn-icon" [routerLink]="['/clothing/view-clothe', clothe.uuid]" title="Ver">
-                                                        <i class="fa fa-eye"></i>
-                                                    </a>
-                                                    <a class="btn btn-success btn-simple btn-icon" [routerLink]="['/clothing/edit-clothe', clothe.uuid]" title="Editar">
-                                                        <i class="fa fa-pencil-alt"></i>
-                                                    </a>
-                                                    <button type="button" rel="tooltip" data-placement="left" title="Eliminar" class="btn btn-danger btn-simple btn-icon ">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                </table>
+                        <div *ngIf="view=='list'">
+                            <div class="card">
+                                <div class="content table-responsive table-full-width">
+                                    <table class="table table-bigboy">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center"></th>
+                                                    <th class="text-left">Nombre</th>
+                                                    <th class="text-left">Tipo</th>
+                                                    <th class="text-left">Categoría</th>
+                                                    <th class="text-right"></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let clothe of clothes; let i=index">
+                                                    <td>
+                                                        <div class="img-container">
+                                                            <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        {{clothe.name}}
+                                                    </td>
+                                                    <td>
+                                                        <a href="javascript:void(0)">{{clothe.type}}</a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="javascript:void(0)">{{clothe.category}}</a>
+                                                    </td>
+                                                    <td class="td-actions">
+                                                        <a class="btn btn-info btn-simple btn-icon" [routerLink]="['/clothing/view-clothe', clothe.uuid]" title="Ver">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                        <a class="btn btn-success btn-simple btn-icon" [routerLink]="['/clothing/edit-clothe', clothe.uuid]" title="Editar">
+                                                            <i class="fa fa-pencil-alt"></i>
+                                                        </a>
+                                                        <button type="button" rel="tooltip" data-placement="left" title="Eliminar" class="btn btn-danger btn-simple btn-icon ">
+                                                            <i class="fa fa-times"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="col-md-12" *ngIf="clothes.length < totalItems">

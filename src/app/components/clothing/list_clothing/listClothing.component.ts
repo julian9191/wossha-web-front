@@ -10,6 +10,7 @@ import { PhotoSwipeComponent } from 'app/components/components/photo-swipe/photo
 import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
 import { RemoveClotheCommand } from 'app/models/clothing/commands/removeClotheCommand';
 import { LoginUser } from 'app/models/user/login/loginUser';
+import { SearchCriteriaResult } from 'app/models/clothing/searchCriteria/searchCriteriaResult';
 
 @Component({
   selector: 'app-listClothing',
@@ -28,8 +29,10 @@ export class ListClothingComponent implements OnInit{
   @ViewChild('photoSwipe') 
   public photoSwipe: PhotoSwipeComponent;
   public slideImages: PhotoSwipeImage[];
-  user:LoginUser;
-  removeClotheCommand:RemoveClotheCommand;
+  public user:LoginUser;
+  public removeClotheCommand:RemoveClotheCommand;
+  public searchCriteriaResult:SearchCriteriaResult = new SearchCriteriaResult();
+  public canFetch:boolean = true;
 
   constructor(private clothingService: ClothingService, 
     private notificationsService: NotificationsService,
