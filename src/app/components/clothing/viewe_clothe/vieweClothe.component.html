@@ -20,7 +20,8 @@
                                         <img class="cursor-pointer" [src]="getImage(clotheView.clothe.picture)" (click)="openSlideshow()" />
                                     </div>
                                     <br><br>
-                                    <p>{{clotheView.clothe.description}}</p>
+                                    <p *ngIf="clotheView.clothe.description">{{clotheView.clothe.description}}</p>
+                                    <p *ngIf="!clotheView.clothe.description">Esta prenda no tiene descripción</p>
                                     <br>
                                 </div>
                                 <div class="col-md-6">
@@ -126,7 +127,9 @@
                                                     {{item.key}}
                                                 </td>
                                                 <td>
-                                                    Hace {{item.value}} días
+                                                    <span *ngIf="item.value>1">Hace {{item.value}} días</span>
+                                                    <span *ngIf="item.value==0">Hoy</span>
+                                                    <span *ngIf="item.value==1">Ayer</span>
                                                 </td>
                                             </tr>
                                         </tbody>

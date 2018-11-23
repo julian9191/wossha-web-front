@@ -52,12 +52,10 @@ export class VieweClotheComponent implements OnInit{
         this.clothingService.getClotheViewByUuid(uuid).subscribe( 
             (data:any) => {
                 this.clotheView = data;
-                console.log(this.clotheView.useDates);
-                //alert(11);
                 this.initSlideImages();
                 this.initCharCpt(this.clotheView.useTimesByMonth);
             }, (error: any) => {
-                this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener la prenda", this.notificationsService.DANGER);
+                this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener la información de la prenda", this.notificationsService.DANGER);
             }
         );
     }
