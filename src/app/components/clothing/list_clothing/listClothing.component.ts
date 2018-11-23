@@ -52,19 +52,11 @@ export class ListClothingComponent implements OnInit{
     this.getClothes(append);
   }
 
-  getImage(uuid:string):string{
-    if(uuid){
-      return "http://localhost:8083/pictures/static-picture/"+uuid;
-    }else{
-      return "../assets/img/blog-1.jpg";
-    }
-  }
-
   getClothes(append:boolean){
     let params = new HttpParams();
     params = params.append("init", (this.itemsPerPage * (this.currentPage - 1))+"");
     params = params.append("limit", this.itemsPerPage+"");
-    this.clothingService.getClothes(this.orderedBy, params).subscribe(
+    this.clothingService.getClothes(this.searchCriteriaResult, this.orderedBy, params).subscribe(
       (data:any) => {
         if(append){
           this.clothes = this.clothes.concat(data.result);
@@ -78,6 +70,14 @@ export class ListClothingComponent implements OnInit{
         this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de prendas", this.notificationsService.DANGER);
       }
     );
+  }
+
+  getImage(uuid:string):string{
+    if(uuid){
+      return "http://localhost:8083/pictures/static-picture/"+uuid;
+    }else{
+      return "../assets/img/blog-1.jpg";
+    }
   }
 
   initSlideImages(){  

@@ -66,8 +66,8 @@ export class ClothingService {
     return this.http.get<any>(this.colorsMapUrl, {headers: this.httpHeaders});
   }
 
-  getClothes(orderedBy: string, params: HttpParams) : Observable<Clothe>{
-    return this.http.get<Clothe>(this.userClothesUrl+"/"+orderedBy, {params: params, headers: this.httpHeaders});
+  getClothes(searchCriteriaResult:SearchCriteriaResult, orderedBy: string, params: HttpParams) : Observable<Clothe>{
+    return this.http.post<Clothe>(this.userClothesUrl+"/"+orderedBy, searchCriteriaResult, {params: params, headers: this.httpHeaders});
   }
 
   getClotheByUuid(uuid: string) : Observable<Clothe>{
