@@ -57,12 +57,31 @@ export class LbdChartComponent implements OnInit/*, AfterViewInit */{
 
   public chartId: string;
 
+  public colors:string[];
+
 
   constructor() {
     
   }
 
   public ngOnInit(): void {
+    this.colors = [];
+    this.colors[0] = "#23CCEF";
+    this.colors[1] = "#FB404B";
+    this.colors[2] = "#FFA534";
+    this.colors[3] = "#9368E9";
+    this.colors[4] = "#87CB16";
+    this.colors[5] = "#447DF7";
+    this.colors[6] = "#5e5e5e";
+    this.colors[7] = "#dd4b39";
+    this.colors[8] = "#35465c";
+    this.colors[9] = "#e52d27";
+    this.colors[10] = "#55acee";
+    this.colors[11] = "#cc2127";
+    this.colors[12] = "#1769ff";
+    this.colors[13] = "#6188e2";
+    this.colors[14] = "#a748ca";
+
     this.chartId = `lbd-chart-${LbdChartComponent.currentId++}`;
   }
 

@@ -8,8 +8,8 @@
 
     <div class="footer">
       <div class="legend">
-        <span *ngFor="let item of legendItems">
-          <i [ngClass]="item.imageClass"></i> {{ item.title }}
+        <span *ngFor="let item of legendItems; let i=index">
+          <i [ngClass]="item.imageClass" [style.color]="colors[i]"></i> {{ item.title }}
         </span>
       </div>
       <hr *ngIf="withHr">

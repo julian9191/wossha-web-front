@@ -9,13 +9,15 @@ import { NotificationsService } from "../../providers/notifications/notification
 import { LbdModule } from '../lbd/lbd.module';
 import { StatisticsComponent } from './statistics.component';
 import { StatisticsRoutes } from './statistics.routing';
+import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule.forChild(StatisticsRoutes),
         FormsModule,
-        LbdModule
+        LbdModule,
+        PhotoSwipeModule
     ],
     entryComponents: [],
     declarations: [StatisticsComponent],

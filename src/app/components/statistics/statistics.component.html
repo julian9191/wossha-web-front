@@ -1,5 +1,11 @@
+<app-photo-swipe #photoSwipe></app-photo-swipe>
 <div class="main-content">
     <div class="container-fluid">
+        <div class="row">
+            <div class="header">
+                <h4 class="title">Total de prendas registradas: {{totalClothing}}</h4>
+            </div>
+        </div>
         <div class="row">
 
             <div class="col-md-6">
@@ -8,10 +14,10 @@
                         [title]="'Tipos'"
                         [subtitle]="'Distribución de prendas por tipo'"
                         [chartType]="pieChartType"
-                        [chartData]="colorsChartData"
-                        [legendItems]="colorsChartLegendItems"
+                        [chartData]="typesChartData"
+                        [legendItems]="typesChartLegendItems"
                         [withHr]="false"
-                        [initComponent]="initComponent">
+                        [initComponent]="initTypesPie">
                     </lbd-chart>
                 </div>
             </div>
@@ -21,10 +27,10 @@
                         [title]="'Categorías'"
                         [subtitle]="'Distribución de prendas por categoría'"
                         [chartType]="pieChartType"
-                        [chartData]="colorsChartData"
-                        [legendItems]="colorsChartLegendItems"
+                        [chartData]="categoriesChartData"
+                        [legendItems]="categoriesChartLegendItems"
                         [withHr]="false"
-                        [initComponent]="initComponent">
+                        [initComponent]="initCategoriesPie">
                     </lbd-chart>
                 </div>
             </div>
@@ -34,10 +40,10 @@
                         [title]="'Niveles de gusto'"
                         [subtitle]="'Distribución de prendas por niveles de gusto'"
                         [chartType]="pieChartType"
-                        [chartData]="colorsChartData"
-                        [legendItems]="colorsChartLegendItems"
+                        [chartData]="howLikeChartData"
+                        [legendItems]="howLikeChartLegendItems"
                         [withHr]="false"
-                        [initComponent]="initComponent">
+                        [initComponent]="isInitHowLikePie">
                     </lbd-chart>
                 </div>
             </div>
@@ -47,10 +53,10 @@
                         [title]="'Marcas'"
                         [subtitle]="'Distribución de prendas por marca'"
                         [chartType]="pieChartType"
-                        [chartData]="colorsChartData"
-                        [legendItems]="colorsChartLegendItems"
+                        [chartData]="brandsChartData"
+                        [legendItems]="brandsChartLegendItems"
                         [withHr]="false"
-                        [initComponent]="initComponent">
+                        [initComponent]="initBrandsPie">
                     </lbd-chart>
                 </div>
             </div>
@@ -63,13 +69,52 @@
                         [chartData]="colorsChartData"
                         [legendItems]="colorsChartLegendItems"
                         [withHr]="false"
-                        [initComponent]="initComponent">
+                        [initComponent]="initColorsPie">
                     </lbd-chart>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="card">
-                    Las 10 prendas mas usadas
+                    <div class="header">
+                        <h4 class="title">Las 5 prendas mas usadas</h4>
+                    </div>
+                    <div class="content table-responsive table-full-width">
+                        <table class="table table-bigboy">
+                            <thead>
+                                <tr>
+                                    <th class="text-center"></th>
+                                    <th class="text-left">Nombre</th>
+                                    <th class="text-left">Tipo</th>
+                                    <th class="text-left">Total</th>
+                                    <th class="text-right"></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let clothe of mostUsedClothing; let i=index">
+                                    <td>
+                                        <div class="img-container">
+                                            <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {{clothe.name}}
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)">{{clothe.type}}</a>
+                                    </td>
+                                    <td>
+                                        {{clothe.total}}
+                                    </td>
+                                    <td class="td-actions">
+                                        <a class="btn btn-info btn-simple btn-icon" [routerLink]="['/clothing/view-clothe', clothe.uuid]" title="Ver">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             
