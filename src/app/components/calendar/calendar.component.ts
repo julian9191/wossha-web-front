@@ -7,6 +7,7 @@ import { CalendarService } from 'app/providers/clothing/calendar.service';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { UserService } from 'app/providers/user/user.service';
 import { CalendarClothe } from 'app/models/calendar/calendarClothe';
+import * as moment from 'moment';
 
 declare var swal: any;
 declare var $: any;
@@ -129,7 +130,7 @@ export class CalendarComponent implements OnInit{
 
 	openDialog(date, jsEvent, view, resourceObj){
 		let disposable = this.dialogService.addDialog(DayPopup, {
-			title: date, 
+			title: moment.utc(date).format("YYYY/MM/DD"), 
 			date: date,
 			message: ""
 		})

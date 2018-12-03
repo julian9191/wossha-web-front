@@ -15,6 +15,7 @@ import { SearchCriteriaModule } from '../components/search_criteria/searchcriter
 import { AddCalendarComponent } from './popup/addcalendar/addCalendar.component';
 import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
 
+
 @NgModule({
     imports: [
         CommonModule,
