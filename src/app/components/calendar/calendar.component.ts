@@ -63,13 +63,15 @@ export class CalendarComponent implements OnInit{
 				let currentDateAux:Date;
 				if(monthDate.getMonth()==m){
 					currentDateAux=new Date();
-					currentDateAux.setDate(d)
+					currentDateAux.setDate(d);
 				}else{
 					currentDateAux= monthDate;
 					currentDateAux.setDate(15);
 				}
-				$this.currentDate = currentDateAux.getFullYear()+"-"+((currentDateAux.getMonth()+"").length==1?"0"+currentDateAux.getMonth():currentDateAux.getMonth())+"-"+currentDateAux.getDate();
-				
+				let day = (currentDateAux.getDate()+"").length==1 ? "0"+currentDateAux.getDate() : currentDateAux.getDate();
+				let month = currentDateAux.getMonth()+1;
+				$this.currentDate = currentDateAux.getFullYear()+"-"+((month+"").length==1?"0"+month:month)+"-"+day;
+
 				$this.getEventsByView();
             },
             header: {
