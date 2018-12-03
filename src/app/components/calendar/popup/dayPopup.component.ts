@@ -8,6 +8,7 @@ import { AddCalendarComponent } from './addcalendar/addCalendar.component';
 import { AddDayDescriptionCommand } from 'app/models/calendar/commands/addDayDescriptionCommand';
 import { LoginUser } from 'app/models/user/login/loginUser';
 import { RemoveClotheFromDayCommand } from 'app/models/calendar/commands/removeClotheFromDayCommand';
+import * as moment from 'moment'
 
 declare var $:any;
 
@@ -63,7 +64,8 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
   }
 
   getDayDescription(){
-    this.calendarService.getDayDescription(this.date).subscribe(
+    let date:string = moment(this.date).format('YYYY-MM-DD');
+    this.calendarService.getDayDescription(date).subscribe(
       (data:any) => {
         this.addDayDescriptionCommand.description = data.description;
         if(this.addDayDescriptionCommand.description){
@@ -76,7 +78,8 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
   }
 
   getDayClothing(){
-    this.calendarService.getDayClothing(this.date).subscribe(
+    let date:string = moment(this.date).format('YYYY-MM-DD');
+    this.calendarService.getDayClothing(date).subscribe(
         (data:any) => {
             this.clothes = data;
             let images:string[] = this.clothes.map((x) => {return x.picture});

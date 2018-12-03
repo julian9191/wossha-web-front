@@ -42,11 +42,11 @@ export class CalendarService {
     return this.http.post<Clothe>(this.searchClothingCalendarUrl, searchCriteriaResult, {params: params, headers: this.httpHeaders});
   }
 
-  getDayClothing(date:Date) : Observable<Clothe>{
+  getDayClothing(date:string) : Observable<Clothe>{
     return this.http.get<Clothe>(this.getDayClothingUrl+"/"+date, {headers: this.httpHeaders});
   }
 
-  getDayDescription(date:Date) : Observable<string>{
+  getDayDescription(date:string) : Observable<string>{
     return this.http.get<string>(this.getDayDescriptionUrl+"/"+date, {headers: this.httpHeaders});
   }
 

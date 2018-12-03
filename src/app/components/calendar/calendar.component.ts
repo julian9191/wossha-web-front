@@ -68,9 +68,7 @@ export class CalendarComponent implements OnInit{
 					currentDateAux= monthDate;
 					currentDateAux.setDate(15);
 				}
-				let day = (currentDateAux.getDate()+"").length==1 ? "0"+currentDateAux.getDate() : currentDateAux.getDate();
-				let month = currentDateAux.getMonth()+1;
-				$this.currentDate = currentDateAux.getFullYear()+"-"+((month+"").length==1?"0"+month:month)+"-"+day;
+				$this.currentDate = moment(currentDateAux).format('YYYY-MM-DD');
 
 				$this.getEventsByView();
             },
