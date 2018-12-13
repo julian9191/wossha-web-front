@@ -4,6 +4,8 @@ import { NotificationsService } from '../../../providers/notifications/notificat
 import {LoginParams} from "../../../models/user/login/loginParams";
 import {SessionInfo} from "../../../models/user/login/sessionInfo"; 
 import {Router} from '@angular/router';
+import { SocialService } from 'app/providers/social/social.service';
+import { FollowingUser } from 'app/models/social/followingUser';
 
 declare var $:any;
 
@@ -18,6 +20,7 @@ export class LoginComponent implements OnInit{
     loginParams: LoginParams = new LoginParams();
 
     constructor(private userService: UserService, 
+        private socialService: SocialService, 
         private notificationsService: NotificationsService,
         private router: Router){}
     
@@ -47,9 +50,25 @@ export class LoginComponent implements OnInit{
             (userSessionInfo:SessionInfo) => {
                 this.userService.storageLoginUserSessionInfo(userSessionInfo);
                 this.router.navigate(['start']);
+                
+                this.socialService.setToken(userSessionInfo.token);
+                this.loadFollowingUsers();
             }, (error: any) => {
                 this.notificationsService.showNotification("El usuario o la contraseña son incorrectos", this.notificationsService.WARNING);
             }
         );
     }
+
+    loadFollowingUsers(){
+        if(this.userService.getSocialInfo()==null){
+            this.socialService.getFollowingUsers().subscribe( 
+                (data:any) => {
+                    this.userService.storageSocialInfo(data);
+                }, (error: any) => {
+                    this.notificationsService.showNotification("Ha ocurrido un error de conexión", this.notificationsService.DANGER);
+                }
+            );
+        }
+    }
+
 }

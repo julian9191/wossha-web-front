@@ -7,7 +7,7 @@ import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
 
 import { EditUserComponent } from './editUser/editUser.component';
 import { UserRoutes } from './user.routing';
-
+import { SocialService } from '../../providers/social/social.service';
 import { UserComponent } from './user/user.component';
 
 @NgModule({
@@ -18,7 +18,8 @@ import { UserComponent } from './user/user.component';
         ComponentsModule,
         PhotoSwipeModule
     ],
-    declarations: [EditUserComponent, UserComponent]
+    declarations: [EditUserComponent, UserComponent],
+    providers: [SocialService]
 })
 
 export class UserModule {}

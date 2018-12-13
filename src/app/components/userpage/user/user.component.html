@@ -16,9 +16,19 @@
                               </h4>
                         </div>
                         <p class="description text-center">{{user.about}}</p>
-                        <div class="text-center" *ngIf="!ownProfile">
-                            <button type="button" class="btn btn-warning btn-fill btn-wd" (click)="getMoreClothes(false)">
-                                <i class="fa fa-user-plus"></i> Seguir
+                        <div class="text-center" *ngIf="followStatus()=='NOT_FOLLOWING'">
+                            <button type="button" class="btn btn-warning btn-fill btn-wd" (click)="followUser()">
+                                <i class="fa fa-user-plus"></i> Solicitar seguir
+                            </button>
+                        </div>
+                        <div class="text-center" *ngIf="followStatus()=='WAITING_FOR_APPROVAL'">
+                            <button type="button" class="btn btn-warning btn-fill btn-wd" (click)="stopFollowingUser()">
+                                <i class="fas fa-remove"></i> Cancelar solicitud para seguir
+                            </button>
+                        </div>
+                        <div class="text-center" *ngIf="followStatus()=='FOLLOWING'">
+                            <button type="button" class="btn btn-warning btn-fill btn-wd" (click)="stopFollowingUser()">
+                                <i class="fa fa-user-minus"></i> Dejar de seguir
                             </button>
                         </div>
                     </div>

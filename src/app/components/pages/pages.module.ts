@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {UserService} from "../../providers/user/user.service";
-
+import { SocialService } from '../../providers/social/social.service';
 import { PagesRoutes } from './pages.routing';
 
 import { RegisterComponent } from './register/register.component';
@@ -24,7 +24,7 @@ import { ComponentsModule } from '../components/components.module';
         RegisterComponent,
         LockComponent
     ],
-    providers: [UserService]
+    providers: [UserService, SocialService]
 })
 
 export class PagesModule {}
