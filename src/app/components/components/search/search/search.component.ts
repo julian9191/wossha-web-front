@@ -2,6 +2,7 @@ import { Component, Input, forwardRef } from '@angular/core';
 import { ClothingService } from '../../../../providers/clothing/clothing.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl, Validator } from '@angular/forms';
 import { UserService } from 'app/providers/user/user.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,13 +32,15 @@ export class SearchComponent implements ControlValueAccessor, Validator{
   @Input() required: boolean;
   matches: any[] = [];
   loading: boolean;
-  currentValue :any = {"id":-1,"name":this.searchValue};
+  currentValue :any = {"id":"","name":this.searchValue};
   focusIndexElement: number = 0;
-  focusIdElement: number = 0;
+  focusIdElement: string = "";
   showListTab:boolean = false;
+  public defaultProfilePicture = "../../assets/img/default-avatar.png";
 
   constructor(private clothingService: ClothingService, 
-    private userService: UserService) {
+    private userService: UserService,
+    private router: Router) {
       userService.setHeaderToken();
       clothingService.setToken(userService.getToken());
     }
@@ -105,18 +108,6 @@ export class SearchComponent implements ControlValueAccessor, Validator{
     this.loading = true;
 
     switch(this.searchKey) {
-      case "clothing-type":
-        this.clothingService.searchClothingType(word).subscribe( (data: any) => {
-          this.processResponse(data);
-        });
-      case "clothing-category":
-        this.clothingService.searchClothingCategory(word).subscribe( (data: any) => {
-          this.processResponse(data);
-        });
-      case "brand":
-        return this.clothingService.searchBrand(word).subscribe( (data: any) => {
-          this.processResponse(data);
-        });
       case "search-user":
         return this.userService.searchUser(word).subscribe( (data: any) => {
           this.processResponse(data);
@@ -129,16 +120,17 @@ export class SearchComponent implements ControlValueAccessor, Validator{
     this.matches = data;
     this.loading = false;
     if(this.matches.length>0){
-      this.focusIdElement = this.matches[this.focusIndexElement].id;
+      this.focusIdElement = this.matches[this.focusIndexElement].username;
     }
   }
 
-  selectItem(idItem:number){
-    let item = this.matches.filter(x => x.id == idItem);
+  selectItem(usernameItem:string){
+    let item = this.matches.filter(x => x.username == usernameItem);
     if(item.length>0){
       this.currentValue = item[0];
       this.verifyValue(this.currentValue.name);
       this.reset();
+      this.router.navigate(['pages','user',usernameItem]);
     }
   }
 
@@ -148,7 +140,7 @@ export class SearchComponent implements ControlValueAccessor, Validator{
     }
     if (this.focusIndexElement > 0) {
       this.focusIndexElement--;
-      this.focusIdElement = this.matches[this.focusIndexElement].id
+      this.focusIdElement = this.matches[this.focusIndexElement].username
     }
   }
 
@@ -158,7 +150,7 @@ export class SearchComponent implements ControlValueAccessor, Validator{
     }
     if (this.focusIndexElement <= this.matches.length - 2) {
       this.focusIndexElement++;
-      this.focusIdElement = this.matches[this.focusIndexElement].id
+      this.focusIdElement = this.matches[this.focusIndexElement].username
     }
   }
 
@@ -177,10 +169,19 @@ export class SearchComponent implements ControlValueAccessor, Validator{
     }
   }
 
+  getProfileImage(uuid:string):string{
+    if(uuid){
+        return "http://localhost:8083/pictures/static-picture/"+uuid;
+    }
+    else{
+        return this.defaultProfilePicture;
+    }
+}
+
   reset(){
     this.matches = [];
     this.focusIndexElement = 0;
-    this.focusIdElement = 0;
+    this.focusIdElement = "";
   }
 
 }

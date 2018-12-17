@@ -114,10 +114,6 @@ export class AutocompleteComponent implements ControlValueAccessor, Validator{
         return this.clothingService.searchBrand(word).subscribe( (data: any) => {
           this.processResponse(data);
         });
-      case "search-user":
-        return this.userService.searchUser(word).subscribe( (data: any) => {
-          this.processResponse(data);
-        });
       default:
     }
   }

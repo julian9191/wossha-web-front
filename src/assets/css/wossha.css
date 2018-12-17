@@ -141,3 +141,12 @@ app-hue{
 .fc-event {
     border:1px solid #c3c3c3 !important;
 }
+
+
+.list-group-item.active, 
+.list-group-item.active:focus, 
+.list-group-item.active:hover {
+    color: #fff;
+    background-color: #aaa !important;
+    border-color: #aaa !important;
+}

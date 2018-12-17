@@ -18,7 +18,7 @@
         </div>
         <div class="collapse navbar-collapse">
             <div class="" *ngIf="isMobileMenu()"> 
-                <form class="navbar-form navbar-left navbar-search-form" role="search">
+                <form class="navbar-form navbar-left navbar-search-form" autocomplete="off" role="search">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                         <search-cmp [searchKey]="'search-user'" name="searchText" [placeHolder]="'Buscar...'" [searchValue]="searchText" [(ngModel)]="searchText" [required]="true" 
