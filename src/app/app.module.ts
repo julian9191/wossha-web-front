@@ -18,7 +18,7 @@ import { NotificationsService } from './providers/notifications/notifications.se
 import { ActivateGuard } from './providers/auth/activateGuard.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpErrorHandlerService } from './providers/auth/httpErrorHandler.service';
-
+import { NgChatModule } from "./components/components/ng-chat/ng-chat.module";
 
 @NgModule({
     imports:      [
@@ -32,7 +32,8 @@ import { HttpErrorHandlerService } from './providers/auth/httpErrorHandler.servi
         NavbarModule,
         FooterModule,
         PagesnavbarModule,
-        BrowserModule
+        BrowserModule,
+        NgChatModule
     ],
     declarations: [
         AppComponent,
