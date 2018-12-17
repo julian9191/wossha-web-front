@@ -12,6 +12,7 @@ import { Country } from "../../models/country/country";
 import 'rxjs';
 import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
 import { FollowingUser } from 'app/models/social/followingUser';
+import { UserSearch } from 'app/models/user/userSearch';
 
 @Injectable()
 export class UserService {
@@ -24,6 +25,7 @@ export class UserService {
   private updateLoggedUserSessionInfoUrl:string = this.userUrl+"logged-user-info";
   private static userInfo:SessionInfo
   private static socialInfo:FollowingUser[];
+  private userSearchUrl:string = this.userUrl+'search-user';
   
   httpHeaders:HttpHeaders;
 
@@ -110,6 +112,10 @@ export class UserService {
 
   getCountires() : Observable<Country>{
     return this.http.get<Country>(this.countriesUrl, {headers: this.httpHeaders});
+  }
+
+  searchUser(word:string) : Observable<UserSearch>{
+    return this.http.get<UserSearch>(this.userSearchUrl+"/"+word, {headers: this.httpHeaders});
   }
 
   executeCommand(data) : Observable<String>{

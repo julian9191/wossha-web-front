@@ -54,8 +54,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Tipo de prenda <span class="star">*</span></label>
-                                            <app-search [searchKey]="'clothing-type'" [placeHolder]="'Ej: (PANTALON, CAMISA, ZAPATOS)'" name="type" [searchValue]="register.type" [(ngModel)]="register.type" [required]="true" 
-                                            #type="ngModel"></app-search>
+                                            <autocomplete-cmp [searchKey]="'clothing-type'" [placeHolder]="'Ej: (PANTALON, CAMISA, ZAPATOS)'" name="type" [searchValue]="register.type" [(ngModel)]="register.type" [required]="true" 
+                                            #type="ngModel"></autocomplete-cmp>
                                             <small [hidden]="type.valid || (type.pristine && !f.submitted)" class="red-text">
                                                 El tipo de prenda es requerido.
                                             </small>
@@ -67,8 +67,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Categoría <span class="star">*</span></label>
-                                            <app-search [searchKey]="'clothing-category'" [placeHolder]="'Ej: (DEPORTIVA, FORMAL, INFORMAL)'" name="category" [searchValue]="register.category" [(ngModel)]="register.category" [required]="true" 
-                                            #category="ngModel"></app-search>
+                                            <autocomplete-cmp [searchKey]="'clothing-category'" [placeHolder]="'Ej: (DEPORTIVA, FORMAL, INFORMAL)'" name="category" [searchValue]="register.category" [(ngModel)]="register.category" [required]="true" 
+                                            #category="ngModel"></autocomplete-cmp>
                                             <small [hidden]="category.valid || (category.pristine && !f.submitted)" class="red-text">
                                                 La categoría de prenda es requerida.
                                             </small>
@@ -96,7 +96,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Marca</label>
-                                            <app-search [searchKey]="'brand'" [placeHolder]="'Escriba la marca de la prenda...'" [searchValue]="register.brand" [(ngModel)]="register.brand" name="brand" [required]="false"></app-search>
+                                            <autocomplete-cmp [searchKey]="'brand'" [placeHolder]="'Escriba la marca de la prenda...'" [searchValue]="register.brand" [(ngModel)]="register.brand" name="brand" [required]="false"></autocomplete-cmp>
                                         </div>
                                     </div>
                                 </div>

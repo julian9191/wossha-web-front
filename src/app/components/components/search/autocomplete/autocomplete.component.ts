@@ -1,25 +1,26 @@
 import { Component, Input, forwardRef } from '@angular/core';
-import { ClothingService } from '../../../providers/clothing/clothing.service';
+import { ClothingService } from '../../../../providers/clothing/clothing.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl, Validator } from '@angular/forms';
+import { UserService } from 'app/providers/user/user.service';
 
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css'],
+  selector: 'autocomplete-cmp',
+  templateUrl: './autocomplete.component.html',
+  styleUrls: ['./autocomplete.component.css'],
   providers: [
   {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SearchComponent),
+    useExisting: forwardRef(() => AutocompleteComponent),
     multi: true,
   },
   {
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => SearchComponent),
+    useExisting: forwardRef(() => AutocompleteComponent),
     multi: true,
   }] 
 })
-export class SearchComponent implements ControlValueAccessor, Validator{
+export class AutocompleteComponent implements ControlValueAccessor, Validator{
 
   private parseError: boolean;
   private data: any;
@@ -35,7 +36,8 @@ export class SearchComponent implements ControlValueAccessor, Validator{
   focusIdElement: number = 0;
   showListTab:boolean = false;
 
-  constructor(private clothingService: ClothingService) {}
+  constructor(private clothingService: ClothingService, 
+    private userService: UserService) {}
 
   // this is the initial value set to the component
   public writeValue(obj: any) {
@@ -98,25 +100,33 @@ export class SearchComponent implements ControlValueAccessor, Validator{
       return;
     }
     this.loading = true;
-    this.getMatches( word, this.searchKey)
-          .subscribe( (data: any) => {
-            this.matches = data;
-            this.loading = false;
-            if(this.matches.length>0){
-              this.focusIdElement = this.matches[this.focusIndexElement].id;
-            }
-          });
-  }
 
-  getMatches(word, searchKey){
-    switch(searchKey) {
+    switch(this.searchKey) {
       case "clothing-type":
-        return this.clothingService.searchClothingType(word);
+        this.clothingService.searchClothingType(word).subscribe( (data: any) => {
+          this.processResponse(data);
+        });
       case "clothing-category":
-        return this.clothingService.searchClothingCategory(word);
+        this.clothingService.searchClothingCategory(word).subscribe( (data: any) => {
+          this.processResponse(data);
+        });
       case "brand":
-        return this.clothingService.searchBrand(word);
+        return this.clothingService.searchBrand(word).subscribe( (data: any) => {
+          this.processResponse(data);
+        });
+      case "search-user":
+        return this.userService.searchUser(word).subscribe( (data: any) => {
+          this.processResponse(data);
+        });
       default:
+    }
+  }
+  
+  processResponse(data:any){
+    this.matches = data;
+    this.loading = false;
+    if(this.matches.length>0){
+      this.focusIdElement = this.matches[this.focusIndexElement].id;
     }
   }
 

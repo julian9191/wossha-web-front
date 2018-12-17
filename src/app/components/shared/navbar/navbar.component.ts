@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit{
     private nativeElement: Node;
     private toggleButton;
     private sidebarVisible: boolean;
+    public searchText:string = "";
 
     @ViewChild("navbar-cmp") button;
 
