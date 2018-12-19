@@ -16,8 +16,7 @@ import { PagedHistoryChatAdapter } from './core/paged-history-chat-adapter';
 import { IFileUploadAdapter } from './core/file-upload-adapter';
 import { DefaultFileUploadAdapter } from './core/default-file-upload-adapter';
 
-import * as Stomp from 'stompjs';
-import * as SockJS from 'sockjs-client';
+
 
 import { Observable } from 'rxjs';
 
@@ -40,8 +39,7 @@ export class NgChat implements OnInit, IChatController {
     // Exposes enums for the ng-template
     public UserStatus = UserStatus;
     public MessageType = MessageType;
-    private serverUrl = 'http://localhost:8084/ws';
-    private stompClient;
+    
 
     @Input()
     public adapter: ChatAdapter;
@@ -213,50 +211,10 @@ export class NgChat implements OnInit, IChatController {
 
     protected users: User[];
 
-    constructor(public sanitizer: DomSanitizer, private _httpClient: HttpClient) {
-        this.initializeWebSocketConnection();
-    }
+    constructor(public sanitizer: DomSanitizer, private _httpClient: HttpClient) {}
 
     
-    initializeWebSocketConnection(){
-        let ws = new SockJS(this.serverUrl);
-        this.stompClient = Stomp.over(ws);
-        debugger;
-        
-        //this.stompClient.connect({}, this.onConnected, this.onError);
-        let that = this;
-        this.stompClient.connect({}, function(frame) {
-            that.stompClient.subscribe("/topic/public", this.onMessageReceived2);
-            // Tell your username to the server
-            that.stompClient.send("/app/chat.addUser",
-                {},
-                JSON.stringify({sender: "username", type: 'JOIN'})
-            )
-        }, this.onError);
-    }
-
-    onError(error) {
-        console.log('Could not connect to WebSocket server. Please refresh this page to try again!');
-    }
-
-    sendMessage(message){
-        this.stompClient.send("/app/chat.sendMessage" , {}, message);
-    }
-
-    onMessageReceived2(payload) {
-        var message = JSON.parse(payload.body);
     
-        var messageElement = document.createElement('li');
-    
-        if(message.type === 'JOIN') {
-            console.log( message.sender + ' joined!');
-        } else if (message.type === 'LEAVE') {
-            console.log(message.sender + ' left!');
-        } else {
-    
-            console.log(message.content);
-        }
-    }
 
     private get localStorageKey(): string 
     {
@@ -325,6 +283,8 @@ export class NgChat implements OnInit, IChatController {
         {
             try
             {
+                this.adapter.initializeWebSocketConnection();
+
                 this.viewPortTotalArea = window.innerWidth;
 
                 this.initializeDefaultText();
