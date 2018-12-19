@@ -1,7 +1,7 @@
 import { IFileUploadAdapter } from './file-upload-adapter';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { User } from './user';
+import { ChatUser } from './chatUser';
 import { Message } from './message';
 
 export class DefaultFileUploadAdapter implements IFileUploadAdapter
@@ -13,7 +13,7 @@ export class DefaultFileUploadAdapter implements IFileUploadAdapter
     constructor(private _serverEndpointUrl: string, private _http: HttpClient) {
     }
 
-    uploadFile(file: File, userTo: User): Observable<Message> {
+    uploadFile(file: File, userTo: ChatUser): Observable<Message> {
         const formData: FormData = new FormData();
 
         //formData.append('ng-chat-sender-userid', currentUserId);

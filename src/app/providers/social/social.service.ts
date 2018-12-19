@@ -6,6 +6,7 @@ import { Router} from '@angular/router';
 import 'rxjs';
 import { FollowingUser } from 'app/models/social/followingUser';
 
+
 @Injectable()
 export class SocialService {
 

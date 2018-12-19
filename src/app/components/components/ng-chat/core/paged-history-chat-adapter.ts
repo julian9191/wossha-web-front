@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Message } from "./message";
-import { User } from "./user";
+import { ChatUser } from "./chatUser";
 import { ChatAdapter } from "./chat-adapter";
 
 /**

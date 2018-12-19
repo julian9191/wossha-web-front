@@ -1,8 +1,8 @@
-import { User } from './user';
+import { ChatUser } from './chatUser';
 
 export interface IChatController
 {
-    triggerOpenChatWindow(user: User): void;
+    triggerOpenChatWindow(user: ChatUser): void;
 
     triggerCloseChatWindow(userId: any): void;
 

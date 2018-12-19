@@ -1,9 +1,9 @@
 import { Message } from "./message";
-import { User } from "./user";
+import { ChatUser } from "./chatUser";
 
 export class Window
 {
-    public chattingTo: User;
+    public chattingTo: ChatUser;
     public messages: Message[] = [];
     public newMessage?: string = "";
     

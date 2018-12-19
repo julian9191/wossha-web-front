@@ -1,5 +1,5 @@
 import { ChatAdapter} from './core/chat-adapter';
-import { User} from './core/user';
+import { ChatUser} from './core/chatUser';
 import { Message} from './core/message';
 import { UserStatus } from './core/user-status.enum';
 import { Observable} from 'rxjs';
@@ -13,7 +13,7 @@ export class DemoAdapter extends ChatAdapter
     private serverUrl = 'http://localhost:8084/ws';
     private stompClient;
 
-    public static mockedUsers: User[] = [
+    public static mockedUsers: ChatUser[] = [
     {
         id: 'arya',
         displayName: "Arya Stark",
@@ -75,7 +75,7 @@ export class DemoAdapter extends ChatAdapter
         status: UserStatus.Away
     }];
 
-    listFriends(): Observable<User[]> {
+    listFriends(): Observable<ChatUser[]> {
         //return of(DemoAdapter.mockedUsers);
 
         function sequenceSubscriber(observer) {
@@ -126,7 +126,7 @@ export class DemoAdapter extends ChatAdapter
 
 
 
-    initializeWebSocketConnection(){
+    initializeWebSocketConnection(myUsername:string){
         let ws = new SockJS(this.serverUrl);
         this.stompClient = Stomp.over(ws);
         
@@ -141,7 +141,7 @@ export class DemoAdapter extends ChatAdapter
             });
             // Tell your username to the server
             that.stompClient.send("/app/chat.addUser",{},
-                JSON.stringify({sender: "username", type: 'JOIN'})
+                JSON.stringify({sender: myUsername, type: 'JOIN'})
             )
         }, this.onError);
     }

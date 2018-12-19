@@ -1,14 +1,14 @@
 import { Observable } from 'rxjs';
 import { Message } from "./message";
-import { User } from "./user";
+import { ChatUser } from "./chatUser";
 
 export abstract class ChatAdapter
 {
     // ### Abstract adapter methods ###
 
-    public abstract initializeWebSocketConnection();
+    public abstract initializeWebSocketConnection(myUsername:string);
 
-    public abstract listFriends(): Observable<User[]>;
+    public abstract listFriends(): Observable<ChatUser[]>;
     
     public abstract getMessageHistory(userId: any): Observable<Message[]>;
 
@@ -16,17 +16,17 @@ export abstract class ChatAdapter
 
     // ### Adapter/Chat income/ingress events ###
 
-    public onFriendsListChanged(users: User[]): void
+    public onFriendsListChanged(users: ChatUser[]): void
     {
         this.friendsListChangedHandler(users);
     }
 
-    public onMessageReceived(user: User, message: Message): void
+    public onMessageReceived(user: ChatUser, message: Message): void
     {
         this.messageReceivedHandler(user, message);
     }
     
     // Event handlers
-    friendsListChangedHandler: (users: User[]) => void  = (users: User[]) => {};
-    messageReceivedHandler: (user: User, message: Message) => void = (user: User, message: Message) => {};
+    friendsListChangedHandler: (users: ChatUser[]) => void  = (users: ChatUser[]) => {};
+    messageReceivedHandler: (user: ChatUser, message: Message) => void = (user: ChatUser, message: Message) => {};
 }

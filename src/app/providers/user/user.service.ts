@@ -13,6 +13,7 @@ import 'rxjs';
 import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
 import { FollowingUser } from 'app/models/social/followingUser';
 import { UserSearch } from 'app/models/user/userSearch';
+import { ChatUser } from 'app/components/components/ng-chat/core/chatUser';
 
 @Injectable()
 export class UserService {
@@ -26,6 +27,8 @@ export class UserService {
   private static userInfo:SessionInfo
   private static socialInfo:FollowingUser[];
   private userSearchUrl:string = this.userUrl+'search-user';
+  private chatFriends:string = this.userUrl+'chat-friends';
+  
   
   httpHeaders:HttpHeaders;
 
@@ -116,6 +119,10 @@ export class UserService {
 
   searchUser(word:string) : Observable<UserSearch>{
     return this.http.get<UserSearch>(this.userSearchUrl+"/"+word, {headers: this.httpHeaders});
+  }
+
+  getChatFriends(data) : Observable<User>{
+    return this.http.post<User>(this.chatFriends, data, {headers: this.httpHeaders})
   }
 
   executeCommand(data) : Observable<String>{

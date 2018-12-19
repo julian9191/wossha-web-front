@@ -13,9 +13,9 @@
                 <div *ngIf="!user.avatar"  class="icon-wrapper">
                     <i class="user-icon"></i>
                 </div>
-                <img *ngIf="user.avatar" alt="" class="avatar" height="30" width="30"  src="{{user.avatar}}"/>
+                <img *ngIf="user.avatar" alt="" class="avatar" height="30" width="30"  [src]="getProfileImage(user.avatar)"/>
                 <strong title="{{user.displayName}}">{{user.displayName}}</strong>
-                <span [ngClass]="{'ng-chat-user-status': true, 'online': user.status == UserStatus.Online, 'busy': user.status == UserStatus.Busy, 'away': user.status == UserStatus.Away, 'offline': user.status == UserStatus.Offline}" title="{{getStatusTitle(user.status)}}"></span>
+                <span [ngClass]="{'ng-chat-user-status': true, 'online': user.status == 1, 'busy': user.status == 100, 'away': user.status == 99, 'offline': user.status == 0}" title="{{getStatusTitle(user.status)}}"></span>
                 <span *ngIf="unreadMessagesTotalByUser(user).length > 0" class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">{{unreadMessagesTotalByUser(user)}}</span>
             </li>
         </ul>
@@ -26,7 +26,7 @@
                 <strong title="{{window.chattingTo.displayName}}">
                     {{window.chattingTo.displayName}}
                 </strong>
-                <span [ngClass]="{'ng-chat-user-status': true, 'online': window.chattingTo.status == UserStatus.Online, 'busy': window.chattingTo.status == UserStatus.Busy, 'away': window.chattingTo.status == UserStatus.Away, 'offline': window.chattingTo.status == UserStatus.Offline}" title="{{getStatusTitle(window.chattingTo.status)}}"></span>
+                <span [ngClass]="{'ng-chat-user-status': true, 'online': window.chattingTo.status == 1, 'busy': window.chattingTo.status == 100, 'away': window.chattingTo.status ==99, 'offline': window.chattingTo.status == 0}" title="{{getStatusTitle(window.chattingTo.status)}}"></span>
                 <span *ngIf="unreadMessagesTotal(window).length > 0" class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">{{unreadMessagesTotal(window)}}</span>
                 <a href="javascript:void(0);" class="ng-chat-close primary-text" (click)="onCloseChatWindow(window)">X</a>
             </div>
@@ -36,7 +36,7 @@
                 <strong title="{{window.chattingTo.displayName}}">
                     {{window.chattingTo.displayName}}
                 </strong>
-                <span [ngClass]="{'ng-chat-user-status': true, 'online': window.chattingTo.status == UserStatus.Online, 'busy': window.chattingTo.status == UserStatus.Busy, 'away': window.chattingTo.status == UserStatus.Away, 'offline': window.chattingTo.status == UserStatus.Offline}" title="{{getStatusTitle(window.chattingTo.status)}}"></span>
+                <span [ngClass]="{'ng-chat-user-status': true, 'online': window.chattingTo.status == 1, 'busy': window.chattingTo.status == 100, 'away': window.chattingTo.status == 99, 'offline': window.chattingTo.status == 0}" title="{{getStatusTitle(window.chattingTo.status)}}"></span>
                 <span *ngIf="unreadMessagesTotal(window).length > 0" class="ng-chat-unread-messages-count unread-messages-counter-container primary-text">{{unreadMessagesTotal(window)}}</span>
                 <a href="javascript:void(0);" class="ng-chat-close primary-text" (click)="onCloseChatWindow(window)">X</a>
             </div>

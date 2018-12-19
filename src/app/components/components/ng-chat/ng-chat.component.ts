@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { ChatAdapter } from './core/chat-adapter';
-import { User } from "./core/user";
+import { ChatUser } from "./core/chatUser";
 import { Message } from "./core/message";
 import { FileMessage } from "./core/file-message";
 import { MessageType } from "./core/message-type.enum";
@@ -19,6 +19,9 @@ import { DefaultFileUploadAdapter } from './core/default-file-upload-adapter';
 
 
 import { Observable } from 'rxjs';
+import { UserService } from 'app/providers/user/user.service';
+import { FollowingUser } from 'app/models/social/followingUser';
+import { LoginUser } from 'app/models/user/login/loginUser';
 
 @Component({
     selector: 'ng-chat',
@@ -104,6 +107,8 @@ export class NgChat implements OnInit, IChatController {
     @Input()
     public localization: Localization;
 
+    public defaultProfilePicture = "../../assets/img/default-avatar.png";
+
     @Input()
     public hideFriendsList: boolean = false;
 
@@ -120,82 +125,24 @@ export class NgChat implements OnInit, IChatController {
     public customTheme: string;
 
     @Output()
-    public onUserClicked: EventEmitter<User> = new EventEmitter<User>();
+    public onUserClicked: EventEmitter<ChatUser> = new EventEmitter<ChatUser>();
 
     @Output()
-    public onUserChatOpened: EventEmitter<User> = new EventEmitter<User>();
+    public onUserChatOpened: EventEmitter<ChatUser> = new EventEmitter<ChatUser>();
 
     @Output()
-    public onUserChatClosed: EventEmitter<User> = new EventEmitter<User>();
+    public onUserChatClosed: EventEmitter<ChatUser> = new EventEmitter<ChatUser>();
     
     @Output()
     public onMessagesSeen: EventEmitter<Message[]> = new EventEmitter<Message[]>();
 
     private browserNotificationsBootstrapped: boolean = false;
 
-    filteredUsers: User[] = [
-        {
-            id: 'arya',
-            displayName: "Arya Stark",
-            avatar: "https://pbs.twimg.com/profile_images/894833370299084800/dXWuVSIb.jpg",
-            status: UserStatus.Online
-        },
-        {
-            id: 'cersei',
-            displayName: "Cersei Lannister",
-            avatar: null,
-            status: UserStatus.Online
-        },
-        {
-            id: 'daenerys',
-            displayName: "Daenerys Targaryen",
-            avatar: "https://68.media.tumblr.com/avatar_d28d7149f567_128.png",
-            status: UserStatus.Busy
-        },
-        {
-            id: 'eddard',
-            displayName: "Eddard Stark",
-            avatar: "https://pbs.twimg.com/profile_images/600707945911844864/MNogF757_400x400.jpg",
-            status: UserStatus.Offline
-        },
-        {
-            id: 'hodor',
-            displayName: "Hodor",
-            avatar: "https://pbs.twimg.com/profile_images/378800000449071678/27f2e27edd119a7133110f8635f2c130.jpeg",
-            status: UserStatus.Offline
-        },
-        {
-            id: 'jaime',
-            displayName: "Jaime Lannister",
-            avatar: "https://pbs.twimg.com/profile_images/378800000243930208/4fa8efadb63777ead29046d822606a57.jpeg",
-            status: UserStatus.Busy
-        },
-        {
-            id: 'john',
-            displayName: "John Snow",
-            avatar: "https://pbs.twimg.com/profile_images/3456602315/aad436e6fab77ef4098c7a5b86cac8e3.jpeg",
-            status: UserStatus.Busy
-        },
-        {
-            id: 'lorde',
-            displayName: "Lorde Petyr 'Littlefinger' Baelish",
-            avatar: "http://68.media.tumblr.com/avatar_ba75cbb26da7_128.png",
-            status: UserStatus.Offline
-        },
-        {
-            id: 'sansa',
-            displayName: "Sansa Stark",
-            avatar: "http://pm1.narvii.com/6201/dfe7ad75cd32130a5c844d58315cbca02fe5b804_128.jpg",
-            status: UserStatus.Online
-        },
-        {
-            id: 'theon',
-            displayName: "Theon Greyjoy",
-            avatar: "https://thumbnail.myheritageimages.com/502/323/78502323/000/000114_884889c3n33qfe004v5024_C_64x64C.jpg",
-            status: UserStatus.Away
-        }];
+    filteredUsers: ChatUser[] = [];
 
     public hasPagedHistory: boolean = false;
+
+    public user:LoginUser;
 
     // Don't want to add this as a setting to simplify usage. Previous placeholder and title settings available to be used, or use full Localization object.
     private statusDescription: StatusDescription = {
@@ -209,9 +156,14 @@ export class NgChat implements OnInit, IChatController {
 
     public searchInput: string = '';
 
-    protected users: User[];
+    protected users: ChatUser[];
 
-    constructor(public sanitizer: DomSanitizer, private _httpClient: HttpClient) {}
+    constructor(public sanitizer: DomSanitizer, 
+        private _httpClient: HttpClient,
+        private userService: UserService) {
+            userService.setHeaderToken();
+            this.user = this.userService.getLoggedUserSessionInfo().user;
+    }
 
     
     
@@ -249,6 +201,7 @@ export class NgChat implements OnInit, IChatController {
 
     ngOnInit() { 
         this.bootstrapChat();
+        this.listFriends();
     }
 
     @HostListener('window:resize', ['$event'])
@@ -282,8 +235,7 @@ export class NgChat implements OnInit, IChatController {
         {
             try
             {
-                
-                this.adapter.initializeWebSocketConnection();
+                this.adapter.initializeWebSocketConnection(this.user.username);
 
                 this.viewPortTotalArea = window.innerWidth;
 
@@ -339,6 +291,21 @@ export class NgChat implements OnInit, IChatController {
             }
         }
     }
+
+    listFriends(){
+        let followingUsers:FollowingUser[] =this.userService.getSocialInfo();
+        if(followingUsers){
+            let followingUsernames:string[] = followingUsers.map(x => x.username);
+            this.userService.getChatFriends(followingUsernames).subscribe(
+                (data:any) => {
+                    this.filteredUsers = data;
+                }, (error: any) => {
+                    //this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de prendas", this.notificationsService.DANGER);
+                }
+            );
+        }
+        
+      }
 
     // Initializes browser notifications
     private async initializeBrowserNotifications()
@@ -410,7 +377,7 @@ export class NgChat implements OnInit, IChatController {
     }
 
     // Updates the friends list via the event handler
-    private onFriendsListChanged(users: User[]): void
+    private onFriendsListChanged(users: ChatUser[]): void
     {
         if (users) 
         {
@@ -419,7 +386,7 @@ export class NgChat implements OnInit, IChatController {
     }
 
     // Handles received messages by the adapter
-    private onMessageReceived(user: User, message: Message)
+    private onMessageReceived(user: ChatUser, message: Message)
     {
         if (user && message)
         {
@@ -453,7 +420,7 @@ export class NgChat implements OnInit, IChatController {
 
     // Opens a new chat whindow. Takes care of available viewport
     // Returns => [Window: Window object reference, boolean: Indicates if this window is a new chat window]
-    public openChatWindow(user: User, focusOnNewWindow: boolean = false, invokedByUserClick: boolean = false): [Window, boolean]
+    public openChatWindow(user: ChatUser, focusOnNewWindow: boolean = false, invokedByUserClick: boolean = false): [Window, boolean]
     {
         // Is this window opened?
         let openedWindow = this.windows.find(x => x.chattingTo.id == user.id);
@@ -579,8 +546,8 @@ export class NgChat implements OnInit, IChatController {
 
     // Emits a browser notification
     private emitBrowserNotification(window: Window, message: Message): void
-    {       
-        if (this.browserNotificationsBootstrapped && !window.hasFocus && message) {
+    {      
+        if (this.browserNotificationsBootstrapped && !window.hasFocus && message && message.message) {
             let notification = new Notification(`${this.localization.browserNotificationTitle} ${window.chattingTo.displayName}`, {
                 'body': message.message,
                 'icon': this.browserNotificationIconSource
@@ -673,7 +640,7 @@ export class NgChat implements OnInit, IChatController {
         return "";
     }
 
-    unreadMessagesTotalByUser(user: User): string
+    unreadMessagesTotalByUser(user: ChatUser): string
     {
         let openedWindow = this.windows.find(x => x.chattingTo.id == user.id);
 
@@ -807,7 +774,7 @@ export class NgChat implements OnInit, IChatController {
         return this.localization.statusDescription[currentStatus];
     }
 
-    triggerOpenChatWindow(user: User): void {
+    triggerOpenChatWindow(user: ChatUser): void {
         if (user)
         {
             this.openChatWindow(user);
@@ -859,5 +826,14 @@ export class NgChat implements OnInit, IChatController {
                 // Resets the file upload element
                 this.nativeFileInput.nativeElement.value = '';
             });
+    }
+
+    getProfileImage(uuid:string):string{
+        if(uuid){
+            return "http://localhost:8083/pictures/static-picture/"+uuid;
+        }
+        else{
+            return this.defaultProfilePicture;
+        }
     }
 }
