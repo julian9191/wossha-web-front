@@ -1,11 +1,13 @@
-import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import 'rxjs/add/operator/filter';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { SessionInfo } from 'app/models/user/login/sessionInfo';
 import { UserService } from 'app/providers/user/user.service';
+import { ChatAdapter } from 'app/components/components/ng-chat/core/chat-adapter';
+import { DemoAdapter } from 'app/components/components/ng-chat/chat-adapter';
 
 declare var $: any;
 
@@ -19,6 +21,7 @@ export class AdminLayoutComponent implements OnInit {
     private _router: Subscription;
     public userSessionInfo: SessionInfo;
     // url: string;
+    public adapter: ChatAdapter = new DemoAdapter();
 
     @ViewChild('sidebar') sidebar;
     @ViewChild(NavbarComponent) navbar: NavbarComponent;

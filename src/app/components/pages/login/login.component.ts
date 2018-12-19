@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import {UserService} from "../../../providers/user/user.service";
 import { NotificationsService } from '../../../providers/notifications/notifications.service';
 import {LoginParams} from "../../../models/user/login/loginParams";
@@ -18,6 +18,7 @@ declare var $:any;
 export class LoginComponent implements OnInit{
     test : Date = new Date();
     loginParams: LoginParams = new LoginParams();
+    @Output() loggedinEvent = new EventEmitter<boolean>();
 
     constructor(private userService: UserService, 
         private socialService: SocialService, 
@@ -53,6 +54,7 @@ export class LoginComponent implements OnInit{
                 
                 this.socialService.setToken(userSessionInfo.token);
                 this.loadFollowingUsers();
+                this.loggedinEvent.emit(true);
             }, (error: any) => {
                 this.notificationsService.showNotification("El usuario o la contraseña son incorrectos", this.notificationsService.WARNING);
             }

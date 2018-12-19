@@ -6,9 +6,10 @@
     </div>
     <div class="main-panel">
         <navbar-cmp></navbar-cmp>
-        <router-outlet (activate)='getUserSessionInfo($event)'></router-outlet>
+        <router-outlet (loggedinEvent)="loggedinListener($event)" (activate)='getUserSessionInfo($event)'></router-outlet>
         <footer-cmp></footer-cmp>
     </div>
-
+    <ng-chat [adapter]="adapter" [userId]="999"></ng-chat>
 </div>
+
 <!--<fixedplugin-cmp></fixedplugin-cmp>-->

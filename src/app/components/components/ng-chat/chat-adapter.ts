@@ -1,9 +1,8 @@
-import { ChatAdapter} from './components/components/ng-chat/core/chat-adapter';
-import { User} from './components/components/ng-chat/core/user';
-import { Message} from './components/components/ng-chat/core/message';
-import { UserStatus } from './components/components/ng-chat/core/user-status.enum';
-import { Observable/*, of*/ } from 'rxjs';
-//import { delay } from "rxjs/operators";
+import { ChatAdapter} from './core/chat-adapter';
+import { User} from './core/user';
+import { Message} from './core/message';
+import { UserStatus } from './core/user-status.enum';
+import { Observable} from 'rxjs';
 
 export class DemoAdapter extends ChatAdapter
 {
@@ -134,7 +133,7 @@ export class DemoAdapter extends ChatAdapter
             
             replyMessage.fromId = message.toId;
             replyMessage.toId = message.fromId;
-            replyMessage.message = "You have typed '" + message.message + "'";
+            replyMessage.message = "Escribiste '" + message.message + "'";
             
             let user = DemoAdapter.mockedUsers.find(x => x.id == replyMessage.fromId);
 

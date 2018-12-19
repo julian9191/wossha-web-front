@@ -15,9 +15,10 @@ import { IChatController } from './core/chat-controller';
 import { PagedHistoryChatAdapter } from './core/paged-history-chat-adapter';
 import { IFileUploadAdapter } from './core/file-upload-adapter';
 import { DefaultFileUploadAdapter } from './core/default-file-upload-adapter';
-//import { Theme } from './core/theme.enum';
 
-//import { map } from 'rxjs/operators';
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
+
 import { Observable } from 'rxjs';
 
 @Component({
@@ -33,11 +34,14 @@ import { Observable } from 'rxjs';
 })
 
 export class NgChat implements OnInit, IChatController {
-    constructor(public sanitizer: DomSanitizer, private _httpClient: HttpClient) { }
+    
+    
 
     // Exposes enums for the ng-template
     public UserStatus = UserStatus;
     public MessageType = MessageType;
+    private serverUrl = 'http://localhost:8084/ws';
+    private stompClient;
 
     @Input()
     public adapter: ChatAdapter;
@@ -46,7 +50,7 @@ export class NgChat implements OnInit, IChatController {
     public userId: any;
 
     @Input()
-    public isCollapsed: boolean = false;
+    public isCollapsed: boolean = true;
 
     @Input()
     public maximizeWindowOnNewMessage: boolean = true;
@@ -79,13 +83,13 @@ export class NgChat implements OnInit, IChatController {
     public persistWindowsState: boolean = true;
 
     @Input()
-    public title: string = "Friends";
+    public title: string = "Chat";
 
     @Input()
-    public messagePlaceholder: string = "Type a message";
+    public messagePlaceholder: string = "Escriba un mensaje...";
 
     @Input()
-    public searchPlaceholder: string = "Search";
+    public searchPlaceholder: string = "Buscar";
 
     @Input()
     public browserNotificationsEnabled: boolean = true;
@@ -94,7 +98,7 @@ export class NgChat implements OnInit, IChatController {
     public browserNotificationIconSource: string = 'https://raw.githubusercontent.com/rpaschoal/ng-chat/master/src/ng-chat/assets/notification.png';
 
     @Input()
-    public browserNotificationTitle: string = "New message from";
+    public browserNotificationTitle: string = "Nuevo mensaje de";
     
     @Input()
     public historyPageSize: number = 10;
@@ -209,20 +213,55 @@ export class NgChat implements OnInit, IChatController {
 
     protected users: User[];
 
+    constructor(public sanitizer: DomSanitizer, private _httpClient: HttpClient) {
+        this.initializeWebSocketConnection();
+    }
+
+    
+    initializeWebSocketConnection(){
+        let ws = new SockJS(this.serverUrl);
+        this.stompClient = Stomp.over(ws);
+        debugger;
+        
+        //this.stompClient.connect({}, this.onConnected, this.onError);
+        let that = this;
+        this.stompClient.connect({}, function(frame) {
+            that.stompClient.subscribe("/topic/public", this.onMessageReceived2);
+            // Tell your username to the server
+            that.stompClient.send("/app/chat.addUser",
+                {},
+                JSON.stringify({sender: "username", type: 'JOIN'})
+            )
+        }, this.onError);
+    }
+
+    onError(error) {
+        console.log('Could not connect to WebSocket server. Please refresh this page to try again!');
+    }
+
+    sendMessage(message){
+        this.stompClient.send("/app/chat.sendMessage" , {}, message);
+    }
+
+    onMessageReceived2(payload) {
+        var message = JSON.parse(payload.body);
+    
+        var messageElement = document.createElement('li');
+    
+        if(message.type === 'JOIN') {
+            console.log( message.sender + ' joined!');
+        } else if (message.type === 'LEAVE') {
+            console.log(message.sender + ' left!');
+        } else {
+    
+            console.log(message.content);
+        }
+    }
+
     private get localStorageKey(): string 
     {
         return `ng-chat-users-${this.userId}`; // Appending the user id so the state is unique per user in a computer.   
     }; 
-
-    /*get filteredUsers(): User[]
-    {
-        if (this.searchInput.length > 0){
-            // Searches in the friend list by the inputted search string
-            return this.users.filter(x => x.displayName.toUpperCase().includes(this.searchInput.toUpperCase()));
-        }
-
-        return this.users;
-    }*/
 
     // Defines the size of each opened window to calculate how many windows can be opened on the viewport at the same time.
     public windowSizeFactor: number = 320;
@@ -288,7 +327,6 @@ export class NgChat implements OnInit, IChatController {
             {
                 this.viewPortTotalArea = window.innerWidth;
 
-                this.initializeTheme();
                 this.initializeDefaultText();
                 this.initializeBrowserNotifications();
 
@@ -370,28 +408,10 @@ export class NgChat implements OnInit, IChatController {
         }
     }
 
-    private initializeTheme(): void
-    {
-        /*if (this.customTheme)
-        {
-            this.theme = Theme.Custom;
-        }
-        else if (this.theme != Theme.Light && this.theme != Theme.Dark)
-        {
-            // TODO: Use es2017 in future with Object.values(Theme).includes(this.theme) to do this check
-            throw new Error(`Invalid theme configuration for ng-chat. "${this.theme}" is not a valid theme value.`);
-        }*/
-    }
-
     // Sends a request to load the friends list
     private fetchFriendsList(isBootstrapping: boolean): void
     {
-        this.adapter.listFriends()
-        /*.pipe(
-            map((users: User[]) => {
-                this.users = users;
-            })
-        )*/.subscribe(() => {
+        this.adapter.listFriends().subscribe(() => {
             if (isBootstrapping)
             {
                 this.restoreWindowsState();
@@ -401,39 +421,19 @@ export class NgChat implements OnInit, IChatController {
 
     fetchMessageHistory(window: Window) {
         // Not ideal but will keep this until we decide if we are shipping pagination with the default adapter
-        if (this.adapter instanceof PagedHistoryChatAdapter)
-        {
-            window.isLoadingHistory = true;
 
-            this.adapter.getMessageHistoryByPage(window.chattingTo.id, this.historyPageSize, ++window.historyPage)
-            /*.pipe(
-                map((result: Message[]) => {
-                    result.forEach((message) => this.assertMessageType(message));
-                    
-                    window.messages = result.concat(window.messages);
-                    window.isLoadingHistory = false;
+        let result:Message[] = [{
+            fromId: 1,
+            toId: 999,
+            message: "Hola, como estás?"
+        }];
+
+        result.forEach((message) => this.assertMessageType(message));
     
-                    const direction: ScrollDirection = (window.historyPage == 1) ? ScrollDirection.Bottom : ScrollDirection.Top;
-                    window.hasMoreMessages = result.length == this.historyPageSize;
-                    
-                    setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, direction, true));
-                })
-            )*/.subscribe();
-        }
-        else
-        {
-            this.adapter.getMessageHistory(window.chattingTo.id)
-            /*.pipe(
-                map((result: Message[]) => {
-                    result.forEach((message) => this.assertMessageType(message));
-    
-                    window.messages = result.concat(window.messages);
-                    window.isLoadingHistory = false;
-    
-                    setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
-                })
-            )*/.subscribe();
-        }
+        window.messages = result.concat(window.messages);
+        window.isLoadingHistory = false;
+
+        setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
     }
 
     private onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void 
