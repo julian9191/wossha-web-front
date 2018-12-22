@@ -22,6 +22,7 @@ import { Observable } from 'rxjs';
 import { UserService } from 'app/providers/user/user.service';
 import { FollowingUser } from 'app/models/social/followingUser';
 import { LoginUser } from 'app/models/user/login/loginUser';
+import { DemoAdapter } from './chat-adapter';
 
 @Component({
     selector: 'ng-chat',
@@ -45,7 +46,7 @@ export class NgChat implements OnInit, IChatController {
     
 
     @Input()
-    public adapter: ChatAdapter;
+    public adapter: DemoAdapter;
 
     @Input()
     public userId: String;
@@ -138,7 +139,7 @@ export class NgChat implements OnInit, IChatController {
 
     private browserNotificationsBootstrapped: boolean = false;
 
-    filteredUsers: ChatUser[] = [];
+    //filteredUsers: ChatUser[] = [];
 
     public hasPagedHistory: boolean = false;
 
@@ -163,6 +164,7 @@ export class NgChat implements OnInit, IChatController {
         private userService: UserService) {
             userService.setHeaderToken();
             this.user = this.userService.getLoggedUserSessionInfo().user;
+            this.userId = this.user.username;
     }
 
     
@@ -245,18 +247,6 @@ export class NgChat implements OnInit, IChatController {
                 // Binding event listeners
                 this.adapter.messageReceivedHandler = (user, msg) => this.onMessageReceived(user, msg);
                 this.adapter.friendsListChangedHandler = (users) => this.onFriendsListChanged(users);
-
-                // Loading current users list
-                if (this.pollFriendsList){
-                    // Setting a long poll interval to update the friends list
-                    this.fetchFriendsList(true);
-                    setInterval(() => this.fetchFriendsList(false), this.pollingInterval);
-                }
-                else
-                {
-                    // Since polling was disabled, a friends list update mechanism will have to be implemented in the ChatAdapter.
-                    this.fetchFriendsList(true);
-                }
                 
                 this.bufferAudioFile();
 
@@ -298,7 +288,7 @@ export class NgChat implements OnInit, IChatController {
             let followingUsernames:string[] = followingUsers.map(x => x.username);
             this.userService.getChatFriends(followingUsernames).subscribe(
                 (data:any) => {
-                    this.filteredUsers = data;
+                    this.adapter.filteredUsers = data;
                 }, (error: any) => {
                     //this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de prendas", this.notificationsService.DANGER);
                 }
@@ -335,21 +325,10 @@ export class NgChat implements OnInit, IChatController {
         }
     }
 
-    // Sends a request to load the friends list
-    private fetchFriendsList(isBootstrapping: boolean): void
-    {
-        this.adapter.listFriends().subscribe(() => {
-            if (isBootstrapping)
-            {
-                this.restoreWindowsState();
-            }
-        });
-    }
-
     fetchMessageHistory(window: Window) {
         // Not ideal but will keep this until we decide if we are shipping pagination with the default adapter
 
-        let result:Message[] = [{
+        /*let result:Message[] = [{
             fromId: "julian",
             toId: "user",
             message: "Hola, como estás?"
@@ -361,6 +340,8 @@ export class NgChat implements OnInit, IChatController {
         window.isLoadingHistory = false;
 
         setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
+    */
+        window.isLoadingHistory = false;
     }
 
     private onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void 
@@ -393,7 +374,6 @@ export class NgChat implements OnInit, IChatController {
             let chatWindow = this.openChatWindow(user);
 
             this.assertMessageType(message);
-
             if (!chatWindow[1] || !this.historyEnabled){
                 chatWindow[0].messages.push(message);
 
@@ -404,6 +384,9 @@ export class NgChat implements OnInit, IChatController {
                     this.markMessagesAsRead([message]);
                     this.onMessagesSeen.emit([message]);
                 }
+            }else{
+                //######ESTE ELSE ES PARA BORRAR CUENDO SE HAGA FETCH DEL HYSTORY#####
+                chatWindow[0].messages.push(message);
             }
 
             this.emitMessageSound(chatWindow[0]);
@@ -665,7 +648,6 @@ export class NgChat implements OnInit, IChatController {
                 if (window.newMessage && window.newMessage.trim() != "")
                 {
                     let message = new Message();
-             
                     message.fromId = this.userId;
                     message.toId = window.chattingTo.id;
                     message.message = window.newMessage;

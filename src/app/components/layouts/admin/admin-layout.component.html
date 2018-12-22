@@ -9,7 +9,7 @@
         <router-outlet (loggedinEvent)="loggedinListener($event)" (activate)='getUserSessionInfo($event)'></router-outlet>
         <footer-cmp></footer-cmp>
     </div>
-    <ng-chat [adapter]="adapter" [userId]="'julian'"></ng-chat>
+    <ng-chat [adapter]="adapter"></ng-chat>
 </div>
 
 <!--<fixedplugin-cmp></fixedplugin-cmp>-->

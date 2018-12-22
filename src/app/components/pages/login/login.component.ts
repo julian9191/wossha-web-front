@@ -62,15 +62,13 @@ export class LoginComponent implements OnInit{
     }
 
     loadFollowingUsers(){
-        if(this.userService.getSocialInfo()==null){
-            this.socialService.getFollowingUsers().subscribe( 
-                (data:any) => {
-                    this.userService.storageSocialInfo(data);
-                }, (error: any) => {
-                    this.notificationsService.showNotification("Ha ocurrido un error de conexión", this.notificationsService.DANGER);
-                }
-            );
-        }
+        this.socialService.getFollowingUsers().subscribe( 
+            (data:any) => {
+                this.userService.storageSocialInfo(data);
+            }, (error: any) => {
+                this.notificationsService.showNotification("Ha ocurrido un error de conexión", this.notificationsService.DANGER);
+            }
+        );
     }
 
 }

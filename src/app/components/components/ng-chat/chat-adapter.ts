@@ -12,96 +12,8 @@ export class DemoAdapter extends ChatAdapter
 
     private serverUrl = 'http://localhost:8084/ws';
     private stompClient;
-
-    public static mockedUsers: ChatUser[] = [
-    {
-        id: 'arya',
-        displayName: "Arya Stark",
-        avatar: "https://pbs.twimg.com/profile_images/894833370299084800/dXWuVSIb.jpg",
-        status: UserStatus.Online
-    },
-    {
-        id: 'cersei',
-        displayName: "Cersei Lannister",
-        avatar: null,
-        status: UserStatus.Online
-    },
-    {
-        id: 'daenerys',
-        displayName: "Daenerys Targaryen",
-        avatar: "https://68.media.tumblr.com/avatar_d28d7149f567_128.png",
-        status: UserStatus.Busy
-    },
-    {
-        id: 'eddard',
-        displayName: "Eddard Stark",
-        avatar: "https://pbs.twimg.com/profile_images/600707945911844864/MNogF757_400x400.jpg",
-        status: UserStatus.Offline
-    },
-    {
-        id: 'hodor',
-        displayName: "Hodor",
-        avatar: "https://pbs.twimg.com/profile_images/378800000449071678/27f2e27edd119a7133110f8635f2c130.jpeg",
-        status: UserStatus.Offline
-    },
-    {
-        id: 'jaime',
-        displayName: "Jaime Lannister",
-        avatar: "https://pbs.twimg.com/profile_images/378800000243930208/4fa8efadb63777ead29046d822606a57.jpeg",
-        status: UserStatus.Busy
-    },
-    {
-        id: 'john',
-        displayName: "John Snow",
-        avatar: "https://pbs.twimg.com/profile_images/3456602315/aad436e6fab77ef4098c7a5b86cac8e3.jpeg",
-        status: UserStatus.Busy
-    },
-    {
-        id: 'lorde',
-        displayName: "Lorde Petyr 'Littlefinger' Baelish",
-        avatar: "http://68.media.tumblr.com/avatar_ba75cbb26da7_128.png",
-        status: UserStatus.Offline
-    },
-    {
-        id: 'sansa',
-        displayName: "Sansa Stark",
-        avatar: "http://pm1.narvii.com/6201/dfe7ad75cd32130a5c844d58315cbca02fe5b804_128.jpg",
-        status: UserStatus.Online
-    },
-    {
-        id: 'theon',
-        displayName: "Theon Greyjoy",
-        avatar: "https://thumbnail.myheritageimages.com/502/323/78502323/000/000114_884889c3n33qfe004v5024_C_64x64C.jpg",
-        status: UserStatus.Away
-    }];
-
-    listFriends(): Observable<ChatUser[]> {
-        //return of(DemoAdapter.mockedUsers);
-
-        function sequenceSubscriber(observer) {
-            // synchronously deliver 1, 2, and 3, then complete
-            observer.next({
-                id: 1,
-                displayName: "Arya Stark",
-                avatar: "https://pbs.twimg.com/profile_images/894833370299084800/dXWuVSIb.jpg",
-                status: UserStatus.Online
-            });
-            observer.next({
-                id: 2,
-                displayName: "Cersei Lannister",
-                avatar: null,
-                status: UserStatus.Online
-            });
-            observer.complete();
-           
-            // unsubscribe function doesn't need to do anything in this
-            // because values are delivered synchronously
-            return {unsubscribe() {}};
-          }
-           
-          // Create a new Observable that will deliver the above sequence
-          return new Observable(sequenceSubscriber);
-    }
+    public filteredUsers: ChatUser[] = []
+    public myUsername:String = "";
 
     getMessageHistory(userId: any): Observable<Message[]> {
         function sequenceSubscriber(observer) {
@@ -122,20 +34,18 @@ export class DemoAdapter extends ChatAdapter
           return new Observable(sequenceSubscriber);
     }
 
-
-
-
-
     initializeWebSocketConnection(myUsername:string){
+        this.myUsername = myUsername;
         let ws = new SockJS(this.serverUrl);
+
         this.stompClient = Stomp.over(ws);
         
         let that = this;
         this.stompClient.connect({}, function(frame) {
-            that.stompClient.subscribe("/topic/public", function(payload){
+            that.stompClient.subscribe(/*"/user/queue/reply"*/"/queue/reply" + "-" + myUsername, function(payload){
                 let message:Message = JSON.parse(payload.body);
-                if(message.fromId != "julian"){
-                    let user = DemoAdapter.mockedUsers.find(x => x.id == 'hodor'/*message.fromId*/);
+                if(message.fromId != myUsername){
+                    let user = that.filteredUsers.find(x => x.id == message.fromId);
                     that.onMessageReceived(user, message);
                 }
             });

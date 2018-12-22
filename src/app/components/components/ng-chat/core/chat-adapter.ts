@@ -7,8 +7,6 @@ export abstract class ChatAdapter
     // ### Abstract adapter methods ###
 
     public abstract initializeWebSocketConnection(myUsername:string);
-
-    public abstract listFriends(): Observable<ChatUser[]>;
     
     public abstract getMessageHistory(userId: any): Observable<Message[]>;
 

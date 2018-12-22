@@ -74,14 +74,14 @@ export class UserService {
   }
 
   storageSocialInfo(followingUsers:FollowingUser[]){
-    this.localStorage.set(SOCIAL_STORAGE_KEY, followingUsers);
+    this.sessionStorage.set(SOCIAL_STORAGE_KEY, followingUsers);
   }
 
   getSocialInfo():FollowingUser[]{
     if(UserService.socialInfo){
       return UserService.socialInfo;
     }
-    let socualInfo:FollowingUser[] = this.localStorage.get(SOCIAL_STORAGE_KEY)
+    let socualInfo:FollowingUser[] = this.sessionStorage.get(SOCIAL_STORAGE_KEY)
     
     if(socualInfo){
       if(socualInfo.length > 0){
