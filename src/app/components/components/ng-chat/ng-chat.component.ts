@@ -237,7 +237,8 @@ export class NgChat implements OnInit, IChatController {
         {
             try
             {
-                this.adapter.initializeWebSocketConnection(this.user.username);
+                let token:string = this.userService.getLoggedUserSessionInfo().token;
+                this.adapter.initializeWebSocketConnection(this.user.username, token);
 
                 this.viewPortTotalArea = window.innerWidth;
 

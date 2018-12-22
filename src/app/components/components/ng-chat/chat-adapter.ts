@@ -34,15 +34,13 @@ export class DemoAdapter extends ChatAdapter
           return new Observable(sequenceSubscriber);
     }
 
-    initializeWebSocketConnection(myUsername:string){
+    initializeWebSocketConnection(myUsername:string, token:string){
         this.myUsername = myUsername;
-        let ws = new SockJS(this.serverUrl);
-
+        let ws = new SockJS(this.serverUrl+"?token=Bearer "+token);
         this.stompClient = Stomp.over(ws);
-        
         let that = this;
         this.stompClient.connect({}, function(frame) {
-            that.stompClient.subscribe(/*"/user/queue/reply"*/"/queue/reply" + "-" + myUsername, function(payload){
+            that.stompClient.subscribe("/user/queue/reply", function(payload){
                 let message:Message = JSON.parse(payload.body);
                 if(message.fromId != myUsername){
                     let user = that.filteredUsers.find(x => x.id == message.fromId);
