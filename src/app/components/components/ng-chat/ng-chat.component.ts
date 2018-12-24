@@ -24,6 +24,7 @@ import { FollowingUser } from 'app/models/social/followingUser';
 import { LoginUser } from 'app/models/user/login/loginUser';
 import { DemoAdapter } from './chat-adapter';
 import { SendChatMessageWsCommand } from 'app/models/wsCommands/sendChatMessageWsCommand';
+import { SocialService } from 'app/providers/social/social.service';
 
 @Component({
     selector: 'ng-chat',
@@ -162,8 +163,10 @@ export class NgChat implements OnInit, IChatController {
 
     constructor(public sanitizer: DomSanitizer, 
         private _httpClient: HttpClient,
-        private userService: UserService) {
+        private userService: UserService,
+        private socialService: SocialService) {
             userService.setHeaderToken();
+            socialService.setToken(userService.getToken());
             this.user = this.userService.getLoggedUserSessionInfo().user;
             this.userId = this.user.username;
     }
@@ -330,20 +333,20 @@ export class NgChat implements OnInit, IChatController {
     fetchMessageHistory(window: Window) {
         // Not ideal but will keep this until we decide if we are shipping pagination with the default adapter
 
-        /*let result:Message[] = [{
-            fromId: "julian",
-            toId: "user",
-            message: "Hola, como estás?"
-        }];
+        this.socialService.getMessageHistory().subscribe(
+            (data:any) => {
+                let result:Message[] = data;
 
-        result.forEach((message) => this.assertMessageType(message));
-    
-        window.messages = result.concat(window.messages);
-        window.isLoadingHistory = false;
+                result.forEach((message) => this.assertMessageType(message));
+                window.messages = result.concat(window.messages);
+                window.isLoadingHistory = false;
+                setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
 
-        setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
-    */
-        window.isLoadingHistory = false;
+            }, (error: any) => {
+                window.isLoadingHistory = false;
+                //this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de prendas", this.notificationsService.DANGER);
+            }
+        );
     }
 
     private onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void 

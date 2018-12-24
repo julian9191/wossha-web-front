@@ -8,7 +8,7 @@ export abstract class ChatAdapter
 
     public abstract initializeWebSocketConnection(myUsername:string, token:string);
     
-    public abstract getMessageHistory(userId: any): Observable<Message[]>;
+    //public abstract getMessageHistory(userId: any): Observable<Message[]>;
 
     public abstract sendMessage(message: Message): void;
 

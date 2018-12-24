@@ -7,6 +7,7 @@ import { WS_SOCIAL_PATH } from "../../../globals";
 
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
+import { SocialService } from 'app/providers/social/social.service';
 
 export class DemoAdapter extends ChatAdapter
 {
@@ -14,25 +15,7 @@ export class DemoAdapter extends ChatAdapter
     private stompClient;
     public filteredUsers: ChatUser[] = []
     public myUsername:String = "";
-
-    getMessageHistory(userId: any): Observable<Message[]> {
-        function sequenceSubscriber(observer) {
-            // synchronously deliver 1, 2, and 3, then complete
-            observer.next({
-                fromId: 1,
-                toId: 999,
-                message: "Hi there, just type any message bellow to test this Angular module."
-            });
-            observer.complete();
-           
-            // unsubscribe function doesn't need to do anything in this
-            // because values are delivered synchronously
-            return {unsubscribe() {}};
-          }
-           
-          // Create a new Observable that will deliver the above sequence
-          return new Observable(sequenceSubscriber);
-    }
+    private socialService: SocialService
 
     initializeWebSocketConnection(myUsername:string, token:string){
         this.myUsername = myUsername;
