@@ -23,6 +23,7 @@ import { UserService } from 'app/providers/user/user.service';
 import { FollowingUser } from 'app/models/social/followingUser';
 import { LoginUser } from 'app/models/user/login/loginUser';
 import { DemoAdapter } from './chat-adapter';
+import { SendChatMessageWsCommand } from 'app/models/wsCommands/sendChatMessageWsCommand';
 
 @Component({
     selector: 'ng-chat',
@@ -648,14 +649,16 @@ export class NgChat implements OnInit, IChatController {
             case 13:
                 if (window.newMessage && window.newMessage.trim() != "")
                 {
+                    let sendChatMessageWsCommand = new SendChatMessageWsCommand();
                     let message = new Message();
                     message.fromId = this.userId;
                     message.toId = window.chattingTo.id;
                     message.message = window.newMessage;
+                    sendChatMessageWsCommand.message = message;
         
                     window.messages.push(message);
         
-                    this.adapter.sendMessage(message);
+                    this.adapter.sendCommand(sendChatMessageWsCommand);
         
                     window.newMessage = ""; // Resets the new message input
         

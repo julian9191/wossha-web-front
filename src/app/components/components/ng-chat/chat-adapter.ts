@@ -3,6 +3,7 @@ import { ChatUser} from './core/chatUser';
 import { Message} from './core/message';
 import { UserStatus } from './core/user-status.enum';
 import { Observable} from 'rxjs';
+import { WS_SOCIAL_PATH } from "../../../globals";
 
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
@@ -10,7 +11,6 @@ import * as SockJS from 'sockjs-client';
 export class DemoAdapter extends ChatAdapter
 {
 
-    private serverUrl = 'http://localhost:8084/ws';
     private stompClient;
     public filteredUsers: ChatUser[] = []
     public myUsername:String = "";
@@ -36,7 +36,7 @@ export class DemoAdapter extends ChatAdapter
 
     initializeWebSocketConnection(myUsername:string, token:string){
         this.myUsername = myUsername;
-        let ws = new SockJS(this.serverUrl+"?token=Bearer "+token);
+        let ws = new SockJS(WS_SOCIAL_PATH+"?token=Bearer "+token);
         this.stompClient = Stomp.over(ws);
         let that = this;
         this.stompClient.connect({}, function(frame) {
@@ -59,8 +59,12 @@ export class DemoAdapter extends ChatAdapter
     }
 
     sendMessage(message){
-		console.log(message);
-        this.stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(message));
+		//console.log(message);
+        //this.stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(message));
+    }
+
+    sendCommand(command){
+        this.stompClient.send("/app/social.command", {}, JSON.stringify(command));
     }
 
 }
