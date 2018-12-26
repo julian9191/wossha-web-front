@@ -23,7 +23,7 @@ import { UserService } from 'app/providers/user/user.service';
 import { FollowingUser } from 'app/models/social/followingUser';
 import { LoginUser } from 'app/models/user/login/loginUser';
 import { DemoAdapter } from './chat-adapter';
-import { SendChatMessageWsCommand } from 'app/models/wsCommands/sendChatMessageWsCommand';
+import { SendChatMessageWsCommand } from 'app/models/ws/wsCommands/sendChatMessageWsCommand';
 import { SocialService } from 'app/providers/social/social.service';
 
 @Component({
@@ -409,9 +409,6 @@ export class NgChat implements OnInit, IChatController {
                     this.markMessagesAsRead([message]);
                     this.onMessagesSeen.emit([message]);
                 }
-            }else{
-                //######ESTE ELSE ES PARA BORRAR CUENDO SE HAGA FETCH DEL HYSTORY#####
-                chatWindow[0].messages.push(message);
             }
 
             this.emitMessageSound(chatWindow[0]);
@@ -564,7 +561,7 @@ export class NgChat implements OnInit, IChatController {
         if (this.browserNotificationsBootstrapped && !window.hasFocus && message && message.message) {
             let notification = new Notification(`${this.localization.browserNotificationTitle} ${window.chattingTo.displayName}`, {
                 'body': message.message,
-                'icon': this.browserNotificationIconSource
+                'icon': this.getProfileImage(window.chattingTo.avatar)
             });
 
             setTimeout(() => {
@@ -683,6 +680,7 @@ export class NgChat implements OnInit, IChatController {
                     message.fromId = this.userId;
                     message.toId = window.chattingTo.id;
                     message.message = window.newMessage;
+                    message.sendOn = new Date();
                     sendChatMessageWsCommand.message = message;
         
                     window.messages.push(message);

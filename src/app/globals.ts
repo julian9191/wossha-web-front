@@ -3,6 +3,9 @@ export const SESSION_STORAGE_KEY:string = "loginInfo";
 export const SOCIAL_STORAGE_KEY:string = "socialInfo";
 
 export const WS_SOCIAL_PATH:string = "http://localhost:8084/ws";
+export const REPLY_QUEUE:string = "/user/queue/reply";
+export const COMMAND_QUEUE:string = "/app/social.command";
+
 
 export const USERS_PATH:string="http://localhost:8081/"; 
 export const CLOTHING_PATH:string="http://localhost:8082/"; 

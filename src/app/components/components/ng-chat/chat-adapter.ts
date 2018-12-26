@@ -1,13 +1,15 @@
 import { ChatAdapter} from './core/chat-adapter';
 import { ChatUser} from './core/chatUser';
 import { Message} from './core/message';
-import { UserStatus } from './core/user-status.enum';
-import { Observable} from 'rxjs';
 import { WS_SOCIAL_PATH } from "../../../globals";
+import { REPLY_QUEUE } from "../../../globals";
+import { COMMAND_QUEUE } from "../../../globals";
 
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { SocialService } from 'app/providers/social/social.service';
+import { ConnectUserWsCommand } from 'app/models/ws/wsCommands/connectUserWsCommand';
+import { ConnectMessage } from 'app/models/ws/connectMessage';
 
 export class DemoAdapter extends ChatAdapter
 {
@@ -24,7 +26,7 @@ export class DemoAdapter extends ChatAdapter
         this.stompClient = Stomp.over(ws);
         let that = this;
         this.stompClient.connect({}, function(frame) {
-            that.stompClient.subscribe("/user/queue/reply", function(payload){
+            that.stompClient.subscribe(REPLY_QUEUE, function(payload){
                 let message:Message = JSON.parse(payload.body);
                 if(message.fromId != myUsername){
                     let user = that.filteredUsers.find(x => x.id == message.fromId);
@@ -32,9 +34,12 @@ export class DemoAdapter extends ChatAdapter
                 }
             });
             // Tell your username to the server
-            that.stompClient.send("/app/chat.addUser",{},
-                JSON.stringify({sender: myUsername, type: 'JOIN'})
-            )
+            let connectMessage:ConnectMessage = new ConnectMessage();
+            connectMessage.sender = myUsername;
+            connectMessage.type = 'JOIN';
+            let connectUserWsCommand:ConnectUserWsCommand = new ConnectUserWsCommand();
+            connectUserWsCommand.message = connectMessage;
+            that.sendCommand(connectUserWsCommand);
         }, this.onError);
     }
 
@@ -48,7 +53,7 @@ export class DemoAdapter extends ChatAdapter
     }
 
     sendCommand(command){
-        this.stompClient.send("/app/social.command", {}, JSON.stringify(command));
+        this.stompClient.send(COMMAND_QUEUE, {}, JSON.stringify(command));
     }
 
 }
