@@ -12,5 +12,7 @@ export class Window
     public isLoadingHistory: boolean = false;
     public hasFocus: boolean = false;
     public hasMoreMessages: boolean = true;
-    public historyPage: number = 0;
+    public totalItems: number = 0;
+	public currentPage: number = 1;
+    public itemsPerPage: number = 15;
 }

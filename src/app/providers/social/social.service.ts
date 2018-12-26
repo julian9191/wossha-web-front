@@ -41,8 +41,8 @@ export class SocialService {
     return this.http.get<FollowingUser>(this.followingUsersUrl, {headers: this.httpHeaders});
   }
 
-  getMessageHistory() : Observable<Message[]>{
-    return this.http.get<Message[]>(this.messageHistoryUrl, {headers: this.httpHeaders});
+  getMessageHistory(params: HttpParams) : Observable<Message[]>{
+    return this.http.get<Message[]>(this.messageHistoryUrl, {params: params, headers: this.httpHeaders});
   }
   
 

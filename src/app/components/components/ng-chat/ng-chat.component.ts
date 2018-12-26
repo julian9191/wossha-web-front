@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChildren, ViewChild, HostListener, Output, EventEmitter, ElementRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { ChatAdapter } from './core/chat-adapter';
@@ -140,6 +140,8 @@ export class NgChat implements OnInit, IChatController {
     public onMessagesSeen: EventEmitter<Message[]> = new EventEmitter<Message[]>();
 
     private browserNotificationsBootstrapped: boolean = false;
+
+    private messageHeight:number = 42;
 
     //filteredUsers: ChatUser[] = [];
 
@@ -325,23 +327,34 @@ export class NgChat implements OnInit, IChatController {
                 title: this.title,
                 statusDescription: this.statusDescription,
                 browserNotificationTitle: this.browserNotificationTitle,
-                loadMessageHistoryPlaceholder: "Load older messages"
+                loadMessageHistoryPlaceholder: "Cargar mensajes anteriores"
             };
         }
     }
 
     fetchMessageHistory(window: Window) {
-        // Not ideal but will keep this until we decide if we are shipping pagination with the default adapter
-
-        this.socialService.getMessageHistory().subscribe(
+        let params = new HttpParams();
+        params = params.append("init", (window.itemsPerPage * (window.currentPage - 1))+"");
+        params = params.append("limit", window.itemsPerPage+"");
+        this.socialService.getMessageHistory(params).subscribe(
             (data:any) => {
-                let result:Message[] = data;
+                let result:Message[] = data.result;
 
                 result.forEach((message) => this.assertMessageType(message));
                 window.messages = result.concat(window.messages);
-                window.isLoadingHistory = false;
-                setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, ScrollDirection.Bottom));
+                window.isLoadingHistory = false;    
 
+                if(window.messages.length == data.pagination.size){
+                    window.hasMoreMessages = false;
+                }else{
+                    window.hasMoreMessages = true;
+                }
+
+                let scrollDirection:ScrollDirection = window.currentPage==1 ? ScrollDirection.Bottom : null;
+                setTimeout(() => this.onFetchMessageHistoryLoaded(result, window, scrollDirection));
+            
+                window.totalItems = data.pagination.size;
+                window.currentPage++;
             }, (error: any) => {
                 window.isLoadingHistory = false;
                 //this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de prendas", this.notificationsService.DANGER);
@@ -351,7 +364,7 @@ export class NgChat implements OnInit, IChatController {
 
     private onFetchMessageHistoryLoaded(messages: Message[], window: Window, direction: ScrollDirection, forceMarkMessagesAsSeen: boolean = false): void 
     {
-        this.scrollChatWindow(window, direction)
+        this.scrollChatWindow(window, direction, (this.messageHeight*messages.length))
 
         if (window.hasFocus || forceMarkMessagesAsSeen)
         {
@@ -430,7 +443,9 @@ export class NgChat implements OnInit, IChatController {
                 hasFocus: false, // This will be triggered when the 'newMessage' input gets the current focus
                 isCollapsed: collapseWindow,
                 hasMoreMessages: false,
-                historyPage: 0
+                totalItems: 0,
+	            currentPage:1,
+                itemsPerPage: 15
             };
 
             // Loads the chat history via an RxJs Observable
@@ -483,9 +498,10 @@ export class NgChat implements OnInit, IChatController {
             });
         } 
     }
+    
 
     // Scrolls a chat window message flow to the bottom
-    private scrollChatWindow(window: Window, direction: ScrollDirection): void
+    private scrollChatWindow(window: Window, direction: ScrollDirection, scrollHeight?:number): void
     {
         if (!window.isCollapsed){
             let windowIndex = this.windows.indexOf(window);
@@ -496,7 +512,10 @@ export class NgChat implements OnInit, IChatController {
                     if (targetWindow)
                     {
                         let element = this.chatMessageClusters.toArray()[windowIndex].nativeElement;
-                        let position = ( direction === ScrollDirection.Top ) ? 0 : element.scrollHeight;
+                        let position = scrollHeight;
+                        if(direction != null){
+                            position = ( direction === ScrollDirection.Top ) ? 0 : element.scrollHeight;
+                        }
                         element.scrollTop = position;
                     }
                 }
