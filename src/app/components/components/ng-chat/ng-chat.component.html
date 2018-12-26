@@ -54,7 +54,7 @@
                     </div>
                     <img *ngIf="window.chattingTo.avatar && isAvatarVisible(window, message, i)" alt="" class="avatar" height="30" width="30" [src]="getProfileImage(window.chattingTo.avatar)" />
                     <ng-container [ngSwitch]="message.type">
-                        <span *ngSwitchCase="MessageType.Text" [innerHtml]="message.message | emojify:emojisEnabled | linkfy:linkfyEnabled" [ngClass]="{'sent-chat-message-container': message.fromId == userId, 'received-chat-message-container': message.fromId != userId}"></span>
+                        <span *ngSwitchCase="MessageType.Text" [title]="message.sendOn | date : 'yyyy/MM/dd HH:mm'" [innerHtml]="message.message | emojify:emojisEnabled | linkfy:linkfyEnabled" [ngClass]="{'sent-chat-message-container': message.fromId == userId, 'received-chat-message-container': message.fromId != userId}"></span>
                         <div *ngSwitchCase="MessageType.File" [ngClass]="{'file-message-container': true, 'received': message.fromId != userId}">
                             <div class="file-message-icon-container">
                                 <i class="paperclip-icon"></i>

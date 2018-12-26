@@ -7,4 +7,5 @@ export class Message
     public toId: String;
     public message: string;
     public seenOn?: Date;
+    public sendOn?: Date;
 }
