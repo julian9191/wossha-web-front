@@ -14,6 +14,7 @@ export class DemoAdapter extends ChatAdapter
 
     private stompClient;
     public filteredUsers: ChatUser[] = []
+    public onlineUsers: ChatUser[] = []
     public myUsername:String = "";
     private socialService: SocialService
 

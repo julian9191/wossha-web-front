@@ -7,7 +7,7 @@
                 {{localization.title}}
             </span>
         </a>
-        <input *ngIf="searchEnabled" id="ng-chat-search_friend" class="friends-search-bar" type="search" [placeholder]="localization.searchPlaceholder" [(ngModel)]="searchInput" />
+        <input *ngIf="searchEnabled" id="ng-chat-search_friend" class="friends-search-bar" type="search" [placeholder]="localization.searchPlaceholder" (keyup)="searchUser($event)" [(ngModel)]="searchInput" />
         <ul id="ng-chat-users" *ngIf="!isCollapsed" [ngClass]="{'offset-search': searchEnabled}">
             <li *ngFor="let user of adapter.filteredUsers" (click)="openChatWindow(user, true, true)">
                 <div *ngIf="!user.avatar"  class="icon-wrapper">

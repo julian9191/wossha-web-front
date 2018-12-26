@@ -296,12 +296,19 @@ export class NgChat implements OnInit, IChatController {
             this.userService.getChatFriends(followingUsernames).subscribe(
                 (data:any) => {
                     this.adapter.filteredUsers = data;
-                }, (error: any) => {
-                    //this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de prendas", this.notificationsService.DANGER);
-                }
+                    this.adapter.onlineUsers = this.adapter.filteredUsers.filter(u => true);
+                }, (error: any) => {}
             );
         }
         
+      }
+
+      searchUser(event){
+          if(this.searchInput != ""){
+            this.adapter.filteredUsers = this.adapter.onlineUsers.filter(u => u.displayName.toLowerCase().includes(this.searchInput.toLowerCase()));
+          }else{
+            this.adapter.filteredUsers = this.adapter.onlineUsers.filter(u => true);
+          }
       }
 
     // Initializes browser notifications
