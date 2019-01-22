@@ -28,22 +28,7 @@ export class DemoAdapter extends ChatAdapter
         let that = this;
         this.stompClient.connect({}, function(frame) {
             that.stompClient.subscribe(REPLY_QUEUE, function(payload){
-                debugger;
-                if(payload.body.includes("CONNECTED-USER-MESSAGE")){
-                    let connectedUser:ConnectedUser = JSON.parse(payload.body);
-                    for(let i=0; i<that.onlineUsers.length; i++) {
-                        if(that.onlineUsers[i].id==connectedUser.username){
-                            that.onlineUsers[i].status = 1;
-                            break;
-                        }
-                    }
-                }else if(payload.body.includes("CHAT-MESSAGE")){
-                    let message:Message = JSON.parse(payload.body);
-                    if(message.fromId != myUsername){
-                        let user = that.filteredUsers.find(x => x.id == message.fromId);
-                        that.onMessageReceived(user, message);
-                    }
-                }
+                that.receiveMessage(payload, myUsername, that);
             });
             // Tell your username to the server
             let connectMessage:ConnectMessage = new ConnectMessage();
@@ -53,6 +38,33 @@ export class DemoAdapter extends ChatAdapter
             connectUserWsCommand.message = connectMessage;
             that.sendCommand(connectUserWsCommand);
         }, this.onError);
+    }
+
+    receiveMessage(payload, myUsername, that){
+        let payloadObject = JSON.parse(payload.body);
+        if(payloadObject.responseType == "CONNECTED-USER-MESSAGE"){
+            let connectedUser:ConnectedUser = payloadObject;
+            for(let i=0; i<that.onlineUsers.length; i++) {
+                if(that.onlineUsers[i].id==connectedUser.username){
+                    that.onlineUsers[i].status = 1;
+                    break;
+                }
+            }
+        }else if((payloadObject.responseType == "DISCONNECTED-USER-MESSAGE")){
+            let connectedUser:ConnectedUser = payloadObject;
+            for(let i=0; i<that.onlineUsers.length; i++) {
+                if(that.onlineUsers[i].id==connectedUser.username){
+                    that.onlineUsers[i].status = 0;
+                    break;
+                }
+            }
+        }else if((payloadObject.responseType == "CHAT-MESSAGE")){
+            let message:Message = payloadObject;
+            if(message.fromId != myUsername){
+                let user = that.filteredUsers.find(x => x.id == message.fromId);
+                that.onMessageReceived(user, message);
+            }
+        }
     }
 
     onError(error) {
