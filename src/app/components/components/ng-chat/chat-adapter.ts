@@ -10,6 +10,7 @@ import * as SockJS from 'sockjs-client';
 import { SocialService } from 'app/providers/social/social.service';
 import { ConnectUserWsCommand } from 'app/models/ws/wsCommands/connectUserWsCommand';
 import { ConnectMessage } from 'app/models/ws/connectMessage';
+import { ConnectedUser } from './core/ConnectedUser';
 
 export class DemoAdapter extends ChatAdapter
 {
@@ -27,10 +28,21 @@ export class DemoAdapter extends ChatAdapter
         let that = this;
         this.stompClient.connect({}, function(frame) {
             that.stompClient.subscribe(REPLY_QUEUE, function(payload){
-                let message:Message = JSON.parse(payload.body);
-                if(message.fromId != myUsername){
-                    let user = that.filteredUsers.find(x => x.id == message.fromId);
-                    that.onMessageReceived(user, message);
+                debugger;
+                if(payload.body.includes("CONNECTED-USER-MESSAGE")){
+                    let connectedUser:ConnectedUser = JSON.parse(payload.body);
+                    for(let i=0; i<that.onlineUsers.length; i++) {
+                        if(that.onlineUsers[i].id==connectedUser.username){
+                            that.onlineUsers[i].status = 1;
+                            break;
+                        }
+                    }
+                }else if(payload.body.includes("CHAT-MESSAGE")){
+                    let message:Message = JSON.parse(payload.body);
+                    if(message.fromId != myUsername){
+                        let user = that.filteredUsers.find(x => x.id == message.fromId);
+                        that.onMessageReceived(user, message);
+                    }
                 }
             });
             // Tell your username to the server
