@@ -6,6 +6,7 @@ import { Router} from '@angular/router';
 import 'rxjs';
 import { FollowingUser } from 'app/models/social/followingUser';
 import { Message} from '../../components/components/ng-chat/core/message';
+import { AppNotification } from 'app/models/social/appNotification';
 
 
 @Injectable()
@@ -18,6 +19,7 @@ export class SocialService {
   private socialUrl:string = SOCIAL_PATH+'social/';
   private followingUsersUrl:string = this.socialUrl+'following-users';
   private messageHistoryUrl:string = this.socialUrl+'message-history';
+  private notificationsUrl:string = this.socialUrl+'notifications';
 
   httpHeaders:HttpHeaders;
 
@@ -43,6 +45,10 @@ export class SocialService {
 
   getMessageHistory(params: HttpParams) : Observable<Message[]>{
     return this.http.get<Message[]>(this.messageHistoryUrl, {params: params, headers: this.httpHeaders});
+  }
+
+  getNotifications() : Observable<AppNotification[]>{
+    return this.http.get<AppNotification[]>(this.notificationsUrl, {headers: this.httpHeaders});
   }
   
 

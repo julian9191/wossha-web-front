@@ -6,6 +6,9 @@ import {UserService} from "../../../providers/user/user.service";
 import { NotificationsService } from '../../../providers/notifications/notifications.service';
 import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Inject } from '@angular/core'; 
+import { SocialService } from 'app/providers/social/social.service';
+import { AppNotification } from 'app/models/social/appNotification';
+import { LoginUser } from 'app/models/user/login/loginUser';
 
 var misc:any ={
     navbar_menu_visible: 0,
@@ -27,6 +30,7 @@ export class NavbarComponent implements OnInit{
     private toggleButton;
     private sidebarVisible: boolean;
     public searchText:string = "";
+    public notifications:AppNotification[];
 
     @ViewChild("navbar-cmp") button;
 
@@ -35,7 +39,11 @@ export class NavbarComponent implements OnInit{
         private userService: UserService, 
         private notificationsService: NotificationsService, 
         @Inject(SESSION_STORAGE) private storage: WebStorageService,
-        private router: Router) {
+        private router: Router,
+        private socialService: SocialService) {
+
+        socialService.setToken(userService.getToken());
+        this.getNotification();
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
@@ -137,5 +145,15 @@ export class NavbarComponent implements OnInit{
 
     logout(){
         this.userService.logout();
+    }
+
+    getNotification(){
+        this.socialService.getNotifications().subscribe(
+            (data:any) => {
+                this.notifications = data;
+            }, (error: any) => {
+                this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener las notificaciones", this.notificationsService.DANGER);
+            }
+        );
     }
 }

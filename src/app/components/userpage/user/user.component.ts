@@ -7,7 +7,6 @@ import { PictureFile } from '../../../models/global/pictureFile';
 import { UserReference } from 'app/models/user/userReference';
 import { PhotoSwipeComponent } from 'app/components/components/photo-swipe/photo-swipe.component';
 import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
-import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
 import { ActivatedRoute } from '@angular/router';
 import { FollowUserCommand } from 'app/models/social/commands/followUserCommand';
 import { SocialService } from 'app/providers/social/social.service';
@@ -60,6 +59,7 @@ export class UserComponent implements OnInit{
 
         this.followUserCommand.username=myUserName;
         this.followUserCommand.senderUsername=myUserName;
+        this.followUserCommand.senderName=loginInfo.user.userSessionInfo.firstName+" "+loginInfo.user.userSessionInfo.lastName;
         this.followUserCommand.receiverUsername=this.username;
 
         this.stopFollowingUserCommand.username=myUserName;
