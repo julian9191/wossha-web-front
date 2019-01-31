@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit{
     private toggleButton;
     private sidebarVisible: boolean;
     public searchText:string = "";
-    public notifications:AppNotification[];
+    public notifications:AppNotification[] = [];
 
     @ViewChild("navbar-cmp") button;
 
@@ -138,6 +138,10 @@ export class NavbarComponent implements OnInit{
         return 'Dashboard';
     }
 
+    notificationRemovedEvent(notif:AppNotification){
+        this.notifications = this.notifications.filter(n => n!=notif);
+    }
+
     getPath(){
         // console.log(this.location);
         return this.location.prepareExternalUrl(this.location.path());
@@ -146,6 +150,7 @@ export class NavbarComponent implements OnInit{
     logout(){
         this.userService.logout();
     }
+
 
     getNotification(){
         this.socialService.getNotifications().subscribe(

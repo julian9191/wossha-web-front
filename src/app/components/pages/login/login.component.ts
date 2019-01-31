@@ -5,7 +5,6 @@ import {LoginParams} from "../../../models/user/login/loginParams";
 import {SessionInfo} from "../../../models/user/login/sessionInfo"; 
 import {Router} from '@angular/router';
 import { SocialService } from 'app/providers/social/social.service';
-import { FollowingUser } from 'app/models/social/followingUser';
 
 declare var $:any;
 

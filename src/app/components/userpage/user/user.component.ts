@@ -60,6 +60,7 @@ export class UserComponent implements OnInit{
         this.followUserCommand.username=myUserName;
         this.followUserCommand.senderUsername=myUserName;
         this.followUserCommand.senderName=loginInfo.user.userSessionInfo.firstName+" "+loginInfo.user.userSessionInfo.lastName;
+        this.followUserCommand.senderPicture=loginInfo.user.userSessionInfo.picture;
         this.followUserCommand.receiverUsername=this.username;
 
         this.stopFollowingUserCommand.username=myUserName;

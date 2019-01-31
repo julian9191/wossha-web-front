@@ -150,3 +150,27 @@ app-hue{
     background-color: #aaa !important;
     border-color: #aaa !important;
 }
+
+.notification-picture{
+    width: 48px; 
+    height: 48px; 
+    overflow: hidden; 
+    border-radius: 50%; 
+    float: left; 
+    margin-right: 12px;
+}
+
+.notification-content{
+    float:left; 
+    width: 326px
+}
+
+.notif-button{
+    margin: 0 !important;
+}
+
+.notif-time{
+    color: #90949c;
+    float: right;
+    padding-top: 8px;
+}

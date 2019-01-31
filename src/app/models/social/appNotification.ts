@@ -4,7 +4,7 @@ export class AppNotification {
     receiverUserName:string;
     senderUserName:string;
     senderName:string;
-    message:string;
+    senderPicture:string;
     viewed:boolean;
     opend:boolean;
     created:Date;

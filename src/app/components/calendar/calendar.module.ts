@@ -15,7 +15,6 @@ import { SearchCriteriaModule } from '../components/search_criteria/searchcriter
 import { AddCalendarComponent } from './popup/addcalendar/addCalendar.component';
 import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
 
-
 @NgModule({
     imports: [
         CommonModule,
@@ -31,7 +30,11 @@ import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
         DayPopup,
         AddCalendarComponent
     ],
-    declarations: [CalendarComponent, DayPopup, AddCalendarComponent],
+    declarations: [
+        CalendarComponent, 
+        DayPopup, 
+        AddCalendarComponent
+    ],
     providers: [ClothingService, NotificationsService, CalendarService]
 })
 

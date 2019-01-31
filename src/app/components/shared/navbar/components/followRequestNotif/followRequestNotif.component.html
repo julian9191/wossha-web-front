@@ -1,0 +1,16 @@
+<div class="notification-picture">
+        <a [routerLink]="['/pages/user', notification.senderUserName]">
+            <img id="slide-profile-picture" style="width: 48px; height: 48px;" [src]="notification.senderPicture | picturePipe" />
+        </a>
+</div>
+<div class="notification-content">
+        <div [innerHTML]="message"></div>
+        <a class="btn btn-success btn-simple btn-icon notif-button" href="javascript:void(0)" (click)="accept(notification)" title="Aceptar">
+                <i class="fa fa-check"></i>
+        </a>
+        <a class="btn btn-danger btn-simple btn-icon notif-button" href="javascript:void(0)" (click)="cancel(notification)" title="Cancelar">
+                <i class="fa fa-remove"></i>
+        </a>
+        <span class="notif-time">{{notification.created | fromDate}}</span>
+</div>
+<div class="clear"></div>

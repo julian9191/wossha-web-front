@@ -45,15 +45,15 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell"></i>
-                            <span class="notification">{{notifications.length}}</span>
+                            <span class="notification" *ngIf="notifications.length>0">{{notifications.length}}</span>
                             <p class="hidden-md hidden-lg">
                                 Notifications
                                 <b class="caret"></b>
                             </p>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li *ngFor="let notification of notifications">
-                                <a href="#">{{notification.message}}</a>
+                        <ul class="dropdown-menu" *ngIf="notifications.length>0" style="width: 430px;">
+                            <li *ngFor="let notification of notifications" style="padding: 6px 30px 5px 12px;">
+                                <followRequestNotif-cmp *ngIf="notification.type == 'FOLLOW_REQUEST'" (notificationRemovedEvent)="notificationRemovedEvent($event)" [notification]="notification"></followRequestNotif-cmp>
                             </li>
                         </ul>
                     </li>

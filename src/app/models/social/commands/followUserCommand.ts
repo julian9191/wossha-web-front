@@ -3,5 +3,6 @@ export class FollowUserCommand {
     username:string;
     senderUsername:string;
     senderName:string;
+    senderPicture:string;
     receiverUsername:string
   }
