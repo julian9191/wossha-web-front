@@ -5,22 +5,20 @@ import { SocialService } from 'app/providers/social/social.service';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { AcceptFollowCommand } from 'app/models/social/commands/acceptFollowCommand';
 import { LoginUser } from 'app/models/user/login/loginUser';
-import { RefuseFollowCommand } from 'app/models/social/commands/refuseFollowCommand';
 
 
 @Component({
-  selector: 'followRequestNotif-cmp',
-  templateUrl: './followRequestNotif.component.html',
-  styleUrls: ['./followRequestNotif.component.css'],
+  selector: 'acceptFollowNotif-cmp',
+  templateUrl: './acceptFollowNotif.component.html',
+  styleUrls: ['./acceptFollowNotif.component.css'],
 })
-export class FollowRequestNotifComponent implements OnInit{
+export class AcceptFollowNotifComponent implements OnInit{
 
   @Input() public notification:AppNotification;
   public message:string;
   private user:LoginUser;
   @Output() notificationRemovedEvent = new EventEmitter<AppNotification>();
   public acceptFollowCommand:AcceptFollowCommand = new AcceptFollowCommand();
-  public refuseFollowCommand:RefuseFollowCommand = new RefuseFollowCommand();
 
   constructor(private userService: UserService, 
     private socialService: SocialService, 
@@ -31,7 +29,7 @@ export class FollowRequestNotifComponent implements OnInit{
 
   ngOnInit(){
     this.message = "<strong>@"+this.notification.senderUserName+" - "+this.notification.senderName+"</strong>"+
-                    " ha solicitado seguirte";
+                    " ha aceptado tu solicitud";
   }
 
   accept(notification:AppNotification){
@@ -46,25 +44,6 @@ export class FollowRequestNotifComponent implements OnInit{
           this.notificationsService.showNotification("Ha ocurrido un error al intentar aceptar que te siga", this.notificationsService.DANGER);
       }
   );
-  }
-
-  refuse(notification:AppNotification){
-    this.refuseFollowCommand.username = this.user.username;
-    this.refuseFollowCommand.senderUsername = notification.senderUserName;
-
-    let nthis = this;
-    this.notificationsService.showConfirmationAlert("¿Está seguro?", "¿Estás seguro de rechazar esta solicitud?", this.notificationsService.WARNING).then(function (response) {
-        if(response){
-          nthis.socialService.executeCommand(nthis.refuseFollowCommand).subscribe(
-            (messaje) => {
-              nthis.notificationRemovedEvent.emit(notification);
-              nthis.notificationsService.showNotification(messaje["msj"], nthis.notificationsService.SUCCESS);
-            }, (error: any) => {
-              nthis.notificationsService.showNotification("Ha ocurrido un error al intentar rechazar la solicitud", nthis.notificationsService.DANGER);
-            }
-          );
-        }
-    });    
   }
 
 }

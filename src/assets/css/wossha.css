@@ -162,7 +162,7 @@ app-hue{
 
 .notification-content{
     float:left; 
-    width: 326px
+    width: 329px
 }
 
 .notif-button{
@@ -173,4 +173,19 @@ app-hue{
     color: #90949c;
     float: right;
     padding-top: 8px;
+}
+
+.notifItem{
+    padding: 6px 30px 5px 12px;
+    border-bottom: 1px solid #e0e0e0; 
+}
+
+.notifItemNotViewed{
+    background-color: #f5f5f5;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 500px;
+    overflow-x: hidden;
 }

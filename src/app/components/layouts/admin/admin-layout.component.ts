@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Location } from '@angular/common';
@@ -22,11 +22,13 @@ export class AdminLayoutComponent implements OnInit {
     public userSessionInfo: SessionInfo;
     // url: string;
     public adapter: ChatAdapter = new DemoAdapter();
+    public innerHeight: any;
 
     @ViewChild('sidebar') sidebar;
     @ViewChild(NavbarComponent) navbar: NavbarComponent;
     constructor( private router: Router, location:Location, private userService: UserService ) {
       this.location = location;
+      this.innerHeight = window.innerHeight;
     }
 
     ngOnInit() {
@@ -43,6 +45,11 @@ export class AdminLayoutComponent implements OnInit {
             $main_panel.perfectScrollbar();
         }
 
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.innerHeight = window.innerHeight;
     }
 
     getUserSessionInfo(){

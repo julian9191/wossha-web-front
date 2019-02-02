@@ -1,4 +1,3 @@
-
 <nav #navbar class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-minimize">
@@ -42,20 +41,27 @@
                         </ul>
                     </li>
 
-                    <li class="dropdown">
+                    <li class="dropdown" rbDropdown (notifDropDownOpened)="notifDropDownOpened($event)">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell"></i>
-                            <span class="notification" *ngIf="notifications.length>0">{{notifications.length}}</span>
+                            <span class="notification" *ngIf="getNotViewedNotifSize()>0">{{getNotViewedNotifSize()}}</span>
                             <p class="hidden-md hidden-lg">
                                 Notifications
                                 <b class="caret"></b>
                             </p>
                         </a>
-                        <ul class="dropdown-menu" *ngIf="notifications.length>0" style="width: 430px;">
-                            <li *ngFor="let notification of notifications" style="padding: 6px 30px 5px 12px;">
-                                <followRequestNotif-cmp *ngIf="notification.type == 'FOLLOW_REQUEST'" (notificationRemovedEvent)="notificationRemovedEvent($event)" [notification]="notification"></followRequestNotif-cmp>
-                            </li>
-                        </ul>
+                            <ul class="dropdown-menu " style="width: 450px; border-radius: 0">
+                                <div class="scrollable-menu" *ngIf="notifications.length>0">
+                                    <li *ngFor="let notification of notifications">
+                                        <followRequestNotif-cmp *ngIf="notification.type == 'FOLLOW_REQUEST'" (notificationRemovedEvent)="notificationRemovedEvent($event)" [notification]="notification"></followRequestNotif-cmp>
+                                        <acceptFollowNotif-cmp class="default" *ngIf="notification.type == 'ACCEPT_FOLLOW'" (notificationRemovedEvent)="notificationRemovedEvent($event)" [notification]="notification"></acceptFollowNotif-cmp>
+                                    </li>
+                                </div>
+                                <div class="defaultEmptyNotifMessage" *ngIf="notifications.length==0">
+                                    No tiene notificaciones en este momento
+                                </div>
+                            </ul>
+
                     </li>
 
                     <li class="dropdown dropdown-with-icons">

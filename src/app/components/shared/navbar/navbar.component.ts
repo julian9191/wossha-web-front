@@ -9,6 +9,7 @@ import { Inject } from '@angular/core';
 import { SocialService } from 'app/providers/social/social.service';
 import { AppNotification } from 'app/models/social/appNotification';
 import { LoginUser } from 'app/models/user/login/loginUser';
+import { ChangeNotifToViewedCommand } from 'app/models/social/commands/changeNotifToViewedCommand';
 
 var misc:any ={
     navbar_menu_visible: 0,
@@ -20,7 +21,8 @@ declare var $: any;
 @Component({
     moduleId: module.id,
     selector: 'navbar-cmp',
-    templateUrl: 'navbar.component.html'
+    templateUrl: 'navbar.component.html',
+    styleUrls: [ './navbar.component.css' ] 
 })
 
 export class NavbarComponent implements OnInit{
@@ -31,6 +33,7 @@ export class NavbarComponent implements OnInit{
     private sidebarVisible: boolean;
     public searchText:string = "";
     public notifications:AppNotification[] = [];
+    public changeNotifToViewedCommand:ChangeNotifToViewedCommand = new ChangeNotifToViewedCommand();
 
     @ViewChild("navbar-cmp") button;
 
@@ -142,8 +145,24 @@ export class NavbarComponent implements OnInit{
         this.notifications = this.notifications.filter(n => n!=notif);
     }
 
+    notifDropDownOpened(event){
+        this.notifications.forEach(function(part, index) {
+            this[index].viewed = event;
+        }, this.notifications);
+
+        this.changeNotifToViewedCommand.ids = this.notifications.map((x) => {return x.id});
+        this.socialService.executeCommand(this.changeNotifToViewedCommand).subscribe( 
+        (messaje) => {}, 
+        (error: any) => {
+            this.notificationsService.showNotification("Ha ocurrido un error al intentar actualizar las notificaciones", this.notificationsService.DANGER);
+        });
+    }
+
+    getNotViewedNotifSize():number{
+        return this.notifications.filter(n => !n.viewed).length;
+    }
+
     getPath(){
-        // console.log(this.location);
         return this.location.prepareExternalUrl(this.location.path());
     }
 

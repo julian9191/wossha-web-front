@@ -6,8 +6,10 @@
     </div>
     <div class="main-panel">
         <navbar-cmp></navbar-cmp>
-        <router-outlet (loggedinEvent)="loggedinListener($event)" (activate)='getUserSessionInfo($event)'></router-outlet>
-        <footer-cmp></footer-cmp>
+        <div style="overflow-y: scroll;" [style.height.px]="innerHeight-65">
+            <router-outlet (loggedinEvent)="loggedinListener($event)" (activate)='getUserSessionInfo($event)'></router-outlet>
+            <footer-cmp></footer-cmp>
+        </div>
     </div>
     <ng-chat [adapter]="adapter"></ng-chat>
 </div>
