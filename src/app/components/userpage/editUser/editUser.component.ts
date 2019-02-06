@@ -10,9 +10,7 @@ import { PictureFile } from '../../../models/global/pictureFile';
 import { NgForm } from '@angular/forms';
 import { UserReference } from 'app/models/user/userReference';
 import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
-
-import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
-import { PhotoSwipeComponent } from '../../components/photo-swipe/photo-swipe.component';
+import { CrystalLightbox } from 'ngx-crystal-gallery';
 
 declare var $:any;
 
@@ -33,14 +31,18 @@ export class EditUserComponent implements OnInit{
     public maxDate:Date;
     public defaultCoverPicture = "../../assets/img/default_cover.jpg";
     public defaultProfilePicture = "../../assets/img/default-avatar.png";
-    @ViewChild('photoSwipe') photoSwipe: PhotoSwipeComponent;
-    public slideImages: PhotoSwipeImage[];
+    public slideImages: any[];
+    myConfig = {
+        masonry: true
+    };
     
     public modifyUserCommand:ModifyUserCommand = new ModifyUserCommand();
     
     constructor(private userService: UserService, 
         private notificationsService: NotificationsService,
-        private httpErrorHandlerService: HttpErrorHandlerService){
+        private httpErrorHandlerService: HttpErrorHandlerService,
+        public lightbox: CrystalLightbox){
+
             this.data = new UserReference();
             this.refreshUser();
             this.getCountries();
@@ -131,14 +133,18 @@ export class EditUserComponent implements OnInit{
     initSlideImages(){
         this.slideImages = [
             {
-                src: this.getProfileImage(this.data.profilePicture),
-                w: 800,
-                h: 800
+                preview: this.getProfileImage(this.data.profilePicture),
+                full: this.getProfileImage(this.data.profilePicture),
+                width: 800,
+                height: 800,
+                description: ""
             },
             {
-                src: this.getCoverImage(this.data.coverPicture),
-                w: 1000,
-                h: 333
+                preview: this.getCoverImage(this.data.coverPicture),
+                full: this.getCoverImage(this.data.coverPicture),
+                width: 1000,
+                height: 333,
+                description: ""
             }
         ];
     }
@@ -199,10 +205,6 @@ export class EditUserComponent implements OnInit{
         else{
           return this.defaultCoverPicture;
         }
-    }
-
-    openSlideshow(index:number){
-        this.photoSwipe.openGallery(this.slideImages, index);
     }
 
     refreshUser(){

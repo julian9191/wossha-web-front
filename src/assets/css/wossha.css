@@ -1,7 +1,9 @@
 .img-clothe{
     width: 100%;
  }
-
+ .btn{
+    margin: 0 2px !important;
+ }
  .alert {
     z-index: 2000 !important;
   }
@@ -189,3 +191,8 @@ app-hue{
     max-height: 500px;
     overflow-x: hidden;
 }
+
+.hidden{
+    display: none
+}
+

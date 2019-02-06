@@ -16,6 +16,7 @@ var misc: any = {
 export class FixedPluginComponent implements OnInit{
     background_image: boolean = true;
     location: Location;
+    state: boolean = true;
     constructor( location:Location ) {
       this.location = location;
     }
@@ -133,11 +134,9 @@ export class FixedPluginComponent implements OnInit{
     }
     onChange1($event){
         var $body = $('body');
-
         if(misc.sidebar_mini_active == true){
             $('body').removeClass('sidebar-mini');
             misc.sidebar_mini_active = false;
-
         }else{
 
             $('.sidebar .collapse').collapse('hide').on('hidden.bs.collapse',function(){

@@ -17,7 +17,7 @@ import { VectorMapsComponent } from './vectormaps/vectormaps.component';
         CommonModule,
         RouterModule.forChild(MapsRoutes),
         FormsModule,
-        NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyBr-tgUtpm8cyjYVQDrjs8YpZH7zBNWPuY'})
+        NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=YOUR_KEY_HERE'})
     ],
     declarations: [
         FullScreenMapsComponent,

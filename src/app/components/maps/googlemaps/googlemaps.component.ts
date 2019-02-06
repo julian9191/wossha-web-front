@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-declare var google: any;
-declare var $: any;
 
 @Component({
     moduleId: module.id,
@@ -12,7 +10,7 @@ declare var $: any;
 export class GoogleMapsComponent implements OnInit{
 
     ngOnInit(){
-    
+
 
     }
 }

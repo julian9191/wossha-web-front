@@ -11,9 +11,9 @@
                     <p *ngIf="!isPages()"> Background Image</p>
                     <bSwitch
                       [switch-on-color]="'primary'"
-                      [(ngModel)]="background_image"
+                      [(ngModel)]="state"
                       [ngClass]="['switch','switch-sidebar-image']"
-                      (onChangeState)="onChange($event)">
+                      (changeState)="onChange($event)">
                     </bSwitch>
                     <div class="clearfix"></div>
                 </a>
@@ -24,7 +24,7 @@
                     <bSwitch
                       [switch-on-color]="'primary'"
                       [ngClass]="['switch','switch-sidebar-mini']"
-                      (onChangeState)="onChange1($event)">
+                      (changeState)="onChange1($event)">
                     </bSwitch>
                     <div class="clearfix"></div>
                 </a>
@@ -35,7 +35,7 @@
                     <bSwitch
                       [switch-on-color]="'primary'"
                       [ngClass]="['switch','switch-navbar-fixed']"
-                      (onChangeState)="onChange2($event)">
+                      (changeState)="onChange2($event)">
                     </bSwitch>
                     <div class="clearfix"></div>
                 </a>
@@ -67,7 +67,7 @@
             </li>
             <li class="active">
                 <a class="img-holder switch-trigger" href="javascript:void(0)">
-                    <img src="../../../assets/img/full-screen-image-4.jpg">
+                    <img src="../../../assets/img/full-screen-image-3.jpg">
                 </a>
             </li>
             <li>

@@ -1,4 +1,4 @@
-<app-photo-swipe #photoSwipe></app-photo-swipe>
+<crystal-gallery class="hidden" [images]="slideImages" [config]="myConfig"></crystal-gallery>
 <div class="main-content">
     <div class="container-fluid">
         <div class="card card-plain">
@@ -51,7 +51,7 @@
                                 <div class="card">
                                     <div class="content text-center">
                                         <div class="img-clothe">
-                                            <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
+                                            <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="lightbox.open(slideImages, {index: i})"/>
                                         </div>
                                         <h5>{{clothe.name}}</h5>
                                         <a href="javascript:void(0)">{{clothe.type}}</a><br/>
@@ -95,7 +95,7 @@
                                                 <tr *ngFor="let clothe of clothes; let i=index">
                                                     <td>
                                                         <div class="img-container">
-                                                            <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
+                                                            <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="lightbox.open(slideImages, {index: i})"/>
                                                         </div>
                                                     </td>
                                                     <td>

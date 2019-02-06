@@ -4,9 +4,8 @@ import { UserService } from 'app/providers/user/user.service';
 import { ChartType, LegendItem } from '../../lbd/lbd-chart/lbd-chart.component';
 import { StatisticsService } from 'app/providers/clothing/statistics.service';
 import { ClothigTop } from 'app/models/clothing/clothigTop';
-import { PhotoSwipeComponent } from '../../components/photo-swipe/photo-swipe.component';
-import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
 import {Location} from '@angular/common';
+import { CrystalLightbox } from 'ngx-crystal-gallery';
 
 declare var swal: any;
 declare var $: any;
@@ -23,9 +22,10 @@ export class StatisticsComponent implements OnInit{
 	public pieChartType: ChartType;
 	public totalClothing:number = 0;
 	public mostUsedClothing:ClothigTop[];
-	@ViewChild('photoSwipe') 
-  	public photoSwipe: PhotoSwipeComponent;
-  	public slideImages: PhotoSwipeImage[];
+	public slideImages: any[];
+	myConfig = {
+		masonry: true
+	};
 
 	//Types
     public typesChartData: any;
@@ -56,7 +56,8 @@ export class StatisticsComponent implements OnInit{
 	constructor(private statisticsService: StatisticsService,
 				private notificationsService: NotificationsService,
 				private userService: UserService,
-				private _location: Location){
+				private _location: Location,
+				public lightbox: CrystalLightbox){
 		statisticsService.setToken(userService.getToken());
 	}
 
@@ -178,17 +179,15 @@ export class StatisticsComponent implements OnInit{
 	initSlideImages(){  
 		this.slideImages = [];
 		for (let clothe of this.mostUsedClothing) {
-		  let item:PhotoSwipeImage = {
-			  src: this.getImage(clothe.picture),
-			  w: 800,
-			  h: 600
+		  let item:any = {
+			  preview: this.getImage(clothe.picture),
+			  full: this.getImage(clothe.picture),
+			  width: 800,
+			  height: 600,
+			  description: ""
 		  }
 		  this.slideImages.push(item);
 		}
 	  }
-	
-	openSlideshow(index:number){
-		this.photoSwipe.openGallery(this.slideImages, index);
-	}
 	
 }

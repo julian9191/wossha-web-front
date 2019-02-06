@@ -1,6 +1,6 @@
 /*! =========================================================
  *
- * Light Bootstrap Dashboard PRO Angular CLI - V1.2.1 (LBD V1.3.0)
+ * Light Bootstrap Dashboard PRO Angular - v1.3.0 (LBD V1.3.0)
  *
  * =========================================================
  *
@@ -19,7 +19,6 @@
 //plugins css
 @import "lbd/plugins/animate";
 @import "lbd/plugins/sweetalert2";
-
 @import "lbd/plugins/jquery.jvectormap";
 @import "lbd/plugins/bootstrap-table";
 @import "lbd/plugins/datatables.net";
@@ -43,7 +42,7 @@
 @import "lbd/forms";
 @import "lbd/alerts";
 @import "lbd/tables";
-//@import "lbd/tooltips-and-popovers";
+@import "lbd/tooltips-and-popovers";
 @import "lbd/checkbox-radio-switch";
 @import "lbd/navbars";
 @import "lbd/footers";

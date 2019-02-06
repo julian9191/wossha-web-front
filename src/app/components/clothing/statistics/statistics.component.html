@@ -1,4 +1,4 @@
-<app-photo-swipe #photoSwipe></app-photo-swipe>
+<crystal-gallery class="hidden" [images]="slideImages" [config]="myConfig"></crystal-gallery>
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
@@ -99,7 +99,7 @@
                                 <tr *ngFor="let clothe of mostUsedClothing; let i=index">
                                     <td>
                                         <div class="img-container">
-                                            <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="openSlideshow(i)"/>
+                                            <img class="img-clothe cursor-pointer" [src]="getImage(clothe.picture)" (click)="lightbox.open(slideImages, {index: i})"/>
                                         </div>
                                     </td>
                                     <td>

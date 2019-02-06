@@ -4,13 +4,10 @@ import { ClothingService } from '../../../providers/clothing/clothing.service';
 import { NotificationsService } from '../../../providers/notifications/notifications.service';
 import { UserService } from '../../../providers/user/user.service';
 import { HttpParams } from '@angular/common/http';
-import { Pagination } from '../../../models/global/pagination';
-import { PicturesService } from '../../../providers/pictures/pictures.service';
-import { PhotoSwipeComponent } from 'app/components/components/photo-swipe/photo-swipe.component';
-import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
 import { RemoveClotheCommand } from 'app/models/clothing/commands/removeClotheCommand';
 import { LoginUser } from 'app/models/user/login/loginUser';
 import { SearchCriteriaResult } from 'app/models/clothing/searchCriteria/searchCriteriaResult';
+import { CrystalLightbox } from 'ngx-crystal-gallery';
 
 @Component({
   selector: 'app-listClothing',
@@ -26,17 +23,19 @@ export class ListClothingComponent implements OnInit{
   public totalItems = 0;
 	public currentPage = 1;
   public itemsPerPage = 5;
-  @ViewChild('photoSwipe') 
-  public photoSwipe: PhotoSwipeComponent;
-  public slideImages: PhotoSwipeImage[];
   public user:LoginUser;
   public removeClotheCommand:RemoveClotheCommand;
   public searchCriteriaResult:SearchCriteriaResult = new SearchCriteriaResult();
   public canFetch:boolean = true;
+  public slideImages: any[];
+  myConfig = {
+    masonry: true
+  };
 
   constructor(private clothingService: ClothingService, 
     private notificationsService: NotificationsService,
-    private userService: UserService){
+    private userService: UserService,
+    public lightbox: CrystalLightbox){
     clothingService.setToken(userService.getToken());
   }
 
@@ -83,17 +82,15 @@ export class ListClothingComponent implements OnInit{
   initSlideImages(){  
     this.slideImages = [];
     for (let clothe of this.clothes) {
-      let item:PhotoSwipeImage = {
-          src: this.getImage(clothe.picture),
-          w: 800,
-          h: 600
+      let item:any = {
+          preview: this.getImage(clothe.picture),
+          full: this.getImage(clothe.picture),
+          width: 800,
+          height: 600,
+          description: ""
       }
       this.slideImages.push(item);
     }
-  }
-
-  openSlideshow(index:number){
-    this.photoSwipe.openGallery(this.slideImages, index);
   }
 
   removeClothe(uuid:string){

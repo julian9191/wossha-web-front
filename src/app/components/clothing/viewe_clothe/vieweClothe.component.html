@@ -1,4 +1,4 @@
-<app-photo-swipe #photoSwipe></app-photo-swipe>
+<crystal-gallery class="hidden" [images]="slideImages" [config]="myConfig"></crystal-gallery>
 <div class="main-content">
         <div class="container-fluid">
             <div class="row">
@@ -17,7 +17,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="image">
-                                        <img class="cursor-pointer" [src]="getImage(clotheView.clothe.picture)" (click)="openSlideshow()" />
+                                        <img class="cursor-pointer" [src]="getImage(clotheView.clothe.picture)" (click)="lightbox.open(slideImages, {index: 0})" />
                                     </div>
                                     <br><br>
                                     <p *ngIf="clotheView.clothe.description">{{clotheView.clothe.description}}</p>

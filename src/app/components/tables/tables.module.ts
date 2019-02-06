@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { JWBootstrapSwitchModule } from 'jw-bootstrap-switch-ng2';
+import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 
 import { TablesRoutes } from './tables.routing';
 
@@ -16,7 +16,7 @@ import { DataTableComponent } from './datatable.net/datatable.component';
         CommonModule,
         RouterModule.forChild(TablesRoutes),
         FormsModule,
-        JWBootstrapSwitchModule
+        JwBootstrapSwitchNg2Module
     ],
     declarations: [
         ExtendedTableComponent,

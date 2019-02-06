@@ -1,4 +1,4 @@
-<app-photo-swipe #photoSwipe></app-photo-swipe>
+<crystal-gallery class="hidden" [images]="slideImages" [config]="myConfig"></crystal-gallery>
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
@@ -182,12 +182,12 @@
             <div class="col-md-4">
                 <div class="card card-user">
                     <div class="image">
-                        <img class="cursor-pointer" [src]="getCoverImage(data.coverPicture)" (click)="openSlideshow(1)"/>
+                        <img class="cursor-pointer" [src]="getCoverImage(data.coverPicture)" (click)="lightbox.open(slideImages, {index: 1})"/>
                     </div>
                     <div class="content">
                         <div class="author">
                              <a href="javascript:void(0)">
-                            <img class="avatar border-gray cursor-pointer" [src]="getProfileImage(data.profilePicture)" (click)="openSlideshow(2)"/>
+                            <img class="avatar border-gray cursor-pointer" [src]="getProfileImage(data.profilePicture)" (click)="lightbox.open(slideImages, {index: 0})"/>
 
                               <h4 class="title">{{user.firstName}} {{user.lastName}}<br />
                                  <small>{{user.username}}</small>

@@ -9,7 +9,7 @@
     color: #fff;
     font-weight: 200;
     overflow-x: hidden;
-    overflow-y: scroll;
+    // overflow-y: scroll;
 
     .logo-img{
         width: 30px;
@@ -28,7 +28,7 @@
         position: relative;
         z-index: 4;
         width: 260px;
-        height: calc(100% - 75px);
+        height: calc(100% - 64px);
         box-shadow: inset -1px 0px 0px 0px #cfcfca;
 
         > .nav{
@@ -439,6 +439,12 @@
 }
 @media (min-width: $screen-md){
     .sidebar-mini{
+      .visible-on-sidebar-regular{
+          display: none !important;
+      }
+      .visible-on-sidebar-mini{
+          display: inline-block !important;
+      }
         .sidebar,
         .sidebar .sidebar-wrapper{
             width: 80px;

@@ -35,7 +35,7 @@ export class ExtendedTableComponent implements OnInit{
         this.tableData1 = {
             headerRow: [ '#', 'Name', 'Job Position', 'Since', 'Salary', 'Actions'],
             dataRows: [
-                ['1', 'Giraldo Julian', 'Develop', '2013', '99,225',''],
+                ['1', 'Andrew Mike', 'Develop', '2013', '99,225',''],
                 ['2', 'John Doe', 'Design', '2012', '89,241', ''],
                 ['3', 'Alex Mike', 'Design', '2010', '92,144', ''],
                 ['4','Mike Monday', 'Marketing', '2013', '49,990', ''],
@@ -45,7 +45,7 @@ export class ExtendedTableComponent implements OnInit{
         this.tableData2 = {
             headerRow: [ '#', 'Name', 'Job Position', 'Salary', 'Active' ],
             dataRows: [
-                {id: 1, name: 'Giraldo Julian', job_position: 'Develop', salary: '99,225', active: false},
+                {id: 1, name: 'Andrew Mike', job_position: 'Develop', salary: '99,225', active: false},
                 {id: 2, name: 'John Doe', job_position: 'Design', salary: '89,241', active: false},
                 {id: 3, name: 'Alex Mike', job_position: 'Design', salary: '92,144', active: true},
                 {id: 4, name: 'Mike Monday', job_position: 'Marketing', salary: '49,990', active: true}

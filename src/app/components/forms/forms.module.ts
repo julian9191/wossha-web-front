@@ -6,8 +6,8 @@ import { EqualValidator } from './equal-validator.directive';
 import { LbdModule } from '../lbd/lbd.module';
 import { FormsRoutes } from './forms.routing';
 import { TagInputModule } from 'ngx-chips';
-import { NouisliderModule } from 'ng2-nouislider';
-import { JWBootstrapSwitchModule } from 'jw-bootstrap-switch-ng2';
+import { NouisliderModule } from 'ng2-nouislider/src/nouislider';
+import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 
 import { ExtendedFormsComponent } from './extendedforms/extendedforms.component';
 import { RegularFormsComponent } from './regularforms/regularforms.component';
@@ -22,7 +22,7 @@ import { WizardComponent } from './wizard/wizard.component';
         ReactiveFormsModule,
         TagInputModule,
         NouisliderModule,
-        JWBootstrapSwitchModule,
+        JwBootstrapSwitchNg2Module,
         LbdModule
     ],
     declarations: [

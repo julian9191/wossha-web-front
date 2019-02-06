@@ -13,7 +13,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
 import { NouisliderModule } from 'ng2-nouislider';
 import { SearchCriteriaModule } from '../components/search_criteria/searchcriteria.module';
 import { AddCalendarComponent } from './popup/addcalendar/addCalendar.component';
-import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
+import {CrystalGalleryModule} from 'ngx-crystal-gallery';
 
 @NgModule({
     imports: [
@@ -24,7 +24,7 @@ import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
         AngularMultiSelectModule,
         NouisliderModule,
         SearchCriteriaModule,
-        PhotoSwipeModule
+        CrystalGalleryModule
     ],
     entryComponents: [
         DayPopup,

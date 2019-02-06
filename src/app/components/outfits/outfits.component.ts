@@ -4,11 +4,10 @@ import { Clothe } from 'app/models/clothing/clothe';
 import { UserService } from 'app/providers/user/user.service';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { ClothingService } from 'app/providers/clothing/clothing.service';
-import { PhotoSwipeComponent } from '../components/photo-swipe/photo-swipe.component';
-import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
 import { HttpParams } from '@angular/common/http';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { DatePopup } from './popup/datePopup.component';
+import { CrystalLightbox } from 'ngx-crystal-gallery';
 
 declare var $:any;
 
@@ -22,15 +21,18 @@ export class OutfitsComponent implements OnInit{
     public clothes: Clothe[] = [];
     public searchCriteriaResult:SearchCriteriaResult = new SearchCriteriaResult();
     public lastSearchCriteriaResult:SearchCriteriaResult;
-    @ViewChild('photoSwipe') 
-    public photoSwipe: PhotoSwipeComponent;
-    public slideImages: PhotoSwipeImage[];
     public canFetch:boolean = true;
+    public slideImages: any[];
+    myConfig = {
+        masonry: true
+    };
+
 
     constructor(private clothingService: ClothingService,
                 private dialogService:DialogService,
                 private notificationsService: NotificationsService,
-                private userService: UserService ){
+                private userService: UserService,
+                public lightbox: CrystalLightbox){
         clothingService.setToken(userService.getToken());   
     }
 
@@ -109,17 +111,15 @@ export class OutfitsComponent implements OnInit{
     initSlideImages(){  
         this.slideImages = [];
         for (let clothe of this.clothes) {
-            let item:PhotoSwipeImage = {
-                src: this.getImage(clothe.picture),
-                w: 800,
-                h: 600
+            let item:any = {
+                preview: this.getImage(clothe.picture),
+                full: this.getImage(clothe.picture),
+                width: 800,
+                height: 600,
+                description: ""
             }
             this.slideImages.push(item);
         }
-    }
-
-    openSlideshow(index:number){
-        this.photoSwipe.openGallery(this.slideImages, index);
     }
 
     addClotheToCalendar(uuidClothe:string, idClothe: number){

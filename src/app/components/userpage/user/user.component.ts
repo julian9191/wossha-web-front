@@ -5,21 +5,21 @@ import {SessionInfo} from "../../../models/user/login/sessionInfo";
 import {HttpErrorHandlerService} from "../../../providers/auth/httpErrorHandler.service";
 import { PictureFile } from '../../../models/global/pictureFile';
 import { UserReference } from 'app/models/user/userReference';
-import { PhotoSwipeComponent } from 'app/components/components/photo-swipe/photo-swipe.component';
-import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
 import { ActivatedRoute } from '@angular/router';
 import { FollowUserCommand } from 'app/models/social/commands/followUserCommand';
 import { SocialService } from 'app/providers/social/social.service';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { FollowingUser } from 'app/models/social/followingUser';
 import { StopFollowingUserCommand } from 'app/models/social/commands/stopFollowingUserCommand';
+import { CrystalLightbox } from 'ngx-crystal-gallery';
+
 
 declare var $:any;
 
 @Component({
     moduleId: module.id,
     selector: 'user-cmp',
-    templateUrl: 'user.component.html',
+    templateUrl: './user.component.html',
     styles: ['.image { height: 270px; }', '.content { min-height: 0; }']
 })
 
@@ -32,19 +32,23 @@ export class UserComponent implements OnInit{
     public maxDate:Date;
     public defaultCoverPicture = "../../assets/img/default_cover.jpg";
     public defaultProfilePicture = "../../assets/img/default-avatar.png";
-    @ViewChild('photoSwipe') photoSwipe: PhotoSwipeComponent;
-    public slideImages: PhotoSwipeImage[];
+    
     public username:string;
     public ownProfile: boolean = false;
     public followUserCommand:FollowUserCommand = new FollowUserCommand();
     public stopFollowingUserCommand:StopFollowingUserCommand = new StopFollowingUserCommand();
     public socialInfo:FollowingUser[];
+    public slideImages: any[];
+    myConfig = {
+        masonry: true
+    };
     
     constructor(private userService: UserService,
         private route: ActivatedRoute,
         private socialService: SocialService, 
         private notificationsService: NotificationsService,
-        private httpErrorHandlerService: HttpErrorHandlerService){
+        private httpErrorHandlerService: HttpErrorHandlerService,
+        public lightbox: CrystalLightbox){
 
         socialService.setToken(userService.getToken());
         this.socialInfo = userService.getSocialInfo();
@@ -94,14 +98,18 @@ export class UserComponent implements OnInit{
     initSlideImages(){
         this.slideImages = [
             {
-                src: this.getProfileImage(this.data.profilePicture),
-                w: 800,
-                h: 800
+                preview: this.getProfileImage(this.data.profilePicture),
+                full: this.getProfileImage(this.data.profilePicture),
+                width: 1000,
+                height: 333,
+                description: ""
             },
             {
-                src: this.getCoverImage(this.data.coverPicture),
-                w: 1000,
-                h: 333
+                preview: this.getCoverImage(this.data.coverPicture),
+                full: this.getProfileImage(this.data.coverPicture),
+                width: 1000,
+                height: 333,
+                description: ""
             }
         ];
     }
@@ -128,10 +136,6 @@ export class UserComponent implements OnInit{
         else{
           return this.defaultCoverPicture;
         }
-    }
-
-    openSlideshow(index:number){
-        this.photoSwipe.openGallery(this.slideImages, index);
     }
 
     followUser(){
@@ -202,5 +206,4 @@ export class UserComponent implements OnInit{
             coverPicture: new PictureFile()
         }
     }
-    
 }

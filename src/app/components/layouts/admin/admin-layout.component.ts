@@ -1,13 +1,11 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { Location } from '@angular/common';
+import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
 import 'rxjs/add/operator/filter';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { SessionInfo } from 'app/models/user/login/sessionInfo';
 import { UserService } from 'app/providers/user/user.service';
-import { ChatAdapter } from 'app/components/components/ng-chat/core/chat-adapter';
-import { DemoAdapter } from 'app/components/components/ng-chat/chat-adapter';
 
 declare var $: any;
 
@@ -21,14 +19,11 @@ export class AdminLayoutComponent implements OnInit {
     private _router: Subscription;
     public userSessionInfo: SessionInfo;
     // url: string;
-    public adapter: ChatAdapter = new DemoAdapter();
-    public innerHeight: any;
 
     @ViewChild('sidebar') sidebar;
     @ViewChild(NavbarComponent) navbar: NavbarComponent;
     constructor( private router: Router, location:Location, private userService: UserService ) {
-      this.location = location;
-      this.innerHeight = window.innerHeight;
+        this.location = location;
     }
 
     ngOnInit() {
@@ -39,17 +34,19 @@ export class AdminLayoutComponent implements OnInit {
         });
 
         var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
-        /*if (isWindows){
+        if (isWindows){
         // if we are on windows OS we activate the perfectScrollbar function
             var $main_panel = $('.main-panel');
             $main_panel.perfectScrollbar();
-        }*/
+        }
 
     }
-
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        this.innerHeight = window.innerHeight;
+    public isMap() {
+        if (window.location.pathname.indexOf("/maps/fullscreen") !== -1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     getUserSessionInfo(){

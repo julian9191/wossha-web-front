@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { DayPopup } from './popup/dayPopup.component';
-import { PhotoSwipeComponent } from '../components/photo-swipe/photo-swipe.component';
-import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
 import { CalendarService } from 'app/providers/clothing/calendar.service';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { UserService } from 'app/providers/user/user.service';
 import { CalendarClothe } from 'app/models/calendar/calendarClothe';
+import { CrystalLightbox } from 'ngx-crystal-gallery';
 import * as moment from 'moment';
 
 declare var swal: any;
@@ -24,17 +23,20 @@ export class CalendarComponent implements OnInit{
 	public calendar:any;
 	public showMoreLink:boolean = false;
 	@ViewChild('photoSwipe')
-	public photoSwipe: PhotoSwipeComponent;
-	public slideImages: PhotoSwipeImage[];
 	public startViewDate:Date;
 	public endViewDate:Date;
 	public events:CalendarClothe[] = [];
 	public currentDate:string;
+	public slideImages: any[];
+	myConfig = {
+		masonry: true
+	};
 
 	constructor(private dialogService:DialogService,
 				private calendarService: CalendarService,
 				private notificationsService: NotificationsService,
-				private userService: UserService){
+				private userService: UserService,
+				public lightbox: CrystalLightbox){
 		calendarService.setToken(userService.getToken());
 	}
 
@@ -139,7 +141,7 @@ export class CalendarComponent implements OnInit{
 				if(result instanceof Array){
 					this.initSlideImages(result);
 				}else if(typeof result == 'number'){
-					this.openSlideshow(result);
+					this.lightbox.open(this.slideImages, {index: result})
 				}else if(typeof result == 'boolean'){
 					this.getEventsByView();
 				}
@@ -151,18 +153,16 @@ export class CalendarComponent implements OnInit{
 	initSlideImages(images:string[]){
         this.slideImages = [];
         for (let image of images) {
-            let item:PhotoSwipeImage = {
-                src: this.getImage(image),
-                w: 800,
-                h: 600
+            let item:any = {
+				preview: this.getImage(image),
+				full: this.getImage(image),
+                width: 800,
+				height: 600,
+				description: ""
             }
             this.slideImages.push(item);
-        }
+		}
     }
-
-    openSlideshow(index:number){
-        this.photoSwipe.openGallery(this.slideImages, index);
-	}
 
 	getTextColor(hex) {
 		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);

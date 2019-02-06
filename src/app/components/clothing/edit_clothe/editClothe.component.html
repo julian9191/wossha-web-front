@@ -1,4 +1,4 @@
-<app-photo-swipe #photoSwipe></app-photo-swipe>
+<crystal-gallery class="hidden" [images]="slideImages" [config]="myConfig"></crystal-gallery>
 <div class="main-content">
         <div class="container-fluid">
             <div class="row">
@@ -25,7 +25,7 @@
                                 <div class="row">
                                     <div class="col-md-6">                                          
                                         <div class="image" style="height: 215px;">
-                                            <img class="cursor-pointer" [src]="getImage(clothePicture)" (click)="openSlideshow()" />
+                                            <img class="cursor-pointer" [src]="getImage(clothePicture)" (click)="lightbox.open(slideImages, {index: 0})" />
                                         </div>
                                     </div>
                                     <div class="col-md-6">

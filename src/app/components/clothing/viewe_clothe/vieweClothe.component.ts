@@ -1,16 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {ClothingService} from "../../../providers/clothing/clothing.service";
 import {UserService} from "../../../providers/user/user.service";;
-import { Clothe } from '../../../models/clothing/clothe';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { PictureFile } from 'app/models/global/pictureFile';
 import {Location} from '@angular/common';
-
-import { PhotoSwipeComponent } from '../../components/photo-swipe/photo-swipe.component';
-import { PhotoSwipeImage} from '../../../models/global/PhotoSwipeImage';
 import { ClotheView } from 'app/models/clothing/clotheView';
 import { ChartType } from 'app/components/lbd/lbd-chart/lbd-chart.component';
+import { CrystalLightbox } from 'ngx-crystal-gallery';
 
 declare var $:any;
 
@@ -23,20 +20,22 @@ declare var $:any;
 export class VieweClotheComponent implements OnInit{
   
     public clotheView:ClotheView;
-    @ViewChild('photoSwipe') 
-    public photoSwipe: PhotoSwipeComponent;
-    public slideImages : PhotoSwipeImage[];
     public viewsChartType: ChartType;
     public viewsChartData: any;
     public viewsChartOptions: any;
     public viewsChartResponsive: any[];
     public initChar:boolean = false;
+    public slideImages: any[];
+    myConfig = {
+        masonry: true
+    };
 
     constructor(private clothingService: ClothingService,
                 private userService: UserService,
                 private notificationsService: NotificationsService,
                 private route: ActivatedRoute,
-                private _location: Location){
+                private _location: Location,
+                public lightbox: CrystalLightbox){
         clothingService.setToken(userService.getToken());
         this.clotheView = new ClotheView();
     }
@@ -97,9 +96,11 @@ export class VieweClotheComponent implements OnInit{
     initSlideImages(){
         this.slideImages = [
             {
-                src: this.getImage(this.clotheView.clothe.picture),
-                w: 800,
-                h: 600
+                preview: this.getImage(this.clotheView.clothe.picture),
+                full: this.getImage(this.clotheView.clothe.picture),
+                width: 800,
+                height: 600,
+                description: ""
             }
         ];
     }
@@ -111,11 +112,6 @@ export class VieweClotheComponent implements OnInit{
         else{
           return "../assets/img/blog-1.jpg";
         }
-    }
-
-
-    openSlideshow(){
-        this.photoSwipe.openGallery(this.slideImages);
     }
 
     goBack(){

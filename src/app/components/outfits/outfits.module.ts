@@ -7,7 +7,7 @@ import { SearchCriteriaModule } from '../components/search_criteria/searchcriter
 import { OutfitsComponent } from './outfits.component';
 import { OutfitsRoutes } from './outfits.routing';
 import {ClothingService} from "../../providers/clothing/clothing.service";
-import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
+import {CrystalGalleryModule} from 'ngx-crystal-gallery';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { DatePopup } from './popup/datePopup.component'
 import { CalendarService } from "../../providers/clothing/calendar.service";
@@ -20,7 +20,7 @@ import { NotificationsService } from "../../providers/notifications/notification
         FormsModule,
         TagInputModule,
         SearchCriteriaModule,
-        PhotoSwipeModule,
+        CrystalGalleryModule,
         BootstrapModalModule
     ],
     entryComponents: [

@@ -10,9 +10,8 @@ import { PictureFile } from '../../../models/global/pictureFile';
 import { LoginUser } from '../../../models/user/login/loginUser';
 import {Location} from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { PhotoSwipeComponent } from 'app/components/components/photo-swipe/photo-swipe.component';
-import { PhotoSwipeImage } from 'app/models/global/photoSwipeImage';
 import { EditClotheCommand } from 'app/models/clothing/commands/editClotheCommand';
+import { CrystalLightbox } from 'ngx-crystal-gallery';
 
 declare var $:any;
 
@@ -39,16 +38,18 @@ export class EditClotheComponent implements OnInit{
   editClotheCommand:EditClotheCommand;
   user:LoginUser;
   name: string;
-  @ViewChild('photoSwipe') 
-  public photoSwipe: PhotoSwipeComponent;
-  public slideImages : PhotoSwipeImage[];
   clothePicture:string = null;
+  public slideImages: any[];
+  myConfig = {
+    masonry: true
+  };
 
   constructor(private clothingService: ClothingService,
     private userService: UserService,
     private notificationsService: NotificationsService,
     private route: ActivatedRoute,
-    private _location: Location){
+    private _location: Location,
+    public lightbox: CrystalLightbox){
         clothingService.setToken(userService.getToken());
     }
 
@@ -105,9 +106,11 @@ export class EditClotheComponent implements OnInit{
     initSlideImages(){
         this.slideImages = [
             {
-                src: this.getImage(this.register.picture),
-                w: 800,
-                h: 600
+                preview: this.getImage(this.register.picture),
+                full: this.getImage(this.register.picture),
+                width: 800,
+                height: 600,
+                description: ""
             }
         ];
     }
@@ -158,10 +161,6 @@ export class EditClotheComponent implements OnInit{
           
         return "../assets/img/blog-1.jpg";
         
-    }
-
-    openSlideshow(){
-        this.photoSwipe.openGallery(this.slideImages);
     }
 
     refreshClothe(){

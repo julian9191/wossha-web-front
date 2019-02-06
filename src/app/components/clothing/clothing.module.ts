@@ -11,7 +11,7 @@ import { CreateClotheComponent } from './create_clothe/createClothe.component';
 import { VieweClotheComponent } from './viewe_clothe/vieweClothe.component';
 import { EditClotheComponent } from './edit_clothe/editClothe.component';
 import { ClothingRoutes } from './clothing.routing';
-import { PhotoSwipeModule } from '../components/photo-swipe/photo-swipe.module';
+import {CrystalGalleryModule} from 'ngx-crystal-gallery';
 import { SearchCriteriaModule } from '../components/search_criteria/searchcriteria.module';
 import { LbdModule } from '../lbd/lbd.module';
 import { CalendarService } from "../../providers/clothing/calendar.service";
@@ -25,7 +25,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
         FormsModule,
         NouisliderModule,
         ComponentsModule,
-        PhotoSwipeModule,
+        CrystalGalleryModule,
         SearchCriteriaModule,
         LbdModule
     ],

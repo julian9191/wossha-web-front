@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="card card-wizard" id="wizardCard">
-                <form id="wizardForm" method="" action="">
+                <form [formGroup]="type" id="wizardForm" method="" action="">
 
                 <div class="header text-center">
                     <h3 class="title">Awesome Wizard</h3>
@@ -22,23 +22,25 @@
                             <h5 class="text-center">Please tell us more about yourself.</h5>
                             <div class="row">
                                 <div class="col-md-5 col-md-offset-1">
-                                    <div class="form-group">
+                                    <div class="form-group" [ngClass]="displayFieldCss(type, 'firstName')">
                                         <label class="control-label">First Name</label>
                                         <input class="form-control"
                                                type="text"
-                                               name="first_name"
-                                               placeholder="ex: Julian"
+                                               name="firstname"
+                                               placeholder="ex: Mike"
+                                               formControlName="firstName"
                                         />
                                     </div>
                                 </div>
                                 <div class="col-md-5">
-                                    <div class="form-group">
+                                    <div class="form-group" [ngClass]="displayFieldCss(type, 'lastName')">
                                         <label class="control-label">Last Name</label>
                                         <input class="form-control"
                                                type="text"
-                                               name="last_name"
+                                               name="lastname"
                                                required="true"
-                                               placeholder="ex: Giraldo"
+                                               placeholder="ex: Andrew"
+                                               formControlName="lastName"
                                         />
                                     </div>
                                 </div>
@@ -52,6 +54,7 @@
                                                name="email"
                                                email="true"
                                                placeholder="ex: hello@creative-tim.com"
+                                               formControlName="email"
                                         />
                                     </div>
                                 </div>
