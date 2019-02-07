@@ -8,7 +8,7 @@
     </div>
     <div class="main-panel">
         <navbar-cmp></navbar-cmp>
-        <div style="overflow-y: scroll;" [style.height.px]="innerHeight-65">
+        <div style="overflow-y: scroll" [style.height.px]="innerHeight-65">
             <router-outlet (loggedinEvent)="loggedinListener($event)" (activate)='getUserSessionInfo($event)'></router-outlet>
             <footer-cmp></footer-cmp>
         </div>
