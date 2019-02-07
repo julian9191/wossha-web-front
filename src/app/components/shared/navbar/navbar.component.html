@@ -51,7 +51,7 @@
                             </p>
                         </a>
                             <ul class="dropdown-menu " style="width: 450px; border-radius: 0">
-                                <div class="scrollable-menu" *ngIf="notifications.length>0">
+                                <div *ngIf="notifications.length>0">
                                     <li *ngFor="let notification of notifications">
                                         <followRequestNotif-cmp *ngIf="notification.type == 'FOLLOW_REQUEST'" (notificationRemovedEvent)="notificationRemovedEvent($event)" [notification]="notification"></followRequestNotif-cmp>
                                         <acceptFollowNotif-cmp class="default" *ngIf="notification.type == 'ACCEPT_FOLLOW'" (notificationRemovedEvent)="notificationRemovedEvent($event)" [notification]="notification"></acceptFollowNotif-cmp>

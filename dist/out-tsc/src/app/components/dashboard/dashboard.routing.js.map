@@ -1,1 +1,0 @@
-{"version":3,"file":"dashboard.routing.js","sourceRoot":"","sources":["../../../../../../src/app/components/dashboard/dashboard.routing.ts"],"names":[],"mappings":";;AAEA,6DAA2D;AAG9C,QAAA,eAAe,GAAW,CAAC;QACpC,IAAI,EAAE,EAAE;QACR,QAAQ,EAAE,CAAC;gBACP,IAAI,EAAE,WAAW;gBACjB,SAAS,EAAE,wCAAkB;aAChC,CAAC;KACL,CAAC,CAAC"}

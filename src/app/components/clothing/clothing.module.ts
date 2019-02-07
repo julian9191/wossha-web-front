@@ -17,6 +17,7 @@ import { LbdModule } from '../lbd/lbd.module';
 import { CalendarService } from "../../providers/clothing/calendar.service";
 import { StatisticsService } from "../../providers/clothing/statistics.service";
 import { StatisticsComponent } from './statistics/statistics.component';
+import { NgChatModule } from '../components/ng-chat/ng-chat.module';
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
         ComponentsModule,
         CrystalGalleryModule,
         SearchCriteriaModule,
-        LbdModule
+        LbdModule,
+        NgChatModule
     ],
     declarations: [
         ListClothingComponent,

@@ -1,7 +1,9 @@
 
+ <ng-chat [adapter]="adapter"></ng-chat>
 <div class="wrapper">
-    <div class="sidebar" data-color="red" data-image="">
-        <<sidebar-cmp [profilePicture]="getProfilePicture()"></sidebar-cmp>
+    <div class="sidebar" style="overflow: hidden" data-color="red" data-image="">
+        <sidebar-cmp [profilePicture]="getProfilePicture()"></sidebar-cmp>
+       
         <div class="sidebar-background" style="background-image: url(assets/img/full-screen-image-1.jpg)"></div>
     </div>
     <div class="main-panel">
@@ -11,5 +13,7 @@
             <footer-cmp></footer-cmp>
         </div>
     </div>
+    
 </div>
+<!--<ng-chat [adapter]="adapter"></ng-chat>-->
 <!--<fixedplugin-cmp></fixedplugin-cmp>-->

@@ -1,1 +1,0 @@
-{"version":3,"file":"icons.component.js","sourceRoot":"","sources":["../../../../../../../src/app/components/components/icons/icons.component.ts"],"names":[],"mappings":";;;;;;;;AAAA,sCAA0C;AAQ1C;IAAA;IAA4B,CAAC;IAAhB,cAAc;QAN1B,gBAAS,CAAC;YACP,QAAQ,EAAE,MAAM,CAAC,EAAE;YACnB,QAAQ,EAAE,WAAW;YACrB,WAAW,EAAE,sBAAsB;SACtC,CAAC;OAEW,cAAc,CAAE;IAAD,qBAAC;CAAA,AAA7B,IAA6B;AAAhB,wCAAc"}

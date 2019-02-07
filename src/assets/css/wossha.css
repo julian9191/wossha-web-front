@@ -186,12 +186,6 @@ app-hue{
     background-color: #f5f5f5;
 }
 
-.scrollable-menu {
-    height: auto;
-    max-height: 500px;
-    overflow-x: hidden;
-}
-
 .hidden{
     display: none
 }

@@ -6302,7 +6302,7 @@ form label.radio, form label.checkbox {
     top: 2px;
     left: 7px; }
   .navbar .btn {
-    margin: 10px 3px;
+    margin: 10px 3px !important;
     font-size: 14px; }
   .navbar .btn-simple {
     font-size: 16px; }

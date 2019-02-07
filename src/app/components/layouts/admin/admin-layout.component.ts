@@ -6,6 +6,8 @@ import 'rxjs/add/operator/filter';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { SessionInfo } from 'app/models/user/login/sessionInfo';
 import { UserService } from 'app/providers/user/user.service';
+import { DemoAdapter } from 'app/components/components/ng-chat/chat-adapter';
+import { ChatAdapter } from 'app/components/components/ng-chat/core/chat-adapter';
 
 declare var $: any;
 
@@ -18,12 +20,15 @@ export class AdminLayoutComponent implements OnInit {
     location: Location;
     private _router: Subscription;
     public userSessionInfo: SessionInfo;
+    public adapter: ChatAdapter = new DemoAdapter();
+    public innerHeight: any;
     // url: string;
 
     @ViewChild('sidebar') sidebar;
     @ViewChild(NavbarComponent) navbar: NavbarComponent;
     constructor( private router: Router, location:Location, private userService: UserService ) {
         this.location = location;
+        this.innerHeight = window.innerHeight;
     }
 
     ngOnInit() {
@@ -33,12 +38,12 @@ export class AdminLayoutComponent implements OnInit {
           this.navbar.sidebarClose();
         });
 
-        var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
+        /*var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
         if (isWindows){
         // if we are on windows OS we activate the perfectScrollbar function
             var $main_panel = $('.main-panel');
             $main_panel.perfectScrollbar();
-        }
+        }*/
 
     }
     public isMap() {
@@ -47,6 +52,11 @@ export class AdminLayoutComponent implements OnInit {
         } else {
             return false;
         }
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.innerHeight = window.innerHeight;
     }
 
     getUserSessionInfo(){

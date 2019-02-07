@@ -140,13 +140,12 @@ export class SidebarComponent {
 
         isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
 
-        /*if (isWindows){
-           // if we are on windows OS we activate the perfectScrollbar function
-           $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+        if (isWindows){
            $('html').addClass('perfect-scrollbar-on');
+           $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
        } else {
            $('html').addClass('perfect-scrollbar-off');
-       }*/
+       }
     }
     ngAfterViewInit(){
         var $sidebarParent = $('.sidebar .nav > li.active .collapse li.active > a').parent().parent().parent();

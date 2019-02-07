@@ -2,7 +2,6 @@ import { Component, Input, OnInit, ViewChildren, ViewChild, HostListener, Output
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { ChatAdapter } from './core/chat-adapter';
 import { ChatUser } from "./core/chatUser";
 import { Message } from "./core/message";
 import { FileMessage } from "./core/file-message";
@@ -15,10 +14,6 @@ import { IChatController } from './core/chat-controller';
 import { PagedHistoryChatAdapter } from './core/paged-history-chat-adapter';
 import { IFileUploadAdapter } from './core/file-upload-adapter';
 import { DefaultFileUploadAdapter } from './core/default-file-upload-adapter';
-
-
-
-import { Observable } from 'rxjs';
 import { UserService } from 'app/providers/user/user.service';
 import { FollowingUser } from 'app/models/social/followingUser';
 import { LoginUser } from 'app/models/user/login/loginUser';
@@ -30,11 +25,11 @@ import { SocialService } from 'app/providers/social/social.service';
     selector: 'ng-chat',
     templateUrl: 'ng-chat.component.html',
     styleUrls: [
-        'assets/icons.css',
+        /*'assets/icons.css',
         'assets/loading-spinner.css',
         'assets/ng-chat.component.default.css',
         'assets/themes/ng-chat.theme.default.scss',
-        'assets/themes/ng-chat.theme.dark.scss'
+        'assets/themes/ng-chat.theme.dark.scss'*/
     ],
 })
 

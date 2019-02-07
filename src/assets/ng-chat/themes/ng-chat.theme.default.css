@@ -1,0 +1,39 @@
+.light-theme, .light-theme .primary-text {
+    color: #5c5c5c;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .light-theme .primary-background {
+    background-color: #fff;
+  }
+  .light-theme .secondary-background {
+    background-color: #fafafa;
+  }
+  .light-theme .primary-outline-color {
+    border-color: #a3a3a3;
+  }
+  .light-theme .friends-search-bar {
+    background-color: #fff;
+  }
+  .light-theme .unread-messages-counter-container {
+    background-color: #e3e3e3;
+  }
+  .light-theme .load-history-action {
+    background-color: #e3e3e3;
+  }
+  .light-theme .chat-window-input {
+    background-color: #fff;
+  }
+  .light-theme .sent-chat-message-container {
+    background-color: #e3e3e3;
+  }
+  .light-theme .received-chat-message-container {
+    background-color: #fff;
+    border-color: #e3e3e3;
+  }
+  .light-theme .file-message-container {
+    border-color: #e3e3e3;
+  }
+  .light-theme .file-message-icon-container {
+    background-color: #e3e3e3;
+  }
+  
