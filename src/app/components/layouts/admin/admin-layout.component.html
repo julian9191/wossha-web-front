@@ -1,5 +1,5 @@
 
- <ng-chat [adapter]="adapter"></ng-chat>
+ <ng-chat [adapter]="adapter" (followRequestNotifMessage)="followRequestNotifMessage($event)"></ng-chat>
 <div class="wrapper">
     <div class="sidebar" style="overflow: hidden" data-color="red" data-image="">
         <sidebar-cmp [profilePicture]="getProfilePicture()"></sidebar-cmp>
@@ -7,7 +7,7 @@
         <div class="sidebar-background" style="background-image: url(assets/img/full-screen-image-1.jpg)"></div>
     </div>
     <div class="main-panel">
-        <navbar-cmp></navbar-cmp>
+        <navbar-cmp [notificationSubject]="notificationSubject"></navbar-cmp>
         <div style="overflow-y: scroll" [style.height.px]="innerHeight-65">
             <router-outlet (loggedinEvent)="loggedinListener($event)" (activate)='getUserSessionInfo($event)'></router-outlet>
             <footer-cmp></footer-cmp>

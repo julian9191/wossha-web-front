@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer, ViewChild, ElementRef, Directive } from '@angular/core';
+import { Component, OnInit, Renderer, ViewChild, ElementRef, Directive, Input, OnDestroy } from '@angular/core';
 import { ROUTES } from '../../sidebar/sidebar.component';
 import { Router} from '@angular/router';
 import { Location } from '@angular/common';
@@ -10,6 +10,7 @@ import { SocialService } from 'app/providers/social/social.service';
 import { AppNotification } from 'app/models/social/appNotification';
 import { LoginUser } from 'app/models/user/login/loginUser';
 import { ChangeNotifToViewedCommand } from 'app/models/social/commands/changeNotifToViewedCommand';
+import { Subject } from 'rxjs';
 
 var misc:any ={
     navbar_menu_visible: 0,
@@ -25,7 +26,7 @@ declare var $: any;
     styleUrls: [ './navbar.component.css' ] 
 })
 
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements OnInit, OnDestroy{
     private listTitles: any[];
     location: Location;
     private nativeElement: Node;
@@ -34,7 +35,7 @@ export class NavbarComponent implements OnInit{
     public searchText:string = "";
     public notifications:AppNotification[] = [];
     public changeNotifToViewedCommand:ChangeNotifToViewedCommand = new ChangeNotifToViewedCommand();
-
+    @Input() notificationSubject:Subject<AppNotification>;
     @ViewChild("navbar-cmp") button;
 
     constructor(location:Location, private renderer : Renderer, 
@@ -54,6 +55,11 @@ export class NavbarComponent implements OnInit{
 
 
     ngOnInit(){
+
+        this.notificationSubject.subscribe(event => {
+            this.notifications.push(event);
+        });
+
         this.listTitles = ROUTES.filter(listTitle => listTitle);
 
         var navbar : HTMLElement = this.element.nativeElement;
@@ -86,6 +92,10 @@ export class NavbarComponent implements OnInit{
                 clearInterval(simulateWindowResize);
             },1000);
         });
+    }
+
+    ngOnDestroy() {
+        this.notificationSubject.unsubscribe();
     }
 
     isMobileMenu(){

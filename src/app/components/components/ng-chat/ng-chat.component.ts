@@ -20,6 +20,7 @@ import { LoginUser } from 'app/models/user/login/loginUser';
 import { DemoAdapter } from './chat-adapter';
 import { SendChatMessageWsCommand } from 'app/models/ws/wsCommands/sendChatMessageWsCommand';
 import { SocialService } from 'app/providers/social/social.service';
+import { AppNotification } from 'app/models/social/appNotification';
 
 @Component({
     selector: 'ng-chat',
@@ -34,115 +35,46 @@ import { SocialService } from 'app/providers/social/social.service';
 })
 
 export class NgChat implements OnInit, IChatController {
-    
-    
 
     // Exposes enums for the ng-template
     public UserStatus = UserStatus;
     public MessageType = MessageType;
-    
-
-    @Input()
-    public adapter: DemoAdapter;
-
-    @Input()
-    public userId: String;
-
-    @Input()
-    public isCollapsed: boolean = true;
-
-    @Input()
-    public maximizeWindowOnNewMessage: boolean = true;
-
-    @Input()    
-    public pollFriendsList: boolean = false;
-
-    @Input()
-    public pollingInterval: number = 5000;
-
-    @Input()    
-    public historyEnabled: boolean = true;
-
-    @Input()    
-    public emojisEnabled: boolean = true;
-
-    @Input()    
-    public linkfyEnabled: boolean = true;
-
-    @Input()
-    public audioEnabled: boolean = true;
-
-    @Input()
-    public searchEnabled: boolean = true;
-
-    @Input() // TODO: This might need a better content strategy
-    public audioSource: string = 'https://raw.githubusercontent.com/rpaschoal/ng-chat/master/src/ng-chat/assets/notification.wav';
-
-    @Input()
-    public persistWindowsState: boolean = true;
-
-    @Input()
-    public title: string = "Chat";
-
-    @Input()
-    public messagePlaceholder: string = "Escriba un mensaje...";
-
-    @Input()
-    public searchPlaceholder: string = "Buscar";
-
-    @Input()
-    public browserNotificationsEnabled: boolean = true;
-
-    @Input() // TODO: This might need a better content strategy
-    public browserNotificationIconSource: string = 'https://raw.githubusercontent.com/rpaschoal/ng-chat/master/src/ng-chat/assets/notification.png';
-
-    @Input()
-    public browserNotificationTitle: string = "Nuevo mensaje de";
-    
-    @Input()
-    public historyPageSize: number = 10;
-
-    @Input()
-    public localization: Localization;
-
+    @Input() public adapter: DemoAdapter;
+    @Input() public userId: String;
+    @Input() public isCollapsed: boolean = true;
+    @Input() public maximizeWindowOnNewMessage: boolean = true;
+    @Input() public pollFriendsList: boolean = false;
+    @Input() public pollingInterval: number = 5000;
+    @Input() public historyEnabled: boolean = true;
+    @Input() public emojisEnabled: boolean = true;
+    @Input() public linkfyEnabled: boolean = true;
+    @Input() public audioEnabled: boolean = true;
+    @Input() public searchEnabled: boolean = true;
+    @Input() public audioSource: string = 'https://raw.githubusercontent.com/rpaschoal/ng-chat/master/src/ng-chat/assets/notification.wav';
+    @Input() public persistWindowsState: boolean = true;
+    @Input() public title: string = "Chat";
+    @Input() public messagePlaceholder: string = "Escriba un mensaje...";
+    @Input() public searchPlaceholder: string = "Buscar";
+    @Input() public browserNotificationsEnabled: boolean = true;
+    @Input() public browserNotificationIconSource: string = 'https://raw.githubusercontent.com/rpaschoal/ng-chat/master/src/ng-chat/assets/notification.png';
+    @Input() public browserNotificationTitle: string = "Nuevo mensaje de";
+    @Input() public historyPageSize: number = 10;
+    @Input() public localization: Localization;
     public defaultProfilePicture = "../../assets/img/default-avatar.png";
-
-    @Input()
-    public hideFriendsList: boolean = false;
-
-    @Input()
-    public hideFriendsListOnUnsupportedViewport: boolean = true;
-
-    @Input()
-    public fileUploadUrl: string;
-
-    @Input()
-    public theme: string = "light-theme";
-
-    @Input()
-    public customTheme: string;
-
-    @Output()
-    public onUserClicked: EventEmitter<ChatUser> = new EventEmitter<ChatUser>();
-
-    @Output()
-    public onUserChatOpened: EventEmitter<ChatUser> = new EventEmitter<ChatUser>();
-
-    @Output()
-    public onUserChatClosed: EventEmitter<ChatUser> = new EventEmitter<ChatUser>();
-    
-    @Output()
-    public onMessagesSeen: EventEmitter<Message[]> = new EventEmitter<Message[]>();
-
+    @Input() public hideFriendsList: boolean = false;
+    @Input() public hideFriendsListOnUnsupportedViewport: boolean = true;
+    @Input() public fileUploadUrl: string;
+    @Input() public theme: string = "light-theme";
+    @Input() public customTheme: string;
+    @Output() public onUserClicked: EventEmitter<ChatUser> = new EventEmitter<ChatUser>();
+    @Output() public onUserChatOpened: EventEmitter<ChatUser> = new EventEmitter<ChatUser>();
+    @Output() public onUserChatClosed: EventEmitter<ChatUser> = new EventEmitter<ChatUser>();
+    @Output() public onMessagesSeen: EventEmitter<Message[]> = new EventEmitter<Message[]>();
     private browserNotificationsBootstrapped: boolean = false;
-
     private messageHeight:number = 42;
-
-    //filteredUsers: ChatUser[] = [];
-
     public hasPagedHistory: boolean = false;
-
     public user:LoginUser;
+    @Output() followRequestNotifMessage = new EventEmitter<AppNotification>();
 
     // Don't want to add this as a setting to simplify usage. Previous placeholder and title settings available to be used, or use full Localization object.
     private statusDescription: StatusDescription = {
@@ -203,6 +135,7 @@ export class NgChat implements OnInit, IChatController {
     @ViewChild('nativeFileInput') nativeFileInput: ElementRef;
 
     ngOnInit() { 
+        this.adapter.component = this;
         this.bootstrapChat();
         this.listFriends();
     }
@@ -843,5 +776,9 @@ export class NgChat implements OnInit, IChatController {
         else{
             return this.defaultProfilePicture;
         }
+    }
+
+    followRequestNotifMessageEmit(notification:AppNotification){
+        this.followRequestNotifMessage.emit(notification); 
     }
 }

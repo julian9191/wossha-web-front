@@ -1,13 +1,15 @@
-import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { LocationStrategy, PlatformLocation, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import 'rxjs/add/operator/filter';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { SessionInfo } from 'app/models/user/login/sessionInfo';
 import { UserService } from 'app/providers/user/user.service';
 import { DemoAdapter } from 'app/components/components/ng-chat/chat-adapter';
 import { ChatAdapter } from 'app/components/components/ng-chat/core/chat-adapter';
+import { AppNotification } from 'app/models/social/appNotification';
+import { Subject } from 'rxjs';
 
 declare var $: any;
 
@@ -22,6 +24,7 @@ export class AdminLayoutComponent implements OnInit {
     public userSessionInfo: SessionInfo;
     public adapter: ChatAdapter = new DemoAdapter();
     public innerHeight: any;
+    notificationSubject:Subject<any> = new Subject();
     // url: string;
 
     @ViewChild('sidebar') sidebar;
@@ -71,5 +74,9 @@ export class AdminLayoutComponent implements OnInit {
         else{
             return "../assets/img/default-avatar.png";
         }
+    }
+
+    followRequestNotifMessage(notification:AppNotification){
+        this.notificationSubject.next(notification);
     }
 }
