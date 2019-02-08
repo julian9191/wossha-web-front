@@ -18,7 +18,6 @@ import { NotificationsService } from './providers/notifications/notifications.se
 import { ActivateGuard } from './providers/auth/activateGuard.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpErrorHandlerService } from './providers/auth/httpErrorHandler.service';
-//import { NgChatModule } from './components/wossha-chat/ng-chat.module'
 import { NgChatModule } from "./components/components/ng-chat/ng-chat.module";
 import { SocialService } from "./providers/social/social.service";
 

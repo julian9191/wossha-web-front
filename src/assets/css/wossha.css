@@ -190,3 +190,16 @@ app-hue{
     display: none
 }
 
+.selected-list{
+    color: #333339;
+    background-color: #ffffff;
+    border: 1px solid #bdbcbc;
+}
+
+.pure-checkbox{
+    color: #333339;;
+}
+
+.c-token{
+    color: #ffffff;
+}
