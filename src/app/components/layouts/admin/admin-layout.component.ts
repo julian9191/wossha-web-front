@@ -10,6 +10,7 @@ import { DemoAdapter } from 'app/components/components/ng-chat/chat-adapter';
 import { ChatAdapter } from 'app/components/components/ng-chat/core/chat-adapter';
 import { AppNotification } from 'app/models/social/appNotification';
 import { Subject } from 'rxjs';
+import { FollowingUser } from 'app/models/social/followingUser';
 
 declare var $: any;
 
@@ -77,6 +78,14 @@ export class AdminLayoutComponent implements OnInit {
     }
 
     followRequestNotifMessage(notification:AppNotification){
+        let followingUsers:FollowingUser[] =this.userService.getSocialInfo();
+        if(followingUsers.length>0){
+            for(let i=0; i<followingUsers.length; i++){
+                followingUsers[i].state=1;
+                break;
+            }
+            this.userService.storageSocialInfo(followingUsers);
+        }
         this.notificationSubject.next(notification);
     }
 }

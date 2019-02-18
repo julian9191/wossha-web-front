@@ -10,7 +10,6 @@ import { SocialService } from 'app/providers/social/social.service';
 import { ConnectUserWsCommand } from 'app/models/ws/wsCommands/connectUserWsCommand';
 import { ConnectMessage } from 'app/models/ws/connectMessage';
 import { ConnectedUser } from './core/ConnectedUser';
-import { FollowRequestNotifMessage } from 'app/models/social/followRequestNotifMessage';
 
 export class DemoAdapter extends ChatAdapter
 {
@@ -21,6 +20,7 @@ export class DemoAdapter extends ChatAdapter
     public myUsername:String = "";
     private socialService: SocialService
     public component:any;
+    private notificationTypes = ["FOLLOW-REQUEST-NOTIF", "ACCEPT-FOLLOW"];
     
 
     initializeWebSocketConnection(myUsername:string, token:string){
@@ -66,8 +66,8 @@ export class DemoAdapter extends ChatAdapter
                 let user = that.filteredUsers.find(x => x.id == message.fromId);
                 that.onMessageReceived(user, message);
             }
-        }else if((payloadObject.responseType == "FOLLOW-REQUEST-NOTIF")){
-            let message:FollowRequestNotifMessage = payloadObject;
+        }else if(this.notificationTypes.includes(payloadObject.responseType)){
+            let message:any = payloadObject;
             if(message.fromId != myUsername){
                 this.component.followRequestNotifMessageEmit(message.message);
             }
