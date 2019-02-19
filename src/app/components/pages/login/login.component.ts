@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../app.reducer';
 import { SetUserSessionInfo } from 'app/reducers/loggedUser/loggedUser.accions';
 import { Subscription } from 'rxjs';
+import { SetSocialInfo } from 'app/reducers/socialInfo/socialInfo.accions';
 
 declare var $:any;
 
@@ -45,10 +46,10 @@ export class LoginComponent implements OnInit{
     ngOnInit(){
         this.checkFullPageBackgroundImage();
         let _that = this;
-        this.sessionInfoSubs = this.store.subscribe(function(userSessionInfo){
-            _that.userService.storageLoginUserSessionInfo(userSessionInfo.loggedUser);
+        this.sessionInfoSubs = this.store.select(x=>x.loggedUser).subscribe(function(userSessionInfo){
+            _that.userService.storageLoginUserSessionInfo(userSessionInfo);
         });
-
+        
         setTimeout(function(){
             // after 1000 ms we add the class animated to the login/register card
             $('.card').removeClass('card-hidden');
@@ -73,7 +74,7 @@ export class LoginComponent implements OnInit{
     loadFollowingUsers(){
         this.socialService.getFollowingUsers().subscribe( 
             (data:any) => {
-                this.userService.storageSocialInfo(data);
+                this.store.dispatch( new SetSocialInfo(data));
             }, (error: any) => {
                 this.notificationsService.showNotification("Ha ocurrido un error de conexión", this.notificationsService.DANGER);
             }

@@ -10,6 +10,11 @@ import { SocialService } from 'app/providers/social/social.service';
 import { ConnectUserWsCommand } from 'app/models/ws/wsCommands/connectUserWsCommand';
 import { ConnectMessage } from 'app/models/ws/connectMessage';
 import { ConnectedUser } from './core/ConnectedUser';
+import { Store } from '@ngrx/store';
+import { AppState } from 'app/app.reducer';
+import { FollowingUser } from 'app/models/social/followingUser';
+import { Subscription } from 'rxjs';
+import { ChangeSocialInfo } from 'app/reducers/socialInfo/socialInfo.accions';
 
 export class DemoAdapter extends ChatAdapter
 {
@@ -20,8 +25,17 @@ export class DemoAdapter extends ChatAdapter
     public myUsername:String = "";
     private socialService: SocialService
     public component:any;
+    public followingUsers:FollowingUser[];
+    public chatSubs:Subscription = new Subscription();
     private notificationTypes = ["FOLLOW-REQUEST-NOTIF", "ACCEPT-FOLLOW"];
     
+    constructor(private store: Store<AppState>){
+        super();
+        let _that = this;
+        this.store.select(x=>x.socialInfo).subscribe(function(userSessionInfo){
+            _that.followingUsers = userSessionInfo.followingUser;
+        });
+    }
 
     initializeWebSocketConnection(myUsername:string, token:string){
         this.myUsername = myUsername;
@@ -69,6 +83,13 @@ export class DemoAdapter extends ChatAdapter
         }else if(this.notificationTypes.includes(payloadObject.responseType)){
             let message:any = payloadObject;
             if(message.fromId != myUsername){
+                for(let i=0; i<this.followingUsers.length; i++){
+                    if(message.message.senderUserName==this.followingUsers[i].username){
+                        this.followingUsers[i].state=1;
+                        break;
+                    }
+                }
+                this.store.dispatch(new ChangeSocialInfo(this.followingUsers));
                 this.component.followRequestNotifMessageEmit(message.message);
             }
         }

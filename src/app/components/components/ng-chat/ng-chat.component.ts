@@ -21,6 +21,9 @@ import { DemoAdapter } from './chat-adapter';
 import { SendChatMessageWsCommand } from 'app/models/ws/wsCommands/sendChatMessageWsCommand';
 import { SocialService } from 'app/providers/social/social.service';
 import { AppNotification } from 'app/models/social/appNotification';
+import { Subscription } from 'rxjs';
+import { AppState } from 'app/app.reducer';
+import { Store } from '@ngrx/store';
 
 @Component({
     selector: 'ng-chat',
@@ -75,6 +78,27 @@ export class NgChat implements OnInit, IChatController {
     public hasPagedHistory: boolean = false;
     public user:LoginUser;
     @Output() followRequestNotifMessage = new EventEmitter<AppNotification>();
+    // Defines the size of each opened window to calculate how many windows can be opened on the viewport at the same time.
+    public windowSizeFactor: number = 320;
+    // Total width size of the friends list section
+    public friendsListWidth: number = 262;
+    // Available area to render the plugin
+    private viewPortTotalArea: number;
+    // Set to true if there is no space to display at least one chat window and 'hideFriendsListOnUnsupportedViewport' is true
+    public unsupportedViewport: boolean = false;
+    // File upload state
+    public isUploadingFile = false;
+    public fileUploadAdapter: IFileUploadAdapter;
+    windows: Window[] = [];
+    isBootstrapped: boolean = false;
+    @ViewChildren('chatMessages') chatMessageClusters: any;
+    @ViewChildren('chatWindowInput') chatWindowInputs: any;
+    @ViewChild('nativeFileInput') nativeFileInput: ElementRef;
+    private audioFile: HTMLAudioElement;
+    public searchInput: string = '';
+    protected users: ChatUser[];
+    public followingUsers:FollowingUser[];
+    public chatSubs:Subscription = new Subscription();
 
     // Don't want to add this as a setting to simplify usage. Previous placeholder and title settings available to be used, or use full Localization object.
     private statusDescription: StatusDescription = {
@@ -84,61 +108,33 @@ export class NgChat implements OnInit, IChatController {
         offline: 'Offline'
     };
 
-    private audioFile: HTMLAudioElement;
-
-    public searchInput: string = '';
-
-    protected users: ChatUser[];
-
     constructor(public sanitizer: DomSanitizer, 
         private _httpClient: HttpClient,
         private userService: UserService,
-        private socialService: SocialService) {
+        private socialService: SocialService,
+        private store: Store<AppState>) {
             userService.setHeaderToken();
             socialService.setToken(userService.getToken());
             this.user = this.userService.getLoggedUserSessionInfo().user;
             this.userId = this.user.username;
     }
 
-    
-    
+    ngOnInit() { 
+        this.adapter.component = this;
+        this.bootstrapChat();
+
+        let _that = this;
+        this.store.select(x=>x.socialInfo).subscribe(function(userSessionInfo){
+            _that.followingUsers = userSessionInfo.followingUser;
+            _that.chatSubs.unsubscribe();
+            _that.listFriends();
+        });
+    }
 
     private get localStorageKey(): string 
     {
         return `ng-chat-users-${this.userId}`; // Appending the user id so the state is unique per user in a computer.   
     }; 
-
-    // Defines the size of each opened window to calculate how many windows can be opened on the viewport at the same time.
-    public windowSizeFactor: number = 320;
-
-    // Total width size of the friends list section
-    public friendsListWidth: number = 262;
-
-    // Available area to render the plugin
-    private viewPortTotalArea: number;
-    
-    // Set to true if there is no space to display at least one chat window and 'hideFriendsListOnUnsupportedViewport' is true
-    public unsupportedViewport: boolean = false;
-
-    // File upload state
-    public isUploadingFile = false;
-    public fileUploadAdapter: IFileUploadAdapter;
-
-    windows: Window[] = [];
-
-    isBootstrapped: boolean = false;
-
-    @ViewChildren('chatMessages') chatMessageClusters: any;
-
-    @ViewChildren('chatWindowInput') chatWindowInputs: any;
-
-    @ViewChild('nativeFileInput') nativeFileInput: ElementRef;
-
-    ngOnInit() { 
-        this.adapter.component = this;
-        this.bootstrapChat();
-        this.listFriends();
-    }
 
     @HostListener('window:resize', ['$event'])
     onResize(event: any){
@@ -218,15 +214,19 @@ export class NgChat implements OnInit, IChatController {
     }
 
     listFriends(){
-        let followingUsers:FollowingUser[] =this.userService.getSocialInfo();
-        if(followingUsers){
-            let followingUsernames:string[] = followingUsers.map(x => x.username);
-            this.userService.getChatFriends(followingUsernames).subscribe(
-                (data:any) => {
-                    this.adapter.filteredUsers = data;
-                    this.adapter.onlineUsers = this.adapter.filteredUsers.filter(u => true);
-                }, (error: any) => {}
-            );
+        if(this.followingUsers){
+            if(this.followingUsers.length>0){
+                let followingUsernames:string[] = this.followingUsers.map(x => x.username);
+                this.chatSubs = this.userService.getChatFriends(followingUsernames).subscribe(
+                    (data:any) => {
+                        this.adapter.filteredUsers = data;
+                        this.adapter.onlineUsers = this.adapter.filteredUsers.filter(u => true);
+                    }, (error: any) => {}
+                );
+            }else{
+                this.adapter.filteredUsers = []
+                this.adapter.onlineUsers = []
+            }
         }
         
       }

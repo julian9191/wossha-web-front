@@ -17,6 +17,7 @@ import { ChatUser } from 'app/components/components/ng-chat/core/chatUser';
 import { AppState } from 'app/app.reducer';
 import { Store } from '@ngrx/store';
 import { ResetUserSessionInfo } from 'app/reducers/loggedUser/loggedUser.accions';
+import { ResetSocialInfo } from 'app/reducers/socialInfo/socialInfo.accions';
 
 @Injectable()
 export class UserService {
@@ -104,9 +105,9 @@ export class UserService {
   }
 
   logout() {
-    this.sessionStorage.remove(SESSION_STORAGE_KEY);
     this.router.navigate(['pages','login']);
     this.store.dispatch( new ResetUserSessionInfo());
+    this.store.dispatch( new ResetSocialInfo());
   }
 
   registerUser(user:User) : Observable<String>{

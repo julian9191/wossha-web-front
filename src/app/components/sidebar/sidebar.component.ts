@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'app/app.reducer';
 import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
 import { SetUserSessionInfo } from 'app/reducers/loggedUser/loggedUser.accions';
+import { SetSocialInfo } from 'app/reducers/socialInfo/socialInfo.accions';
 
 declare var $:any;
 //Metadata
@@ -128,6 +129,7 @@ export class SidebarComponent implements OnInit {
     public profilePicture:string;
     sessionInfoSubs: Subscription = new Subscription();
     public defaultProfilePicture = "../../assets/img/default-avatar.png";
+    socialInfoSubs: Subscription = new Subscription();
     
     constructor(private userService: UserService,
         private store: Store<AppState>){}
@@ -142,8 +144,12 @@ export class SidebarComponent implements OnInit {
     ngOnInit() {
 
         let sessionStorageInfo = this.userService.getLoggedUserSessionInfo();
+        let socialInfo = this.userService.getSocialInfo();
         if(sessionStorageInfo){
             this.store.dispatch( new SetUserSessionInfo(sessionStorageInfo));
+        }
+        if(socialInfo){
+            this.store.dispatch( new SetSocialInfo(socialInfo));
         }
 
         let _that = this;
@@ -153,6 +159,10 @@ export class SidebarComponent implements OnInit {
                 _that.userSessionInfo = userSessionInfo;
                 _that.profilePicture = _that.userSessionInfo.picture;
             }
+        });
+
+        this.socialInfoSubs = this.store.select(x=>x.socialInfo).subscribe(function(socialInfo){
+            _that.userService.storageSocialInfo(socialInfo.followingUser);
         });
 
         var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;

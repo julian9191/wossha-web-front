@@ -12,6 +12,9 @@ import { NotificationsService } from 'app/providers/notifications/notifications.
 import { FollowingUser } from 'app/models/social/followingUser';
 import { StopFollowingUserCommand } from 'app/models/social/commands/stopFollowingUserCommand';
 import { CrystalLightbox } from 'ngx-crystal-gallery';
+import { Store } from '@ngrx/store';
+import { AppState } from 'app/app.reducer';
+import { ChangeSocialInfo } from 'app/reducers/socialInfo/socialInfo.accions';
 
 
 declare var $:any;
@@ -48,15 +51,21 @@ export class UserComponent implements OnInit{
         private socialService: SocialService, 
         private notificationsService: NotificationsService,
         private httpErrorHandlerService: HttpErrorHandlerService,
-        public lightbox: CrystalLightbox){
+        public lightbox: CrystalLightbox,
+        private store: Store<AppState>){
 
         socialService.setToken(userService.getToken());
-        this.socialInfo = userService.getSocialInfo();
         this.data = new UserReference();
         this.refreshUser();
     }
 
     ngOnInit(){
+
+        let _that = this;
+        this.store.select(x=>x.socialInfo).subscribe(function(userSessionInfo){
+            _that.socialInfo = userSessionInfo.followingUser;
+        });
+
         let loginInfo:SessionInfo = this.userService.getLoggedUserSessionInfo();
         let myUserName:string = loginInfo.user.username;
         this.username = this.route.snapshot.paramMap.get("username");
@@ -182,8 +191,7 @@ export class UserComponent implements OnInit{
     loadFollowingUsers(){
         this.socialService.getFollowingUsers().subscribe( 
             (data:any) => {
-                this.userService.storageSocialInfo(data);
-                this.socialInfo = data;
+                this.store.dispatch(new ChangeSocialInfo(data));
             }, (error: any) => {
                 this.notificationsService.showNotification("Ha ocurrido un error de conexión", this.notificationsService.DANGER);
             }
