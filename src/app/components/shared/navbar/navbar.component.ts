@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer, ViewChild, ElementRef, Directive, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Renderer, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
 import { ROUTES } from '../../sidebar/sidebar.component';
 import { Router} from '@angular/router';
 import { Location } from '@angular/common';
@@ -8,7 +8,6 @@ import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Inject } from '@angular/core'; 
 import { SocialService } from 'app/providers/social/social.service';
 import { AppNotification } from 'app/models/social/appNotification';
-import { LoginUser } from 'app/models/user/login/loginUser';
 import { ChangeNotifToViewedCommand } from 'app/models/social/commands/changeNotifToViewedCommand';
 import { Subject } from 'rxjs';
 

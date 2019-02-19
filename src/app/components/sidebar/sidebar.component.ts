@@ -1,6 +1,10 @@
 import { Component, OnInit, AfterViewInit, AfterViewChecked, AfterContentInit, Input } from '@angular/core';
 import {UserService} from "../../providers/user/user.service";
-import {SessionInfo} from "../../models/user/login/sessionInfo";
+import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from 'app/app.reducer';
+import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
+import { SetUserSessionInfo } from 'app/reducers/loggedUser/loggedUser.accions';
 
 declare var $:any;
 //Metadata
@@ -117,13 +121,16 @@ export const ROUTES: RouteInfo[] = [{
     templateUrl: 'sidebar.component.html',
 })
 
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
     public menuItems: any[];
-    public userSessionInfo:SessionInfo;
+    public userSessionInfo:UserSessionInfo;
     @Input()
-    public profilePicture:any;
+    public profilePicture:string;
+    sessionInfoSubs: Subscription = new Subscription();
+    public defaultProfilePicture = "../../assets/img/default-avatar.png";
     
-    constructor(private userService: UserService){}
+    constructor(private userService: UserService,
+        private store: Store<AppState>){}
 
     isNotMobileMenu(){
         if($(window).width() > 991){
@@ -133,7 +140,20 @@ export class SidebarComponent {
     }
 
     ngOnInit() {
-        this.userSessionInfo = this.userService.getLoggedUserSessionInfo();
+
+        let sessionStorageInfo = this.userService.getLoggedUserSessionInfo();
+        if(sessionStorageInfo){
+            this.store.dispatch( new SetUserSessionInfo(sessionStorageInfo));
+        }
+
+        let _that = this;
+        this.sessionInfoSubs = this.store.select(state => state.loggedUser.user.userSessionInfo)
+        .subscribe(function(userSessionInfo){
+            if(userSessionInfo){
+                _that.userSessionInfo = userSessionInfo;
+                _that.profilePicture = _that.userSessionInfo.picture;
+            }
+        });
 
         var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
         this.menuItems = ROUTES.filter(menuItem => menuItem);
@@ -153,6 +173,15 @@ export class SidebarComponent {
         var collapseId = $sidebarParent.siblings('a').attr("href");
 
         $(collapseId).collapse("show");
+    }
+
+    getProfileImage(uuid:string):string{
+        if(uuid){
+            return "http://localhost:8083/pictures/static-picture/"+uuid;
+        }
+        else{
+            return this.defaultProfilePicture;
+        }
     }
 
 }

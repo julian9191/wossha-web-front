@@ -5,6 +5,10 @@ import {LoginParams} from "../../../models/user/login/loginParams";
 import {SessionInfo} from "../../../models/user/login/sessionInfo"; 
 import {Router} from '@angular/router';
 import { SocialService } from 'app/providers/social/social.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../app.reducer';
+import { SetUserSessionInfo } from 'app/reducers/loggedUser/loggedUser.accions';
+import { Subscription } from 'rxjs';
 
 declare var $:any;
 
@@ -17,12 +21,14 @@ declare var $:any;
 export class LoginComponent implements OnInit{
     test : Date = new Date();
     loginParams: LoginParams = new LoginParams();
+    sessionInfoSubs: Subscription = new Subscription();
     @Output() loggedinEvent = new EventEmitter<boolean>();
 
     constructor(private userService: UserService, 
         private socialService: SocialService, 
         private notificationsService: NotificationsService,
-        private router: Router){}
+        private router: Router,
+        private store: Store<AppState>){}
     
 
 
@@ -38,6 +44,10 @@ export class LoginComponent implements OnInit{
 
     ngOnInit(){
         this.checkFullPageBackgroundImage();
+        let _that = this;
+        this.sessionInfoSubs = this.store.subscribe(function(userSessionInfo){
+            _that.userService.storageLoginUserSessionInfo(userSessionInfo.loggedUser);
+        });
 
         setTimeout(function(){
             // after 1000 ms we add the class animated to the login/register card
@@ -48,7 +58,7 @@ export class LoginComponent implements OnInit{
     login(){
         this.userService.login(this.loginParams).subscribe( 
             (userSessionInfo:SessionInfo) => {
-                this.userService.storageLoginUserSessionInfo(userSessionInfo);
+                this.store.dispatch( new SetUserSessionInfo(userSessionInfo));
                 this.router.navigate(['start']);
                 
                 this.socialService.setToken(userSessionInfo.token);

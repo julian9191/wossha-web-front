@@ -11,6 +11,9 @@ import { NgForm } from '@angular/forms';
 import { UserReference } from 'app/models/user/userReference';
 import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
 import { CrystalLightbox } from 'ngx-crystal-gallery';
+import { Store } from '@ngrx/store';
+import { AppState } from 'app/app.reducer';
+import { ChangeUserSessionInfo } from 'app/reducers/loggedUser/loggedUser.accions';
 
 declare var $:any;
 
@@ -41,7 +44,8 @@ export class EditUserComponent implements OnInit{
     constructor(private userService: UserService, 
         private notificationsService: NotificationsService,
         private httpErrorHandlerService: HttpErrorHandlerService,
-        public lightbox: CrystalLightbox){
+        public lightbox: CrystalLightbox,
+        private store: Store<AppState>){
 
             this.data = new UserReference();
             this.refreshUser();
@@ -91,17 +95,18 @@ export class EditUserComponent implements OnInit{
                 loginInfo.user.userSessionInfo = userSessionInfo;
                 this.userService.storageLoginUserSessionInfo(loginInfo);
 
-                this.updateSlide(userSessionInfo);
+                //this.updateSlide(userSessionInfo);
+                this.store.dispatch(new ChangeUserSessionInfo(userSessionInfo));
             }, (error: any) => {
                 this.httpErrorHandlerService.handleHttpError(error, error.error.msj);
             }
         );
     }
 
-    updateSlide(userSessionInfo:UserSessionInfo){
+    /*updateSlide(userSessionInfo:UserSessionInfo){
         $("#slide-profile-picture").attr("src","http://localhost:8083/pictures/static-picture/"+userSessionInfo.picture);
         $("#slide-user-name").attr("http",userSessionInfo.firstName+" "+userSessionInfo.lastName);
-    }
+    }*/
 
     getCountries(){
         this.userService.getCountires().subscribe( 

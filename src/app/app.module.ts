@@ -21,6 +21,14 @@ import { HttpErrorHandlerService } from './providers/auth/httpErrorHandler.servi
 import { NgChatModule } from "./components/components/ng-chat/ng-chat.module";
 import { SocialService } from "./providers/social/social.service";
 
+// NGRX
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { appReducers } from './app.reducer';
+
+// Environment
+import { environment } from '../environments/environment';
+
 @NgModule({
     imports:      [
         BrowserAnimationsModule,
@@ -34,8 +42,12 @@ import { SocialService } from "./providers/social/social.service";
         NavbarModule,
         FooterModule,
         PagesnavbarModule,
-        BrowserModule
-        
+        BrowserModule,
+        StoreModule.forRoot(appReducers),
+        StoreDevtoolsModule.instrument({
+        maxAge: 25, // Retains last 25 states
+        logOnly: environment.production, // Restrict extension to log-only mode
+        }),
     ],
     declarations: [
         AppComponent,

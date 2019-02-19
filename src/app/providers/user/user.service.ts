@@ -14,6 +14,9 @@ import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
 import { FollowingUser } from 'app/models/social/followingUser';
 import { UserSearch } from 'app/models/user/userSearch';
 import { ChatUser } from 'app/components/components/ng-chat/core/chatUser';
+import { AppState } from 'app/app.reducer';
+import { Store } from '@ngrx/store';
+import { ResetUserSessionInfo } from 'app/reducers/loggedUser/loggedUser.accions';
 
 @Injectable()
 export class UserService {
@@ -35,7 +38,8 @@ export class UserService {
   constructor(@Inject(SESSION_STORAGE) private sessionStorage: WebStorageService,
   @Inject(LOCAL_STORAGE) private localStorage: WebStorageService,
     private router: Router,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private store: Store<AppState>) {
       this.httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
     } 
 
@@ -102,6 +106,7 @@ export class UserService {
   logout() {
     this.sessionStorage.remove(SESSION_STORAGE_KEY);
     this.router.navigate(['pages','login']);
+    this.store.dispatch( new ResetUserSessionInfo());
   }
 
   registerUser(user:User) : Observable<String>{
