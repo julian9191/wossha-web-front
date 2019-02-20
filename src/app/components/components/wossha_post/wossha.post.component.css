@@ -1,0 +1,37 @@
+[contenteditable=true]:empty:before{
+    content: attr(placeholder);
+    display: block; /* For Firefox */
+    color: #aab8c2;
+  }
+  
+.wossha-post-content{
+    padding: 10px 15px;
+}
+  
+  div[contenteditable=true] {
+    border: 1px solid #E3E3E3;
+    border-radius: 4px;
+    color: #565656;
+    padding: 8px 12px;
+    height: 48px;
+  }
+
+  .contenteditable-focus {
+        height: 100px !important;
+        outline: none !important;
+        border:1px solid #ffa534 !important;
+    }
+  
+  pre {
+    background:#EEE;
+    padding:5px;
+  }
+
+.editable-post-box{
+    float:left; 
+    width: calc(100% - 60px);
+}
+
+.btn-tool{
+    padding: 4px !important;
+}

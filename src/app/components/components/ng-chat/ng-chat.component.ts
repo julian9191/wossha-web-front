@@ -27,14 +27,7 @@ import { Store } from '@ngrx/store';
 
 @Component({
     selector: 'ng-chat',
-    templateUrl: 'ng-chat.component.html',
-    styleUrls: [
-        /*'assets/icons.css',
-        'assets/loading-spinner.css',
-        'assets/ng-chat.component.default.css',
-        'assets/themes/ng-chat.theme.default.scss',
-        'assets/themes/ng-chat.theme.dark.scss'*/
-    ],
+    templateUrl: 'ng-chat.component.html'
 })
 
 export class NgChat implements OnInit, IChatController {

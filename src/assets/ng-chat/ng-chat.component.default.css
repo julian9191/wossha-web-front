@@ -2,7 +2,7 @@
 {
     position:fixed;
     z-index:999;
-    right:0;
+    right:20px;
     bottom:0;
     box-sizing: initial;
     font-size: 11pt;
@@ -21,7 +21,7 @@
     height:360px;
     border-width: 1px;
     border-style: solid;
-    margin-right:20px;
+    /*margin-right:20px;*/
     box-shadow: 0 4px 8px rgba(0,0,0,.25);
     border-bottom:0;
 }

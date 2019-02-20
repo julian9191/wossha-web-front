@@ -203,3 +203,11 @@ app-hue{
 .c-token{
     color: #ffffff;
 }
+
+.float-right{
+    float: right;
+}
+
+.float-left{
+    float: left;
+}

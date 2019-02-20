@@ -10,18 +10,21 @@ import { AcceptFollowNotifComponent } from './components/acceptFollowNotif/accep
 import { DropdownDirective } from './dropdownDirective';
 
 //pipes
-import { FromDatePipe } from "../../../pipes/fromDate.pipe";
-import { PicturePipe } from "../../../pipes/picture.pipe";
+import { PipesModule } from "../../../pipes/pipes.module";
 
 @NgModule({
-    imports: [ RouterModule, CommonModule, SearchModule, FormsModule ],
+    imports: [ 
+        RouterModule, 
+        CommonModule, 
+        SearchModule, 
+        FormsModule,
+        PipesModule
+    ],
     declarations: [ 
         NavbarComponent, 
         FollowRequestNotifComponent,
         AcceptFollowNotifComponent,
-        DropdownDirective, 
-        FromDatePipe, 
-        PicturePipe 
+        DropdownDirective
     ],
     providers: [ClothingService],
     exports: [ 

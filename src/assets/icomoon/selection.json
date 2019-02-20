@@ -1,0 +1,65 @@
+{
+  "IcoMoonType": "selection",
+  "icons": [
+    {
+      "icon": {
+        "paths": [
+          "M1262.4 193l-389.4-193c-40.2 55.6-129.2 94.4-233 94.4s-192.8-38.8-233-94.4l-389.4 193c-15.8 8-22.2 27.2-14.4 43l114.4 229c8 15.8 27.2 22.2 43 14.4l113.2-55.4c21.2-10.4 46 5 46 28.8v507.2c0 35.4 28.6 64 64 64h512c35.4 0 64-28.6 64-64v-507.4c0-23.6 24.8-39.2 46-28.8l113.2 55.4c15.8 8 35 1.6 43-14.4l114.6-228.8c8-15.8 1.6-35.2-14.2-43z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "width": 1280,
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 0,
+        "tags": [
+          "tshirt-solid"
+        ]
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 8,
+        "id": 0,
+        "name": "tshirt-solid",
+        "prevSize": 32
+      },
+      "setIdx": 1,
+      "setId": 2,
+      "iconIdx": 0
+    }
+  ],
+  "height": 1024,
+  "preferences": {
+    "showGlyphs": true,
+    "showQuickUse": true,
+    "showQuickUse2": true,
+    "showSVGs": true,
+    "fontPref": {
+      "prefix": "icon-",
+      "metadata": {
+        "fontFamily": "icomoon"
+      },
+      "metrics": {
+        "emSize": 1024,
+        "baseline": 6.25,
+        "whitespace": 50
+      },
+      "embed": false
+    },
+    "imagePref": {
+      "prefix": "icon-",
+      "png": true,
+      "useClassSelector": true,
+      "color": 0,
+      "bgColor": 16777215,
+      "classSelector": ".icon",
+      "name": "icomoon"
+    },
+    "historySize": 50,
+    "showCodes": true,
+    "gridSize": 16
+  }
+}

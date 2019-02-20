@@ -1,0 +1,35 @@
+<div class="card">
+   
+    <div class="wossha-post-content">
+        <div class="notification-picture">
+            <a href="#">
+                <img id="slide-profile-picture" style="width: 48px; height: 48px;" [src]="profilePicture | picturePipe" />
+            </a>
+        </div>
+        <div class="editable-post-box" clickOutside (clickOutside)="inFocus=false">  
+            <div 
+                contenteditable="true" 
+                placeholder="¿ Algo para compartir ?" 
+                (focus)="inFocus=true"
+                [ngClass]="{'contenteditable-focus': inFocus}"
+                >
+            </div>
+            <div style="padding-top: 10px" *ngIf="inFocus">
+                <button class="btn btn-info btn-fill btn-sm btn-round btn-icon btn-tool">
+                    <i class="fa fa-image"></i>
+                </button>
+                <button class="btn btn-danger btn-fill btn-sm btn-round btn-icon btn-tool">
+                    <i class="fab fa-youtube btn-tool"></i>
+                </button>
+
+                <button type="button" class="btn btn-warning btn-fill btn-sm float-right" (click)="getOutfit()">
+                    <i class="fa fa-paper-plane"></i> Publicar
+                </button>
+            </div>
+            
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    
+</div>
