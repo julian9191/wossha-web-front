@@ -1,5 +1,8 @@
-import { Component, OnInit, forwardRef } from '@angular/core';
-import { FormControl} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { LoginUser } from 'app/models/user/login/loginUser';
+import { Store } from '@ngrx/store';
+import { AppState } from 'app/app.reducer';
 declare var $:any;
 
 @Component({
@@ -8,14 +11,20 @@ declare var $:any;
     styleUrls: [ './wossha.post.component.css' ]
 })
 export class WosshaPostComponent implements OnInit {
-    
-    profilePicture:string = "e25c851d-33d7-11e9-9937-19d8f057a289";
-    inFocus:boolean = false;
-    
-    constructor(){}
+
+    sessionInfoSubs: Subscription = new Subscription();
+    userSessionInfo:LoginUser;
+
+    constructor(private store: Store<AppState>){}
 
     ngOnInit(){
-        
+        let _that = this;
+        this.sessionInfoSubs = this.store.select(state => state.loggedUser.user)
+        .subscribe(function(userSessionInfo){
+            if(userSessionInfo){
+                _that.userSessionInfo = userSessionInfo;
+            }
+        });
     }
 
 }
