@@ -1,15 +1,18 @@
-<wossha-post-creator [userSessionInfo]="userSessionInfo"></wossha-post-creator>
+<wossha-post-creator 
+    [userSessionInfo]="userSessionInfo"
+    (postCreatedEvent)="postCreatedListener($event)"
+></wossha-post-creator>
 
-<div class="card">
+<div class="card post-card" *ngFor="let post of posts">
     <div class="header">
         <img class="avatar" src="../../../assets/img/default-avatar.png" alt="...">
-        <span>Julian Giraldo</span>
+        <span>{{post.username}}</span>
     </div>
     <div class="content">
         <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            {{post.text}}
         </p>
-        <div class="col-md-10 col-md-offset-1">
+        <div *ngIf="false" class="col-md-10 col-md-offset-1">
             <img class="img-clothe" alt="..." src="../assets/img/blog-1.jpg" />
         </div>
         <div class='clear'></div>

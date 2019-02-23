@@ -8,11 +8,12 @@
         </div>
         <div class="editable-post-box" clickOutside (clickOutside)="inFocus=false">  
             <div 
+                #textVar
                 contenteditable="true" 
                 placeholder="¿ Algo para compartir ?" 
                 (focus)="inFocus=true"
                 [ngClass]="{'contenteditable-focus': inFocus}"
-                [textContent]="createPostCommand.text" (input)="createPostCommand.text=$event.target.textContent"
+                (input)="insertTextModel($event.target.textContent)"
                 >
             </div>
             {{createPostCommand.text}}
