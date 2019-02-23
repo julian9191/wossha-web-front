@@ -36,7 +36,7 @@ export class WosshaPostCreatorComponent implements OnInit {
             (messaje) => {
                 this.createPostCommand.text = "";
                 this.textVar.nativeElement.innerHTML = "";
-
+                this.inFocus = false;
                 this.postCreatedEvent.emit(post);
             }, (error: any) => {
                 this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);

@@ -249,3 +249,8 @@ app-hue{
 .btn-tool{
     padding: 4px !important;
 }
+
+.wossha-spinner{
+    font-size: 32pt;
+    color: #ffa534;
+}
