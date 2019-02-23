@@ -10,7 +10,7 @@ import { HttpParams } from '@angular/common/http';
 import { Post } from 'app/models/social/posts/post';
 declare var $:any;
 
-import { style, animate, animation, animateChild, useAnimation, group, sequence, transition, state, trigger, query as q, stagger } from '@angular/animations';
+import { style, animate, transition, trigger, query as q } from '@angular/animations';
 const query = (s,a,o={optional:true})=>q(s,a,o);
 
 @Component({

@@ -9,9 +9,27 @@ import { LoginUser } from 'app/models/user/login/loginUser';
 import { SearchCriteriaResult } from 'app/models/clothing/searchCriteria/searchCriteriaResult';
 import { CrystalLightbox } from 'ngx-crystal-gallery';
 
+import { style, animate, transition, trigger, query as q } from '@angular/animations';
+const query = (s,a,o={optional:true})=>q(s,a,o);
+
 @Component({
   selector: 'app-listClothing',
   templateUrl: './listClothing.component.html',
+  animations: [
+    trigger('items', [
+      // cubic-bezier for a tiny bouncing feel
+      transition(':enter', [
+        style({ transform: 'scale(0.5)', opacity: 0 }),
+        animate('1s cubic-bezier(.8,-0.6,0.2,1.5)', 
+          style({ transform: 'scale(1)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ transform: 'scale(1)', opacity: 1, height: '*' }),
+        animate('1s cubic-bezier(.8,-0.6,0.2,1.5)', 
+          style({ transform: 'scale(0.5)', opacity: 0, height: '0px', margin: '0px' }))
+      ]),      
+    ])
+  ],
   styleUrls: [ './listClothing.component.css' ],
 })
 
@@ -28,6 +46,8 @@ export class ListClothingComponent implements OnInit{
   public searchCriteriaResult:SearchCriteriaResult = new SearchCriteriaResult();
   public canFetch:boolean = true;
   public slideImages: any[];
+  public loading:boolean = true;
+
   myConfig = {
     masonry: true
   };
@@ -55,8 +75,10 @@ export class ListClothingComponent implements OnInit{
     let params = new HttpParams();
     params = params.append("init", (this.itemsPerPage * (this.currentPage - 1))+"");
     params = params.append("limit", this.itemsPerPage+"");
+    this.loading = true;
     this.clothingService.getClothes(this.searchCriteriaResult, this.orderedBy, params).subscribe(
       (data:any) => {
+        this.loading =false;
         if(append){
           this.clothes = this.clothes.concat(data.result);
         }else{
@@ -66,6 +88,7 @@ export class ListClothingComponent implements OnInit{
         this.currentPage++;
         this.initSlideImages();
       }, (error: any) => {
+        this.loading =false;
         this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de prendas", this.notificationsService.DANGER);
       }
     );

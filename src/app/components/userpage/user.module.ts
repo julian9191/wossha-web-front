@@ -8,6 +8,7 @@ import { UserRoutes } from './user.routing';
 import { SocialService } from '../../providers/social/social.service';
 import { UserComponent } from './user/user.component';
 import {CrystalGalleryModule} from 'ngx-crystal-gallery';
+import { WosshaPostModule } from '../components/wossha_post/wossha.post.module';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {CrystalGalleryModule} from 'ngx-crystal-gallery';
         RouterModule.forChild(UserRoutes),
         FormsModule,
         ComponentsModule,
-        CrystalGalleryModule
+        CrystalGalleryModule,
+        WosshaPostModule
     ],
     declarations: [EditUserComponent, UserComponent],
     providers: [SocialService]
