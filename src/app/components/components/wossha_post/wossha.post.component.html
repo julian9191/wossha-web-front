@@ -1,6 +1,8 @@
 <wossha-post-creator 
     [userSessionInfo]="userSessionInfo"
+    [profileUsername]="username"
     (postCreatedEvent)="postCreatedListener($event)"
+    (loadingEvent)="loadingEventListener($event)"
 ></wossha-post-creator>
 
 <div class="text-center" style="margin-bottom: 15px;" *ngIf="loading">
@@ -8,8 +10,10 @@
 </div>
 <div class="card post-card" @items *ngFor="let post of posts">
     <div class="header">
-        <img class="avatar" src="../../../assets/img/default-avatar.png" alt="...">
-        <span>{{post.username}}</span>
+        <a [routerLink]="['/pages/user', post.username]">
+            <img class="avatar" style="width: 48px; height: 48px;" [src]="post.profilePicture | picturePipe" alt="...">
+            <span style="color: #ffa534">@{{post.username}} - {{post.name}}</span>
+        </a>
     </div>
     <div class="content">
         <p>
@@ -19,5 +23,13 @@
             <img class="img-clothe" alt="..." src="../assets/img/blog-1.jpg" />
         </div>
         <div class='clear'></div>
+    </div>
+    <div style="padding-right: 15px">
+        <button href="#" class="btn btn-simple"><i class="fa fa-thumbs-up"></i></button>
+        <button href="#" class="btn btn-simple"><i class="fa fa-thumbs-down"></i></button>
+        <button href="#" class="btn btn-simple"><i class="fa fa-comment"></i></button>
+        <button href="#" class="btn btn-simple"><i class="fa fa-share"></i></button>
+
+        <span class="notif-time">{{post.created | fromDate}}</span>
     </div>
 </div>

@@ -3,6 +3,8 @@ export class Post {
     uuid:string;
     type:string;
     username:string;
+    name:string;
+    profilePicture:string;
     text:string;
     uuidParent:string;
     created:Date;

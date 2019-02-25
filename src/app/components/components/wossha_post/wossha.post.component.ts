@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LoginUser } from 'app/models/user/login/loginUser';
 import { Store } from '@ngrx/store';
@@ -11,6 +11,7 @@ import { Post } from 'app/models/social/posts/post';
 declare var $:any;
 
 import { style, animate, transition, trigger, query as q } from '@angular/animations';
+import { UserMinimumInfo } from 'app/models/user/userMinimumInfo';
 const query = (s,a,o={optional:true})=>q(s,a,o);
 
 @Component({
@@ -33,8 +34,9 @@ const query = (s,a,o={optional:true})=>q(s,a,o);
       ],
     styleUrls: [ './wossha.post.component.css' ]
 })
-export class WosshaPostComponent implements OnInit {
+export class WosshaPostComponent implements OnInit, OnDestroy {
 
+    @Input() username:string;
     sessionInfoSubs: Subscription = new Subscription();
     userSessionInfo:LoginUser;
     public currentPage = 1;
@@ -64,15 +66,21 @@ export class WosshaPostComponent implements OnInit {
         this.getPosts();
     }
 
+    ngOnDestroy(){
+        this.sessionInfoSubs.unsubscribe();
+    }
+
     getPosts(){
         let params = new HttpParams();
         params = params.append("init", (this.itemsPerPage * (this.currentPage - 1))+"");
         params = params.append("limit", this.itemsPerPage+"");
+        params = params.append("username", this.username?this.username:"");
         this.loading = true;
         this.socialService.getPosts(params).subscribe(
             (data:any) => {
                 this.loading = false;
                 this.posts = data.result;
+                this.getMinuimumUserInfo();
             }, (error: any) => {
                 this.loading = false;
                 this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de posts", this.notificationsService.DANGER);
@@ -80,13 +88,32 @@ export class WosshaPostComponent implements OnInit {
         );
     }
 
+    getMinuimumUserInfo(){
+        const usernames:string[] = this.posts.filter(p => !p.name).map((x) => {return x.username});
+        var usernamesUnique = usernames.filter((elem, pos, arr) => {
+            return arr.indexOf(elem) == pos;
+        });
+        this.userService.getMinuimumUserInfo(usernamesUnique).subscribe(
+            (data:UserMinimumInfo[]) => {
+                for(let i=0; i<this.posts.length; i++){
+                    let userMinimumInfo:UserMinimumInfo[] = data.filter(x=>x.username==this.posts[i].username);
+                    if(userMinimumInfo.length>0){
+                        this.posts[i].name = userMinimumInfo[0].name;
+                        this.posts[i].profilePicture = userMinimumInfo[0].profilePicture;
+                    }
+                }
+            }, (error: any) => {
+                this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener alguna información", this.notificationsService.DANGER);
+            }
+        );
+    }
+
+    loadingEventListener(isLoading){
+        this.loading = isLoading;
+    }
+
     postCreatedListener(post){
-        this.loading = true;
-        let _that = this;
-        setTimeout(function(){
-            _that.loading = false;
-            _that.posts.unshift(post);
-        }, 300);
-        
+        this.posts.unshift(post);
+        this.loading = false;  
     }
 }

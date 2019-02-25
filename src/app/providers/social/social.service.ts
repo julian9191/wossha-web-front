@@ -55,8 +55,7 @@ export class SocialService {
 
   getNotifications() : Observable<AppNotification[]>{
     return this.http.get<AppNotification[]>(this.notificationsUrl, {headers: this.httpHeaders});
-  }
-  
+  }  
 
   executeCommand(data) : Observable<String>{
     return this.http.post<String>(this.commandsUrl, data, {headers: this.httpHeaders})

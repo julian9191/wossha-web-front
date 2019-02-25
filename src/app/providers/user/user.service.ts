@@ -12,7 +12,7 @@ import { Country } from "../../models/country/country";
 import 'rxjs';
 import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
 import { FollowingUser } from 'app/models/social/followingUser';
-import { UserSearch } from 'app/models/user/userSearch';
+import { UserMinimumInfo } from 'app/models/user/userMinimumInfo';
 import { ChatUser } from 'app/components/components/ng-chat/core/chatUser';
 import { AppState } from 'app/app.reducer';
 import { Store } from '@ngrx/store';
@@ -32,7 +32,7 @@ export class UserService {
   private static socialInfo:FollowingUser[];
   private userSearchUrl:string = this.userUrl+'search-user';
   private chatFriends:string = this.userUrl+'chat-friends';
-  
+  private minuimumUserInfoUrl:string = this.userUrl+'get-minimum-users-info';
   
   httpHeaders:HttpHeaders;
 
@@ -123,8 +123,12 @@ export class UserService {
     return this.http.get<Country>(this.countriesUrl, {headers: this.httpHeaders});
   }
 
-  searchUser(word:string) : Observable<UserSearch>{
-    return this.http.get<UserSearch>(this.userSearchUrl+"/"+word, {headers: this.httpHeaders});
+  searchUser(word:string) : Observable<UserMinimumInfo>{
+    return this.http.get<UserMinimumInfo>(this.userSearchUrl+"/"+word, {headers: this.httpHeaders});
+  }
+
+  getMinuimumUserInfo(usernames:string[]) : Observable<UserMinimumInfo[]>{
+    return this.http.post<UserMinimumInfo[]>(this.minuimumUserInfoUrl, usernames, {headers: this.httpHeaders});
   }
 
   getChatFriends(data) : Observable<User>{

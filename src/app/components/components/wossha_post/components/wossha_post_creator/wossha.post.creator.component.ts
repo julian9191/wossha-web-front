@@ -14,7 +14,9 @@ export class WosshaPostCreatorComponent implements OnInit {
     
     inFocus:boolean = false;
     @Input() userSessionInfo:LoginUser;
+    @Input() profileUsername:string;
     @Output() postCreatedEvent = new EventEmitter<Post>();
+    @Output() loadingEvent = new EventEmitter<boolean>();
     private createPostCommand: CreatePostCommand;
     @ViewChild('textVar') textVar;
     
@@ -31,6 +33,9 @@ export class WosshaPostCreatorComponent implements OnInit {
         post.username = this.createPostCommand.username;
         post.text = this.createPostCommand.text;
         post.created = new Date();
+        post.name = this.userSessionInfo.userSessionInfo.firstName+" "+this.userSessionInfo.userSessionInfo.lastName;
+        post.profilePicture = this.userSessionInfo.userSessionInfo.picture;
+        this.loadingEvent.emit(true);
 
         this.socialService.executeCommand(this.createPostCommand).subscribe( 
             (messaje) => {
