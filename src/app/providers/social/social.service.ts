@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { SOCIAL_PATH } from "../../globals";
 import { Router} from '@angular/router';
-import 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { FollowingUser } from 'app/models/social/followingUser';
 import { Message} from '../../components/components/ng-chat/core/message';
 import { AppNotification } from 'app/models/social/appNotification';
@@ -50,7 +50,7 @@ export class SocialService {
   }
 
   getPosts(params: HttpParams) : Observable<Post[]>{
-    return this.http.get<Post[]>(this.postsUrl, {params: params, headers: this.httpHeaders});
+    return this.http.get<Post[]>(this.postsUrl, {params: params, headers: this.httpHeaders})
   }
 
   getNotifications() : Observable<AppNotification[]>{

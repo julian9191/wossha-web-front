@@ -1,3 +1,5 @@
+import { Reaction } from "./reaction";
+
 export class Post {
     id:number;
     uuid:string;
@@ -9,4 +11,5 @@ export class Post {
     uuidParent:string;
     created:Date;
     modified:Date;
+    reactions:any;
 }

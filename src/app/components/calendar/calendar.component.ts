@@ -58,6 +58,7 @@ export class CalendarComponent implements OnInit{
 			'</div>'].join('');
 
 		this.calendar.fullCalendar({
+			locale: 'es',
             viewRender: function(view, element) {
 				$this.startViewDate = new Date(view.start.format("YYYY-MM-DD"));
 				$this.endViewDate = new Date(view.end.format("YYYY-MM-DD"));

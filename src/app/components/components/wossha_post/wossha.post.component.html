@@ -25,10 +25,14 @@
         <div class='clear'></div>
     </div>
     <div style="padding-right: 15px">
-        <button href="#" class="btn btn-simple"><i class="fa fa-thumbs-up"></i></button>
-        <button href="#" class="btn btn-simple"><i class="fa fa-thumbs-down"></i></button>
-        <button href="#" class="btn btn-simple"><i class="fa fa-comment"></i></button>
-        <button href="#" class="btn btn-simple"><i class="fa fa-share"></i></button>
+        <button href="#" class="btn btn-simple post-icon"><i class="fa fa-thumbs-up" (click)="react('LIKE', post.uuid)"></i></button>
+        <span>{{(post.reactions['LIKE']) ? post.reactions['LIKE'].length : 0}}</span>
+
+        <button href="#" class="btn btn-simple post-icon"><i class="fa fa-thumbs-down"></i></button>
+        <span>{{(post.reactions['DISLIKE']) ? post.reactions['DISLIKE'].length : 0}}</span>
+        
+        <button href="#" class="btn btn-simple post-icon"><i class="fa fa-comment"></i></button>
+        <button href="#" class="btn btn-simple post-icon"><i class="fa fa-share"></i></button>
 
         <span class="notif-time">{{post.created | fromDate}}</span>
     </div>

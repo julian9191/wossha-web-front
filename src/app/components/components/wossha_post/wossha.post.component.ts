@@ -12,7 +12,10 @@ declare var $:any;
 
 import { style, animate, transition, trigger, query as q } from '@angular/animations';
 import { UserMinimumInfo } from 'app/models/user/userMinimumInfo';
+import { ReactPostCommand } from 'app/models/social/commands/reactPostCommand';
+import { Reaction } from 'app/models/social/posts/reaction';
 const query = (s,a,o={optional:true})=>q(s,a,o);
+
 
 @Component({
     selector: 'wossha-post',
@@ -43,6 +46,7 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
     public itemsPerPage = 5;
     public posts:Post[] = [];
     public loading:boolean = true;
+    private reactPostCommand: ReactPostCommand;
 
     constructor(private socialService:SocialService,
         private userService: UserService,
@@ -63,6 +67,9 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
             }
         });
 
+        this.reactPostCommand = new ReactPostCommand();
+        this.reactPostCommand.username = this.userSessionInfo.username;
+
         this.getPosts();
     }
 
@@ -80,6 +87,19 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
             (data:any) => {
                 this.loading = false;
                 this.posts = data.result;
+
+                for(let i=0; i<this.posts.length; i++){
+                    let reactionsTypes:string[] = this.posts[i].reactions.map((x:any) => {return x.type});
+                    reactionsTypes = this.removeDups(reactionsTypes);
+                    //let reactions = {} as IDictionary;
+                    let reactions:any[] = [];
+
+                    for (const iterator of reactionsTypes) {
+                        let reactionsByType:Reaction[] = this.posts[i].reactions.filter((r:any) =>r.type==iterator);
+                        reactions[iterator] = reactionsByType;
+                    }
+                    this.posts[i].reactions = reactions;
+                }
                 this.getMinuimumUserInfo();
             }, (error: any) => {
                 this.loading = false;
@@ -87,6 +107,16 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
             }
         );
     }
+
+    removeDups(array):string[] {
+        let unique = {};
+        array.forEach(function(i) {
+          if(!unique[i]) {
+            unique[i] = true;
+          }
+        });
+        return Object.keys(unique);
+      }
 
     getMinuimumUserInfo(){
         const usernames:string[] = this.posts.filter(p => !p.name).map((x) => {return x.username});
@@ -115,5 +145,18 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
     postCreatedListener(post){
         this.posts.unshift(post);
         this.loading = false;  
+    }
+
+    react(reactionType:string, uuidPost:string){
+        this.reactPostCommand.reactionType=reactionType;
+        this.reactPostCommand.uuidPost = uuidPost;
+
+        this.socialService.executeCommand(this.reactPostCommand).subscribe( 
+            (messaje) => {
+                this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
+            }, (error: any) => {
+                this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
+            }
+        );
     }
 }

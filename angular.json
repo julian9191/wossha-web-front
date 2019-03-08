@@ -31,6 +31,7 @@
               "node_modules/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js",
               "node_modules/bootstrap-notify/bootstrap-notify.js",
               "node_modules/fullcalendar/dist/fullcalendar.js",
+              "node_modules/fullcalendar/dist/locale/es.js",
               "src/assets/js/perfect-scrollbar.min.js",
               "src/assets/js/jquery-jvectormap.js",
               "node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js",
