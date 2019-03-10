@@ -1,0 +1,33 @@
+<ngx-smart-modal #popuptwo [identifier]="'popuptwo'">
+  
+  
+  <div class="content content-full-width">
+    <ul role="tablist" class="nav nav-tabs">
+        <li role="presentation" class="active">
+            <a href="#icon-info" data-toggle="tab" ><i class="fa fa-thumbs-up"></i> Likes</a>
+        </li>
+        <li>
+            <a href="#icon-account" data-toggle="tab"><i class="fa fa-thumbs-down"></i> Dislikes</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!--VISTA GENERAL--------------------------------------->
+        <div id="icon-info" class="tab-pane active">
+
+          <pre>{{ popuptwo.getData() | json }}</pre>
+
+        </div>
+
+
+        <!--MODIFICAR-------------------------------------------------->
+        <div id="icon-account" class="tab-pane">
+            mamama
+        </div>
+    </div>
+
+  </div>
+
+
+  <button (click)="popuptwo.close()">Close</button>
+</ngx-smart-modal>

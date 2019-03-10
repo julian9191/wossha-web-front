@@ -14,6 +14,7 @@ import { style, animate, transition, trigger, query as q } from '@angular/animat
 import { UserMinimumInfo } from 'app/models/user/userMinimumInfo';
 import { ReactPostCommand } from 'app/models/social/commands/reactPostCommand';
 import { Reaction } from 'app/models/social/posts/reaction';
+import { NgxSmartModalService } from 'ngx-smart-modal';
 const query = (s,a,o={optional:true})=>q(s,a,o);
 
 
@@ -51,6 +52,7 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
     constructor(private socialService:SocialService,
         private userService: UserService,
         private notificationsService: NotificationsService,
+        public ngxSmartModalService: NgxSmartModalService,
         private store: Store<AppState>){
 
             userService.setHeaderToken();
@@ -158,5 +160,16 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
                 this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
             }
         );
+    }
+
+    openReactionsPopup(reactions:any[], reactionType:string){
+        const data: Object = {
+            reactions: reactions,
+            reactionType: reactionType
+        };
+
+        this.ngxSmartModalService.resetModalData('popuptwo');
+        this.ngxSmartModalService.setModalData(data, 'popuptwo');
+        this.ngxSmartModalService.getModal('popuptwo').open()
     }
 }

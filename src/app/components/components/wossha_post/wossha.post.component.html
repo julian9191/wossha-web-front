@@ -1,9 +1,13 @@
+<one-modal></one-modal>
+<two-modal2></two-modal2>
+
 <wossha-post-creator 
     [userSessionInfo]="userSessionInfo"
     [profileUsername]="username"
     (postCreatedEvent)="postCreatedListener($event)"
     (loadingEvent)="loadingEventListener($event)"
 ></wossha-post-creator>
+
 
 <div class="text-center" style="margin-bottom: 15px;" *ngIf="loading">
     <i class="fas fa-circle-notch fa-spin wossha-spinner"></i>
@@ -13,7 +17,7 @@
         <a [routerLink]="['/pages/user', post.username]">
             <img class="avatar" style="width: 48px; height: 48px;" [src]="post.profilePicture | picturePipe" alt="...">
             <span style="color: #ffa534">@{{post.username}} - {{post.name}}</span>
-        </a>
+        </a>       
     </div>
     <div class="content">
         <p>
@@ -24,16 +28,20 @@
         </div>
         <div class='clear'></div>
     </div>
-    <div style="padding-right: 15px">
-        <button href="#" class="btn btn-simple post-icon"><i class="fa fa-thumbs-up" (click)="react('LIKE', post.uuid)"></i></button>
-        <span>{{(post.reactions['LIKE']) ? post.reactions['LIKE'].length : 0}}</span>
+    <div style="padding: 0 15px;">       
+        <button href="#" class="btn btn-simple post-icon" style="padding-left: 0"><i class="fa fa-thumbs-up" (click)="react('LIKE', post.uuid)"></i></button>
+        <a class="post-statistics" href="javascript:void(0)" (click)="openReactionsPopup(post.reactions, 'LIKE')">
+            {{(post.reactions['LIKE']) ? post.reactions['LIKE'].length : 0}}
+        </a>
 
         <button href="#" class="btn btn-simple post-icon"><i class="fa fa-thumbs-down"></i></button>
-        <span>{{(post.reactions['DISLIKE']) ? post.reactions['DISLIKE'].length : 0}}</span>
+        <a class="post-statistics" href="javascript:void(0)" (click)="openReactionsPopup(post.reactions, 'DISLIKE')">
+            {{(post.reactions['DISLIKE']) ? post.reactions['DISLIKE'].length : 0}}
+        </a>
         
         <button href="#" class="btn btn-simple post-icon"><i class="fa fa-comment"></i></button>
         <button href="#" class="btn btn-simple post-icon"><i class="fa fa-share"></i></button>
-
+    
         <span class="notif-time">{{post.created | fromDate}}</span>
     </div>
 </div>

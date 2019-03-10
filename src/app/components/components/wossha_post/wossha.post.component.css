@@ -5,3 +5,11 @@
 .post-icon{
     padding-right: 2px !important;
 }
+
+.post-statistics{
+    color: #777;
+}
+
+.post-statistics:hover {
+    text-decoration: underline;
+}
