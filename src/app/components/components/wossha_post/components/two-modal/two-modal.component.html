@@ -1,33 +1,66 @@
-<ngx-smart-modal #popuptwo [identifier]="'popuptwo'">
+<ngx-smart-modal #popuptwo [identifier]="'popuptwo'" (onOpen)="onOpen($event)" >
   
   
   <div class="content content-full-width">
-    <ul role="tablist" class="nav nav-tabs">
-        <li role="presentation" class="active">
-            <a href="#icon-info" data-toggle="tab" ><i class="fa fa-thumbs-up"></i> Likes</a>
+    <ul role="tablist" id="myTab" class="nav nav-tabs">
+        <li role="presentation"  class="active">
+            <a href="#icon-like" data-toggle="tab" ><i class="fa fa-thumbs-up"></i> Likes</a>
         </li>
         <li>
-            <a href="#icon-account" data-toggle="tab"><i class="fa fa-thumbs-down"></i> Dislikes</a>
+            <a href="#icon-dislike" data-toggle="tab"><i class="fa fa-thumbs-down"></i> Dislikes</a>
         </li>
     </ul>
 
     <div class="tab-content">
         <!--VISTA GENERAL--------------------------------------->
-        <div id="icon-info" class="tab-pane active">
-
-          <pre>{{ popuptwo.getData() | json }}</pre>
+        <div id="icon-like" class="tab-pane active">
+          
+          <div class="list-group search-list" id="list-tab" role="tablist">
+            <a
+            *ngFor="let match of reactions['LIKE'];let i=index"
+            class="list-group-item list-group-item-action item-search-list" 
+            data-toggle="list" 
+            href="javascript: void(0)" 
+            role="tab" 
+            aria-controls="home"
+            [routerLink]="['/pages/user', match.username]"
+            >
+              <div style="width: 34px; height: 34px; overflow: hidden; border-radius: 50%; float: left; margin-right: 11px;">
+                <img id="slide-profile-picture" style="width: 34px; height: 34px;" [src]="match.profilePicture | picturePipe" />
+              </div>
+              @{{match.username}} - {{match.name}}
+              <div class="clear"></div>
+            </a>
+          </div>
 
         </div>
 
 
         <!--MODIFICAR-------------------------------------------------->
-        <div id="icon-account" class="tab-pane">
-            mamama
+        <div id="icon-dislike" class="tab-pane">
+            
+          <div class="list-group search-list" id="list-tab" role="tablist">
+            <a
+            *ngFor="let match of reactions['DISLIKE'];let i=index"
+            class="list-group-item list-group-item-action item-search-list" 
+            data-toggle="list" 
+            href="javascript: void(0)" 
+            role="tab" 
+            aria-controls="home"
+            [routerLink]="['/pages/user', match.username]"
+            >
+              <div style="width: 34px; height: 34px; overflow: hidden; border-radius: 50%; float: left; margin-right: 11px;">
+                <img id="slide-profile-picture" style="width: 34px; height: 34px;" [src]="match.profilePicture | picturePipe" />
+              </div>
+              @{{match.username}} - {{match.name}}
+              <div class="clear"></div>
+            </a>
+          </div>
+
         </div>
     </div>
 
   </div>
 
-
-  <button (click)="popuptwo.close()">Close</button>
+  <!--<button (click)="popuptwo.close()">Close</button>-->
 </ngx-smart-modal>

@@ -48,6 +48,10 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
     public posts:Post[] = [];
     public loading:boolean = true;
     private reactPostCommand: ReactPostCommand;
+    private consts = {
+        "POST": "POST",
+        "REACTION": "REACTION"
+    };
 
     constructor(private socialService:SocialService,
         private userService: UserService,
@@ -100,9 +104,13 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
                         let reactionsByType:Reaction[] = this.posts[i].reactions.filter((r:any) =>r.type==iterator);
                         reactions[iterator] = reactionsByType;
                     }
+
+                    const usernames:string[] = this.posts[i].reactions.map((x) => {return x.username});
                     this.posts[i].reactions = reactions;
+                    this.getMinuimumUserInfo(this.consts.REACTION, usernames, this.posts[i].reactions);
                 }
-                this.getMinuimumUserInfo();
+                const usernames:string[] = this.posts.filter(p => !p.name).map((x) => {return x.username});
+                this.getMinuimumUserInfo(this.consts.POST, usernames, null);
             }, (error: any) => {
                 this.loading = false;
                 this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de posts", this.notificationsService.DANGER);
@@ -120,20 +128,43 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
         return Object.keys(unique);
       }
 
-    getMinuimumUserInfo(){
-        const usernames:string[] = this.posts.filter(p => !p.name).map((x) => {return x.username});
+    getMinuimumUserInfo(feature:string, usernames:string[], reactions:any[]){
         var usernamesUnique = usernames.filter((elem, pos, arr) => {
             return arr.indexOf(elem) == pos;
         });
+
+        if(usernamesUnique.length==0){
+            return;
+        }
+
         this.userService.getMinuimumUserInfo(usernamesUnique).subscribe(
             (data:UserMinimumInfo[]) => {
-                for(let i=0; i<this.posts.length; i++){
-                    let userMinimumInfo:UserMinimumInfo[] = data.filter(x=>x.username==this.posts[i].username);
-                    if(userMinimumInfo.length>0){
-                        this.posts[i].name = userMinimumInfo[0].name;
-                        this.posts[i].profilePicture = userMinimumInfo[0].profilePicture;
+
+                if(feature==this.consts.POST){
+                    for(let i=0; i<this.posts.length; i++){
+                        let userMinimumInfo:UserMinimumInfo[] = data.filter(x=>x.username==this.posts[i].username);
+                        if(userMinimumInfo.length>0){
+                            this.posts[i].name = userMinimumInfo[0].name;
+                            this.posts[i].profilePicture = userMinimumInfo[0].profilePicture;
+                        }
                     }
+                }else if(feature==this.consts.REACTION){
+
+                    let reactionsTypes:string[] = Object.keys(reactions);
+
+                    for (const iterator of reactionsTypes) {
+                        for(let i=0; i<reactions[iterator].length; i++){
+                            let userMinimumInfo:UserMinimumInfo[] = data.filter(x=>x.username==reactions[iterator][i].username);
+                            if(userMinimumInfo.length>0){
+                                reactions[iterator][i].name = userMinimumInfo[0].name;
+                                reactions[iterator][i].profilePicture = userMinimumInfo[0].profilePicture;
+                            }
+                        } 
+                    }
+                    
                 }
+
+                
             }, (error: any) => {
                 this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener alguna información", this.notificationsService.DANGER);
             }
