@@ -4,5 +4,7 @@ export class Reaction {
     type:string;
     uuidPost:string;
     username:string;
+    name:string;
+    profilePicture:string;
     created:Date;
 }

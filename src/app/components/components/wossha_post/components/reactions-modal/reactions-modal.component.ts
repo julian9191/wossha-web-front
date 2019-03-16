@@ -6,10 +6,10 @@ declare var $: any;
 
 @Component({
   selector: 'two-modal2',
-  templateUrl: './two-modal.component.html',
-  styleUrls: ['./two-modal.component.css']
+  templateUrl: './reactions-modal.component.html',
+  styleUrls: ['./reactions-modal.component.css']
 })
-export class TwoModalComponent implements OnInit {
+export class ReactionsModalComponent implements OnInit {
 
   @ViewChild('popuptwo') popuptwo:NgxSmartModalComponent;
   data:any;

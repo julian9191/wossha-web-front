@@ -186,11 +186,46 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
 
         this.socialService.executeCommand(this.reactPostCommand).subscribe( 
             (messaje) => {
-                this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
+                if(messaje["msj"]=="ok"){
+                    this.addReaction(reactionType, uuidPost, false, null);
+                }else if(messaje["msj"]=="remove"){
+                    this.addReaction(reactionType, uuidPost, true, null);
+                }else{
+                    this.addReaction(reactionType, uuidPost, false, messaje["msj"]);
+                }
+                
             }, (error: any) => {
                 this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
             }
         );
+    }
+
+    addReaction(reactionType:string, uuidPost:string, remove:boolean, previousType:string){
+        for(let i=0; i<this.posts.length; i++){
+            if(this.posts[i].uuid==uuidPost){
+                let reaction:Reaction = new Reaction;
+                reaction.type = reactionType;
+                reaction.uuidPost = uuidPost;
+                reaction.username = this.userSessionInfo.username;
+                reaction.name = this.userSessionInfo.userSessionInfo.firstName+" "+this.userSessionInfo.userSessionInfo.lastName;
+                reaction.profilePicture = this.userSessionInfo.userSessionInfo.picture;
+                reaction.created = new Date();
+                if(!this.posts[i].reactions[reactionType]){
+                    this.posts[i].reactions[reactionType] = [];
+                }
+
+                if(remove){
+                    this.posts[i].reactions[reactionType] = this.posts[i].reactions[reactionType].filter(r => r.username!=this.userSessionInfo.username);
+                }else{
+                    this.posts[i].reactions[reactionType].push(reaction);
+                    if(previousType){
+                        this.posts[i].reactions[previousType] = this.posts[i].reactions[previousType].filter(r => r.username!=this.userSessionInfo.username);
+                    }
+                }
+
+                break;
+            }
+        }
     }
 
     openReactionsPopup(reactions:any[], reactionType:string){
@@ -202,5 +237,15 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
         this.ngxSmartModalService.resetModalData('popuptwo');
         this.ngxSmartModalService.setModalData(data, 'popuptwo');
         this.ngxSmartModalService.getModal('popuptwo').open()
+    }
+
+    iReacted(reactions){
+        if(reactions){
+            let reaction = reactions.filter(r => r.username==this.userSessionInfo.username);
+            if(reaction && reaction.length > 0){
+                return true;
+            }
+        }
+        return false;
     }
 }

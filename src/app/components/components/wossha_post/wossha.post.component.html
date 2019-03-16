@@ -29,12 +29,12 @@
         <div class='clear'></div>
     </div>
     <div style="padding: 0 15px;">       
-        <button href="#" class="btn btn-simple post-icon" style="padding-left: 0"><i class="fa fa-thumbs-up" (click)="react('LIKE', post.uuid)"></i></button>
+        <button href="#" class="btn btn-simple post-icon" style="padding-left: 0"><i class="fa fa-thumbs-up" [ngClass]="{'reacted': iReacted(post.reactions['LIKE'])}" (click)="react('LIKE', post.uuid)"></i></button>
         <a class="post-statistics" href="javascript:void(0)" (click)="openReactionsPopup(post.reactions, 'LIKE')">
             {{(post.reactions['LIKE']) ? post.reactions['LIKE'].length : 0}}
         </a>
 
-        <button href="#" class="btn btn-simple post-icon"><i class="fa fa-thumbs-down"></i></button>
+        <button href="#" class="btn btn-simple post-icon"><i class="fa fa-thumbs-down" [ngClass]="{'reacted': iReacted(post.reactions['DISLIKE'])}" (click)="react('DISLIKE', post.uuid)"></i></button>
         <a class="post-statistics" href="javascript:void(0)" (click)="openReactionsPopup(post.reactions, 'DISLIKE')">
             {{(post.reactions['DISLIKE']) ? post.reactions['DISLIKE'].length : 0}}
         </a>

@@ -13,7 +13,7 @@ import { WosshaPostComponent } from './wossha.post.component';
 import { WosshaPostCreatorComponent } from './components/wossha_post_creator/wossha.post.creator.component';
 
 import { OneModalComponent } from './components/one-modal/one-modal.component';
-import { TwoModalComponent } from './components/two-modal/two-modal.component';
+import { ReactionsModalComponent } from './components/reactions-modal/reactions-modal.component';
 
 @NgModule({
     imports: [
@@ -32,7 +32,7 @@ import { TwoModalComponent } from './components/two-modal/two-modal.component';
         WosshaPostComponent,
         ClickOutsideDirective,
         WosshaPostCreatorComponent,
-        OneModalComponent, TwoModalComponent
+        OneModalComponent, ReactionsModalComponent
     ],
     providers: [NgxSmartModalService]
 })
