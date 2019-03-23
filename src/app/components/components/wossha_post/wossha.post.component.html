@@ -74,6 +74,9 @@
                 </div>
             </div>
         </div>
+        <div class="text-center" style="margin-bottom: 15px;" *ngIf="post.loading">
+            <i class="fas fa-circle-notch fa-spin wossha-spinner"></i>
+        </div>
         <wossha-post-creator 
             [userSessionInfo]="userSessionInfo"
             [profileUsername]="username"
@@ -83,4 +86,10 @@
             (loadingEvent)="loadingEventListener($event)"
         ></wossha-post-creator>
     </div>
+</div>
+
+<div class="col-md-12" *ngIf="posts.length < totalItems">
+    <button type="button" rel="tooltip" (click)="getPosts(true)" data-placement="left" class="btn btn-danger btn-block btn-icon ">
+        <i class="fa fa-arrow-down"></i> Cargar mas...
+    </button>
 </div>

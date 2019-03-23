@@ -4,6 +4,7 @@ import { CreatePostCommand } from 'app/models/social/commands/createPostCommand'
 import { SocialService } from 'app/providers/social/social.service';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { Post } from 'app/models/social/posts/post';
+import { LoadingEventDTO } from './loadingEventDTO';
 declare var $:any;
 
 @Component({
@@ -18,7 +19,7 @@ export class WosshaPostCreatorComponent implements OnInit {
     @Input() uuidPost:string;
     @Input() placeholder:string;
     @Output() postCreatedEvent = new EventEmitter<Post>();
-    @Output() loadingEvent = new EventEmitter<boolean>();
+    @Output() loadingEvent = new EventEmitter<LoadingEventDTO>();
     private createPostCommand: CreatePostCommand;
     @ViewChild('textVar') textVar: ElementRef;
     
@@ -45,7 +46,11 @@ export class WosshaPostCreatorComponent implements OnInit {
         post.profilePicture = this.userSessionInfo.userSessionInfo.picture;
         post.reactions = [];
         post.showComments = false;
-        this.loadingEvent.emit(true);
+
+        let loadingEventDTO = new LoadingEventDTO();
+        loadingEventDTO.loading = true;
+        loadingEventDTO.uuidParent = post.uuidParent;
+        this.loadingEvent.emit(loadingEventDTO);
 
         this.socialService.executeCommand(this.createPostCommand).subscribe( 
             (messaje) => {

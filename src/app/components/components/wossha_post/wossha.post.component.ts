@@ -15,6 +15,7 @@ import { UserMinimumInfo } from 'app/models/user/userMinimumInfo';
 import { ReactPostCommand } from 'app/models/social/commands/reactPostCommand';
 import { Reaction } from 'app/models/social/posts/reaction';
 import { NgxSmartModalService } from 'ngx-smart-modal';
+import { LoadingEventDTO } from './components/wossha_post_creator/loadingEventDTO';
 const query = (s,a,o={optional:true})=>q(s,a,o);
 
 
@@ -43,7 +44,8 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
     @Input() username:string;
     sessionInfoSubs: Subscription = new Subscription();
     userSessionInfo:LoginUser;
-    public currentPage = 1;
+    public totalItems = 0;
+	public currentPage = 1;
     public itemsPerPage = 5;
     public posts:Post[] = [];
     public loading:boolean = true;
@@ -76,14 +78,19 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
         this.reactPostCommand = new ReactPostCommand();
         this.reactPostCommand.username = this.userSessionInfo.username;
 
-        this.getPosts();
+        this.getPosts(false);
     }
 
     ngOnDestroy(){
         this.sessionInfoSubs.unsubscribe();
     }
 
-    getPosts(){
+    getMorePosts(append:boolean){
+        this.currentPage = 1;
+        this.getPosts(append);
+    }
+
+    getPosts(append:boolean){
         let params = new HttpParams();
         params = params.append("init", (this.itemsPerPage * (this.currentPage - 1))+"");
         params = params.append("limit", this.itemsPerPage+"");
@@ -92,14 +99,21 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
         this.socialService.getPosts(params).subscribe(
             (data:any) => {
                 this.loading = false;
-                this.posts = data.result;
+                if(append){
+                    this.posts = this.posts.concat(data.result);
+                }else{
+                    this.posts = data.result;
+                }
 
-                this.setMinuimumUserInfo(this.posts);
-                for(let i=0; i<this.posts.length; i++){
-                    if(this.posts[i].comments.length>0){
-                        this.setMinuimumUserInfo(this.posts[i].comments);
+                this.setMinuimumUserInfo(data.result);
+                for(let i=0; i<data.result.length; i++){
+                    if(data.result[i].comments.length>0){
+                        this.setMinuimumUserInfo(data.result[i].comments);
                     }
                 }
+
+                this.totalItems = data.pagination.size;
+                this.currentPage++;
                 
             }, (error: any) => {
                 this.loading = false;
@@ -181,13 +195,32 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
         );
     }
 
-    loadingEventListener(isLoading){
-        this.loading = isLoading;
+    loadingEventListener(isLoading: LoadingEventDTO){
+        if(isLoading.uuidParent){
+            for(let i=0; i<this.posts.length; i++){
+                if(this.posts[i].uuid==isLoading.uuidParent){
+                    this.posts[i].loading = isLoading.loading;
+                    break;
+                }
+            }
+        }else{
+            this.loading = isLoading.loading;
+        }
     }
 
-    postCreatedListener(post){
-        this.posts.unshift(post);
-        this.loading = false;  
+    postCreatedListener(post:Post){
+        if(post.uuidParent){
+            for(let i=0; i<this.posts.length; i++){
+                if(this.posts[i].uuid==post.uuidParent){
+                    this.posts[i].comments.push(post);
+                    this.posts[i].loading = false;
+                    break;
+                }
+            }
+        }else{
+            this.posts.unshift(post);
+            this.loading = false; 
+        }
     }
 
     react(reactionType:string, uuidPost:string, uuidComment:string){

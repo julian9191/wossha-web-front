@@ -14,4 +14,5 @@ export class Post {
     reactions:any;
     comments:Post[] = [];
     showComments:boolean = false;
+    loading:boolean = false;
 }
