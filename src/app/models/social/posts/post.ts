@@ -12,4 +12,6 @@ export class Post {
     created:Date;
     modified:Date;
     reactions:any;
+    comments:Post[] = [];
+    showComments:boolean = false;
 }

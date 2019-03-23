@@ -94,23 +94,13 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
                 this.loading = false;
                 this.posts = data.result;
 
+                this.setMinuimumUserInfo(this.posts);
                 for(let i=0; i<this.posts.length; i++){
-                    let reactionsTypes:string[] = this.posts[i].reactions.map((x:any) => {return x.type});
-                    reactionsTypes = this.removeDups(reactionsTypes);
-                    //let reactions = {} as IDictionary;
-                    let reactions:any[] = [];
-
-                    for (const iterator of reactionsTypes) {
-                        let reactionsByType:Reaction[] = this.posts[i].reactions.filter((r:any) =>r.type==iterator);
-                        reactions[iterator] = reactionsByType;
+                    if(this.posts[i].comments.length>0){
+                        this.setMinuimumUserInfo(this.posts[i].comments);
                     }
-
-                    const usernames:string[] = this.posts[i].reactions.map((x) => {return x.username});
-                    this.posts[i].reactions = reactions;
-                    this.getMinuimumUserInfo(this.consts.REACTION, usernames, this.posts[i].reactions);
                 }
-                const usernames:string[] = this.posts.filter(p => !p.name).map((x) => {return x.username});
-                this.getMinuimumUserInfo(this.consts.POST, usernames, null);
+                
             }, (error: any) => {
                 this.loading = false;
                 this.notificationsService.showNotification("Ha ocurrido un error al intentar obtener el listado de posts", this.notificationsService.DANGER);
@@ -128,7 +118,27 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
         return Object.keys(unique);
       }
 
-    getMinuimumUserInfo(feature:string, usernames:string[], reactions:any[]){
+    setMinuimumUserInfo(posts:Post[]){
+        for(let i=0; i<posts.length; i++){
+            let reactionsTypes:string[] = posts[i].reactions.map((x:any) => {return x.type});
+            reactionsTypes = this.removeDups(reactionsTypes);
+            //let reactions = {} as IDictionary;
+            let reactions:any[] = [];
+
+            for (const iterator of reactionsTypes) {
+                let reactionsByType:Reaction[] = posts[i].reactions.filter((r:any) =>r.type==iterator);
+                reactions[iterator] = reactionsByType;
+            }
+
+            const usernames:string[] = posts[i].reactions.map((x) => {return x.username});
+            posts[i].reactions = reactions;
+            this.getMinuimumUserInfo(this.consts.REACTION, usernames, posts, posts[i].reactions);
+        }
+        const usernames:string[] = posts.filter(p => !p.name).map((x) => {return x.username});
+        this.getMinuimumUserInfo(this.consts.POST, usernames, posts, null);
+    }
+
+    getMinuimumUserInfo(feature:string, usernames:string[], posts:Post[], reactions:any[]){
         var usernamesUnique = usernames.filter((elem, pos, arr) => {
             return arr.indexOf(elem) == pos;
         });
@@ -141,11 +151,11 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
             (data:UserMinimumInfo[]) => {
 
                 if(feature==this.consts.POST){
-                    for(let i=0; i<this.posts.length; i++){
-                        let userMinimumInfo:UserMinimumInfo[] = data.filter(x=>x.username==this.posts[i].username);
+                    for(let i=0; i<posts.length; i++){
+                        let userMinimumInfo:UserMinimumInfo[] = data.filter(x=>x.username==posts[i].username);
                         if(userMinimumInfo.length>0){
-                            this.posts[i].name = userMinimumInfo[0].name;
-                            this.posts[i].profilePicture = userMinimumInfo[0].profilePicture;
+                            posts[i].name = userMinimumInfo[0].name;
+                            posts[i].profilePicture = userMinimumInfo[0].profilePicture;
                         }
                     }
                 }else if(feature==this.consts.REACTION){
@@ -180,18 +190,18 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
         this.loading = false;  
     }
 
-    react(reactionType:string, uuidPost:string){
+    react(reactionType:string, uuidPost:string, uuidComment:string){
         this.reactPostCommand.reactionType=reactionType;
-        this.reactPostCommand.uuidPost = uuidPost;
+        this.reactPostCommand.uuidPost = uuidComment==null ? uuidPost : uuidComment;
 
         this.socialService.executeCommand(this.reactPostCommand).subscribe( 
             (messaje) => {
                 if(messaje["msj"]=="ok"){
-                    this.addReaction(reactionType, uuidPost, false, null);
+                    this.addReaction(reactionType, uuidPost, uuidComment, false, null);
                 }else if(messaje["msj"]=="remove"){
-                    this.addReaction(reactionType, uuidPost, true, null);
+                    this.addReaction(reactionType, uuidPost, uuidComment, true, null);
                 }else{
-                    this.addReaction(reactionType, uuidPost, false, messaje["msj"]);
+                    this.addReaction(reactionType, uuidPost, uuidComment, false, messaje["msj"]);
                 }
                 
             }, (error: any) => {
@@ -200,9 +210,21 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
         );
     }
 
-    addReaction(reactionType:string, uuidPost:string, remove:boolean, previousType:string){
+    addReaction(reactionType:string, uuidPost:string, uuidComment:string, remove:boolean, previousType:string){
         for(let i=0; i<this.posts.length; i++){
             if(this.posts[i].uuid==uuidPost){
+                let post:Post;
+                if(!uuidComment){
+                    post = this.posts[i];
+                }else{
+                    for(let j=0; j<this.posts[i].comments.length; j++){
+                        if(this.posts[i].comments[j].uuid==uuidComment){
+                            post = this.posts[i].comments[j];
+                            break;
+                        }
+                    }
+                }
+
                 let reaction:Reaction = new Reaction;
                 reaction.type = reactionType;
                 reaction.uuidPost = uuidPost;
@@ -210,16 +232,16 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
                 reaction.name = this.userSessionInfo.userSessionInfo.firstName+" "+this.userSessionInfo.userSessionInfo.lastName;
                 reaction.profilePicture = this.userSessionInfo.userSessionInfo.picture;
                 reaction.created = new Date();
-                if(!this.posts[i].reactions[reactionType]){
-                    this.posts[i].reactions[reactionType] = [];
+                if(!post.reactions[reactionType]){
+                    post.reactions[reactionType] = [];
                 }
 
                 if(remove){
-                    this.posts[i].reactions[reactionType] = this.posts[i].reactions[reactionType].filter(r => r.username!=this.userSessionInfo.username);
+                    post.reactions[reactionType] = post.reactions[reactionType].filter(r => r.username!=this.userSessionInfo.username);
                 }else{
-                    this.posts[i].reactions[reactionType].push(reaction);
+                    post.reactions[reactionType].push(reaction);
                     if(previousType){
-                        this.posts[i].reactions[previousType] = this.posts[i].reactions[previousType].filter(r => r.username!=this.userSessionInfo.username);
+                        post.reactions[previousType] = post.reactions[previousType].filter(r => r.username!=this.userSessionInfo.username);
                     }
                 }
 
@@ -248,4 +270,14 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
         }
         return false;
     }
+
+    showComments(uuidPost){
+        for(let i=0; i<this.posts.length; i++){
+            if(this.posts[i].uuid==uuidPost){
+                this.posts[i].showComments = !this.posts[i].showComments;
+                break;
+            }
+        }
+    }
+    
 }

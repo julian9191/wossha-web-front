@@ -17,3 +17,16 @@
 .reacted{
     color: #ffa534;
 }
+
+.comment-header{
+    padding: 0 15px 0px;
+    font-size: 17px
+}
+
+.comments-container{
+    margin-top: 10px;
+}
+
+.comments-area{
+    border-top: 1px solid #eaeaeb;
+}

@@ -9,8 +9,8 @@
         <div class="editable-post-box" clickOutside (clickOutside)="inFocus=false">  
             <div 
                 #textVar
+                class="{{uuidPost}}"
                 contenteditable="true" 
-                placeholder="¿ Algo para compartir ?" 
                 (focus)="inFocus=true"
                 [ngClass]="{'contenteditable-focus': inFocus}"
                 (input)="insertTextModel($event.target.textContent)"

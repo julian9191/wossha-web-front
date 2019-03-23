@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, ElementRef } from '@angular/core';
 import { LoginUser } from 'app/models/user/login/loginUser';
 import { CreatePostCommand } from 'app/models/social/commands/createPostCommand';
 import { SocialService } from 'app/providers/social/social.service';
@@ -15,17 +15,24 @@ export class WosshaPostCreatorComponent implements OnInit {
     inFocus:boolean = false;
     @Input() userSessionInfo:LoginUser;
     @Input() profileUsername:string;
+    @Input() uuidPost:string;
+    @Input() placeholder:string;
     @Output() postCreatedEvent = new EventEmitter<Post>();
     @Output() loadingEvent = new EventEmitter<boolean>();
     private createPostCommand: CreatePostCommand;
-    @ViewChild('textVar') textVar;
+    @ViewChild('textVar') textVar: ElementRef;
     
     constructor(private socialService:SocialService,
         private notificationsService: NotificationsService){}
 
     ngOnInit(){
+        if(!this.uuidPost){
+            this.uuidPost = null;
+        }
         this.createPostCommand = new CreatePostCommand();
         this.createPostCommand.username = this.userSessionInfo.username;
+        this.createPostCommand.uuidParent = this.uuidPost;
+        this.textVar.nativeElement.setAttribute('placeholder', this.placeholder);
     }
 
     post(){
@@ -33,8 +40,11 @@ export class WosshaPostCreatorComponent implements OnInit {
         post.username = this.createPostCommand.username;
         post.text = this.createPostCommand.text;
         post.created = new Date();
+        post.uuidParent = this.uuidPost;
         post.name = this.userSessionInfo.userSessionInfo.firstName+" "+this.userSessionInfo.userSessionInfo.lastName;
         post.profilePicture = this.userSessionInfo.userSessionInfo.picture;
+        post.reactions = [];
+        post.showComments = false;
         this.loadingEvent.emit(true);
 
         this.socialService.executeCommand(this.createPostCommand).subscribe( 
@@ -42,6 +52,8 @@ export class WosshaPostCreatorComponent implements OnInit {
                 this.createPostCommand.text = "";
                 this.textVar.nativeElement.innerHTML = "";
                 this.inFocus = false;
+
+                post.uuid = messaje["msj"];
                 this.postCreatedEvent.emit(post);
             }, (error: any) => {
                 this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);

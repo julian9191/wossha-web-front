@@ -4,6 +4,7 @@
 <wossha-post-creator 
     [userSessionInfo]="userSessionInfo"
     [profileUsername]="username"
+    [placeholder]="'¿ Algo para compartir ?'"
     (postCreatedEvent)="postCreatedListener($event)"
     (loadingEvent)="loadingEventListener($event)"
 ></wossha-post-creator>
@@ -29,19 +30,57 @@
         <div class='clear'></div>
     </div>
     <div style="padding: 0 15px;">       
-        <button href="#" class="btn btn-simple post-icon" style="padding-left: 0"><i class="fa fa-thumbs-up" [ngClass]="{'reacted': iReacted(post.reactions['LIKE'])}" (click)="react('LIKE', post.uuid)"></i></button>
+        <button href="#" class="btn btn-simple post-icon" style="padding-left: 0"><i class="fa fa-thumbs-up" [ngClass]="{'reacted': iReacted(post.reactions['LIKE'])}" (click)="react('LIKE', post.uuid, null)"></i></button>
         <a class="post-statistics" href="javascript:void(0)" (click)="openReactionsPopup(post.reactions, 'LIKE')">
             {{(post.reactions['LIKE']) ? post.reactions['LIKE'].length : 0}}
         </a>
 
-        <button href="#" class="btn btn-simple post-icon"><i class="fa fa-thumbs-down" [ngClass]="{'reacted': iReacted(post.reactions['DISLIKE'])}" (click)="react('DISLIKE', post.uuid)"></i></button>
+        <button href="#" class="btn btn-simple post-icon"><i class="fa fa-thumbs-down" [ngClass]="{'reacted': iReacted(post.reactions['DISLIKE'])}" (click)="react('DISLIKE', post.uuid, null)"></i></button>
         <a class="post-statistics" href="javascript:void(0)" (click)="openReactionsPopup(post.reactions, 'DISLIKE')">
             {{(post.reactions['DISLIKE']) ? post.reactions['DISLIKE'].length : 0}}
         </a>
         
-        <button href="#" class="btn btn-simple post-icon"><i class="fa fa-comment"></i></button>
+        <button href="#" class="btn btn-simple post-icon"><i class="fa fa-comment" (click)="showComments(post.uuid)"></i></button>
+        <a class="post-statistics" href="javascript:void(0)" (click)="showComments(post.uuid)">
+            {{post.comments.length}}
+        </a>
+
         <button href="#" class="btn btn-simple post-icon"><i class="fa fa-share"></i></button>
     
         <span class="notif-time">{{post.created | fromDate}}</span>
+    </div>
+    <div *ngIf="post.showComments" class="comments-area">
+        <div class="comments-container">
+            <div class="post-card" @items *ngFor="let comment of post.comments">
+                <div class="comment-header">
+                    <a [routerLink]="['/pages/user', comment.username]">
+                        <img class="avatar" style="width: 30px; height: 30px;" [src]="comment.profilePicture | picturePipe" alt="...">
+                        <span style="color: #ffa534">@{{comment.username}} - {{comment.name}}</span>
+                    </a>
+                    &nbsp; 
+                    <span>{{comment.text}}</span>
+                </div>
+                <div style="padding: 0 15px;">       
+                    <button href="#" class="btn btn-simple post-icon" style="padding-left: 0"><i class="fa fa-thumbs-up" [ngClass]="{'reacted': iReacted(comment.reactions['LIKE'])}" (click)="react('LIKE', post.uuid, comment.uuid)"></i></button>
+                    <a class="post-statistics" href="javascript:void(0)" (click)="openReactionsPopup(comment.reactions, 'LIKE')">
+                        {{(comment.reactions['LIKE']) ? comment.reactions['LIKE'].length : 0}}
+                    </a>
+            
+                    <button href="#" class="btn btn-simple post-icon"><i class="fa fa-thumbs-down" [ngClass]="{'reacted': iReacted(comment.reactions['DISLIKE'])}" (click)="react('DISLIKE', post.uuid, comment.uuid)"></i></button>
+                    <a class="post-statistics" href="javascript:void(0)" (click)="openReactionsPopup(comment.reactions, 'DISLIKE')">
+                        {{(comment.reactions['DISLIKE']) ? comment.reactions['DISLIKE'].length : 0}}
+                    </a>
+                    <span class="notif-time">{{comment.created | fromDate}}</span>
+                </div>
+            </div>
+        </div>
+        <wossha-post-creator 
+            [userSessionInfo]="userSessionInfo"
+            [profileUsername]="username"
+            [uuidPost]="post.uuid"
+            [placeholder]="'Comenta algo'"
+            (postCreatedEvent)="postCreatedListener($event)"
+            (loadingEvent)="loadingEventListener($event)"
+        ></wossha-post-creator>
     </div>
 </div>
