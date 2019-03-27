@@ -9,6 +9,7 @@ import { SocialService } from '../../providers/social/social.service';
 import { UserComponent } from './user/user.component';
 import {CrystalGalleryModule} from 'ngx-crystal-gallery';
 import { WosshaPostModule } from '../components/wossha_post/wossha.post.module';
+import { WosshaImgUploaderModule } from '../components/wossha_img_uploader/wossha.imguploader.module';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import { WosshaPostModule } from '../components/wossha_post/wossha.post.module';
         FormsModule,
         ComponentsModule,
         CrystalGalleryModule,
-        WosshaPostModule
+        WosshaPostModule,
+        WosshaImgUploaderModule
     ],
     declarations: [EditUserComponent, UserComponent],
     providers: [SocialService]

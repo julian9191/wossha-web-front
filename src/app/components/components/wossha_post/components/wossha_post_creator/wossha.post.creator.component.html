@@ -17,13 +17,23 @@
                 >
             </div>
             <div style="padding-top: 10px" *ngIf="inFocus">
-                <button class="btn btn-info btn-fill btn-sm btn-round btn-icon btn-tool">
-                    <i class="fa fa-image"></i>
-                </button>
-                <button class="btn btn-danger btn-fill btn-sm btn-round btn-icon btn-tool">
-                    <i class="fab fa-youtube btn-tool"></i>
-                </button>
-
+                <div style="float: left;">
+                    <button class="btn btn-info btn-fill btn-sm btn-round btn-icon btn-tool">
+                        <i class="fa fa-image"></i>
+                    </button>
+                    <button class="btn btn-danger btn-fill btn-sm btn-round btn-icon btn-tool">
+                        <i class="fab fa-youtube btn-tool"></i>
+                    </button>
+                </div>
+                <div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Foto de la prenda</label>
+                            <wossha-img-uploader #p name="picture" [aspectRatio]="4 / 3" [resizeToWidth]="800" [roundCropper]="false" [(ngModel)]="picture"></wossha-img-uploader>
+                            <!--<input type='file' name="picture" (change)="onFileChange($event)"> -->
+                        </div>
+                    </div>
+                </div>
                 <button type="button" class="btn btn-warning btn-fill btn-sm float-right" (click)="post()">
                     <i class="fa fa-paper-plane"></i> Publicar
                 </button>

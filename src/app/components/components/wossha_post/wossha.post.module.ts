@@ -5,6 +5,7 @@ import { ClickOutsideDirective } from './clickOutside.directive';
 import { RouterModule } from '@angular/router';
 
 import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
+import { WosshaImgUploaderModule } from '../wossha_img_uploader/wossha.imguploader.module';
 
 //pipes
 import { PipesModule } from "../../../pipes/pipes.module";
@@ -21,6 +22,7 @@ import { ReactionsModalComponent } from './components/reactions-modal/reactions-
         FormsModule,
         PipesModule,
         RouterModule,
+        WosshaImgUploaderModule,
         NgxSmartModalModule.forChild()
     ],
     exports: [

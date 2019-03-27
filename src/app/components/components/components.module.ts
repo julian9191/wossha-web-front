@@ -14,10 +14,10 @@ import { NgColorModule } from 'ng-color';
 import { WosshaDatepickerComponent } from "./wossha_datepicker/wossha.datepicker.component"
 import { WosshaColorpickerComponent } from "./wossha_colorpicker/wossha.colorpicker.component"
 import { AutocompleteComponent } from './search/autocomplete/autocomplete.component';
-import { wosshaImgUploaderComponent } from './wossha_img_uploader/wossha.imguploader.component';
-import { ImageCropperComponent } from './image-cropper/image-cropper.component';
+//import { wosshaImgUploaderComponent } from './wossha_img_uploader/wossha.imguploader.component';
+//import { ImageCropperComponent } from './image-cropper/image-cropper.component';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
-import { Popup } from './wossha_img_uploader/popup.component'
+//import { Popup } from './wossha_img_uploader/popup.component'
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { NouisliderModule } from 'ng2-nouislider';
 
@@ -35,11 +35,11 @@ import { NouisliderModule } from 'ng2-nouislider';
         WosshaDatepickerComponent,
         WosshaColorpickerComponent,
         AutocompleteComponent,
-        wosshaImgUploaderComponent,
-        ImageCropperComponent
+        //wosshaImgUploaderComponent,
+        //ImageCropperComponent
     ],
     entryComponents: [
-        Popup
+        //Popup
     ],
     declarations: [
         ButtonsComponent,
@@ -51,9 +51,9 @@ import { NouisliderModule } from 'ng2-nouislider';
         WosshaDatepickerComponent,
         WosshaColorpickerComponent,
         AutocompleteComponent,
-        wosshaImgUploaderComponent,
-        ImageCropperComponent,
-        Popup
+        //wosshaImgUploaderComponent,
+        //ImageCropperComponent,
+        //Popup
     ],
     providers: []
 })

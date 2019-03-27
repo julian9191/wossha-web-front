@@ -18,18 +18,20 @@ import { CalendarService } from "../../providers/clothing/calendar.service";
 import { StatisticsService } from "../../providers/clothing/statistics.service";
 import { StatisticsComponent } from './statistics/statistics.component';
 import { NgChatModule } from '../components/ng-chat/ng-chat.module';
+import { WosshaImgUploaderModule } from '../components/wossha_img_uploader/wossha.imguploader.module';
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(ClothingRoutes),
         FormsModule,
         NouisliderModule,
         ComponentsModule,
+        WosshaImgUploaderModule,
         CrystalGalleryModule,
         SearchCriteriaModule,
         LbdModule,
-        NgChatModule
+        NgChatModule,
+        RouterModule.forChild(ClothingRoutes),
     ],
     declarations: [
         ListClothingComponent,
