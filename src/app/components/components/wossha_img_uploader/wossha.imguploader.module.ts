@@ -4,9 +4,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
-import { wosshaImgUploaderComponent } from './wossha.imguploader.component';
+import { wosshaImgUploaderComponent } from './single-image/wossha.imguploader.component';
 import { ImageCropperComponent } from '../image-cropper/image-cropper.component';
-import { Popup } from './popup.component'
+import { Popup } from './single-image/popup.component'
+
+import { wosshaMultipleImgUploaderComponent } from './multiple-images/wossha.multiple.imguploader.component';
 
 @NgModule({
     imports: [
@@ -16,11 +18,13 @@ import { Popup } from './popup.component'
     ],
     exports: [
         wosshaImgUploaderComponent,
+        wosshaMultipleImgUploaderComponent,
         ImageCropperComponent
     ],
     entryComponents: [Popup],
     declarations: [
         wosshaImgUploaderComponent,
+        wosshaMultipleImgUploaderComponent,
         ImageCropperComponent,
         Popup
     ]

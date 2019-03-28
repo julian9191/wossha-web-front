@@ -1,30 +1,34 @@
-import { Component, forwardRef, OnInit, Input } from '@angular/core';
+import { Component, forwardRef, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { PictureFile } from '../../../models/global/pictureFile';
+import { PictureFile } from '../../../../models/global/pictureFile';
 
 
-import { Popup } from './popup.component';
+
 import { DialogService } from "ng2-bootstrap-modal";
 
 @Component({
-  selector: 'wossha-img-uploader',
-  templateUrl: './wossha.imguploader.component.html',
-  styleUrls: [ './wossha.imguploader.component.css' ],
+  selector: 'wossha-multiple-img-uploader',
+  templateUrl: './wossha.multiple.imguploader.component.html',
+  styleUrls: [ './wossha.multiple.imguploader.component.css' ],
   providers: [
   {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => wosshaImgUploaderComponent),
+    useExisting: forwardRef(() => wosshaMultipleImgUploaderComponent),
     multi: true,
   }] 
 })
-export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
+export class wosshaMultipleImgUploaderComponent implements ControlValueAccessor, OnInit{
   url:string;
   private data: any;
   file:PictureFile;
   mouseOver:boolean;
   imageChanged: File;
   croppedImage: string = '';
+  images:string[] = [];
   cropperReady = false;
+
+  @ViewChild('fileTag')
+  fileTag: ElementRef;
 
   @Input()
   aspectRatio: string;
@@ -72,15 +76,27 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
   }
 
   private extractFiles( fileList: FileList ) {
-    if(fileList[0]){
-      this.imageChanged = fileList[0];
-      var reader = new FileReader();
-      reader.readAsDataURL(this.imageChanged); // read file as data url
-      reader.onload = (event:any) => { // called once readAsDataURL is completed
-        if(this.isImage(reader.result.toString())){
-            this.showConfirm(reader.result.toString());
+    let cont = 0;
+
+    if(fileList.length>0){
+      this.getBase64(fileList, cont);
+    }
+  }
+
+  getBase64(fileList: FileList, cont:number){
+    if(cont<fileList.length){
+        this.imageChanged = fileList[cont];
+        var reader = new FileReader();
+        reader.readAsDataURL(this.imageChanged); // read file as data url
+        reader.onload = (event:any) => { // called once readAsDataURL is completed
+          if(this.isImage(reader.result.toString())){
+              this.images.push(reader.result.toString());
+              cont++;
+              this.getBase64(fileList, cont);
+          }
         }
-      }
+    }else{
+      this.fileTag.nativeElement.value = "";
     }
   }
 
@@ -89,7 +105,7 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
   }
 
 
-  onSelectFile(event, file) {
+  onSelectFile(event) {
     if (event.target.files) {
       this.extractFiles(event.target.files);
     }
@@ -132,45 +148,22 @@ export class wosshaImgUploaderComponent implements ControlValueAccessor, OnInit{
     this.mouseOver = false;
   }
 
-  cancelImage(event){
-    this.prevent( event );
-    this.reset();
-  }
-
-  showConfirm(file: string) {
-    let disposable = this.dialogService.addDialog(Popup, {
-      title:'Por favor seleccione el area de la imagen', 
-      image: file,
-      message: "",
-      aspectRatio: this.aspectRatio,
-      resizeToWidth: this.resizeToWidth,
-      roundCropper: this.roundCropper
-    })
-    .subscribe((result:any)=>{
-        if(result !== undefined){
-          this.croppedImage = result;
-          this.propagateFile();
-
-
-        }else if(this.croppedImage == ""){
-          this.reset();
-        }
-        
-    });
-  }
-
-
-  fileChangeEvent(event: any): void {
-    this.imageChanged = event.target.files[0];
-  }
-  imageCroppedBase64(image: string) {
-      this.croppedImage = image;
-  }
-  imageLoaded() {
-    this.cropperReady = true;
-  }
   imageLoadFailed () {
     console.log('Load failed');
+  }
+
+  imgIsTaller(imgItem){
+    let width = imgItem.offsetWidth;
+    let height = imgItem.offsetHeight;
+    if(width>height){
+      return false;
+    }
+    return true;
+  }
+
+  cancelImage(event, index:number){
+    this.prevent( event );
+    this.images.splice(index, 1);
   }
 
   reset(){

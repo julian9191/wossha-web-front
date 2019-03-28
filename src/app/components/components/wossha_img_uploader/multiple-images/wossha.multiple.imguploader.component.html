@@ -1,0 +1,34 @@
+<div style="margin-top: 15px">
+    <input type='file' #fileTag class="inputfile" (ngModel)="selectedImage" (change)="onSelectFile($event, fileTag)" multiple>
+
+    <div *ngFor="let image of images; let i=index" class="col-md-3 image-container mask-image">
+        <a href="javascript:void(0)" class="fa fa-times img-remove" (click)="cancelImage($event, i)"></a>
+        <img [src]="image" #imgItem class="image-item" [ngClass]="imgIsTaller(imgItem) ? 'width100' : 'height100'">
+    </div>
+
+
+    <div 
+        title="Arrastra o selecciona una imagen aquí" 
+        (dragover)="onDragover($event)" 
+        (dragleave)="onDragleave($event)"
+        (drop)="onDrop($event)"
+        (click)="openInputFile(fileTag)"
+        class="uploader col-md-3"
+        [ngClass]="{ 'file-over': mouseOver}">
+        <div class="parent-container">
+            <div class="child-container">
+                +
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="parent-container explanation-parent" *ngIf="images.length==0">
+        <div class="child-container explanation-child">
+            Arrastra o selecciona imagenes del equipo
+        </div>
+    </div>
+        
+
+    <div class="clear"></div>
+</div>

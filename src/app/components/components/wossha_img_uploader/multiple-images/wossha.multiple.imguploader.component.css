@@ -1,0 +1,104 @@
+.uploader{
+	border: 2px dashed #e0e0e0;
+	width: 96px;
+    height: 96px;
+	color: #e0e0e0;
+	font-size: 40px;
+	cursor: pointer;
+}
+
+.panel{
+	width: 100%;
+	height: 100%;
+	margin-bottom: 0;
+}
+
+.file-over, .uploader:hover { 
+	border: dotted 3px #23CCEF; 
+	color: #23CCEF !important;
+}
+
+.parent-container{
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+
+.child-container{
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	width: 100%;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.mask-image {
+    width: 96px;
+    overflow: hidden;
+    height: 96px;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    -webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	padding: 0;
+	margin-right: 7px;
+	margin-bottom: 7px;
+}
+
+.height100{
+	height: 100%;
+}
+
+.width100{
+	width: 100%;
+}
+
+.image-item{
+	margin-top: -14px;
+	-webkit-transition: all 0.2s ease;
+  	transition: all 0.2s ease;
+}
+
+
+.brightness, .image-item:hover{
+	filter: brightness(50%);
+}
+
+.img-remove{
+	height: 14px;
+	position: relative;
+	left: 77px;
+	top: 5px;
+	z-index: 150;
+	color: #c5c0c4;
+}
+
+.img-remove:hover{
+	color: #fff;
+}
+
+.img-remove:hover + .image-item {
+	filter: brightness(50%);
+}
+
+.explanation-parent{
+	float: left;
+    width: 80%;
+    text-align: left;
+    height: 96px;
+}
+
+.explanation-child{
+	text-align: left;
+    padding-left: 15px;
+    color: #bfbebe;
+    font-size: 25px;
+}

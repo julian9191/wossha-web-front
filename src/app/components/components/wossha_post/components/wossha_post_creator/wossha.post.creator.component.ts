@@ -11,10 +11,12 @@ declare var $:any;
 @Component({
     selector: 'wossha-post-creator',
     templateUrl: './wossha.post.creator.component.html',
+    styleUrls: [ './wossha.post.creator.component.css' ]
 })
 export class WosshaPostCreatorComponent implements OnInit {
     
     inFocus:boolean = false;
+    showingImageUploader:boolean = false;
     @Input() userSessionInfo:LoginUser;
     @Input() profileUsername:string;
     @Input() uuidPost:string;
@@ -70,6 +72,23 @@ export class WosshaPostCreatorComponent implements OnInit {
 
     insertTextModel(text){
         this.createPostCommand.text = text;
+    }
+
+    showImageUploader(){
+        /*if(!this.showingImageUploader){
+            dropzone.showFileSelector()
+        }*/
+        this.showingImageUploader = !this.showingImageUploader;
+    }
+
+    onFilesAdded(event){
+
+    }
+
+    prueba(dropzone){
+        //dropzone.reset()
+        dropzone.fileCache = [];
+        dropzone.previewImages = [];
     }
 
 }

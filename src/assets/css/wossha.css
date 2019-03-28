@@ -254,3 +254,12 @@ app-hue{
     font-size: 32pt;
     color: #ffa534;
 }
+
+
+.image-preview img{
+    width: 140px;
+}
+
+.custom-dropzone .ng-star-inserted{
+    font-size: 40px !important;
+}
