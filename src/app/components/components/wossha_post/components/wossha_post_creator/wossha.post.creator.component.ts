@@ -5,7 +5,6 @@ import { SocialService } from 'app/providers/social/social.service';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { Post } from 'app/models/social/posts/post';
 import { LoadingEventDTO } from './loadingEventDTO';
-import { PictureFile } from 'app/models/global/pictureFile';
 declare var $:any;
 
 @Component({
@@ -23,9 +22,8 @@ export class WosshaPostCreatorComponent implements OnInit {
     @Input() placeholder:string;
     @Output() postCreatedEvent = new EventEmitter<Post>();
     @Output() loadingEvent = new EventEmitter<LoadingEventDTO>();
-    private createPostCommand: CreatePostCommand;
+    private createPostCommand: CreatePostCommand = new CreatePostCommand();
     @ViewChild('textVar') textVar: ElementRef;
-    picture:PictureFile;
     
     constructor(private socialService:SocialService,
         private notificationsService: NotificationsService){}
@@ -34,7 +32,6 @@ export class WosshaPostCreatorComponent implements OnInit {
         if(!this.uuidPost){
             this.uuidPost = null;
         }
-        this.createPostCommand = new CreatePostCommand();
         this.createPostCommand.username = this.userSessionInfo.username;
         this.createPostCommand.uuidParent = this.uuidPost;
         this.textVar.nativeElement.setAttribute('placeholder', this.placeholder);

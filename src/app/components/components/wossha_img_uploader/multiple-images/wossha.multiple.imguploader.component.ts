@@ -18,24 +18,16 @@ import { DialogService } from "ng2-bootstrap-modal";
   }] 
 })
 export class wosshaMultipleImgUploaderComponent implements ControlValueAccessor, OnInit{
-  url:string;
+
   private data: any;
-  file:PictureFile;
   mouseOver:boolean;
   imageChanged: File;
   croppedImage: string = '';
-  images:string[] = [];
+  images:PictureFile[] = [];
   cropperReady = false;
 
   @ViewChild('fileTag')
   fileTag: ElementRef;
-
-  @Input()
-  aspectRatio: string;
-  @Input()
-  resizeToWidth: number;
-  @Input()
-  roundCropper: boolean;
 
   constructor(private dialogService:DialogService) {}
 
@@ -90,13 +82,25 @@ export class wosshaMultipleImgUploaderComponent implements ControlValueAccessor,
         reader.readAsDataURL(this.imageChanged); // read file as data url
         reader.onload = (event:any) => { // called once readAsDataURL is completed
           if(this.isImage(reader.result.toString())){
-              this.images.push(reader.result.toString());
+              let file = new PictureFile();
+              file.filename = this.imageChanged.name;
+              file.filetype = this.imageChanged.type;
+              file.value = reader.result.toString();
+              file.size = this.imageChanged.size;
+
+              this.images.push(file);
+
+
               cont++;
               this.getBase64(fileList, cont);
           }
         }
     }else{
       this.fileTag.nativeElement.value = "";
+      
+      
+      this.propagateChange(this.images);
+
     }
   }
 
@@ -109,23 +113,6 @@ export class wosshaMultipleImgUploaderComponent implements ControlValueAccessor,
     if (event.target.files) {
       this.extractFiles(event.target.files);
     }
-  }
-
-  propagateFile(){
-    this.file.filename = this.imageChanged.name;
-    this.file.filetype = this.imageChanged.type;
-    this.file.value = this.croppedImage;
-    this.file.size = this.getNewImageSize(this.file.value);
-
-    this.url = this.file.value;
-    this.propagateChange(this.file);
-  }
-
-  getNewImageSize(base64String: string):number{
-    let stringLength = base64String.length - 'data:image/jpeg;base64,'.length;
-
-    let sizeInBytes = 4 * Math.ceil((stringLength / 3))*0.5624896334383812;
-    return sizeInBytes/1000;
   }
 
   onDragover(event){
@@ -167,11 +154,9 @@ export class wosshaMultipleImgUploaderComponent implements ControlValueAccessor,
   }
 
   reset(){
-    this.url = '';
-    this.file = new PictureFile();
     this.imageChanged = null;
     this.mouseOver = false;
-    this.propagateChange(this.file);
+    this.propagateChange(this.images);
     this.croppedImage = '';
   }
 
