@@ -72,20 +72,7 @@ export class WosshaPostCreatorComponent implements OnInit {
     }
 
     showImageUploader(){
-        /*if(!this.showingImageUploader){
-            dropzone.showFileSelector()
-        }*/
         this.showingImageUploader = !this.showingImageUploader;
-    }
-
-    onFilesAdded(event){
-
-    }
-
-    prueba(dropzone){
-        //dropzone.reset()
-        dropzone.fileCache = [];
-        dropzone.previewImages = [];
     }
 
 }

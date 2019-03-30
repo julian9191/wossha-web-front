@@ -24,8 +24,8 @@
         <p>
             {{post.text}}
         </p>
-        <div *ngIf="false" class="col-md-10 col-md-offset-1">
-            <img class="img-clothe" alt="..." src="../assets/img/blog-1.jpg" />
+        <div *ngIf="post.type=='IMAGE_POST'" class="col-md-12">
+            <wossha-post-images [images]="post.attachments"></wossha-post-images>
         </div>
         <div class='clear'></div>
     </div>

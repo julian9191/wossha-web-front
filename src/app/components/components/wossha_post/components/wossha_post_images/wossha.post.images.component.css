@@ -1,0 +1,39 @@
+.img-post{
+    width: 100%;
+}
+
+.image-container{
+    padding: 0
+}
+
+
+.height100{
+	height: 100%;
+}
+
+.width100{
+	width: 100%;
+}
+
+.mask-image {
+    overflow: hidden;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    -webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	padding: 0;
+}
+
+.image-item{
+	-webkit-transition: all 0.2s ease;
+  	transition: all 0.2s ease;
+}
+
+.left-images{
+	height: 14px;
+	position: relative;
+	left: 77px;
+	top: 5px;
+	z-index: 150;
+	color: #c5c0c4;
+}

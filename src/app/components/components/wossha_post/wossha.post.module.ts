@@ -12,9 +12,12 @@ import { PipesModule } from "../../../pipes/pipes.module";
 
 import { WosshaPostComponent } from './wossha.post.component';
 import { WosshaPostCreatorComponent } from './components/wossha_post_creator/wossha.post.creator.component';
+import { WosshaPostImagesComponent } from './components/wossha_post_images/wossha.post.images.component';
 
 import { OneModalComponent } from './components/one-modal/one-modal.component';
 import { ReactionsModalComponent } from './components/reactions-modal/reactions-modal.component';
+import { ResizableDivDirective } from './directives/resizable-div.directive';
+import { ResizableImgDirective } from './directives/resizable-img.directive';
 
 @NgModule({
     imports: [
@@ -27,14 +30,19 @@ import { ReactionsModalComponent } from './components/reactions-modal/reactions-
     ],
     exports: [
         WosshaPostComponent,
-        WosshaPostCreatorComponent
+        WosshaPostCreatorComponent,
+        WosshaPostImagesComponent
     ],
     entryComponents: [],
     declarations: [
         WosshaPostComponent,
         ClickOutsideDirective,
         WosshaPostCreatorComponent,
-        OneModalComponent, ReactionsModalComponent
+        WosshaPostImagesComponent,
+        OneModalComponent, 
+        ReactionsModalComponent, 
+        ResizableDivDirective,
+        ResizableImgDirective
     ],
     providers: [NgxSmartModalService]
 })

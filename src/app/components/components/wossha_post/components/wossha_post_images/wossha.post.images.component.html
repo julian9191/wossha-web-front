@@ -1,0 +1,44 @@
+<div *ngIf="images.length == 1" class="col-md-12 image-container">
+    <img class="img-post" [src]="images[0].url | picturePipe" alt="...">
+</div>
+
+<div *ngIf="images.length == 2">
+    <div appResizableDiv class="col-md-6 image-container mask-image" *ngFor="let image of images">
+        <img appResizableImg class="image-item" [src]="image.url | picturePipe" >
+    </div>
+</div>
+
+<div *ngIf="images.length == 3">
+    <div class="col-md-8 image-container mask-image">
+        <div appResizableDiv>
+            <img appResizableImg class="img-post image-item" [src]="images[0].url | picturePipe" >
+        </div>
+    </div>
+
+    <div class="col-md-4 image-container mask-image">
+        <div *ngFor="let image of images; let i=index">
+            <div appResizableDiv *ngIf="i>0">
+                    <img appResizableImg  class="img-post image-item" [src]="image.url | picturePipe" alt="...">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="images.length > 3">
+    <div class="col-md-9 image-container mask-image">
+        <div appResizableDiv>
+            <img appResizableImg class="img-post image-item" [src]="images[0].url | picturePipe" >
+        </div>
+    </div>
+
+    <div class="col-md-3 image-container mask-image">
+            <div *ngFor="let image of images; let i=index">
+                <div appResizableDiv *ngIf="i>0 && i<4">
+                    <div *ngIf="images.length > 4 && i==3" class="left-images">
+                        +{{images.length - 4}}
+                    </div>
+                    <img appResizableImg  class="img-post image-item" [src]="image.url | picturePipe" alt="...">
+                </div>
+            </div>
+    </div>
+</div>
