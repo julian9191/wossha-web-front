@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 import { WosshaImgUploaderModule } from '../wossha_img_uploader/wossha.imguploader.module';
+import {CrystalGalleryModule} from 'ngx-crystal-gallery';
 
 //pipes
 import { PipesModule } from "../../../pipes/pipes.module";
@@ -26,6 +27,7 @@ import { ResizableImgDirective } from './directives/resizable-img.directive';
         PipesModule,
         RouterModule,
         WosshaImgUploaderModule,
+        CrystalGalleryModule,
         NgxSmartModalModule.forChild()
     ],
     exports: [
