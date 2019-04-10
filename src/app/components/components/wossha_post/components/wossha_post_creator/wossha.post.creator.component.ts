@@ -16,6 +16,8 @@ export class WosshaPostCreatorComponent implements OnInit {
     
     inFocus:boolean = false;
     showingImageUploader:boolean = false;
+    showingVideoUploader:boolean = false;
+    videoUrl:string = "";
     @Input() userSessionInfo:LoginUser;
     @Input() profileUsername:string;
     @Input() uuidPost:string;
@@ -75,8 +77,14 @@ export class WosshaPostCreatorComponent implements OnInit {
         this.createPostCommand.text = text;
     }
 
-    showImageUploader(){
-        this.showingImageUploader = !this.showingImageUploader;
+    showImageOrVideoUploader(type:string){
+        if(type=="IMAGE"){
+            this.showingVideoUploader = false;
+            this.showingImageUploader = !this.showingImageUploader;
+        }else if(type=="VIDEO"){
+            this.showingImageUploader = false;
+            this.showingVideoUploader = !this.showingVideoUploader;
+        }
     }
 
 }

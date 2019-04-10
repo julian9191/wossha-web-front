@@ -19,6 +19,7 @@ import { OneModalComponent } from './components/one-modal/one-modal.component';
 import { ReactionsModalComponent } from './components/reactions-modal/reactions-modal.component';
 import { ResizableDivDirective } from './directives/resizable-div.directive';
 import { ResizableImgDirective } from './directives/resizable-img.directive';
+import { LoadVideoDirective } from './directives/load-video.directive';
 
 @NgModule({
     imports: [
@@ -44,7 +45,8 @@ import { ResizableImgDirective } from './directives/resizable-img.directive';
         OneModalComponent, 
         ReactionsModalComponent, 
         ResizableDivDirective,
-        ResizableImgDirective
+        ResizableImgDirective,
+        LoadVideoDirective
     ],
     providers: [NgxSmartModalService]
 })
