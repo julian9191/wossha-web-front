@@ -59,7 +59,11 @@ export class WosshaPostCreatorComponent implements OnInit {
                 this.textVar.nativeElement.innerHTML = "";
                 this.inFocus = false;
 
-                post.uuid = messaje["msj"];
+                post.uuid = messaje["response"].uuidPost;
+                post.attachments = messaje["response"].attachments;
+                if(messaje["response"].attachments && messaje["response"].attachments.length > 0){
+                    post.type='IMAGE_POST';
+                }
                 this.postCreatedEvent.emit(post);
             }, (error: any) => {
                 this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
