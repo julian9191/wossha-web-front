@@ -25,6 +25,7 @@ export class wosshaMultipleImgUploaderComponent implements ControlValueAccessor,
   croppedImage: string = '';
   images:PictureFile[] = [];
   cropperReady = false;
+  @Input() maxImages:number;
 
   @ViewChild('fileTag')
   fileTag: ElementRef;
@@ -76,7 +77,7 @@ export class wosshaMultipleImgUploaderComponent implements ControlValueAccessor,
   }
 
   getBase64(fileList: FileList, cont:number){
-    if(cont<fileList.length){
+    if(cont<fileList.length && this.images.length<this.maxImages){
         this.imageChanged = fileList[cont];
         var reader = new FileReader();
         reader.readAsDataURL(this.imageChanged); // read file as data url

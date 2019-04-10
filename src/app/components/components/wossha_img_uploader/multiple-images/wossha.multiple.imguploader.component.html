@@ -14,7 +14,8 @@
         (drop)="onDrop($event)"
         (click)="openInputFile(fileTag)"
         class="uploader col-md-3"
-        [ngClass]="{ 'file-over': mouseOver}">
+        [ngClass]="{ 'file-over': mouseOver}"
+        *ngIf="images.length<maxImages">
         <div class="parent-container">
             <div class="child-container">
                 +

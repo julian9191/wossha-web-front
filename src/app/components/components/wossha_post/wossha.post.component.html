@@ -25,7 +25,7 @@
             {{post.text}}
         </p>
         <div *ngIf="post.type=='IMAGE_POST'" class="col-md-12">
-            <wossha-post-images [images]="post.attachments"></wossha-post-images>
+            <wossha-post-images [images]="post.attachments" [isComment]="false"></wossha-post-images>
         </div>
         <div class='clear'></div>
     </div>
@@ -59,6 +59,9 @@
                     </a>
                     &nbsp; 
                     <span>{{comment.text}}</span>
+                    <div *ngIf="post.type=='IMAGE_POST'" class="col-md-12">
+                        <wossha-post-images [images]="comment.attachments" [isComment]="true"></wossha-post-images>
+                    </div>
                 </div>
                 <div style="padding: 0 15px;">       
                     <button href="#" class="btn btn-simple post-icon" style="padding-left: 0"><i class="fa fa-thumbs-up" [ngClass]="{'reacted': iReacted(comment.reactions['LIKE'])}" (click)="react('LIKE', post.uuid, comment.uuid)"></i></button>

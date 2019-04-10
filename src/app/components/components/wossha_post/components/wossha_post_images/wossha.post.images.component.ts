@@ -11,6 +11,7 @@ declare var $:any;
 export class WosshaPostImagesComponent implements OnInit {
     
     @Input() images:Attachment[];
+    @Input() isComment:boolean;
     public slideImages: any[] = [];
     baseUrl:string = "http://localhost:8083/pictures/static-picture/";
     myConfig = {

@@ -29,7 +29,7 @@
                     <div class="clear"></div>
                     <div class="form-group">
                         <div>
-                            <wossha-multiple-img-uploader #p name="picture" [(ngModel)]="createPostCommand.images"></wossha-multiple-img-uploader>
+                            <wossha-multiple-img-uploader #p name="picture" [(ngModel)]="createPostCommand.images" [maxImages]="uuidPost==null ? 10 : 1"></wossha-multiple-img-uploader>
                         </div>
                     </div>
                     

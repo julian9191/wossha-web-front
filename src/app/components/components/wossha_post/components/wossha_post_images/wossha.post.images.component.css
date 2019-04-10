@@ -3,6 +3,11 @@
 	cursor: pointer;
 }
 
+.img-comment{
+	cursor: pointer;
+	max-height: 100px;
+}
+
 .image-container{
     padding: 0
 }
