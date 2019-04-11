@@ -20,6 +20,7 @@ import { ReactionsModalComponent } from './components/reactions-modal/reactions-
 import { ResizableDivDirective } from './directives/resizable-div.directive';
 import { ResizableImgDirective } from './directives/resizable-img.directive';
 import { LoadVideoDirective } from './directives/load-video.directive';
+import { ResizableVideoDirective } from './directives/resizable-video.directive';
 
 @NgModule({
     imports: [
@@ -46,7 +47,8 @@ import { LoadVideoDirective } from './directives/load-video.directive';
         ReactionsModalComponent, 
         ResizableDivDirective,
         ResizableImgDirective,
-        LoadVideoDirective
+        LoadVideoDirective,
+        ResizableVideoDirective
     ],
     providers: [NgxSmartModalService]
 })

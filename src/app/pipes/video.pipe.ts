@@ -9,7 +9,11 @@ export class VideoPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer){}
 
 
-  transform(url: string) {
+  transform(url: string, arg1?:string) {
+    if(arg1=="CODE"){
+      return this.sanitizer.bypassSecurityTrustResourceUrl(this.baseUrl+url);
+    }
+
     if(url.startsWith(this.baseUrl)){
       return this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }

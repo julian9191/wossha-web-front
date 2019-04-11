@@ -27,6 +27,9 @@
         <div *ngIf="post.type=='IMAGE_POST'" class="col-md-12">
             <wossha-post-images [images]="post.attachments" [isComment]="false"></wossha-post-images>
         </div>
+        <div *ngIf="post.type=='VIDEO_POST'" class="col-md-12">
+            <iframe appResizableVideo [src]="post.attachments[0].url | videoPipe: 'CODE'" style="width: 100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
         <div class='clear'></div>
     </div>
     <div style="padding: 0 15px;">       

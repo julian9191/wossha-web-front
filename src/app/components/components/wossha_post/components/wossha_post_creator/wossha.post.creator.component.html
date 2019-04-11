@@ -29,17 +29,13 @@
                     <div class="clear"></div>
                     <div class="form-group">
                         <div>
-                            <wossha-multiple-img-uploader #p name="picture" [(ngModel)]="createPostCommand.images" [maxImages]="uuidPost==null ? 10 : 1"></wossha-multiple-img-uploader>
+                            <wossha-multiple-img-uploader #p name="picture" [(ngModel)]="images" [maxImages]="uuidPost==null ? 10 : 1"></wossha-multiple-img-uploader>
                         </div>
                     </div>
                 </div>
                 <div [hidden]="!showingVideoUploader">
                     <div class="clear"></div>
                     <div class="form-group">
-                        <!--
-                        <div class='wrapper'><div class='videoContainer'>
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/Ydn-TWm5wSI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div></div>-->
                         <input type="text" placeholder="Pegue aquí el link del video de youtube" class="form-control url-field" name="videoUrl" [(ngModel)]="videoUrl" >
                         <div style="margin-top: 10px;" *ngIf="videoUrl != ''">
                             <iframe appLoadVideo width="200" height="112.5" [src]="videoUrl | videoPipe" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

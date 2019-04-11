@@ -6,4 +6,5 @@ export class CreatePostCommand {
     uuidParent:string;
     text:string;
     images:PictureFile[] = [];
+    videoCode: string;
   }

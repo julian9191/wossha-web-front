@@ -5,6 +5,7 @@ import { SocialService } from 'app/providers/social/social.service';
 import { NotificationsService } from 'app/providers/notifications/notifications.service';
 import { Post } from 'app/models/social/posts/post';
 import { LoadingEventDTO } from './loadingEventDTO';
+import { PictureFile } from 'app/models/global/pictureFile';
 declare var $:any;
 
 @Component({
@@ -18,6 +19,7 @@ export class WosshaPostCreatorComponent implements OnInit {
     showingImageUploader:boolean = false;
     showingVideoUploader:boolean = false;
     videoUrl:string = "";
+    images:PictureFile[];
     @Input() userSessionInfo:LoginUser;
     @Input() profileUsername:string;
     @Input() uuidPost:string;
@@ -40,6 +42,15 @@ export class WosshaPostCreatorComponent implements OnInit {
     }
 
     post(){
+        let videoCode = this.getVideoCode();
+        if(videoCode && this.showingVideoUploader){
+            this.createPostCommand.videoCode = videoCode;
+        }
+
+        if(this.showingImageUploader){
+            this.createPostCommand.images = this.images
+        }
+
         let post:Post = new Post();
         post.username = this.createPostCommand.username;
         post.text = this.createPostCommand.text;
@@ -71,6 +82,22 @@ export class WosshaPostCreatorComponent implements OnInit {
                 this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
             }
         );
+    }
+
+    getVideoCode(){
+        if(this.videoUrl.startsWith("https://www.youtube.com/embed/")){
+            let videoId = this.videoUrl.split("embed/");
+            return videoId[1];
+        }
+        else if(this.videoUrl.startsWith("https://www.youtube.com/watch")){
+            let videoId = this.videoUrl.split("=");
+            if(videoId.length>0){
+                videoId = videoId[1].split("&");
+                return videoId[0];
+            }
+        }else{
+            return "";
+        }
     }
 
     insertTextModel(text){
