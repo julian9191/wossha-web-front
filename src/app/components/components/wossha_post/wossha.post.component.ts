@@ -16,6 +16,7 @@ import { ReactPostCommand } from 'app/models/social/commands/reactPostCommand';
 import { Reaction } from 'app/models/social/posts/reaction';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import { LoadingEventDTO } from './components/wossha_post_creator/loadingEventDTO';
+import { DeletePostCommand } from 'app/models/social/commands/deletePostCommand';
 const query = (s,a,o={optional:true})=>q(s,a,o);
 
 
@@ -50,6 +51,7 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
     public posts:Post[] = [];
     public loading:boolean = true;
     private reactPostCommand: ReactPostCommand;
+    private deletePostCommand: DeletePostCommand = new DeletePostCommand();
     private consts = {
         "POST": "POST",
         "REACTION": "REACTION"
@@ -77,6 +79,7 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
 
         this.reactPostCommand = new ReactPostCommand();
         this.reactPostCommand.username = this.userSessionInfo.username;
+        this.deletePostCommand.username = this.userSessionInfo.username;
 
         this.getPosts(false);
     }
@@ -311,6 +314,41 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
                 break;
             }
         }
+    }
+
+    deletePost(post:Post){
+
+        let nthis = this;
+        this.notificationsService.showConfirmationAlert("¿Está seguro?", "¿Está seguro de eliminar esta publicación?", this.notificationsService.WARNING).then(function (response) {
+            if(response){
+                nthis.deletePostCommand.uuidPost = post.uuid;
+                nthis.deletePostCommand.attachments = post.attachments ? post.attachments : [];
+                nthis.deletePostCommand.comments = [];
+                if(post.comments){
+                    for (const comment of post.comments) {
+                        nthis.deletePostCommand.comments.push(comment.uuid);
+                        nthis.deletePostCommand.attachments = nthis.deletePostCommand.attachments.concat(comment.attachments);
+                    }
+                }
+
+                nthis.socialService.executeCommand(nthis.deletePostCommand).subscribe( 
+                    (messaje) => {
+                        if(!post.uuidParent){
+                            nthis.posts = nthis.posts.filter(p => p.uuid != post.uuid);
+                        }else{
+                            for (const postItem of nthis.posts) {
+                                if(postItem.uuid == post.uuidParent){
+                                    postItem.comments = postItem.comments.filter(c => c.uuid != post.uuid);
+                                }
+                            }
+                        }
+                        
+                    }, (error: any) => {
+                        nthis.notificationsService.showNotification(error.error.msj, nthis.notificationsService.DANGER);
+                    }
+                );
+            }
+        });    
     }
     
 }

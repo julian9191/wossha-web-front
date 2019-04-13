@@ -1,5 +1,5 @@
 .post-card{
-    margin-bottom: 15px !important;
+    padding-top: 15px !important;
 }
 
 .post-icon{
@@ -27,6 +27,26 @@
     margin-top: 10px;
 }
 
+.comment-card{
+    cursor: pointer;
+}
+
+.comment-card:hover{
+    background-color: #fff3e5;
+}
+
 .comments-area{
     border-top: 1px solid #eaeaeb;
+}
+
+.options-arrow{
+    float: right;
+}
+
+.options-arrow a{
+    color: #ffa534 !important;
+}
+
+.options-arrow ul a{
+    color: #555 !important;
 }

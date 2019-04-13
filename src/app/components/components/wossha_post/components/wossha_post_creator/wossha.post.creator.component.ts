@@ -42,6 +42,10 @@ export class WosshaPostCreatorComponent implements OnInit {
     }
 
     post(){
+        if(!this.createPostCommand.text){
+            return;
+        }
+
         let videoCode = this.getVideoCode();
         if(videoCode && this.showingVideoUploader){
             this.createPostCommand.videoCode = videoCode;
@@ -77,6 +81,8 @@ export class WosshaPostCreatorComponent implements OnInit {
                 if(messaje["response"].attachments && messaje["response"].attachments.length > 0){
                     post.type='IMAGE_POST';
                 }
+                this.images = []; 
+                this.videoUrl = "";
                 this.postCreatedEvent.emit(post);
             }, (error: any) => {
                 this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);

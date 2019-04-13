@@ -18,7 +18,20 @@
         <a [routerLink]="['/pages/user', post.username]">
             <img class="avatar" style="width: 48px; height: 48px;" [src]="post.profilePicture | picturePipe" alt="...">
             <span style="color: #ffa534">@{{post.username}} - {{post.name}}</span>
-        </a>       
+        </a>   
+        
+        <div *ngIf="userSessionInfo.username==post.username" class="dropdown options-arrow">
+            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-chevron-down"></i>
+                <p class="hidden-md hidden-lg">
+                    Actions
+                    <b class="caret"></b>
+                </p>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:void(0)" (click)="deletePost(post)">Eliminar</a></li>
+            </ul>
+        </div>
     </div>
     <div class="content">
         <p>
@@ -54,16 +67,31 @@
     </div>
     <div *ngIf="post.showComments" class="comments-area">
         <div class="comments-container">
-            <div class="post-card" @items *ngFor="let comment of post.comments">
+            <div class="post-card comment-card" @items *ngFor="let comment of post.comments">
                 <div class="comment-header">
                     <a [routerLink]="['/pages/user', comment.username]">
                         <img class="avatar" style="width: 30px; height: 30px;" [src]="comment.profilePicture | picturePipe" alt="...">
                         <span style="color: #ffa534">@{{comment.username}} - {{comment.name}}</span>
                     </a>
+                    <div *ngIf="userSessionInfo.username==comment.username" style="margin-left: 10px;" class="dropdown options-arrow">
+                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-chevron-down"></i>
+                            <p class="hidden-md hidden-lg">
+                                Actions
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0)" (click)="deletePost(comment)">Eliminar</a></li>
+                        </ul>
+                    </div>
                     &nbsp; 
                     <span>{{comment.text}}</span>
-                    <div *ngIf="post.type=='IMAGE_POST'" class="col-md-12">
+                    <div *ngIf="comment.type=='IMAGE_POST'" class="col-md-12">
                         <wossha-post-images [images]="comment.attachments" [isComment]="true"></wossha-post-images>
+                    </div>
+                    <div *ngIf="comment.type=='VIDEO_POST'" class="col-md-12">
+                        <iframe width="200" height="112.5" [src]="comment.attachments[0].url | videoPipe: 'CODE'" style="margin-top: 5px;" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
                 <div style="padding: 0 15px;">       
@@ -95,7 +123,7 @@
 </div>
 
 <div class="col-md-12" *ngIf="posts.length < totalItems">
-    <button type="button" rel="tooltip" (click)="getPosts(true)" data-placement="left" class="btn btn-danger btn-block btn-icon ">
-        <i class="fa fa-arrow-down"></i> Cargar mas...
+    <button [disabled]="loading" type="button" rel="tooltip" (click)="getPosts(true)" data-placement="left" class="btn btn-danger btn-block btn-icon ">
+        <span *ngIf="!loading"><i class="fa fa-arrow-down"></i> Cargar mas...</span> <i *ngIf="loading" class="fas fa-circle-notch fa-spin"></i>
     </button>
 </div>
