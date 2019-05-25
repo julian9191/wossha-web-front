@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChildren, ViewChild, HostListener, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChildren, ViewChild, HostListener, Output, EventEmitter, ElementRef, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -30,7 +30,7 @@ import { Store } from '@ngrx/store';
     templateUrl: 'ng-chat.component.html'
 })
 
-export class NgChat implements OnInit, IChatController {
+export class NgChat implements OnInit, OnDestroy, IChatController {
 
     // Exposes enums for the ng-template
     public UserStatus = UserStatus;
@@ -602,7 +602,7 @@ export class NgChat implements OnInit, IChatController {
                     message.toId = window.chattingTo.id;
                     message.message = window.newMessage;
                     message.sendOn = new Date();
-                    sendChatMessageWsCommand.message = message;
+                    sendChatMessageWsCommand.payload = message;
         
                     window.messages.push(message);
         
@@ -773,5 +773,13 @@ export class NgChat implements OnInit, IChatController {
 
     followRequestNotifMessageEmit(notification:AppNotification){
         this.followRequestNotifMessage.emit(notification); 
+    }
+
+    ngOnDestroy(){
+        this.adapter.disconectSocket();
+    }
+
+    sendprueba(){
+        this.adapter.disconectSocket();
     }
 }

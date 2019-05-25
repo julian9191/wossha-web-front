@@ -7,19 +7,20 @@ import { COMMAND_QUEUE } from "../../../globals";
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { SocialService } from 'app/providers/social/social.service';
-import { ConnectUserWsCommand } from 'app/models/ws/wsCommands/connectUserWsCommand';
-import { ConnectMessage } from 'app/models/ws/connectMessage';
 import { ConnectedUser } from './core/ConnectedUser';
 import { Store } from '@ngrx/store';
 import { AppState } from 'app/app.reducer';
 import { FollowingUser } from 'app/models/social/followingUser';
 import { Subscription } from 'rxjs';
 import { ChangeSocialInfo } from 'app/reducers/socialInfo/socialInfo.accions';
+import Sockette from 'sockette'
+
 
 export class DemoAdapter extends ChatAdapter
 {
-
-    private stompClient;
+    private wsClient;
+    //private stompClient;
+    private token;
     public filteredUsers: ChatUser[] = []
     public onlineUsers: ChatUser[] = []
     public myUsername:String = "";
@@ -37,9 +38,11 @@ export class DemoAdapter extends ChatAdapter
         });
     }
 
+    
     initializeWebSocketConnection(myUsername:string, token:string){
+        this.token = token;
         this.myUsername = myUsername;
-        let ws = new SockJS(WS_SOCIAL_PATH+"?token=Bearer "+token);
+        /*let ws = new SockJS(WS_SOCIAL_PATH+"?token=Bearer "+token);
         this.stompClient = Stomp.over(ws);
         let that = this;
         this.stompClient.connect({}, function(frame) {
@@ -53,32 +56,53 @@ export class DemoAdapter extends ChatAdapter
             let connectUserWsCommand:ConnectUserWsCommand = new ConnectUserWsCommand();
             connectUserWsCommand.message = connectMessage;
             that.sendCommand(connectUserWsCommand);
-        }, this.onError);
+        }, this.onError);*/
+
+        this.wsClient = new Sockette('wss://tzt7u85zs4.execute-api.us-east-1.amazonaws.com/dev'+"?token=Bearer "+token, {
+            timeout: 5e3,
+            maxAttempts: 10,
+            onopen: e => console.log('Connected!', e),
+            onmessage: e => this.receiveMessage(e.data, myUsername),
+            onreconnect: e => console.log('Reconnecting...', e),
+            onmaximum: e => console.log('Stop Attempting!', e),
+            onclose: e => console.log('Closed!', e),
+            onerror: e => console.log('Error:', e)
+        });
+
+       
+
     }
 
-    receiveMessage(payload, myUsername, that){
-        let payloadObject = JSON.parse(payload.body);
+    disconectSocket(){
+        this.wsClient.close(); // graceful shutdown
+        console.log("disconnect");
+    }
+
+    receiveMessage(payload, myUsername){
+
+        console.log("receive message: "+payload);
+        let payloadObject = JSON.parse(payload);
         if(payloadObject.responseType == "CONNECTED-USER-MESSAGE"){
             let connectedUser:ConnectedUser = payloadObject;
-            for(let i=0; i<that.onlineUsers.length; i++) {
-                if(that.onlineUsers[i].id==connectedUser.username){
-                    that.onlineUsers[i].status = 1;
+            for(let i=0; i<this.onlineUsers.length; i++) {
+                if(this.onlineUsers[i].id==connectedUser.username){
+                    this.onlineUsers[i].status = 1;
                     break;
                 }
             }
         }else if((payloadObject.responseType == "DISCONNECTED-USER-MESSAGE")){
             let connectedUser:ConnectedUser = payloadObject;
-            for(let i=0; i<that.onlineUsers.length; i++) {
-                if(that.onlineUsers[i].id==connectedUser.username){
-                    that.onlineUsers[i].status = 0;
+            for(let i=0; i<this.onlineUsers.length; i++) {
+                if(this.onlineUsers[i].id==connectedUser.username){
+                    this.onlineUsers[i].status = 0;
                     break;
                 }
             }
         }else if((payloadObject.responseType == "CHAT-MESSAGE")){
             let message:Message = payloadObject;
             if(message.fromId != myUsername){
-                let user = that.filteredUsers.find(x => x.id == message.fromId);
-                that.onMessageReceived(user, message);
+                let user = this.filteredUsers.find(x => x.id == message.fromId);
+                this.onMessageReceived(user, message);
             }
         }else if(this.notificationTypes.includes(payloadObject.responseType)){
             let message:any = payloadObject;
@@ -105,7 +129,11 @@ export class DemoAdapter extends ChatAdapter
     }
 
     sendCommand(command){
-        this.stompClient.send(COMMAND_QUEUE, {}, JSON.stringify(command));
+        //command = {"action":"sendMessage","commandName":"SendChatMessage","payload":{"type":1,"fromId":"julian","toId":"carito","message":"fgh","sendOn":"2019-05-24T20:07:30.196Z"},"token":"Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6Ilt7XCJhdXRob3JpdHlcIjpcIkFETUlOXCJ9LHtcImF1dGhvcml0eVwiOlwiVVNFUlwifSx7XCJhdXRob3JpdHlcIjpcImFkbWluXCJ9XSIsImZpcnN0TmFtZSI6Ikp1bGklQzMlQTFuIiwibGFzdE5hbWUiOiJHaXJhbGRvIiwicHJvZmlsZVBpY3R1cmUiOiJlMjVjODUxZC0zM2Q3LTExZTktOTkzNy0xOWQ4ZjA1N2EyODkiLCJzdWIiOiJqdWxpYW4iLCJpYXQiOjE1NTg3MjE3NTAsImV4cCI6MTU1ODczNTc1MH0.3ZWQYLvtZRcXUZkT-tvJ70ssMKlUy_YuH-XmJ_hSdJBseuyF6u8Q-PRE2PTOq7HI3AdCQCDjLCs0JZkPphopXA"};
+        command.token = "Bearer "+this.token;
+        let message:string = JSON.stringify(command);
+        console.log("enviar: "+message);
+        this.wsClient.send(message);
     }
 
 }
