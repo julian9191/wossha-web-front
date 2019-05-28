@@ -12,6 +12,7 @@ import {Location} from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { EditClotheCommand } from 'app/models/clothing/commands/editClotheCommand';
 import { CrystalLightbox } from 'ngx-crystal-gallery';
+import { PICTURES_PATH } from "../../../globals";
 
 declare var $:any;
 
@@ -149,7 +150,7 @@ export class EditClotheComponent implements OnInit{
     getImage(uuid:string):string{
         try {
             if(uuid && !this.register.picture.value){
-                return "http://localhost:8083/pictures/static-picture/"+uuid;
+                return PICTURES_PATH+"pictures/static-picture/"+uuid;
             }
         }catch(err) {}
 

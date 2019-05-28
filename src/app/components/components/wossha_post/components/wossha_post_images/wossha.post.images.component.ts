@@ -1,6 +1,7 @@
 import { Component, OnInit, Input} from '@angular/core';
 import { Attachment } from 'app/models/social/posts/attachments';
 import { CrystalLightbox } from 'ngx-crystal-gallery';
+import { PICTURES_PATH } from "../../../../../globals";
 declare var $:any;
 
 @Component({
@@ -13,7 +14,7 @@ export class WosshaPostImagesComponent implements OnInit {
     @Input() images:Attachment[];
     @Input() isComment:boolean;
     public slideImages: any[] = [];
-    baseUrl:string = "http://localhost:8083/pictures/static-picture/";
+    baseUrl:string = PICTURES_PATH+"pictures/static-picture/";
     myConfig = {
         masonry: true
     };

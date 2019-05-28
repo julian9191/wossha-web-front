@@ -6,6 +6,7 @@ import { AppState } from 'app/app.reducer';
 import { UserSessionInfo } from 'app/models/user/login/userSessionInfo';
 import { SetUserSessionInfo } from 'app/reducers/loggedUser/loggedUser.accions';
 import { SetSocialInfo } from 'app/reducers/socialInfo/socialInfo.accions';
+import { PICTURES_PATH } from "../../globals";
 
 declare var $:any;
 //Metadata
@@ -189,7 +190,7 @@ export class SidebarComponent implements OnInit {
 
     getProfileImage(uuid:string):string{
         if(uuid){
-            return "http://localhost:8083/pictures/static-picture/"+uuid;
+            return PICTURES_PATH+"pictures/static-picture/"+uuid;
         }
         else{
             return this.defaultProfilePicture;

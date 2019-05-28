@@ -8,6 +8,7 @@ import { CalendarService } from 'app/providers/clothing/calendar.service';
 import { HttpParams } from '@angular/common/http';
 import { AddToCalendarCommand } from 'app/models/calendar/commands/addToCalendarCommand';
 import { LoginUser } from 'app/models/user/login/loginUser';
+import { PICTURES_PATH } from "../../../../globals";
 
 declare var $:any;
 
@@ -75,7 +76,7 @@ export class AddCalendarComponent implements OnInit {
 
     getImage(uuid:string):string{
         if(uuid){
-            return "http://localhost:8083/pictures/static-picture/"+uuid;
+            return PICTURES_PATH+"pictures/static-picture/"+uuid;
         }else{
             return "../assets/img/blog-1.jpg";
         }

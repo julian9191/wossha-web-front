@@ -8,6 +8,7 @@ import { RemoveClotheCommand } from 'app/models/clothing/commands/removeClotheCo
 import { LoginUser } from 'app/models/user/login/loginUser';
 import { SearchCriteriaResult } from 'app/models/clothing/searchCriteria/searchCriteriaResult';
 import { CrystalLightbox } from 'ngx-crystal-gallery';
+import { PICTURES_PATH } from "../../../globals";
 
 import { style, animate, transition, trigger, query as q } from '@angular/animations';
 const query = (s,a,o={optional:true})=>q(s,a,o);
@@ -96,7 +97,7 @@ export class ListClothingComponent implements OnInit{
 
   getImage(uuid:string):string{
     if(uuid){
-      return "http://localhost:8083/pictures/static-picture/"+uuid;
+      return PICTURES_PATH+"pictures/static-picture/"+uuid;
     }else{
       return "../assets/img/blog-1.jpg";
     }

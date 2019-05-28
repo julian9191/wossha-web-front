@@ -10,9 +10,9 @@ import { DemoAdapter } from 'app/components/components/ng-chat/chat-adapter';
 import { ChatAdapter } from 'app/components/components/ng-chat/core/chat-adapter';
 import { AppNotification } from 'app/models/social/appNotification';
 import { Subject } from 'rxjs';
-import { FollowingUser } from 'app/models/social/followingUser';
 import { Store } from '@ngrx/store';
 import { AppState } from 'app/app.reducer';
+import { PICTURES_PATH } from "../../../globals";
 
 declare var $: any;
 
@@ -77,7 +77,7 @@ export class AdminLayoutComponent implements OnInit {
     getProfilePicture():string{
         let uuid:string = this.userSessionInfo.user.userSessionInfo.picture;
         if(uuid){
-            return "http://localhost:8083/pictures/static-picture/"+uuid;
+            return PICTURES_PATH+"pictures/static-picture/"+uuid;
         }
         else{
             return "../assets/img/default-avatar.png";

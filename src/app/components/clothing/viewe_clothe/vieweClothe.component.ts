@@ -8,6 +8,7 @@ import {Location} from '@angular/common';
 import { ClotheView } from 'app/models/clothing/clotheView';
 import { ChartType } from 'app/components/lbd/lbd-chart/lbd-chart.component';
 import { CrystalLightbox } from 'ngx-crystal-gallery';
+import { PICTURES_PATH } from "../../../globals";
 
 declare var $:any;
 
@@ -107,7 +108,7 @@ export class VieweClotheComponent implements OnInit{
 
     getImage(uuid:string):string{
         if(uuid){
-          return "http://localhost:8083/pictures/static-picture/"+uuid;
+          return PICTURES_PATH+"pictures/static-picture/"+uuid;
         }
         else{
           return "../assets/img/blog-1.jpg";

@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { PICTURES_PATH } from "../globals";
 
 @Pipe({name: 'picturePipe'})
 export class PicturePipe implements PipeTransform {
@@ -7,7 +8,7 @@ export class PicturePipe implements PipeTransform {
 
   transform(uuidPicture: string): string {
     if(uuidPicture){
-      return "http://localhost:8083/pictures/static-picture/"+uuidPicture;
+      return PICTURES_PATH+"pictures/static-picture/"+uuidPicture;
     }
     else{
         return this.defaultProfilePicture;

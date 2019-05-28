@@ -7,6 +7,8 @@ import { UserService } from 'app/providers/user/user.service';
 import { CalendarClothe } from 'app/models/calendar/calendarClothe';
 import { CrystalLightbox } from 'ngx-crystal-gallery';
 import * as moment from 'moment';
+import { PICTURES_PATH } from "../../globals";
+import { HttpParams } from '@angular/common/http';
 
 declare var swal: any;
 declare var $: any;
@@ -125,7 +127,7 @@ export class CalendarComponent implements OnInit{
 
 	getImage(uuid:string):string{
 		if(uuid){
-			return "http://localhost:8083/pictures/static-picture/"+uuid;
+			return PICTURES_PATH+"pictures/static-picture/"+uuid;
 		}else{
 			return "../assets/img/blog-1.jpg";
 		}
@@ -179,7 +181,10 @@ export class CalendarComponent implements OnInit{
 	
 	getEventsByView(){
 		this.calendar.fullCalendar( 'removeEvents', function(e){ return !e.isUserCreated});
-		this.calendarService.getEventsByView(this.startViewDate.getTime(), this.endViewDate.getTime()).subscribe(
+		let params = new HttpParams();
+		params = params.append("startLongDate", this.startViewDate.getTime()+"");
+    	params = params.append("endLongDate", this.endViewDate.getTime()+"");
+		this.calendarService.getEventsByView(params).subscribe(
 			(data:any) => {
 				this.events = data
 				for (var i = 0; i < this.events.length; i++) {

@@ -6,6 +6,7 @@ import { StatisticsService } from 'app/providers/clothing/statistics.service';
 import { ClothigTop } from 'app/models/clothing/clothigTop';
 import {Location} from '@angular/common';
 import { CrystalLightbox } from 'ngx-crystal-gallery';
+import { PICTURES_PATH } from "../../../globals";
 
 declare var swal: any;
 declare var $: any;
@@ -170,7 +171,7 @@ export class StatisticsComponent implements OnInit{
 
 	getImage(uuid:string):string{
 		if(uuid){
-		  return "http://localhost:8083/pictures/static-picture/"+uuid;
+		  return PICTURES_PATH+"pictures/static-picture/"+uuid;
 		}else{
 		  return "../assets/img/blog-1.jpg";
 		}

@@ -50,8 +50,8 @@ export class CalendarService {
     return this.http.get<string>(this.getDayDescriptionUrl+"/"+date, {headers: this.httpHeaders});
   }
 
-  getEventsByView(startDate:number, endDate:number) : Observable<string>{
-    return this.http.get<string>(this.getEventsByViewUrl+"/"+startDate+"/"+endDate, {headers: this.httpHeaders});
+  getEventsByView(params: HttpParams) : Observable<string>{
+    return this.http.get<string>(this.getEventsByViewUrl, {params: params, headers: this.httpHeaders});
   }
 
   executeCommand(data) : Observable<String>{

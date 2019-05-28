@@ -14,6 +14,7 @@ import { CrystalLightbox } from 'ngx-crystal-gallery';
 import { Store } from '@ngrx/store';
 import { AppState } from 'app/app.reducer';
 import { ChangeUserSessionInfo } from 'app/reducers/loggedUser/loggedUser.accions';
+import { PICTURES_PATH } from "../../../globals";
 
 declare var $:any;
 
@@ -104,7 +105,7 @@ export class EditUserComponent implements OnInit{
     }
 
     /*updateSlide(userSessionInfo:UserSessionInfo){
-        $("#slide-profile-picture").attr("src","http://localhost:8083/pictures/static-picture/"+userSessionInfo.picture);
+        $("#slide-profile-picture").attr("src",PICTURES_PATH+"pictures/static-picture/"+userSessionInfo.picture);
         $("#slide-user-name").attr("http",userSessionInfo.firstName+" "+userSessionInfo.lastName);
     }*/
 
@@ -190,7 +191,7 @@ export class EditUserComponent implements OnInit{
 
     getProfileImage(uuid:string):string{
         if(uuid && !this.user.profilePicture.value){
-            return "http://localhost:8083/pictures/static-picture/"+uuid;
+            return PICTURES_PATH+"pictures/static-picture/"+uuid;
         }
         else if(this.user.profilePicture.value){
             return this.user.profilePicture.value;
@@ -202,7 +203,7 @@ export class EditUserComponent implements OnInit{
 
     getCoverImage(uuid:string):string{
         if(uuid && !this.user.coverPicture.value){
-          return "http://localhost:8083/pictures/static-picture/"+uuid;
+          return PICTURES_PATH+"pictures/static-picture/"+uuid;
         }
         else if(this.user.coverPicture.value){
             return this.user.coverPicture.value;

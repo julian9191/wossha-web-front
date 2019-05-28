@@ -24,6 +24,7 @@ import { AppNotification } from 'app/models/social/appNotification';
 import { Subscription } from 'rxjs';
 import { AppState } from 'app/app.reducer';
 import { Store } from '@ngrx/store';
+import { PICTURES_PATH } from "../../../globals";
 
 @Component({
     selector: 'ng-chat',
@@ -764,7 +765,7 @@ export class NgChat implements OnInit, OnDestroy, IChatController {
 
     getProfileImage(uuid:string):string{
         if(uuid){
-            return "http://localhost:8083/pictures/static-picture/"+uuid;
+            return PICTURES_PATH+"pictures/static-picture/"+uuid;
         }
         else{
             return this.defaultProfilePicture;

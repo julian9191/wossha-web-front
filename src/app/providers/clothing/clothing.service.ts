@@ -20,7 +20,7 @@ export class ClothingService {
   private TOKEN:string;
 
   private commandsUrl:string = CLOTHING_PATH+'commands';
-  private clothingUrl:string = CLOTHING_PATH+'clouthing/';
+  private clothingUrl:string = CLOTHING_PATH+'clothing/';
   private clothingTypeUrl:string = this.clothingUrl+'clothing-types';
   private clothingCategoryUrl:string = this.clothingUrl+'clothing-categories';
   private clothingTypeSearchUrl:string = this.clothingUrl+'search-clouthing-type';

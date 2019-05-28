@@ -3,6 +3,7 @@ import { ClothingService } from '../../../../providers/clothing/clothing.service
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl, Validator } from '@angular/forms';
 import { UserService } from 'app/providers/user/user.service';
 import { Router } from '@angular/router';
+import { PICTURES_PATH } from "../../../../globals";
 
 
 @Component({
@@ -171,7 +172,7 @@ export class SearchComponent implements ControlValueAccessor, Validator{
 
   getProfileImage(uuid:string):string{
     if(uuid){
-        return "http://localhost:8083/pictures/static-picture/"+uuid;
+        return PICTURES_PATH+"pictures/static-picture/"+uuid;
     }
     else{
         return this.defaultProfilePicture;

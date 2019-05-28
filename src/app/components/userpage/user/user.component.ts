@@ -15,7 +15,7 @@ import { CrystalLightbox } from 'ngx-crystal-gallery';
 import { Store } from '@ngrx/store';
 import { AppState } from 'app/app.reducer';
 import { ChangeSocialInfo } from 'app/reducers/socialInfo/socialInfo.accions';
-
+import { PICTURES_PATH } from "../../../globals";
 
 declare var $:any;
 
@@ -125,7 +125,7 @@ export class UserComponent implements OnInit{
 
     getProfileImage(uuid:string):string{
         if(uuid && !this.user.profilePicture.value){
-            return "http://localhost:8083/pictures/static-picture/"+uuid;
+            return PICTURES_PATH+"pictures/static-picture/"+uuid;
         }
         else if(this.user.profilePicture.value){
             return this.user.profilePicture.value;
@@ -137,7 +137,7 @@ export class UserComponent implements OnInit{
 
     getCoverImage(uuid:string):string{
         if(uuid && !this.user.coverPicture.value){
-          return "http://localhost:8083/pictures/static-picture/"+uuid;
+          return PICTURES_PATH+"pictures/static-picture/"+uuid;
         }
         else if(this.user.coverPicture.value){
             return this.user.coverPicture.value;

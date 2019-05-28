@@ -9,6 +9,7 @@ import { AddDayDescriptionCommand } from 'app/models/calendar/commands/addDayDes
 import { LoginUser } from 'app/models/user/login/loginUser';
 import { RemoveClotheFromDayCommand } from 'app/models/calendar/commands/removeClotheFromDayCommand';
 import * as moment from 'moment'
+import { PICTURES_PATH } from "../../../globals";
 
 declare var $:any;
 
@@ -125,7 +126,7 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
 
   getImage(uuid:string):string{
     if(uuid){
-      return "http://localhost:8083/pictures/static-picture/"+uuid;
+      return PICTURES_PATH+"pictures/static-picture/"+uuid;
     }else{
       return "../assets/img/blog-1.jpg";
     }

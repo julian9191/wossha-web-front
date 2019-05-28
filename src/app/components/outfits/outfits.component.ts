@@ -8,6 +8,7 @@ import { HttpParams } from '@angular/common/http';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { DatePopup } from './popup/datePopup.component';
 import { CrystalLightbox } from 'ngx-crystal-gallery';
+import { PICTURES_PATH } from "../../globals";
 
 declare var $:any;
 
@@ -102,7 +103,7 @@ export class OutfitsComponent implements OnInit{
 
     getImage(uuid:string):string{
         if(uuid){
-            return "http://localhost:8083/pictures/static-picture/"+uuid;
+            return PICTURES_PATH+"pictures/static-picture/"+uuid;
         }else{
             return "../assets/img/blog-1.jpg";
         }
