@@ -5991,8 +5991,8 @@ form label.radio, form label.checkbox {
 
 .radio label::before,
 .radio label::after {
-  font-family: 'FontAwesome';
-  content: "\f10c";
+  font-family: 'Font Awesome 5 Free';
+  content: "\f111";
   font-size: 20px;
   height: 20px;
   width: 20px;
@@ -6005,13 +6005,14 @@ form label.radio, form label.checkbox {
   top: 0;
   color: #DDDDDD;
   padding: 1px;
-  transition: color 0.2s linear; }
+  transition: color 0.2s linear; 
+}
 
 .radio input[type="radio"]:not(:disabled):hover + label::after,
 .radio input[type="radio"]:checked + label::after {
-  font-family: 'FontAwesome';
-  content: "\f192";
-  color: #DDDDDD; }
+  font-family: 'Font Awesome 5 Free';
+  content: "\f058";
+  color: rgb(2, 2, 2); }
 
 .radio input[type="radio"]:checked:not(:disabled):hover + label::after,
 .radio input[type="radio"]:checked + label::after {

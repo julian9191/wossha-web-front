@@ -74,8 +74,7 @@ export class DemoAdapter extends ChatAdapter
     }
 
     disconectSocket(){
-        this.wsClient.close(); // graceful shutdown
-        console.log("disconnect");
+        this.wsClient.close();
     }
 
     receiveMessage(payload, myUsername){

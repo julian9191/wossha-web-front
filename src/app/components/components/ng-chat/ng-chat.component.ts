@@ -780,7 +780,4 @@ export class NgChat implements OnInit, OnDestroy, IChatController {
         this.adapter.disconectSocket();
     }
 
-    sendprueba(){
-        this.adapter.disconectSocket();
-    }
 }

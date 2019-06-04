@@ -1,4 +1,8 @@
 <crystal-gallery class="hidden" [images]="slideImages" [config]="myConfig"></crystal-gallery>
+
+<div class="text-center" style="margin-bottom: 15px; margin-top: 15px;" *ngIf="loading">
+    <i class="fas fa-circle-notch fa-spin wossha-spinner"></i>
+</div>
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">

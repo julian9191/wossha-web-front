@@ -36,6 +36,7 @@ export class EditUserComponent implements OnInit{
     public defaultCoverPicture = "../../assets/img/default_cover.jpg";
     public defaultProfilePicture = "../../assets/img/default-avatar.png";
     public slideImages: any[];
+    public loading = false;
     myConfig = {
         masonry: true
     };
@@ -110,6 +111,7 @@ export class EditUserComponent implements OnInit{
     }*/
 
     getCountries(){
+        this.loading = true;
         this.userService.getCountires().subscribe( 
             (data:any) => {
                 this.countries = data;
@@ -121,9 +123,11 @@ export class EditUserComponent implements OnInit{
     }
 
     getUser(){
+        this.loading = true;
         let loginInfo:SessionInfo = this.userService.getLoggedUserSessionInfo();
         this.userService.getUserByUsername(loginInfo.user.username).subscribe( 
             (data:any) => {
+                this.loading = false;
                 this.data = Object.assign({}, data);
                 this.user = data;
                 this.user.profilePicture = new PictureFile(),
@@ -131,6 +135,7 @@ export class EditUserComponent implements OnInit{
                 this.userAux = Object.assign({}, this.user);
                 this.initSlideImages();
             }, (error: any) => {
+                this.loading = false;
                 this.httpErrorHandlerService.handleHttpError(error, "Ha ocurrido un error al intentar la información del usuario");
             }
         );

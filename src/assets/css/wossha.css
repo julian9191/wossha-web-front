@@ -255,6 +255,10 @@ app-hue{
     color: #ffa534;
 }
 
+.wossha-button-spinner{
+    color: #ffffff;
+}
+
 
 .image-preview img{
     width: 140px;

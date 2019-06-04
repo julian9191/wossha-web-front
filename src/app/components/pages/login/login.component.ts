@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit{
     loginParams: LoginParams = new LoginParams();
     sessionInfoSubs: Subscription = new Subscription();
     @Output() loggedinEvent = new EventEmitter<boolean>();
+    public loading:boolean = false;
 
     constructor(private userService: UserService, 
         private socialService: SocialService, 
@@ -57,8 +58,10 @@ export class LoginComponent implements OnInit{
     }
 
     login(){
+        this.loading = true;
         this.userService.login(this.loginParams).subscribe( 
             (userSessionInfo:SessionInfo) => {
+                this.loading = false;
                 this.store.dispatch( new SetUserSessionInfo(userSessionInfo));
                 this.router.navigate(['start']);
                 
@@ -66,6 +69,7 @@ export class LoginComponent implements OnInit{
                 this.loadFollowingUsers();
                 this.loggedinEvent.emit(true);
             }, (error: any) => {
+                this.loading = false;
                 this.notificationsService.showNotification("El usuario o la contraseña son incorrectos", this.notificationsService.WARNING);
             }
         );

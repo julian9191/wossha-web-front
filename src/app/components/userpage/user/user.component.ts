@@ -42,6 +42,7 @@ export class UserComponent implements OnInit{
     public stopFollowingUserCommand:StopFollowingUserCommand = new StopFollowingUserCommand();
     public socialInfo:FollowingUser[];
     public slideImages: any[];
+    public loading = false;
     myConfig = {
         masonry: true
     };
@@ -90,8 +91,10 @@ export class UserComponent implements OnInit{
     }
 
     getUser(){
+        this.loading = true;
         this.userService.getUserByUsername(this.username).subscribe( 
             (data:any) => {
+                this.loading = false;
                 this.data = Object.assign({}, data);
                 this.user = data;
                 this.user.profilePicture = new PictureFile(),
@@ -99,6 +102,7 @@ export class UserComponent implements OnInit{
                 this.userAux = Object.assign({}, this.user);
                 this.initSlideImages();
             }, (error: any) => {
+                this.loading = false;
                 this.httpErrorHandlerService.handleHttpError(error, "Ha ocurrido un error al intentar la información del usuario");
             }
         );

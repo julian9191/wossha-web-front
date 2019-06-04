@@ -88,7 +88,7 @@
                     &nbsp; 
                     <span>{{comment.text}}</span>
                     <div *ngIf="comment.type=='IMAGE_POST'" class="col-md-12">
-                        <wossha-post-images [images]="comment.attachments" [isComment]="true"></wossha-post-images>
+                        <wossha-post-images [images]="comment.attachments" [localImages]="comment.localImages" [isComment]="true"></wossha-post-images>
                     </div>
                     <div *ngIf="comment.type=='VIDEO_POST'" class="col-md-12">
                         <iframe width="200" height="112.5" [src]="comment.attachments[0].url | videoPipe: 'CODE'" style="margin-top: 5px;" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

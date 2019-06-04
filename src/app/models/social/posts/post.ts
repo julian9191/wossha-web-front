@@ -1,5 +1,6 @@
 import { Reaction } from "./reaction";
 import { Attachment } from "./attachments";
+import { PictureFile } from "app/models/global/pictureFile";
 
 export class Post {
     id:number;

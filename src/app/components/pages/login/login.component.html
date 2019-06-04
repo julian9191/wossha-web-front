@@ -32,7 +32,10 @@
                                     </div>
                                 </div>
                                 <div class="footer text-center">
-                                    <button type="submit" class="btn btn-fill btn-danger btn-wd" (click)="login()">Iniciar sesión</button>
+                                    <button type="submit" [disabled]="loading" class="btn btn-fill btn-danger btn-wd" (click)="login()">
+                                        <i *ngIf="loading" class="fas fa-circle-notch fa-spin wossha-button-spinner"></i> 
+                                        Iniciar sesión
+                                    </button>
                                 </div>
                             </div>
 

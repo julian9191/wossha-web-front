@@ -135,8 +135,8 @@
 
 .radio label::before,
 .radio label::after {
-  font-family: 'FontAwesome';
-  content: "\f10c";
+  content: '\f111';
+  font-family: "Font Awesome 5 Free";
   font-size: 20px;
   height: 20px;
   width: 20px;
@@ -154,8 +154,8 @@
 
 .radio input[type="radio"]:not(:disabled):hover + label::after,
 .radio input[type="radio"]:checked + label::after {
-    font-family: 'FontAwesome';
-    content: "\f192";
+    font-family: "Font Awesome 5 Free";
+    content: "\f058";
     color: $medium-gray;
 }
 
