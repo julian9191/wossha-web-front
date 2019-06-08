@@ -1,7 +1,7 @@
 <crystal-gallery class="hidden" [images]="slideImages" [config]="myConfig"></crystal-gallery>
 
 <div *ngIf="isComment" class="col-md-12 image-container">
-    <img class="img-comment" [src]="images[0].url | picturePipe" alt="..." (click)="lightbox.open(slideImages, {index: 0})">
+    <img class="img-comment" [src]="images[0].url | picturePipe" alt="..." (click)="lightbox.open(slideImages, {index: 0})" (error)="waitAndReload($event)">
 </div>
 
 <div *ngIf="images.length == 1 && !isComment" class="col-md-12 image-container">

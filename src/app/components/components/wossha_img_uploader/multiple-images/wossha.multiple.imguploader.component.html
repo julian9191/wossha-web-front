@@ -3,7 +3,7 @@
 
     <div *ngFor="let image of images; let i=index" class="col-md-3 image-container mask-image">
         <a href="javascript:void(0)" class="fa fa-times img-remove" (click)="cancelImage($event, i)"></a>
-        <img [src]="image.value" #imgItem class="image-item" [ngClass]="imgIsTaller(imgItem) ? 'width100' : 'height100'">
+        <img [src]="image.value" #imgItem class="image-item" (load)="onLoad(imgItem)" [ngClass]="imgIsTaller ? 'height100' : 'width100'">
     </div>
 
 

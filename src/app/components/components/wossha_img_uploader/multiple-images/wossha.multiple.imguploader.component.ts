@@ -25,6 +25,7 @@ export class wosshaMultipleImgUploaderComponent implements ControlValueAccessor,
   croppedImage: string = '';
   images:PictureFile[] = [];
   cropperReady = false;
+  imgIsTaller = false;
   @Input() maxImages:number;
 
   @ViewChild('fileTag')
@@ -140,13 +141,13 @@ export class wosshaMultipleImgUploaderComponent implements ControlValueAccessor,
     console.log('Load failed');
   }
 
-  imgIsTaller(imgItem){
+  onLoad(imgItem){
     let width = imgItem.offsetWidth;
     let height = imgItem.offsetHeight;
     if(width>height){
-      return false;
+      this.imgIsTaller = false;
     }
-    return true;
+    this.imgIsTaller = true;
   }
 
   cancelImage(event, index:number){
