@@ -24,7 +24,7 @@ export class CreateClotheComponent implements OnInit{
   state_plain: boolean = true;
   state_with_icons: boolean = true;
   public maxDate:Date;
-
+  public loading:boolean = false;
   color:any = {hexString:""};
   clothe:any = {"state":1}
   selectedColorName:string = "";
@@ -86,14 +86,16 @@ export class CreateClotheComponent implements OnInit{
                 model.picture = null;
             }
             this.createClotheCommand.clothe = model;
-
+            this.loading = true;
             this.clothingService.executeCommand(this.createClotheCommand).subscribe( 
                 (messaje) => {
+                    this.loading = false;
                     this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
                     p.reset();
                     f.resetForm();
                     this.refreshClothe();
                 }, (error: any) => {
+                    this.loading = false;
                     this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
                 }
             );

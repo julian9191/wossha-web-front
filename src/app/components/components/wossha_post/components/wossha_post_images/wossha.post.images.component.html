@@ -1,30 +1,30 @@
 <crystal-gallery class="hidden" [images]="slideImages" [config]="myConfig"></crystal-gallery>
 
 <div *ngIf="isComment" class="col-md-12 image-container">
-    <img class="img-comment" [src]="images[0].url | picturePipe" alt="..." (click)="lightbox.open(slideImages, {index: 0})" (error)="waitAndReload($event)">
+    <img class="img-comment" src="images[0].url | picturePipe" alt="..." (click)="lightbox.open(slideImages, {index: 0})" data-max-retry="5" data-retry="0" (error)="waitAndReload($event)">
 </div>
 
 <div *ngIf="images.length == 1 && !isComment" class="col-md-12 image-container">
-    <img class="img-post" [src]="images[0].url | picturePipe" alt="..." (click)="lightbox.open(slideImages, {index: 0})">
+    <img class="img-post" [src]="images[0].url | picturePipe" alt="..." (click)="lightbox.open(slideImages, {index: 0})" data-max-retry="5" data-retry="0" (error)="waitAndReload($event)">
 </div>
 
 <div *ngIf="images.length == 2">
     <div appResizableDiv class="col-md-6 image-container mask-image" *ngFor="let image of images; let i=index">
-        <img appResizableImg class="image-item" [src]="image.url | picturePipe" (click)="lightbox.open(slideImages, {index: i})" >
+        <img appResizableImg class="image-item" [src]="image.url | picturePipe" (click)="lightbox.open(slideImages, {index: i})" data-max-retry="5" data-retry="0" (error)="waitAndReload($event)">
     </div>
 </div>
 
 <div *ngIf="images.length == 3">
     <div class="col-md-8 image-container mask-image">
         <div appResizableDiv>
-            <img appResizableImg class="img-post image-item" [src]="images[0].url | picturePipe" (click)="lightbox.open(slideImages, {index: 0})" >
+            <img appResizableImg class="img-post image-item" [src]="images[0].url | picturePipe" (click)="lightbox.open(slideImages, {index: 0})" data-max-retry="5" data-retry="0" (error)="waitAndReload($event)">
         </div>
     </div>
 
     <div class="col-md-4 image-container mask-image">
         <div *ngFor="let image of images; let i=index">
             <div appResizableDiv *ngIf="i>0">
-                    <img appResizableImg  class="img-post image-item" [src]="image.url | picturePipe" alt="..." (click)="lightbox.open(slideImages, {index: i})">
+                    <img appResizableImg  class="img-post image-item" [src]="image.url | picturePipe" alt="..." (click)="lightbox.open(slideImages, {index: i})" data-max-retry="5" data-retry="0" (error)="waitAndReload($event)">
             </div>
         </div>
     </div>
@@ -33,7 +33,7 @@
 <div *ngIf="images.length > 3">
     <div class="col-md-9 image-container mask-image">
         <div appResizableDiv>
-            <img appResizableImg class="img-post image-item" [src]="images[0].url | picturePipe" (click)="lightbox.open(slideImages, {index: 0})" >
+            <img appResizableImg class="img-post image-item" [src]="images[0].url | picturePipe" (click)="lightbox.open(slideImages, {index: 0})" data-max-retry="5" data-retry="0" (error)="waitAndReload($event)">
         </div>
     </div>
 
@@ -44,7 +44,7 @@
                         +{{images.length - 4}}
                     </div>
                     <div style="width: 100%; height: 100%;" [ngClass]="{'brightness-image': images.length > 4 && i==3}">
-                        <img appResizableImg [src]="image.url | picturePipe" alt="...">
+                        <img appResizableImg [src]="image.url | picturePipe" alt="..." data-max-retry="5" data-retry="0" (error)="waitAndReload($event)">
                     </div>
                     
                 </div>

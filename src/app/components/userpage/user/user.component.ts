@@ -129,7 +129,7 @@ export class UserComponent implements OnInit{
 
     getProfileImage(uuid:string):string{
         if(uuid && !this.user.profilePicture.value){
-            return PICTURES_PATH+"pictures/static-picture/"+uuid;
+            return PICTURES_PATH+uuid;
         }
         else if(this.user.profilePicture.value){
             return this.user.profilePicture.value;
@@ -141,7 +141,7 @@ export class UserComponent implements OnInit{
 
     getCoverImage(uuid:string):string{
         if(uuid && !this.user.coverPicture.value){
-          return PICTURES_PATH+"pictures/static-picture/"+uuid;
+          return PICTURES_PATH+uuid;
         }
         else if(this.user.coverPicture.value){
             return this.user.coverPicture.value;

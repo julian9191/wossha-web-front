@@ -177,7 +177,10 @@
                                 </div>
                             </div>
 
-                            <button type="submit" [disabled]="!somthingChanged()" class="btn btn-warning btn-fill pull-right">Actualizar perfil</button>
+                            <button type="submit" [disabled]="!somthingChanged() || editLoading" class="btn btn-warning btn-fill pull-right">
+                                <i *ngIf="editLoading" class="fas fa-circle-notch fa-spin wossha-button-spinner"></i>
+                                Actualizar perfil
+                            </button>
                             <div class="clearfix"></div>
                         </form>
                     </div>

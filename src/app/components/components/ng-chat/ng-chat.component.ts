@@ -765,7 +765,7 @@ export class NgChat implements OnInit, OnDestroy, IChatController {
 
     getProfileImage(uuid:string):string{
         if(uuid){
-            return PICTURES_PATH+"pictures/static-picture/"+uuid;
+            return PICTURES_PATH+uuid;
         }
         else{
             return this.defaultProfilePicture;

@@ -8,7 +8,7 @@ export class PicturePipe implements PipeTransform {
 
   transform(uuidPicture: string): string {
     if(uuidPicture){
-      return PICTURES_PATH+"pictures/static-picture/"+uuidPicture;
+      return PICTURES_PATH+uuidPicture;
     }
     else{
         return this.defaultProfilePicture;

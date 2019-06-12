@@ -127,7 +127,10 @@
                                     <div class='clear'></div>
                                 </div>
                                 <br>
-                                <button type="submit" class="btn btn-fill btn-warning">Crear Prenda</button>
+                                <button type="submit" [disabled]="loading" class="btn btn-fill btn-warning">
+                                    <i *ngIf="loading" class="fas fa-circle-notch fa-spin wossha-button-spinner"></i>
+                                    Crear Prenda
+                                </button>
                             </form>
                         </div>
                         <div class="footer">

@@ -14,5 +14,5 @@ export const SOCIAL_PATH:string="http://localhost:8084/"; */
 
 export const USERS_PATH:string="https://a0tgvm161i.execute-api.us-east-1.amazonaws.com/dev/"; 
 export const CLOTHING_PATH:string="https://ar9mhidkcb.execute-api.us-east-1.amazonaws.com/dev/"; 
-export const PICTURES_PATH:string="https://lvcq1cda4g.execute-api.us-east-1.amazonaws.com/dev/"; 
+export const PICTURES_PATH:string="https://wossha-pictures.s3.amazonaws.com/"; 
 export const SOCIAL_PATH:string="https://2vuh5dren8.execute-api.us-east-1.amazonaws.com/dev/";

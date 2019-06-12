@@ -37,6 +37,7 @@ export class EditUserComponent implements OnInit{
     public defaultProfilePicture = "../../assets/img/default-avatar.png";
     public slideImages: any[];
     public loading = false;
+    public editLoading = false;
     myConfig = {
         masonry: true
     };
@@ -70,8 +71,10 @@ export class EditUserComponent implements OnInit{
                     model.username=nthis.user.username;
                     nthis.modifyUserCommand.username=nthis.userService.getLoggedUserSessionInfo().user.username;
                     nthis.modifyUserCommand.user=model;
+                    nthis.editLoading = true;
                     nthis.userService.executeCommand(nthis.modifyUserCommand).subscribe( 
                         (messaje) => {
+                            nthis.editLoading = false;
                             nthis.notificationsService.showNotification(messaje["msj"], nthis.notificationsService.SUCCESS);
                             nthis.userAux = Object.assign({}, nthis.user);
 
@@ -81,6 +84,7 @@ export class EditUserComponent implements OnInit{
                             nthis.refreshUser();
                             nthis.getUser(); 
                         }, (error: any) => {
+                            nthis.editLoading = false;
                             nthis.httpErrorHandlerService.handleHttpError(error, error.error.msj);
                         }
                     );
@@ -106,7 +110,7 @@ export class EditUserComponent implements OnInit{
     }
 
     /*updateSlide(userSessionInfo:UserSessionInfo){
-        $("#slide-profile-picture").attr("src",PICTURES_PATH+"pictures/static-picture/"+userSessionInfo.picture);
+        $("#slide-profile-picture").attr("src",PICTURES_PATH+userSessionInfo.picture);
         $("#slide-user-name").attr("http",userSessionInfo.firstName+" "+userSessionInfo.lastName);
     }*/
 
@@ -196,7 +200,7 @@ export class EditUserComponent implements OnInit{
 
     getProfileImage(uuid:string):string{
         if(uuid && !this.user.profilePicture.value){
-            return PICTURES_PATH+"pictures/static-picture/"+uuid;
+            return PICTURES_PATH+uuid;
         }
         else if(this.user.profilePicture.value){
             return this.user.profilePicture.value;
@@ -208,7 +212,7 @@ export class EditUserComponent implements OnInit{
 
     getCoverImage(uuid:string):string{
         if(uuid && !this.user.coverPicture.value){
-          return PICTURES_PATH+"pictures/static-picture/"+uuid;
+          return PICTURES_PATH+uuid;
         }
         else if(this.user.coverPicture.value){
             return this.user.coverPicture.value;

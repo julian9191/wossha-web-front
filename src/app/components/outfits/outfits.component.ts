@@ -103,7 +103,7 @@ export class OutfitsComponent implements OnInit{
 
     getImage(uuid:string):string{
         if(uuid){
-            return PICTURES_PATH+"pictures/static-picture/"+uuid;
+            return PICTURES_PATH+uuid;
         }else{
             return "../assets/img/blog-1.jpg";
         }

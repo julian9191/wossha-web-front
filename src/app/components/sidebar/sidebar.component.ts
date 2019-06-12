@@ -190,7 +190,7 @@ export class SidebarComponent implements OnInit {
 
     getProfileImage(uuid:string):string{
         if(uuid){
-            return PICTURES_PATH+"pictures/static-picture/"+uuid;
+            return PICTURES_PATH+uuid;
         }
         else{
             return this.defaultProfilePicture;

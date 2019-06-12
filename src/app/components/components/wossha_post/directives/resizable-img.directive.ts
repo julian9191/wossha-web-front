@@ -32,17 +32,13 @@ export class ResizableImgDirective implements OnInit{
 
 
   resizeWorks(){
-    console.log(111);
     let width = this.el.offsetWidth;
     let height = this.el.offsetHeight;
     if(width>height){
-      console.log(222);
       this.elementClass = this.height100;
     }else{
-      console.log(333);
       this.elementClass = this.width100;
     }
-    console.log(444);
     this.cdRef.detectChanges();
 }
 

@@ -20,45 +20,23 @@ export class WosshaPostImagesComponent implements OnInit {
     @Input() localImages:PictureFile[];
     @Input() isComment:boolean;
     public slideImages: any[] = [];
-    baseUrl:string = PICTURES_PATH+"pictures/static-picture/";
     myConfig = {
         masonry: true
     };
 
-    constructor(public lightbox: CrystalLightbox, private http: Http){}
+    constructor(public lightbox: CrystalLightbox){}
 
     ngOnInit(){
-        this.beforeInitSlideImages();
-    }
-
-    beforeInitSlideImages(){
-        console.log("1111");
-        if(this.images.length > 0){
-            console.log("2222");
-            this.http.get(this.baseUrl+this.images[0]).map(
-                res => {
-                    console.log("3333");
-                    this.initSlideImages();
-                }
-            )
-            .catch((error:any) => {
-                console.log("4444");
-                let _that = this;
-                setTimeout(function(){
-                    _that.beforeInitSlideImages()
-                },500);
-                return Observable.throw(error);
-            })
-        }
+        this.initSlideImages();
     }
 
     initSlideImages(){
-        console.log("aaaa");
+
         let images:string[] = this.images.map((x) => {return x.url});
         for (const image of images) {
             let item = {
-                preview: this.baseUrl+image,
-                full: this.baseUrl+image,
+                preview: PICTURES_PATH+image,
+                full: PICTURES_PATH+image,
                 width: 1000,
                 height: 333,
                 description: ""
@@ -78,18 +56,14 @@ export class WosshaPostImagesComponent implements OnInit {
 
     waitAndReload(event){
         const originalSrc = event.target.src;
-
         if (parseInt(event.target.getAttribute('data-retry'), 10) !== parseInt(event.target.getAttribute('data-max-retry'), 10)) {
-
             event.target.setAttribute('data-retry', parseInt(event.target.getAttribute('data-retry'), 10) + 1);
-
-            event.target.src = "../assets/img/blog-1.jpg";
-
+            event.target.src = "../assets/img/Spinner-Loading.gif";
             setTimeout(function () {
                 event.target.src = originalSrc;
             }, 2000);
         } else {
-            event.target.src = "../assets/img/blog-1.jpg";
+            event.target.src = "../assets/img/Spinner-Loading.gif";
         }
     }
 

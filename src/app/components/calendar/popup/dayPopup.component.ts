@@ -126,7 +126,7 @@ export class DayPopup extends DialogComponent<ConfirmModel, boolean> implements 
 
   getImage(uuid:string):string{
     if(uuid){
-      return PICTURES_PATH+"pictures/static-picture/"+uuid;
+      return PICTURES_PATH+uuid;
     }else{
       return "../assets/img/blog-1.jpg";
     }

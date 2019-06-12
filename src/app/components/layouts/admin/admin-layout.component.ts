@@ -77,10 +77,10 @@ export class AdminLayoutComponent implements OnInit {
     getProfilePicture():string{
         let uuid:string = this.userSessionInfo.user.userSessionInfo.picture;
         if(uuid){
-            return PICTURES_PATH+"pictures/static-picture/"+uuid;
+            return uuid;
         }
         else{
-            return "../assets/img/default-avatar.png";
+            return null;
         }
     }
 

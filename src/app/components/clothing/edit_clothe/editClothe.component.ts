@@ -33,7 +33,7 @@ export class EditClotheComponent implements OnInit{
   selectedColorName:string = "";
   searchResult:any;
   register:Clothe;
-
+  public loading:boolean = false;
   clothingTypes:ClothingType[];
   clothingCategories:ClothingCategory[];
   editClotheCommand:EditClotheCommand;
@@ -128,15 +128,17 @@ export class EditClotheComponent implements OnInit{
             }
 
             this.editClotheCommand.clothe = model;
-
+            this.loading = true;
             this.clothingService.executeCommand(this.editClotheCommand).subscribe( 
                 (messaje) => {
+                    this.loading = false;
                     this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
                     p.reset();
                     f.resetForm();
                     this.refreshClothe();
                     this.getClothe(); 
                 }, (error: any) => {
+                    this.loading = false;
                     this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
                 }
             );
@@ -150,7 +152,7 @@ export class EditClotheComponent implements OnInit{
     getImage(uuid:string):string{
         try {
             if(uuid && !this.register.picture.value){
-                return PICTURES_PATH+"pictures/static-picture/"+uuid;
+                return PICTURES_PATH+uuid;
             }
         }catch(err) {}
 
