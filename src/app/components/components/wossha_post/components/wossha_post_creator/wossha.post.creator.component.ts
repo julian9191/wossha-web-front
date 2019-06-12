@@ -42,7 +42,8 @@ export class WosshaPostCreatorComponent implements OnInit {
     }
 
     post(){
-        if(!this.createPostCommand.text){
+        
+        if(!this.createPostCommand.text && (!this.images || this.images.length==0) && this.getVideoCode()==""){
             return;
         }
 
@@ -57,7 +58,7 @@ export class WosshaPostCreatorComponent implements OnInit {
 
         let post:Post = new Post();
         post.username = this.createPostCommand.username;
-        post.text = this.createPostCommand.text;
+        post.text = this.createPostCommand.text ? this.createPostCommand.text : "";
         post.created = new Date();
         post.uuidParent = this.uuidPost;
         post.name = this.userSessionInfo.userSessionInfo.firstName+" "+this.userSessionInfo.userSessionInfo.lastName;
@@ -72,6 +73,7 @@ export class WosshaPostCreatorComponent implements OnInit {
 
         this.socialService.executeCommand(this.createPostCommand).subscribe( 
             (messaje) => {
+                console.log(messaje);
                 this.createPostCommand.text = "";
                 this.textVar.nativeElement.innerHTML = "";
                 this.inFocus = false;
@@ -79,8 +81,11 @@ export class WosshaPostCreatorComponent implements OnInit {
                 post.uuid = messaje["response"].uuidPost;
                 post.attachments = messaje["response"].attachments;
                 if(messaje["response"].attachments && messaje["response"].attachments.length > 0){
-                    post.type='IMAGE_POST';
+                    post.type=messaje["response"].attachments[0].type;
                 }
+
+                this.createPostCommand.images = [];
+                this.createPostCommand.videoCode = "";
                 this.images = []; 
                 this.videoUrl = "";
                 this.postCreatedEvent.emit(post);

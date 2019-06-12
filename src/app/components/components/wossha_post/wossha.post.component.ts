@@ -330,7 +330,7 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
                         nthis.deletePostCommand.attachments = nthis.deletePostCommand.attachments.concat(comment.attachments);
                     }
                 }
-
+                post.loading = true;
                 nthis.socialService.executeCommand(nthis.deletePostCommand).subscribe( 
                     (messaje) => {
                         if(!post.uuidParent){
