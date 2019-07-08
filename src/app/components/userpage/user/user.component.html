@@ -21,18 +21,24 @@
                         </div>
                         <p class="description text-center">{{user.about}}</p>
                         <div class="text-center" *ngIf="followStatus()=='NOT_FOLLOWING'">
-                            <button type="button" class="btn btn-warning btn-fill btn-wd" (click)="followUser()">
-                                <i class="fa fa-user-plus"></i> Solicitar seguir
+                            <button type="button" [disabled]="loadingAction" class="btn btn-warning btn-fill btn-wd" (click)="followUser()">
+                                <i *ngIf="!loadingAction" class="fa fa-user-plus"></i>
+                                <i *ngIf="loadingAction" class="fas fa-circle-notch fa-spin wossha-button-spinner"></i> 
+                                 Solicitar seguir
                             </button>
                         </div>
                         <div class="text-center" *ngIf="followStatus()=='WAITING_FOR_APPROVAL'">
-                            <button type="button" class="btn btn-warning btn-fill btn-wd" (click)="stopFollowingUser()">
-                                <i class="fas fa-remove"></i> Cancelar solicitud para seguir
+                            <button type="button" [disabled]="loadingAction" class="btn btn-warning btn-fill btn-wd" (click)="stopFollowingUser()">
+                                <i *ngIf="!loadingAction" class="fa fa-times"></i>
+                                <i *ngIf="loadingAction" class="fas fa-circle-notch fa-spin wossha-button-spinner"></i>
+                                 Cancelar solicitud para seguir
                             </button>
                         </div>
                         <div class="text-center" *ngIf="followStatus()=='FOLLOWING'">
-                            <button type="button" class="btn btn-warning btn-fill btn-wd" (click)="stopFollowingUser()">
-                                <i class="fa fa-user-minus"></i> Dejar de seguir
+                            <button type="button" [disabled]="loadingAction" class="btn btn-warning btn-fill btn-wd" (click)="stopFollowingUser()">
+                                <i *ngIf="!loadingAction" class="fa fa-user-minus"></i>
+                                <i *ngIf="loadingAction" class="fas fa-circle-notch fa-spin wossha-button-spinner"></i> 
+                                Dejar de seguir
                             </button>
                         </div>
                     </div>

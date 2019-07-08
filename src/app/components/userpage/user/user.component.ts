@@ -43,6 +43,7 @@ export class UserComponent implements OnInit{
     public socialInfo:FollowingUser[];
     public slideImages: any[];
     public loading = false;
+    public loadingAction = false;
     myConfig = {
         masonry: true
     };
@@ -152,22 +153,28 @@ export class UserComponent implements OnInit{
     }
 
     followUser(){
+        this.loadingAction = true;
         this.socialService.executeCommand(this.followUserCommand).subscribe( 
             (messaje) => {
+                this.loadingAction = false;
                 this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
                 this.loadFollowingUsers();
             }, (error: any) => {
+                this.loadingAction = false;
                 this.httpErrorHandlerService.handleHttpError(error, error.error.msj);
             }
         );
     }
 
     stopFollowingUser(){
+        this.loadingAction = true;
         this.socialService.executeCommand(this.stopFollowingUserCommand).subscribe( 
             (messaje) => {
+                this.loadingAction = false;
                 this.notificationsService.showNotification(messaje["msj"], this.notificationsService.SUCCESS);
                 this.loadFollowingUsers();
             }, (error: any) => {
+                this.loadingAction = false;
                 this.httpErrorHandlerService.handleHttpError(error, error.error.msj);
             }
         );
