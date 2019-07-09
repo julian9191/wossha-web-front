@@ -17,6 +17,8 @@ import { WosshaPostImagesComponent } from './components/wossha_post_images/wossh
 
 import { OneModalComponent } from './components/one-modal/one-modal.component';
 import { ReactionsModalComponent } from './components/reactions-modal/reactions-modal.component';
+import { ShareModalComponent } from './components/share-modal/share-modal.component';
+
 import { ResizableDivDirective } from './directives/resizable-div.directive';
 import { ResizableImgDirective } from './directives/resizable-img.directive';
 import { LoadVideoDirective } from './directives/load-video.directive';
@@ -44,7 +46,8 @@ import { ResizableVideoDirective } from './directives/resizable-video.directive'
         WosshaPostCreatorComponent,
         WosshaPostImagesComponent,
         OneModalComponent, 
-        ReactionsModalComponent, 
+        ReactionsModalComponent,
+        ShareModalComponent,
         ResizableDivDirective,
         ResizableImgDirective,
         LoadVideoDirective,

@@ -297,6 +297,17 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
         this.ngxSmartModalService.getModal('popuptwo').open()
     }
 
+    openSharePopup(){
+        const data: Object = {
+            //reactions: reactions,
+            //reactionType: reactionType
+        };
+
+        this.ngxSmartModalService.resetModalData('popupthree');
+        this.ngxSmartModalService.setModalData(data, 'popupthree');
+        this.ngxSmartModalService.getModal('popupthree').open()
+    }
+
     iReacted(reactions){
         if(reactions){
             let reaction = reactions.filter(r => r.username==this.userSessionInfo.username);

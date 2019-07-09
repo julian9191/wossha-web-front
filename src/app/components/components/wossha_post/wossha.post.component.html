@@ -1,5 +1,6 @@
 <one-modal></one-modal>
 <two-modal2></two-modal2>
+<three-modal></three-modal>
 
 <wossha-post-creator 
     [userSessionInfo]="userSessionInfo"
@@ -67,7 +68,9 @@
             {{post.comments.length}}
         </a>
 
-        <button href="#" class="btn btn-simple post-icon"><i class="fa fa-share"></i></button>
+        <button href="#" class="btn btn-simple post-icon" (click)="openSharePopup()">
+            <i class="fa fa-share"></i>
+        </button>
     
         <span class="notif-time">{{post.created | fromDate}}</span>
     </div>
