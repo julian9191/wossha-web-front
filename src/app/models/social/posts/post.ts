@@ -15,6 +15,7 @@ export class Post {
     modified:Date;
     reactions:any;
     comments:Post[] = [];
+    originalPost:Post;
     attachments:Attachment[] = [];
     showComments:boolean = false;
     loading:boolean = false;

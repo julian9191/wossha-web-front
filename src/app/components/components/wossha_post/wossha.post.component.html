@@ -1,6 +1,6 @@
 <one-modal></one-modal>
 <two-modal2></two-modal2>
-<three-modal></three-modal>
+<three-modal (postCreatedEvent)="postCreatedListener($event)"></three-modal>
 
 <wossha-post-creator 
     [userSessionInfo]="userSessionInfo"
@@ -50,6 +50,29 @@
         <div *ngIf="post.type=='VIDEO_POST'" class="col-md-12">
             <iframe appResizableVideo [src]="post.attachments[0].url | videoPipe: 'CODE'" style="width: 100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
+
+        <div *ngIf="post.originalPost" class="content">
+
+            <div class="header share-header">
+                <a [routerLink]="['/pages/user', post.originalPost.username]">
+                    <img class="avatar" style="width: 30px; height: 30px;" [src]="post.originalPost.profilePicture | picturePipe" alt="...">
+                    <span style="color: #ffa534">@{{post.originalPost.username}} - {{post.originalPost.name}}</span>
+                </a>
+            </div>    
+            <p style="font-size: 14px;">
+                {{post.originalPost.text}}
+            </p>
+            <div *ngIf="post.originalPost.type=='IMAGE_POST'" class="col-md-12">
+                <wossha-post-images [images]="post.originalPost.attachments" [isComment]="false"></wossha-post-images>
+            </div>
+    
+            <div *ngIf="post.originalPost.type=='VIDEO_POST'" class="col-md-12">
+                <iframe appResizableVideo [src]="post.originalPost.attachments[0].url | videoPipe: 'CODE'" style="width: 100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class='clear'></div>
+
+        </div>
+
         <div class='clear'></div>
     </div>
     <div style="padding: 0 15px;">       
@@ -68,7 +91,7 @@
             {{post.comments.length}}
         </a>
 
-        <button href="#" class="btn btn-simple post-icon" (click)="openSharePopup()">
+        <button href="#" class="btn btn-simple post-icon" (click)="openSharePopup(post)">
             <i class="fa fa-share"></i>
         </button>
     

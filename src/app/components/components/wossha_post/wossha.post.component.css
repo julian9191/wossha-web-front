@@ -50,3 +50,10 @@
 .options-arrow ul a{
     color: #555 !important;
 }
+
+.share-header{
+    padding-top: 0 !important; 
+    font-size: 17px !important; 
+    margin-bottom: 7px !important; 
+    padding-left: 0 !important;
+}

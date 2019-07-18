@@ -2,8 +2,49 @@
   
   
   <div class="content content-full-width">
-    mama
+    <div class="modal-header">
+        <h4 _ngcontent-c14="" class="modal-title">Compartir</h4>
+    </div>
+    <div class="modal-body">
+      <div clickOutside (clickOutside)="inFocus=false">
+        <div 
+            #textVar
+            class="{{uuidPost}}"
+            contenteditable="true" 
+            (focus)="inFocus=true"
+            [ngClass]="{'contenteditable-focus': inFocus}"
+            (input)="insertTextModel($event.target.textContent)"
+            >
+        </div>
+      </div>
 
+      <div class="post-to-share">
+        <div class="header" style="padding-top: 0;">
+            <a [routerLink]="['/pages/user', post?.username]">
+                <img class="avatar" style="width: 48px; height: 48px;" [src]="post?.profilePicture | picturePipe" alt="...">
+                <span style="color: #ffa534">@{{post?.username}} - {{post?.name}}</span>
+            </a>   
+        </div>
+        <div class="content">
+            <p>
+                {{post?.text}}
+            </p>
+            <div *ngIf="post?.type=='IMAGE_POST'" class="col-md-12">
+                <wossha-post-images [images]="post?.attachments" [isComment]="false"></wossha-post-images>
+            </div>
+    
+            <div *ngIf="post?.type=='VIDEO_POST'" class="col-md-12">
+                <iframe appResizableVideo [src]="post?.attachments[0].url | videoPipe: 'CODE'" style="width: 100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class='clear'></div>
+        </div>
+      </div>
+
+      <div style="text-align: right">
+          <button type="button" class="btn btn-warning btn-fill" (click)="share()">Compartir</button>
+      </div>
+
+    </div>
   </div>
 
   <!--<button (click)="popuptwo.close()">Close</button>-->

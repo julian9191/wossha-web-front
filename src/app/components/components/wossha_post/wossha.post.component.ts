@@ -150,6 +150,11 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
             const usernames:string[] = posts[i].reactions.map((x) => {return x.username});
             posts[i].reactions = reactions;
             this.getMinuimumUserInfo(this.consts.REACTION, usernames, posts, posts[i].reactions);
+
+            if(posts[i].originalPost){
+                const usernames:string[] = [posts[i].originalPost.username];
+                this.getMinuimumUserInfo(this.consts.POST, usernames, [posts[i].originalPost], null);
+            }
         }
         const usernames:string[] = posts.filter(p => !p.name).map((x) => {return x.username});
         this.getMinuimumUserInfo(this.consts.POST, usernames, posts, null);
@@ -297,14 +302,9 @@ export class WosshaPostComponent implements OnInit, OnDestroy {
         this.ngxSmartModalService.getModal('popuptwo').open()
     }
 
-    openSharePopup(){
-        const data: Object = {
-            //reactions: reactions,
-            //reactionType: reactionType
-        };
-
+    openSharePopup(post:Post){
         this.ngxSmartModalService.resetModalData('popupthree');
-        this.ngxSmartModalService.setModalData(data, 'popupthree');
+        this.ngxSmartModalService.setModalData(post, 'popupthree');
         this.ngxSmartModalService.getModal('popupthree').open()
     }
 
