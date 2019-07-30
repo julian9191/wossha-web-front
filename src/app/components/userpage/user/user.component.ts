@@ -44,6 +44,7 @@ export class UserComponent implements OnInit{
     public slideImages: any[];
     public loading = false;
     public loadingAction = false;
+    public followStatus:string = "";
     myConfig = {
         masonry: true
     };
@@ -70,6 +71,7 @@ export class UserComponent implements OnInit{
 
         let loginInfo:SessionInfo = this.userService.getLoggedUserSessionInfo();
         let myUserName:string = loginInfo.user.username;
+        
         this.username = this.route.snapshot.paramMap.get("username");
 
         this.followUserCommand.username=myUserName;
@@ -87,7 +89,7 @@ export class UserComponent implements OnInit{
         if(this.username == myUserName){
             this.ownProfile = true;
         }
-        
+        this.getFollowStatus();
         this.getUser();
     }
 
@@ -180,23 +182,25 @@ export class UserComponent implements OnInit{
         );
     }
 
-    followStatus():string{
+    getFollowStatus(){
         if(this.ownProfile){
-            return "OWN_PROFILE";
+            this.followStatus= "OWN_PROFILE";
+            return;
         }
         if(this.socialInfo){
             for (let item of this.socialInfo) {
                 if(item.username == this.username){
                     if(item.state == 0){
-                        return "WAITING_FOR_APPROVAL";
+                        this.followStatus= "WAITING_FOR_APPROVAL";
     
                     }else{
-                        return "FOLLOWING";
+                        this.followStatus= "FOLLOWING";
                     }
                 }
             }
+        }else{
+            this.followStatus= "NOT_FOLLOWING";
         }
-        return "NOT_FOLLOWING";
     }
 
     loadFollowingUsers(){

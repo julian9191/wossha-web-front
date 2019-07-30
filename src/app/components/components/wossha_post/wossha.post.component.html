@@ -2,7 +2,7 @@
 <two-modal2></two-modal2>
 <three-modal (postCreatedEvent)="postCreatedListener($event)"></three-modal>
 
-<wossha-post-creator 
+<wossha-post-creator *ngIf="showPostCreator"
     [userSessionInfo]="userSessionInfo"
     [profileUsername]="username"
     [placeholder]="'¿ Algo para compartir ?'"

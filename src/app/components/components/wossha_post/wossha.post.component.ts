@@ -43,6 +43,7 @@ const query = (s,a,o={optional:true})=>q(s,a,o);
 export class WosshaPostComponent implements OnInit, OnDestroy {
 
     @Input() username:string;
+    @Input() showPostCreator: boolean;
     sessionInfoSubs: Subscription = new Subscription();
     userSessionInfo:LoginUser;
     public totalItems = 0;
