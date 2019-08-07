@@ -120,7 +120,7 @@ export class WosshaPostCreatorComponent implements OnInit {
         let index = this.getIndexNode(window.getSelection().getRangeAt(0).startContainer.parentNode);
         
         this.createPostCommand.text = this.tagUser(text);
-        this.textVar.nativeElement.innerHTML = this.tagUser(text);
+        this.textVar.nativeElement.innerHTML = this.createPostCommand.text;
         
         this.setStartPosition(index-1, startPos);
     }
@@ -194,14 +194,24 @@ export class WosshaPostCreatorComponent implements OnInit {
             lastCharacterIsSpace = true;
         }
 
+        console.log("antes1: "+text);
         text = text.replace(/\s+/g, " ");
 
         let array = text.split(" ");
         for (let i = 0; i < array.length; i++) {
+            if(i==(array.length-2) && array[array.length-1]=="" && lastCharacterIsSpace){
+                array[i] = array[i].startsWith("@") ? "<a id='wd_"+i+"'>"+array[i]+" "+char+"</a>" : "<span id='wd_"+i+"'>"+array[i]+" "+char+"</span>";
+                array.pop();
+                break;
+            }
+
             array[i] = array[i].startsWith("@") ? "<a id='wd_"+i+"'>"+array[i]+"</a>" : "<span id='wd_"+i+"'>"+array[i]+"</span>";
         }
 
         let result = array.join(" ");
+
+        console.log("antes2: "+text);
+        console.log("despues: "+result);
         
         return result;
     }
