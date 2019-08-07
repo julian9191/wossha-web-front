@@ -112,8 +112,100 @@ export class WosshaPostCreatorComponent implements OnInit {
     }
 
     insertTextModel(text){
-        this.createPostCommand.text = text;
+        let startPos = window.getSelection().getRangeAt(0).startOffset;
+        console.log("startPos: "+startPos);
+        console.log("startPos2: "+window.getSelection().getRangeAt(0).startOffset);
+        console.log(window.getSelection().getRangeAt(0).startContainer.parentNode);
+        console.log("*******");
+        let index = this.getIndexNode(window.getSelection().getRangeAt(0).startContainer.parentNode);
+        
+        this.createPostCommand.text = this.tagUser(text);
+        this.textVar.nativeElement.innerHTML = this.tagUser(text);
+        
+        this.setStartPosition(index-1, startPos);
     }
+
+    getIndexNode(node: Node):number{
+        let index = 0;
+        console.log("ITER----------------");
+        while(true){
+            try{
+                console.log(node);
+                node = node.previousSibling;
+                index++
+            }catch(e){
+                console.log("++++: "+e);
+                break;
+            }
+        }
+        console.log("----------------ITER");
+        return index;
+    }
+
+    startPos = 0; 
+    index = 0;
+    setStartPosition(index, startPos) {
+
+        index = index ? index : this.index;
+        startPos = startPos ? startPos : this.startPos;
+
+        var range = window.getSelection().getRangeAt(0);
+        var sel = window.getSelection();
+        
+        console.log("index: "+index);
+        console.log("----|||");
+        console.log(this.textVar.nativeElement.childNodes[index]);
+        let element = this.getElement(index, 0);
+        console.log(element);
+
+        console.log(111)
+        try{
+            range.setStart(element, startPos);
+        }catch(e){
+            let element2 = this.getElement(index, 2);
+            startPos = startPos-(element.length+1);
+            console.log("&&&&&&: index: "+(index+2)+", startPos: "+startPos);
+
+            range.setStart(element2, startPos);
+        }
+        
+        console.log(222)
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+
+    getElement(index, offset){
+        let element = null;
+        if(this.textVar.nativeElement.childNodes[index+offset].childNodes[0]){
+            element = this.textVar.nativeElement.childNodes[index+offset].childNodes[0];
+        }else{
+            element = this.textVar.nativeElement.childNodes[index+offset];
+        }
+
+        return element;
+    }
+
+    tagUser(text):string{
+        let lastCharacterIsSpace = false;
+        let char = text[text.length-1];
+        console.log("charCodeAt: "+text.charCodeAt(text.length-1));
+        if(text.charCodeAt(text.length-1)==160){
+            lastCharacterIsSpace = true;
+        }
+
+        text = text.replace(/\s+/g, " ");
+
+        let array = text.split(" ");
+        for (let i = 0; i < array.length; i++) {
+            array[i] = array[i].startsWith("@") ? "<a id='wd_"+i+"'>"+array[i]+"</a>" : "<span id='wd_"+i+"'>"+array[i]+"</span>";
+        }
+
+        let result = array.join(" ");
+        
+        return result;
+    }
+
 
     showImageOrVideoUploader(type:string){
         if(type=="IMAGE"){

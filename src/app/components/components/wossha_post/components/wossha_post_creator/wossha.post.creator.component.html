@@ -16,6 +16,10 @@
                 (input)="insertTextModel($event.target.textContent)"
                 >
             </div>
+            <input type="text" placeholder="startPos" [(ngModel)]="startPos">
+            <input type="text" placeholder="index" [(ngModel)]="index">
+            <input type="button" value="Paste HTML" (click)="setStartPosition()">
+            {{createPostCommand.text}}
             <div style="padding-top: 10px" [hidden]="!inFocus">
                 <div style="float: left;">
                     <button class="btn btn-info btn-fill btn-sm btn-round btn-icon btn-tool" (click)="showImageOrVideoUploader('IMAGE')" title="Adjunta imagenes">
