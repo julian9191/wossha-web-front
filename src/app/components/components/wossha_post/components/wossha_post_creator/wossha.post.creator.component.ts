@@ -162,7 +162,7 @@ export class WosshaPostCreatorComponent implements OnInit {
         try{
             range.setStart(element, startPos);
         }catch(e){
-            let element2 = this.getElement(index, 2);
+            let element2 = this.getElement(index, 1);
             startPos = startPos-(element.length);
             console.log("&&&&&&: index: "+(index+2)+", startPos: "+startPos);
 
@@ -207,7 +207,7 @@ export class WosshaPostCreatorComponent implements OnInit {
             array[i] = array[i].startsWith("@") ? "<a id='wd_"+i+"'>"+array[i]+"</a>" : "<span id='wd_"+i+"'>"+array[i]+"</span>";
         }
 
-        let result = array.join(" ");
+        let result = array.join("");
 
         console.log("antes2: "+text);
         console.log("despues: "+result);
