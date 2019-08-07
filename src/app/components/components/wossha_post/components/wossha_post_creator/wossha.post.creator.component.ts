@@ -120,7 +120,7 @@ export class WosshaPostCreatorComponent implements OnInit {
         let index = this.getIndexNode(window.getSelection().getRangeAt(0).startContainer.parentNode);
         
         this.createPostCommand.text = this.tagUser(text);
-        this.textVar.nativeElement.innerHTML = this.tagUser(text);
+        this.textVar.nativeElement.innerHTML = this.createPostCommand.text;
         
         this.setStartPosition(index-1, startPos);
     }
@@ -163,7 +163,7 @@ export class WosshaPostCreatorComponent implements OnInit {
             range.setStart(element, startPos);
         }catch(e){
             let element2 = this.getElement(index, 2);
-            startPos = startPos-(element.length+1);
+            startPos = startPos-(element.length);
             console.log("&&&&&&: index: "+(index+2)+", startPos: "+startPos);
 
             range.setStart(element2, startPos);
@@ -194,15 +194,16 @@ export class WosshaPostCreatorComponent implements OnInit {
             lastCharacterIsSpace = true;
         }
 
-        text = text.replace(/\s+/g, " ");
+        //text = text.replace(/\s+/g, " ");
 
-        let array = text.split(" ");
+        //let array = text.split(/\s/g);
+        let array = this.splitText(text);
         for (let i = 0; i < array.length; i++) {
-            if(i==(array.length-2) && array[array.length-1]=="" && lastCharacterIsSpace){
+            /*if(i==(array.length-2) && array[array.length-1]=="" && lastCharacterIsSpace){
                 array[i] = array[i].startsWith("@") ? "<a id='wd_"+i+"'>"+array[i]+" "+char+"</a>" : "<span id='wd_"+i+"'>"+array[i]+" "+char+"</span>";
                 array.pop();
                 break;
-            }
+            }*/
             array[i] = array[i].startsWith("@") ? "<a id='wd_"+i+"'>"+array[i]+"</a>" : "<span id='wd_"+i+"'>"+array[i]+"</span>";
         }
 
@@ -214,6 +215,26 @@ export class WosshaPostCreatorComponent implements OnInit {
         return result;
     }
 
+    splitText(text:string){
+        let array = [];
+        let count = -1;
+        let lastChar = "";
+        for(let i = 0; i < text.length; i++){
+            if(/*(text[i].trim()=="" && lastChar.trim()!="") || */(text[i].trim()!="" && lastChar.trim()=="")){
+                count++;
+                array[count] = array[count] ? array[count] : "";
+                array[count] += text[i];
+            }else{
+                if(lastChar == ""){
+                    count++;
+                }
+                array[count] = array[count] ? array[count] : "";
+                array[count] += text[i];
+            }
+            lastChar = text[i];
+        }
+        return array;
+    }
 
     showImageOrVideoUploader(type:string){
         if(type=="IMAGE"){
