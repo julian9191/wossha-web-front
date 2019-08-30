@@ -267,3 +267,12 @@ app-hue{
 .custom-dropzone .ng-star-inserted{
     font-size: 40px !important;
 }
+
+.search-picture{
+    width: 34px; 
+    height: 34px; 
+    overflow: hidden; 
+    border-radius: 50%; 
+    float: left; 
+    margin-right: 11px;
+}

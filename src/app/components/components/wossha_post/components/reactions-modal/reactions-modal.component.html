@@ -25,7 +25,7 @@
             aria-controls="home"
             [routerLink]="['/pages/user', match.username]"
             >
-              <div style="width: 34px; height: 34px; overflow: hidden; border-radius: 50%; float: left; margin-right: 11px;">
+              <div class="search-picture">
                 <img id="slide-profile-picture" style="width: 34px; height: 34px;" [src]="match.profilePicture | picturePipe" />
               </div>
               @{{match.username}} - {{match.name}}
@@ -49,7 +49,7 @@
             aria-controls="home"
             [routerLink]="['/pages/user', match.username]"
             >
-              <div style="width: 34px; height: 34px; overflow: hidden; border-radius: 50%; float: left; margin-right: 11px;">
+              <div class="search-picture">
                 <img id="slide-profile-picture" style="width: 34px; height: 34px;" [src]="match.profilePicture | picturePipe" />
               </div>
               @{{match.username}} - {{match.name}}

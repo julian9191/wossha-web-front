@@ -7,6 +7,7 @@ import { Post } from 'app/models/social/posts/post';
 import { LoadingEventDTO } from './loadingEventDTO';
 import { PictureFile } from 'app/models/global/pictureFile';
 import Tribute from 'tributejs';
+import { PICTURES_PATH } from 'app/globals';
 declare var $:any;
 
 @Component({
@@ -41,10 +42,24 @@ export class WosshaPostCreatorComponent implements OnInit {
 
             return '@' + item.original.value;
           },
+          menuItemTemplate: function (item) {
 
+            let imageSrc = item.original.picture ? PICTURES_PATH+item.original.picture : "../assets/img/default-avatar.png";
+
+            return `
+                <div class="search-picture">
+                    <img id="slide-profile-picture" style="width: 34px; height: 34px;" src="${imageSrc}" />
+                </div>
+                <div style="float: right">
+                    ${item.original.value}<br>
+                    @${item.original.key}
+                </div>
+                <div class="clear"></div>
+            `;
+          },
           // the array of objects
           values: [
-            {key: 'juliancho9191', value: 'Julian Giraldo'},
+            {key: 'juliancho9191', value: 'Julian Giraldo', picture: '29f794fd-8eca-11e9-a116-6fcd3081ca34'},
             {key: 'Sir Walter Riley', value: 'Sir Walter Riley'}
           ]
         }/*,
