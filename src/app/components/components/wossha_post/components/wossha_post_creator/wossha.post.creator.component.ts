@@ -6,6 +6,7 @@ import { NotificationsService } from 'app/providers/notifications/notifications.
 import { Post } from 'app/models/social/posts/post';
 import { LoadingEventDTO } from './loadingEventDTO';
 import { PictureFile } from 'app/models/global/pictureFile';
+import Tribute from 'tributejs';
 declare var $:any;
 
 @Component({
@@ -28,11 +29,57 @@ export class WosshaPostCreatorComponent implements OnInit {
     @Output() loadingEvent = new EventEmitter<LoadingEventDTO>();
     private createPostCommand: CreatePostCommand = new CreatePostCommand();
     @ViewChild('textVar') textVar: ElementRef;
+
+
+    public tributeMultipleTriggers = new Tribute({
+        collection: [{
+          // The function that gets call on select that retuns the content to insert
+          selectTemplate: function (item) {
+            if (this.range.isContentEditable(this.current.element)) {
+              return '<a href="javascript:void(0)" title="' + item.original.value + '">@' + item.original.key + '</a>';
+            }
+
+            return '@' + item.original.value;
+          },
+
+          // the array of objects
+          values: [
+            {key: 'juliancho9191', value: 'Julian Giraldo'},
+            {key: 'Sir Walter Riley', value: 'Sir Walter Riley'}
+          ]
+        }/*,
+        {
+          // The symbol that starts the lookup
+          trigger: '#',
+
+          // The function that gets call on select that retuns the content to insert
+          selectTemplate: function (item) {
+            if (this.range.isContentEditable(this.current.element)) {
+              return '<a href="mailto:'+item.original.email+'">#' + item.original.name.replace() + '</a>';
+            }
+
+            return '#' + item.original.name;
+          },
+
+          // function retrieving an array of objects
+          values: [
+            {name: 'Bob Bill', email: 'bobbill@example.com'},
+            {name: 'Steve Stevenston', email: 'steve@example.com'}
+          ],
+
+          lookup: 'name',
+
+          fillAttr: 'name'
+        }*/]
+      });
     
     constructor(private socialService:SocialService,
         private notificationsService: NotificationsService){}
 
     ngOnInit(){
+        
+        this.tributeMultipleTriggers.attach(this.textVar.nativeElement);
+
         if(!this.uuidPost){
             this.uuidPost = null;
         }
@@ -112,128 +159,7 @@ export class WosshaPostCreatorComponent implements OnInit {
     }
 
     insertTextModel(text){
-        let startPos = window.getSelection().getRangeAt(0).startOffset;
-        console.log("startPos: "+startPos);
-        console.log("startPos2: "+window.getSelection().getRangeAt(0).startOffset);
-        console.log(window.getSelection().getRangeAt(0).startContainer.parentNode);
-        console.log("*******");
-        let index = this.getIndexNode(window.getSelection().getRangeAt(0).startContainer.parentNode);
-        
-        this.createPostCommand.text = this.tagUser(text);
-        this.textVar.nativeElement.innerHTML = this.createPostCommand.text;
-        
-        this.setStartPosition(index-1, startPos);
-    }
-
-    getIndexNode(node: Node):number{
-        let index = 0;
-        console.log("ITER----------------");
-        while(true){
-            try{
-                console.log(node);
-                node = node.previousSibling;
-                index++
-            }catch(e){
-                console.log("++++: "+e);
-                break;
-            }
-        }
-        console.log("----------------ITER");
-        return index;
-    }
-
-    startPos = 0; 
-    index = 0;
-    setStartPosition(index, startPos) {
-
-        index = index ? index : this.index;
-        startPos = startPos ? startPos : this.startPos;
-
-        var range = window.getSelection().getRangeAt(0);
-        var sel = window.getSelection();
-        
-        console.log("index: "+index);
-        console.log("----|||");
-        console.log(this.textVar.nativeElement.childNodes[index]);
-        let element = this.getElement(index, 0);
-        console.log(element);
-
-        console.log(111)
-        try{
-            range.setStart(element, startPos);
-        }catch(e){
-            let element2 = this.getElement(index, 1);
-            startPos = startPos-(element.length);
-            console.log("&&&&&&: index: "+(index+2)+", startPos: "+startPos);
-
-            range.setStart(element2, startPos);
-        }
-        
-        console.log(222)
-        range.collapse(true);
-        sel.removeAllRanges();
-        sel.addRange(range);
-    }
-
-    getElement(index, offset){
-        let element = null;
-        if(this.textVar.nativeElement.childNodes[index+offset].childNodes[0]){
-            element = this.textVar.nativeElement.childNodes[index+offset].childNodes[0];
-        }else{
-            element = this.textVar.nativeElement.childNodes[index+offset];
-        }
-
-        return element;
-    }
-
-    tagUser(text):string{
-        let lastCharacterIsSpace = false;
-        let char = text[text.length-1];
-        console.log("charCodeAt: "+text.charCodeAt(text.length-1));
-        if(text.charCodeAt(text.length-1)==160){
-            lastCharacterIsSpace = true;
-        }
-
-        //text = text.replace(/\s+/g, " ");
-
-        //let array = text.split(/\s/g);
-        let array = this.splitText(text);
-        for (let i = 0; i < array.length; i++) {
-            /*if(i==(array.length-2) && array[array.length-1]=="" && lastCharacterIsSpace){
-                array[i] = array[i].startsWith("@") ? "<a id='wd_"+i+"'>"+array[i]+" "+char+"</a>" : "<span id='wd_"+i+"'>"+array[i]+" "+char+"</span>";
-                array.pop();
-                break;
-            }*/
-            array[i] = array[i].startsWith("@") ? "<a id='wd_"+i+"'>"+array[i]+"</a>" : "<span id='wd_"+i+"'>"+array[i]+"</span>";
-        }
-
-        let result = array.join("");
-
-        console.log("antes2: "+text);
-        console.log("despues: "+result);
-        
-        return result;
-    }
-
-    splitText(text:string){
-        let array = [];
-        let count = -1;
-        let lastChar = "";
-        for(let i = 0; i < text.length; i++){
-            if(/*(text[i].trim()=="" && lastChar.trim()!="") || */(text[i].trim()!="" && lastChar.trim()=="")){
-                count++;
-                array[count] = array[count] ? array[count] : "";
-                array[count] += text[i];
-            }else{
-                if(lastChar == ""){
-                    count++;
-                }
-                array[count] = array[count] ? array[count] : "";
-                array[count] += text[i];
-            }
-            lastChar = text[i];
-        }
-        return array;
+        this.createPostCommand.text = text;
     }
 
     showImageOrVideoUploader(type:string){
