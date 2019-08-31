@@ -17,6 +17,7 @@ export class Post {
     comments:Post[] = [];
     originalPost:Post;
     attachments:Attachment[] = [];
+    mentionedUsers:string[] = []
     showComments:boolean = false;
     loading:boolean = false;
 }

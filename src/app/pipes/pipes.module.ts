@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FromDatePipe } from "./fromDate.pipe";
 import { PicturePipe } from "./picture.pipe";
 import { VideoPipe } from "./video.pipe";
+import { MentionedPipe } from "./mentioned.pipe";
 
 
 @NgModule({
@@ -11,13 +12,15 @@ import { VideoPipe } from "./video.pipe";
     exports: [
         FromDatePipe,
         PicturePipe,
-        VideoPipe
+        VideoPipe,
+        MentionedPipe
     ],
     entryComponents: [],
     declarations: [
         FromDatePipe,
         PicturePipe,
-        VideoPipe
+        VideoPipe,
+        MentionedPipe
     ],
     providers: []
 })

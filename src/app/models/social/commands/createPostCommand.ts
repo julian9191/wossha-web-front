@@ -7,4 +7,5 @@ export class CreatePostCommand {
     text:string;
     images:PictureFile[] = [];
     videoCode: string;
+    mentionedUsers:string[] = []
   }

@@ -38,7 +38,13 @@ export class WosshaPostCreatorComponent implements OnInit {
         private userService: UserService){}
 
     ngOnInit(){
+        let $this = this;
+
+        //initializ mention system (zurb tribute js)
         this.tributeMultipleTriggers.attach(this.textVar.nativeElement);
+        this.textVar.nativeElement.addEventListener('tribute-replaced', function (e) {
+            $this.createPostCommand.mentionedUsers.push(e.detail.item.original.key);
+        });
 
         if(!this.uuidPost){
             this.uuidPost = null;
@@ -150,6 +156,7 @@ export class WosshaPostCreatorComponent implements OnInit {
         if(this.showingImageUploader){
             this.createPostCommand.images = this.images
         }
+        this.createPostCommand.mentionedUsers = this.removeRemovedMentionedUsers();
 
         let post:Post = new Post();
         post.username = this.createPostCommand.username;
@@ -159,6 +166,7 @@ export class WosshaPostCreatorComponent implements OnInit {
         post.name = this.userSessionInfo.userSessionInfo.firstName+" "+this.userSessionInfo.userSessionInfo.lastName;
         post.profilePicture = this.userSessionInfo.userSessionInfo.picture;
         post.reactions = [];
+        post.mentionedUsers = this.createPostCommand.mentionedUsers;
         post.showComments = false;
 
         let loadingEventDTO = new LoadingEventDTO();
@@ -188,6 +196,10 @@ export class WosshaPostCreatorComponent implements OnInit {
                 this.notificationsService.showNotification(error.error.msj, this.notificationsService.DANGER);
             }
         );
+    }
+
+    removeRemovedMentionedUsers(){
+        return this.createPostCommand.mentionedUsers.filter(x=>this.createPostCommand.text.includes("@"+x));
     }
 
     getVideoCode(){

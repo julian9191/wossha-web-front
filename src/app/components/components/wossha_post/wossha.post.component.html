@@ -40,9 +40,7 @@
         </div>
     </div>
     <div class="content">
-        <p>
-            {{post.text}}
-        </p>
+        <p [innerHTML]="post.text | mentionedPipe: post.mentionedUsers"></p>
         <div *ngIf="post.type=='IMAGE_POST'" class="col-md-12">
             <wossha-post-images [images]="post.attachments" [isComment]="false"></wossha-post-images>
         </div>
@@ -59,9 +57,7 @@
                     <span style="color: #ffa534">@{{post.originalPost.username}} - {{post.originalPost.name}}</span>
                 </a>
             </div>    
-            <p style="font-size: 14px;">
-                {{post.originalPost.text}}
-            </p>
+            <p style="font-size: 14px;" [innerHTML]="post.originalPost.text | mentionedPipe: post.originalPost.mentionedUsers"></p>
             <div *ngIf="post.originalPost.type=='IMAGE_POST'" class="col-md-12">
                 <wossha-post-images [images]="post.originalPost.attachments" [isComment]="false"></wossha-post-images>
             </div>
@@ -118,7 +114,7 @@
                         </ul>
                     </div>
                     &nbsp; 
-                    <span>{{comment.text}}</span>
+                    <span [innerHTML]="comment.text | mentionedPipe: comment.mentionedUsers"></span>
                     <div *ngIf="comment.type=='IMAGE_POST'" class="col-md-12">
                         <wossha-post-images [images]="comment.attachments" [localImages]="comment.localImages" [isComment]="true"></wossha-post-images>
                     </div>
