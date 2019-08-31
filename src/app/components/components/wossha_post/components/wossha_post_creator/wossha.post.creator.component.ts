@@ -8,6 +8,7 @@ import { LoadingEventDTO } from './loadingEventDTO';
 import { PictureFile } from 'app/models/global/pictureFile';
 import Tribute from 'tributejs';
 import { PICTURES_PATH } from 'app/globals';
+import { UserService } from 'app/providers/user/user.service';
 declare var $:any;
 
 @Component({
@@ -30,69 +31,13 @@ export class WosshaPostCreatorComponent implements OnInit {
     @Output() loadingEvent = new EventEmitter<LoadingEventDTO>();
     private createPostCommand: CreatePostCommand = new CreatePostCommand();
     @ViewChild('textVar') textVar: ElementRef;
-
-
-    public tributeMultipleTriggers = new Tribute({
-        collection: [{
-          // The function that gets call on select that retuns the content to insert
-          selectTemplate: function (item) {
-            if (this.range.isContentEditable(this.current.element)) {
-              return '<a href="javascript:void(0)" title="' + item.original.value + '">@' + item.original.key + '</a>';
-            }
-
-            return '@' + item.original.value;
-          },
-          menuItemTemplate: function (item) {
-
-            let imageSrc = item.original.picture ? PICTURES_PATH+item.original.picture : "../assets/img/default-avatar.png";
-
-            return `
-                <div class="search-picture">
-                    <img id="slide-profile-picture" style="width: 34px; height: 34px;" src="${imageSrc}" />
-                </div>
-                <div style="float: right">
-                    ${item.original.value}<br>
-                    @${item.original.key}
-                </div>
-                <div class="clear"></div>
-            `;
-          },
-          // the array of objects
-          values: [
-            {key: 'juliancho9191', value: 'Julian Giraldo', picture: '29f794fd-8eca-11e9-a116-6fcd3081ca34'},
-            {key: 'Sir Walter Riley', value: 'Sir Walter Riley'}
-          ]
-        }/*,
-        {
-          // The symbol that starts the lookup
-          trigger: '#',
-
-          // The function that gets call on select that retuns the content to insert
-          selectTemplate: function (item) {
-            if (this.range.isContentEditable(this.current.element)) {
-              return '<a href="mailto:'+item.original.email+'">#' + item.original.name.replace() + '</a>';
-            }
-
-            return '#' + item.original.name;
-          },
-
-          // function retrieving an array of objects
-          values: [
-            {name: 'Bob Bill', email: 'bobbill@example.com'},
-            {name: 'Steve Stevenston', email: 'steve@example.com'}
-          ],
-
-          lookup: 'name',
-
-          fillAttr: 'name'
-        }*/]
-      });
+    public tributeMultipleTriggers = this.initTribute();
     
     constructor(private socialService:SocialService,
-        private notificationsService: NotificationsService){}
+        private notificationsService: NotificationsService,
+        private userService: UserService){}
 
     ngOnInit(){
-        
         this.tributeMultipleTriggers.attach(this.textVar.nativeElement);
 
         if(!this.uuidPost){
@@ -102,6 +47,94 @@ export class WosshaPostCreatorComponent implements OnInit {
         this.createPostCommand.uuidParent = this.uuidPost;
         this.textVar.nativeElement.setAttribute('placeholder', this.placeholder);
     }
+
+    initTribute(){
+        let $this = this;
+        return new Tribute({
+            collection: [{
+              // The function that gets call on select that retuns the content to insert
+              selectTemplate: function (item) {
+                if (this.range.isContentEditable(this.current.element)) {
+                  return '<a href="javascript:void(0)" title="' + item.original.name + '">@' + item.original.key + '</a>';
+                }
+    
+                return '@' + item.original.name;
+              },
+              menuItemTemplate: function (item) {
+    
+                let imageSrc = item.original.picture ? PICTURES_PATH+item.original.picture : "../assets/img/default-avatar.png";
+    
+                return `
+                    <div class="search-picture">
+                        <img id="slide-profile-picture" style="width: 34px; height: 34px;" src="${imageSrc}" />
+                    </div>
+                    <div style="float: left">
+                        <strong>${item.original.name}</strong><br>
+                        <span style="color: #ffa534">@${item.original.key}</span>
+                    </div>
+                    <div class="clear"></div>
+                `;
+              },
+              // the array of objects
+              /*values: [
+                {key: 'juliancho9191', name: 'Julian Giraldo', picture: '29f794fd-8eca-11e9-a116-6fcd3081ca34'},
+                {key: 'Sir Walter Riley', name: 'Sir Walter Riley'}
+              ]*/
+              values: function (text, cb) {
+                $this.getMentionData(text, users => cb(users));
+              },
+              lookup: 'name',
+              fillAttr: 'name'
+            }/*,
+            {
+              // The symbol that starts the lookup
+              trigger: '#',
+    
+              // The function that gets call on select that retuns the content to insert
+              selectTemplate: function (item) {
+                if (this.range.isContentEditable(this.current.element)) {
+                  return '<a href="mailto:'+item.original.email+'">#' + item.original.name.replace() + '</a>';
+                }
+    
+                return '#' + item.original.name;
+              },
+    
+              // function retrieving an array of objects
+              values: [
+                {name: 'Bob Bill', email: 'bobbill@example.com'},
+                {name: 'Steve Stevenston', email: 'steve@example.com'}
+              ],
+    
+              lookup: 'name',
+    
+              fillAttr: 'name'
+            }*/]
+          });
+    }
+
+    getMentionData(word, cb) {
+        /*cb( [
+            {key: 'juliancho9191', value: 'Julian Giraldo', picture: '29f794fd-8eca-11e9-a116-6fcd3081ca34'},
+            {key: 'Sir Walter Riley', value: 'Sir Walter Riley'}
+        ]);*/
+
+        this.userService.searchUser(word).subscribe(
+            (data:any) => {
+                if(data && data.length>0){
+                    let result = data.map((x) => {
+                        return {key: x.username, name: x.name, picture: x.profilePicture};
+                    });
+                    cb(result);
+                }else{
+                    cb([]);  
+                }
+            }, (error: any) => {
+                cb([]);
+            }
+        );
+
+        
+      }
 
     post(){
         
